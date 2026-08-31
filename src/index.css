@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3eeee;
+}
+
+.page {
+  width: 278px;
+  min-height: 100vh;
+  padding: 0 15px 15px;
+  background: #f3eeee;
+}
+
+.page h1 {
+  margin: 0;
+  padding: 4px 0 10px;
+  font-size: 23px;
+  font-weight: 400;
+  color: #777;
+}
+
+.main-card {
+  height: 993px;
+  background: #ffffff;
+  padding: 20px 15px 15px;
+}
+
+
+.offer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.offer-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0066b3;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 38px;
+  line-height: 20px;
+  font-weight: 300;
+}
+
+.add-button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+  color: #0066b3;
+  font-size: 23px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background: #f3f7fb;
+}
+
+
+.offer-list-container {
+  height: 905px;
+  border: 1px solid #e1e7ed;
+  border-radius: 4px;
+  padding: 8px;
+  background: #ffffff;
+}
+
+
+.search-container {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e1e7ed;
+  border-radius: 5px;
+  padding: 0 8px;
+  margin-bottom: 12px;
+}
+
+.search-icon {
+  color: #9ba7b5;
+  font-size: 22px;
+  margin-right: 8px;
+}
+
+.search-container input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #34495e;
+}
+
+.search-container input::placeholder {
+  color: #9da8b5;
+}
+
+
+.offers {
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-item {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: none;
+  border-bottom: 1px solid #e5e9ed;
+  background: white;
+  color: #29445f;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.offer-item:hover {
+  background: #f7faff;
+}
+
+.offer-item.active {
+  border: 1px solid #2779e6;
+  border-radius: 5px;
+  background: #f5f9ff;
+  color: #29445f;
+}
