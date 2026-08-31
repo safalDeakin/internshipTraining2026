@@ -6,7 +6,7 @@ export type Offer = {
 }
 
 class OfferState {
-    private offers: any[] = initialData;
+    private offers: Offer[] = initialData;
     private search = "";
 
     private listeners: (() => void)[] = [];
@@ -20,39 +20,25 @@ class OfferState {
         return this.snapshot;
     }
 
-    setSearchValue(search: string) {
-        this.search = search;
-
-        this.updateSnapshot();
-        this.notify();
+    getOffers() {
+        return [...this.offers]
     }
 
-    addOfferValue(name: string) {
-        const newOffer = {
-            id: this.offers.length + 1,
-            name,
-        };
-
-        this.offers = [
-            ...this.offers,
-            newOffer,
-        ];
-
-        this.updateSnapshot();
-        this.notify();
+    getSearch() {
+        return this.search
     }
 
-    private updateSnapshot() {
+    updateState(offer: Offer[], search: string) {
+        this.offers = offer;
+        this.search = search
+
         this.snapshot = {
             filteredOffers: this.offers.filter((offer) =>
-                offer.name
-                    .toLowerCase()
-                    .includes(this.search.toLowerCase())
-            ),
-        };
+                offer.name.toLowerCase().includes(this.search.toLowerCase()))
+        }
+
+        this.notify()
     }
-
-
 
     subscribe(listener: () => void) {
         this.listeners.push(listener);

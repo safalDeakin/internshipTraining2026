@@ -9,7 +9,6 @@ export const useOffer = () => {
     );
 
     return {
-        // offers: snapshot.offers,
         filteredOffers: state.filteredOffers,
 
         setSearch: offerActions.setSearch.bind(offerActions),

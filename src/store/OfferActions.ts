@@ -3,7 +3,8 @@ import { offerState } from "./OfferState";
 class OfferActions {
 
     setSearch(search: string) {
-        offerState.setSearchValue(search);
+        const offers = offerState.getOffers();
+        offerState.updateState(offers, search);
     }
 
     addOffer(name: string) {
@@ -11,7 +12,16 @@ class OfferActions {
             return;
         }
 
-        offerState.addOfferValue(name);
+        const offers = offerState.getOffers()
+
+        const newOffer = {
+            id: offers.length + 1,
+            name
+        }
+
+        offerState.updateState(
+            [...offers, newOffer], offerState.getSearch()
+        )
     }
 }
 
