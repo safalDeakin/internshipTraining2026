@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Menu } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -28,8 +28,7 @@ const Navbar = () => {
                 <NavLink
                   to="/restaurant"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -38,8 +37,7 @@ const Navbar = () => {
                 <NavLink
                   to="/accomodation"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -48,8 +46,7 @@ const Navbar = () => {
                 <NavLink
                   to="/catering"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >

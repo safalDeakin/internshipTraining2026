@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { MockReserve } from "../../constant/MockReverse";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
@@ -25,11 +25,10 @@ const Reservation = () => {
             <Link
               key={re.id}
               to={`/accomodation/reservation/${re.id}`}
-              className={` ${
-                String(re.id) === id
+              className={` ${String(re.id) === id
                   ? "bg-blue-100 text-blue-800 border-blue-500"
                   : "hover:bg-gray-100"
-              }`}
+                }`}
             >
               <p className="border-b border-b-gray-100 hover:bg-blue-100">
                 {re.name}{" "}

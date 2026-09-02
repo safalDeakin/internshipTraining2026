@@ -1,4 +1,3 @@
-import React from "react";
 import HotelNav from "./HotelNav";
 import { Outlet } from "react-router-dom";
 

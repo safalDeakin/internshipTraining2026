@@ -1,4 +1,3 @@
-import React from "react";
 import RestaurantNav from "./RestaurantNav";
 import { Outlet } from "react-router-dom";
 
