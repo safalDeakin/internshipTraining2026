@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const Hotel = () => {
   return (
-    <div className="grid grid-cols-[1fr_3fr]">
+    <div className="pt-5 grid grid-cols-[1fr_3fr]">
       <HotelNav />
       <div>
         <Outlet />
