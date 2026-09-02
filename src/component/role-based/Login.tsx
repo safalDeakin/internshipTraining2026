@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+type Role = "ADMIN" | "HOTEL_MANAGER" | "RESTAURANT_MANAGER";
 const Login = () => {
   const navigate = useNavigate();
-  const handleSave = (role) => {
+  const handleSave = (role: Role) => {
     localStorage.setItem("role", role);
     navigate("/");
   };

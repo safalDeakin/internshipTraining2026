@@ -1,7 +1,11 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
 //prop from App
-const RoleRoute = ({ allowedRoles }) => {
+
+type RoleRouteProps = {
+  allowedRoles: string[];
+};
+const RoleRoute = ({ allowedRoles }: RoleRouteProps) => {
   const userRole = localStorage.getItem("role");
   //if not login
   if (!userRole) {

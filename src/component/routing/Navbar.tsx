@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Menu } from "lucide-react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import RestaurantNav from "./restaurant/RestaurantNav";
 
+import { NavLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setISOpen] = useState(false);
   const chnage = () => {

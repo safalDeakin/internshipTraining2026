@@ -5,6 +5,9 @@ import { MockReserve } from "../../constant/MockReverse";
 const Hoteldetails = () => {
   const { id } = useParams();
   const reservationDetails = MockReserve.find((res) => res.id === Number(id));
+  if (!reservationDetails) {
+    return <p>Reservation not found</p>;
+  }
   return (
     <div>
       <h1 className="text-2xl font-bold">Details of Reservation</h1>
