@@ -1,9 +1,15 @@
 import { useParams } from "react-router-dom";
-import { MockReserve } from "../../constant/MockReverse";
+import { useRepo } from "../../../context/RepoContext";
+import { useReservationState } from "../../../hooks/userReservationState";
 
 const Hoteldetails = () => {
   const { id } = useParams();
-  const reservationDetails = MockReserve.find((res) => res.id === Number(id));
+  const { reservationState } = useRepo();
+  const { reservations } = useReservationState(reservationState);
+
+  const reservationDetails = reservations.find(
+    (reservation) => reservation.id === id
+  );
   if (!reservationDetails) {
     return <p>Reservation not found</p>;
   }
@@ -12,8 +18,8 @@ const Hoteldetails = () => {
       <h1 className="text-2xl font-bold">Details of Reservation</h1>
       <p>{reservationDetails.room}</p>
       <p>{reservationDetails.name}</p>
-      <p>{reservationDetails.email}</p>
       <p>{reservationDetails.status}</p>
+      <p>{reservationDetails.accommodationId}</p>
     </div>
   );
 };

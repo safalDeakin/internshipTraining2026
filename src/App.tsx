@@ -34,43 +34,69 @@ import Offer from "./component/routing/restaurant/Offer";
 import Sales from "./component/routing/restaurant/Sales";
 import Catering from "./component/routing/catering/Catering";
 import Unauthorized from "./component/routing/unauthorized/Unauthorized";
+import KitchenOrders from "./component/routing/restaurant/KitchenOrders";
+import { RepoProvider } from "./context/RepoContext";
+import { Repo } from "./repo/Repo";
+import { useMemo } from "react";
+import { ReservationStateHolder } from "./states/ReservationStateHolder";
+import { KitchenStateHolder } from "./states/KitchenStateHolder";
+import { mockKitchenOrders, mockReservations } from "./data/mockReservations";
+
 const App = () => {
+  const repo = useMemo(() => {
+    const repo = new Repo();
+
+    repo.setReservations(mockReservations);
+    repo.setKitchenOrders(mockKitchenOrders);
+
+    return repo;
+  }
+    , []);
+  const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
+  const reservationState = useMemo(() => new ReservationStateHolder(repo), [repo]);
+
   return (
     <>
       <div className="bg-blue-50 p-10">
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            {/* Restaurant */}
-            <Route
-              element={
-                <RoleRoute allowedRoles={["ADMIN", "RESTAURANT_MANAGER"]} />
-              }
-            >
-              <Route path="/restaurant" element={<Restaurant />}>
-                <Route index element={<ResDash />} />
-                <Route path="sales" element={<Sales />} />
-                <Route path="stock" element={<Stock />} />
-                <Route path="offer" element={<Offer />} />
-              </Route>
-            </Route>
-            {/* //hotel */}
-            <Route
-              element={<RoleRoute allowedRoles={["ADMIN", "HOTEL_MANAGER"]} />}
-            >
-              <Route path="/accomodation" element={<Hotel />}>
-                <Route index element={<Dash />} />
-                <Route path="room" element={<Rooms />} />
-                <Route path="reservation" element={<Reservation />}>
-                  <Route path=":id" element={<Hoteldetails />} />
+          <RepoProvider repo={repo}
+            kitchenState={kitchenState}
+            reservationState={reservationState}
+          >
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
+              {/* Restaurant */}
+              <Route
+                element={
+                  <RoleRoute allowedRoles={["ADMIN", "RESTAURANT_MANAGER"]} />
+                }
+              >
+                <Route path="/restaurant" element={<Restaurant />}>
+                  <Route index element={<ResDash />} />
+                  <Route path="sales" element={<Sales />} />
+                  <Route path="stock" element={<Stock />} />
+                  <Route path="offer" element={<Offer />} />
+                  <Route path="kitchenOrders" element={<KitchenOrders />} />
                 </Route>
               </Route>
-            </Route>
-            <Route path="/catering" element={<Catering />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
-          </Routes>
+              {/* //hotel */}
+              <Route
+                element={<RoleRoute allowedRoles={["ADMIN", "HOTEL_MANAGER"]} />}
+              >
+                <Route path="/accomodation" element={<Hotel />}>
+                  <Route index element={<Dash />} />
+                  <Route path="room" element={<Rooms />} />
+                  <Route path="reservation" element={<Reservation />}>
+                    <Route path=":id" element={<Hoteldetails />} />
+                  </Route>
+                </Route>
+              </Route>
+              <Route path="/catering" element={<Catering />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
+            </Routes>
+          </RepoProvider>
         </BrowserRouter>
       </div>
     </>
