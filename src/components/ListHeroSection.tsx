@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const ListHeroSection = () => {
   const { setSearch, filteredOffers } = useOffer();
   // const [activeId, setActiveId] = useState<number>(1);
+  console.log("filteredOffers:", filteredOffers);
   const navigate = useNavigate();
   const { id } = useParams();
 
