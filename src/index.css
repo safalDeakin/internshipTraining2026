@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
   box-sizing: border-box;
 }
@@ -28,7 +30,6 @@ body {
   background: #ffffff;
   padding: 20px 15px 15px;
 }
-
 
 .offer-header {
   display: flex;
@@ -71,7 +72,6 @@ body {
   background: #f3f7fb;
 }
 
-
 .offer-list-container {
   height: 905px;
   border: 1px solid #e1e7ed;
@@ -79,7 +79,6 @@ body {
   padding: 8px;
   background: #ffffff;
 }
-
 
 .search-container {
   height: 36px;
@@ -109,7 +108,6 @@ body {
 .search-container input::placeholder {
   color: #9da8b5;
 }
-
 
 .offers {
   display: flex;
