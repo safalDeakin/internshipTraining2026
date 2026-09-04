@@ -28,7 +28,8 @@ const Navbar = () => {
                 <NavLink
                   to="/restaurant"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -37,7 +38,8 @@ const Navbar = () => {
                 <NavLink
                   to="/accomodation"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -46,11 +48,22 @@ const Navbar = () => {
                 <NavLink
                   to="/catering"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
                   Catering
+                </NavLink>
+                <NavLink
+                  to="/pms"
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  PMS
                 </NavLink>
                 <button
                   onClick={() => navigate("/login")}
