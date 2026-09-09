@@ -1,93 +1,80 @@
-
 export type KitchenOrder = {
-    id: string;
-    restaurantId: string;
-    status: string;
+  id: string;
+  restaurantId: string;
+  status: string;
 };
 
 export type Reservation = {
-    id: string;
-    accommodationId: string;
-    status: string;
-    name: string;
-    room: string;
+  id: string;
+  accommodationId: string;
+  status: string;
+  name: string;
+  room: string;
 };
 
-
 export class Repo {
-    private kitchenOrders: KitchenOrder[] = [];
-    private reservations: Reservation[] = [];
+  private kitchenOrders: KitchenOrder[] = [];
+  private reservations: Reservation[] = [];
 
-    private kitchenlisteners = new Set<() => void>();
-    private reservationlisteners = new Set<() => void>();
+  private kitchenlisteners = new Set<() => void>();
+  private reservationlisteners = new Set<() => void>();
 
+  //kitchen orders
+  subscribeKitchen(listener: () => void) {
+    this.kitchenlisteners.add(listener);
 
-    //kitchen orders
-    subscribeKitchen(listener: () => void) {
-        this.kitchenlisteners.add(listener);
+    return () => {
+      this.kitchenlisteners.delete(listener);
+    };
+  }
 
-        return () => {
-            this.kitchenlisteners.delete(listener);
-        };
-    }
+  private notifyKitchen() {
+    this.kitchenlisteners.forEach((listener) => {
+      listener();
+    });
+  }
 
+  getKitchenOrders() {
+    return this.kitchenOrders;
+  }
 
-    private notifyKitchen() {
-        this.kitchenlisteners.forEach(listener => {
-            listener();
-        });
-    }
+  getKitchenOrder(id: string) {
+    return this.kitchenOrders.find((order) => order.id === id);
+  }
 
-    getKitchenOrders() {
-        return this.kitchenOrders;
-    }
+  setKitchenOrders(orders: KitchenOrder[]) {
+    this.kitchenOrders = orders;
+    this.notifyKitchen();
+  }
 
-    getKitchenOrder(id: string) {
-        return this.kitchenOrders.find(
-            order => order.id === id
-        );
-    }
+  //reservations
 
+  subscribeReservations(listener: () => void) {
+    this.reservationlisteners.add(listener);
 
-    setKitchenOrders(orders: KitchenOrder[]) {
-        this.kitchenOrders = orders;
-        this.notifyKitchen();
-    }
+    return () => {
+      this.reservationlisteners.delete(listener);
+    };
+  }
 
+  private notifyReservations() {
+    this.reservationlisteners.forEach((listener) => {
+      listener();
+    });
+  }
 
-    //reservations
+  getReservations() {
+    return this.reservations;
+  }
 
-    subscribeReservations(listener: () => void) {
-        this.reservationlisteners.add(listener);
+  getReservation(id: string) {
+    return this.reservations.find((reservation) => reservation.id === id);
+  }
 
-        return () => {
-            this.reservationlisteners.delete(listener);
-        };
-    }
-
-
-    private notifyReservations() {
-        this.reservationlisteners.forEach(listener => {
-            listener();
-        });
-    }
-
-    getReservations() {
-        return this.reservations;
-    }
-
-    getReservation(id: string) {
-        return this.reservations.find(
-            reservation => reservation.id === id
-        );
-    }
-
-
-    setReservations(reservations: Reservation[]) {
-        this.reservations = reservations;
-        this.notifyReservations();
-    }
+  setReservations(reservations: Reservation[]) {
+    this.reservations = reservations;
+    this.notifyReservations();
+  }
 }
-
 
 // export const repo = new Repo();

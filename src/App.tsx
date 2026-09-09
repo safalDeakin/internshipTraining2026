@@ -28,8 +28,14 @@ import Arrivals from "./component/pms/operations/list/Arrivals";
 import Cash from "./component/pms/operations/list/Cash";
 import ActivateDetails from "./component/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
+import Candidate from "./component/pbac/Candidate";
+import PolicyRoute from "./component/pbac/PolicyRoute";
+import { action, resource } from "./component/pbac/permissions";
 
 const App = () => {
+  const user = {
+    role: "ADMIN",
+  };
   const repo = useMemo(() => {
     const repo = new Repo();
 
@@ -102,6 +108,17 @@ const App = () => {
               </Route>
               <Route path="/catering" element={<Catering />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
+              <Route
+                element={
+                  <PolicyRoute
+                    user={user}
+                    resource={resource.CANDIDATE}
+                    action={action.VIEW}
+                  />
+                }
+              >
+                <Route path="/candidates" element={<Candidate user={user} />} />
+              </Route>
             </Routes>
           </RepoProvider>
         </BrowserRouter>
