@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Text from "../style/file/Text";
 
 type Role = "ADMIN" | "HOTEL_MANAGER" | "RESTAURANT_MANAGER";
 const Login = () => {
@@ -30,6 +31,7 @@ const Login = () => {
           Login as Restro Manager
         </button>
       </div>
+      <Text />
     </div>
   );
 };

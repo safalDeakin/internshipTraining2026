@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
+import { Button } from "../style/Button";
 const Navbar = () => {
   const [isOpen, setISOpen] = useState(false);
   const chnage = () => {
@@ -65,12 +66,7 @@ const Navbar = () => {
                 >
                   PMS
                 </NavLink>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="bg-blue-400 rounded-2xl p-1"
-                >
-                  Login
-                </button>
+                <Button onClick={() => navigate("/login")}>Login</Button>
               </div>
             </>
           )}

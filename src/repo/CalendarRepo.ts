@@ -1,6 +1,7 @@
 import type { CalendarEvent } from "../types/calendar";
 import { initialEvents } from "../data/calendarData";
 
+//handle calender events
 export class CalendarRepo {
   private events: CalendarEvent[] = initialEvents;
 
@@ -14,22 +15,18 @@ export class CalendarRepo {
   //for Adding events
   addEvent(event: CalendarEvent) {
     this.events = [...this.events, event];
-
     this.notify();
   }
 
   //For updating the evenets
-  updateEvent(
-    id: number,
-    updates: Partial<CalendarEvent>
-  ) {
+  updateEvent(id: number, updates: Partial<CalendarEvent>) {
     this.events = this.events.map((event) =>
       event.id === id
         ? {
             ...event,
             ...updates,
           }
-        : event
+        : event,
     );
 
     this.notify();
@@ -37,10 +34,7 @@ export class CalendarRepo {
 
   //For deleting the events
   deleteEvent(id: number) {
-    this.events = this.events.filter(
-      (event) => event.id !== id
-    );
-
+    this.events = this.events.filter((event) => event.id !== id);
     this.notify();
   }
 
