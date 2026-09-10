@@ -139,3 +139,51 @@ body {
   background: #f5f9ff;
   color: #29445f;
 }
+
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-report,
+  #printable-report * {
+    visibility: visible;
+  }
+
+  #printable-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Keep small report sections together */
+  .report-keep-together {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Tables can continue to the next page */
+  .report-table {
+    page-break-inside: auto;
+  }
+
+  .report-table tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .report-table thead {
+    display: table-header-group;
+  }
+
+  .print-hidden {
+        display: none !important;
+    }
+}

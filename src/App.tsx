@@ -11,7 +11,7 @@ import Hoteldetails from "./component/routing/hotel/Hoteldetails";
 import Login from "./component/role-based/Login";
 import RoleRoute from "./component/role-based/RoleRoute";
 import Stock from "./component/routing/restaurant/Stock";
-import Offer from "./component/routing/restaurant/Offer";
+// import Offer from "./component/routing/restaurant/Offer";
 import Sales from "./component/routing/restaurant/Sales";
 import Catering from "./component/routing/catering/Catering";
 import Unauthorized from "./component/routing/unauthorized/Unauthorized";
@@ -28,9 +28,15 @@ import Arrivals from "./component/pms/operations/list/Arrivals";
 import Cash from "./component/pms/operations/list/Cash";
 import ActivateDetails from "./component/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
+
 import Candidate from "./component/pbac/Candidate";
 import PolicyRoute from "./component/pbac/PolicyRoute";
 import { action, resource } from "./component/pbac/permissions";
+
+import ReservationReport from "./reports/reservation/ReservationReport";
+
+
+
 
 const App = () => {
   const user = {
@@ -92,6 +98,8 @@ const App = () => {
                   <Route path="kitchenOrders" element={<KitchenOrders />} />
                 </Route>
               </Route>
+
+
               {/* //hotel */}
               <Route
                 element={
@@ -119,6 +127,11 @@ const App = () => {
               >
                 <Route path="/candidates" element={<Candidate user={user} />} />
               </Route>
+            </Routes>
+
+            {/* Reservation Report */}
+            <Routes>
+              <Route path="/reservation-report" element={<ReservationReport />} />
             </Routes>
           </RepoProvider>
         </BrowserRouter>

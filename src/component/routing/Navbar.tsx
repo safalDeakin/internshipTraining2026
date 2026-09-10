@@ -29,8 +29,7 @@ const Navbar = () => {
                 <NavLink
                   to="/restaurant"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -39,8 +38,7 @@ const Navbar = () => {
                 <NavLink
                   to="/accomodation"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -49,8 +47,7 @@ const Navbar = () => {
                 <NavLink
                   to="/catering"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -59,14 +56,32 @@ const Navbar = () => {
                 <NavLink
                   to="/pms"
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
                   PMS
                 </NavLink>
+
+
                 <Button onClick={() => navigate("/login")}>Login</Button>
+
+                <NavLink
+                  to="/reservation-report"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Reservation Report
+                </NavLink>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="bg-blue-400 rounded-2xl p-1"
+                >
+                  Login
+                </button>
+
               </div>
             </>
           )}
