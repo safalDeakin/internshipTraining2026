@@ -1,4 +1,3 @@
-import React from "react";
 import { canAccess } from "./authorization";
 import { Navigate, Outlet } from "react-router-dom";
 interface User {
