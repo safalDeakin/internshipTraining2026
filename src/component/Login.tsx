@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { users } from "../../data/users";
+import { users } from "../data/users";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -18,19 +18,18 @@ const Login = () => {
       return;
     }
     login(foundUser);
-    navigate("/");
+    navigate("/dsh");
   };
   return (
-    <div className="border border-gray-300 p-4 ">
+    <div>
       <h1>HOTEL /RESTAURANT LOGN</h1>
-      <form onSubmit={handlelogin} className="flex flex-col w-100">
+      <form onSubmit={handlelogin}>
         <input
           type="email"
           name="email"
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border border-gray-200 "
         />
         <input
           type="password"
@@ -38,11 +37,8 @@ const Login = () => {
           placeholder="passw"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-200 "
         />
-        <button type="submit" className="bg-red-500 text-white">
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
