@@ -1,4 +1,4 @@
-import type { Reservation } from "./reservationData";
+import type { Reservation } from "../../types/reservation";
 
 export interface ReservationReportData {
     property: {
@@ -58,6 +58,7 @@ export interface ReservationReportData {
         GuestNo: string;
         totalAmount: number;
         advance: number;
+        reason: string;
         refund: number;
         paymentStatus: Reservation["paymentStatus"];
     }[];
@@ -83,7 +84,6 @@ export const buildReservationReport = (
 
 
     // Property Information
-
     const property = {
         name: options.propertyName ?? "VIP Hotel & Resort",
 
@@ -209,6 +209,7 @@ export const buildReservationReport = (
             totalAmount: reservation.totalAmount,
             advance: reservation.advance,
             refund: reservation.refund,
+            reason: reservation.reason,
             paymentStatus: reservation.paymentStatus,
         }));
 
@@ -240,21 +241,21 @@ export const buildReservationReport = (
 
     const details = reservations.map((reservation) => {
 
-            const guestCount = reservation.adults + reservation.children;
-            const remainingAmount = reservation.totalAmount - reservation.paidAmount;
+        const guestCount = reservation.adults + reservation.children;
+        const remainingAmount = reservation.totalAmount - reservation.paidAmount;
 
-            return {
-                reservationId: reservation.reservationId,
-                guestName: reservation.guestName,
-                contact: reservation.contact,
-                guestCount,
-                date: reservation.checkIn,
-                totalAmount: reservation.totalAmount,
-                advanceAmount: reservation.paidAmount,
-                remainingAmount,
-                status: reservation.status,
-            };
-        }
+        return {
+            reservationId: reservation.reservationId,
+            guestName: reservation.guestName,
+            contact: reservation.contact,
+            guestCount,
+            date: reservation.checkIn,
+            totalAmount: reservation.totalAmount,
+            advanceAmount: reservation.paidAmount,
+            remainingAmount,
+            status: reservation.status,
+        };
+    }
     );
 
 

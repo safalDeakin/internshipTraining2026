@@ -29,7 +29,7 @@ const CancellationDetails = ({
                                     Date
                                 </th>
 
-                                <th className=" px-2 py-4 text-left">
+                                <th className=" px-2 py-4 text-center">
                                     Guest No
                                 </th>
 
@@ -45,7 +45,7 @@ const CancellationDetails = ({
                                     Refund
                                 </th>
 
-                                <th className=" px-2 py-4 text-left">
+                                <th className=" px-2 py-4 text-center">
                                     Reason
                                 </th>
 
@@ -67,7 +67,7 @@ const CancellationDetails = ({
                                         {reservation.Date}
                                     </td>
 
-                                    <td className=" px-2 py-4 text-left">
+                                    <td className=" px-2 py-4 text-center">
                                         {reservation.GuestNo}
                                     </td>
 
@@ -84,7 +84,7 @@ const CancellationDetails = ({
                                     </td>
 
                                     <td className=" px-2 py-4 text-left">
-                                        {reservation.paymentStatus}
+                                        {reservation.reason}
                                     </td>
                                 </tr>
                             ))}

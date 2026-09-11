@@ -2,11 +2,13 @@ import { createContext, useContext, type ReactNode } from "react";
 import { Repo } from "../repo/Repo";
 import { KitchenStateHolder } from "../states/KitchenStateHolder";
 import { ReservationStateHolder } from "../states/ReservationStateHolder";
+import { ReservationReportStateHolder } from "../states/ReservationReportStateHolder";
 
 type RepoContextValue = {
     repo: Repo;
     kitchenState: KitchenStateHolder;
     reservationState: ReservationStateHolder;
+    reservationReportState: ReservationReportStateHolder;
 };
 
 const RepoContext = createContext<RepoContextValue | null>(null);
@@ -15,6 +17,7 @@ type RepoProviderProps = {
     repo: Repo;
     kitchenState: KitchenStateHolder;
     reservationState: ReservationStateHolder;
+    reservationReportState: ReservationReportStateHolder;
     children: ReactNode;
 };
 
@@ -22,14 +25,17 @@ export const RepoProvider = ({
     repo,
     kitchenState,
     reservationState,
+    reservationReportState,
     children,
 }: RepoProviderProps) => {
+
     return (
         <RepoContext.Provider
             value={{
                 repo,
                 kitchenState,
                 reservationState,
+                reservationReportState
             }}
         >
             {children}

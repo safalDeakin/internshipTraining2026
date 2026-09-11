@@ -1,65 +1,36 @@
-import { useMemo, useState } from "react";
 
 import ReservationReportTemplate from "./report/ReservationReportTemplate";
-import { reservations } from "./reservationData";
-import { buildReservationReport } from "./reservationReportData";
+
 import ReservationReportFilters from "./components/ReservationReportFilters";
-import { filterReservations } from "./filterReservation";
+
 import ReportActions from "./components/ReportActions";
 
 
 import * as XLSX from "xlsx";
+import { useReservationReportState } from "../../hooks/useReservationReportState";
 
 
 
 const ReservationReport = () => {
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
-  const [roomType, setRoomType] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
 
-
-  const filteredReservations = useMemo(() => {
-    return filterReservations(reservations, {
-      search,
-      status,
-      roomType,
-      paymentStatus,
-      fromDate,
-      toDate,
-    });
-  }, [
+  const {
     search,
     status,
     roomType,
     paymentStatus,
     fromDate,
     toDate,
-  ]);
 
-  const reportData = useMemo(() => {
-    return buildReservationReport(
-      filteredReservations,
-      {
-        propertyName: "VIP Hotel & Resort",
-        reportDate: "2083/01/01",
-        preparedBy: "Store Manager",
-        location: "28 Kilo, Dhulikhel",
-      }
-    )
-  }, [filteredReservations]);
+    reportData,
 
-
-  const handleReset = () => {
-    setSearch("");
-    setStatus("");
-    setRoomType("");
-    setPaymentStatus("");
-    setFromDate("");
-    setToDate("");
-  }
+    setSearch,
+    setStatus,
+    setRoomType,
+    setPaymentStatus,
+    setFromDate,
+    setToDate,
+    resetFilters,
+  } = useReservationReportState();
 
 
   const handlePrint = () => {
@@ -148,21 +119,24 @@ const ReservationReport = () => {
         paymentStatus={paymentStatus}
         fromDate={fromDate}
         toDate={toDate}
+
         onSearchChange={setSearch}
         onStatusChange={setStatus}
         onRoomTypeChange={setRoomType}
         onPaymentStatusChange={setPaymentStatus}
         onFromDateChange={setFromDate}
         onToDateChange={setToDate}
-        onReset={handleReset}
+        onReset={resetFilters}
       />
 
 
       {/* Report */}
       <div id="printable-report" className="bg-white p-6">
-        <ReservationReportTemplate
-          report={reportData}
-        />
+        {reportData && (
+          <ReservationReportTemplate
+            report={reportData}
+          />
+        )}
       </div>
 
       {/* Actions */}
@@ -174,7 +148,10 @@ const ReservationReport = () => {
             "reservation-report.xlsx"
           )
         }
-        onExportCsv={() => exportReportCsv([reportData as unknown as Record<string, unknown>], "reservation-report.csv")}
+        onExportCsv={() =>
+          exportReportCsv(
+            [reportData as unknown as Record<string, unknown>], "reservation-report.csv"
+          )}
       />
     </div>
   );

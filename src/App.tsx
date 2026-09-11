@@ -21,7 +21,7 @@ import { Repo } from "./repo/Repo";
 import { useMemo } from "react";
 import { ReservationStateHolder } from "./states/ReservationStateHolder";
 import { KitchenStateHolder } from "./states/KitchenStateHolder";
-import { mockKitchenOrders, mockReservations } from "./data/mockReservations";
+import { mockKitchenOrders, reservations } from "./data/mockReservations";
 import Pms from "./component/pms/Pms";
 import Activate from "./component/pms/activate/Activate";
 import Arrivals from "./component/pms/operations/list/Arrivals";
@@ -34,6 +34,7 @@ import PolicyRoute from "./component/pbac/PolicyRoute";
 import { action, resource } from "./component/pbac/permissions";
 
 import ReservationReport from "./reports/reservation/ReservationReport";
+import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 
 
 
@@ -45,16 +46,21 @@ const App = () => {
   const repo = useMemo(() => {
     const repo = new Repo();
 
-    repo.setReservations(mockReservations);
+    repo.setReservations(reservations);
     repo.setKitchenOrders(mockKitchenOrders);
 
     return repo;
   }, []);
   const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
+
   const reservationState = useMemo(
     () => new ReservationStateHolder(repo),
     [repo],
   );
+
+  const reservationReportState = useMemo(() => {
+    return new ReservationReportStateHolder(repo);
+  }, [repo])
 
   return (
     <>
@@ -64,6 +70,7 @@ const App = () => {
             repo={repo}
             kitchenState={kitchenState}
             reservationState={reservationState}
+            reservationReportState={reservationReportState}
           >
             <Navbar />
             <Routes>
@@ -109,9 +116,11 @@ const App = () => {
                 <Route path="/accomodation" element={<Hotel />}>
                   <Route index element={<Dash />} />
                   <Route path="room" element={<Rooms />} />
+
                   <Route path="reservation" element={<Reservation />}>
                     <Route path=":id" element={<Hoteldetails />} />
                   </Route>
+
                 </Route>
               </Route>
               <Route path="/catering" element={<Catering />} />
@@ -127,10 +136,8 @@ const App = () => {
               >
                 <Route path="/candidates" element={<Candidate user={user} />} />
               </Route>
-            </Routes>
 
-            {/* Reservation Report */}
-            <Routes>
+              {/* Reservation Report */}
               <Route path="/reservation-report" element={<ReservationReport />} />
             </Routes>
           </RepoProvider>

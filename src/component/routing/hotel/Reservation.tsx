@@ -3,7 +3,6 @@ import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
 import { useRepo } from "../../../context/RepoContext";
 import { useReservationState } from "../../../hooks/userReservationState";
-// import {mockReservations} from "../../../repo/mockData";
 
 const Reservation = () => {
   const { id } = useParams();
@@ -44,11 +43,9 @@ const Reservation = () => {
 
   const filteredReservations = reservations.filter(
     (reservation) =>
-      reservation.name
-        .toLowerCase()
+      reservation.guestName.toLowerCase()
         .includes(search.toLowerCase()) ||
-      reservation.room
-        .toLowerCase()
+      reservation.roomNumber.toLowerCase()
         .includes(search.toLowerCase())
   );
 
@@ -71,24 +68,24 @@ const Reservation = () => {
         {/* Reservations */}
         {filteredReservations.map((reservation) => (
           <Link
-            key={reservation.id}
-            to={`/accomodation/reservation/${reservation.id}`}
+            key={reservation.reservationId}
+            to={`/accomodation/reservation/${reservation.reservationId.toLowerCase()}`}
             onClick={() =>
-              selectReservation(reservation.id)
+              selectReservation(reservation.reservationId)
             }
             className={`
-                            ${String(reservation.id) === id
+                            ${String(reservation.reservationId) === id
                 ? "bg-blue-100 text-blue-800 border-blue-500"
                 : "hover:bg-gray-100"
               }
                         `}
           >
             <p className="border-b border-b-gray-100 hover:bg-blue-100 p-2">
-              {reservation.name}
+              {reservation.guestName}
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Room: {reservation.room}
+                Room: {reservation.roomNumber}
               </span>
             </p>
           </Link>

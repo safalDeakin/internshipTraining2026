@@ -1,16 +1,10 @@
+import type { Reservation } from "../types/reservation";
 export type KitchenOrder = {
   id: string;
   restaurantId: string;
   status: string;
 };
 
-export type Reservation = {
-  id: string;
-  accommodationId: string;
-  status: string;
-  name: string;
-  room: string;
-};
 
 export class Repo {
   private kitchenOrders: KitchenOrder[] = [];
@@ -68,7 +62,7 @@ export class Repo {
   }
 
   getReservation(id: string) {
-    return this.reservations.find((reservation) => reservation.id === id);
+    return this.reservations.find((reservation) => reservation.reservationId === id);
   }
 
   setReservations(reservations: Reservation[]) {

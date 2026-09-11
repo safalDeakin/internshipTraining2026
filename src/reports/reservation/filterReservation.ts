@@ -1,4 +1,4 @@
-import type { Reservation } from "./reservationData";
+import type { Reservation } from "../../types/reservation";
 
 export interface ReservationFilters {
     search: string;
