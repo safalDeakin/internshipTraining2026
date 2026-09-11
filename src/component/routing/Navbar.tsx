@@ -29,7 +29,8 @@ const Navbar = () => {
                 <NavLink
                   to="/restaurant"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -38,7 +39,8 @@ const Navbar = () => {
                 <NavLink
                   to="/accomodation"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -47,7 +49,8 @@ const Navbar = () => {
                 <NavLink
                   to="/catering"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -56,20 +59,21 @@ const Navbar = () => {
                 <NavLink
                   to="/pms"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
                   PMS
                 </NavLink>
 
-
-                <Button onClick={() => navigate("/login")}>Login</Button>
+                {/* <Button onClick={() => navigate("/login")}>Login</Button> */}
 
                 <NavLink
                   to="/reservation-report"
                   className={({ isActive }) =>
-                    `${isActive ? "text-blue-800" : "text-black"
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >
@@ -81,7 +85,6 @@ const Navbar = () => {
                 >
                   Login
                 </button>
-
               </div>
             </>
           )}

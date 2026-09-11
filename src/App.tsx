@@ -28,15 +28,11 @@ import Arrivals from "./component/pms/operations/list/Arrivals";
 import Cash from "./component/pms/operations/list/Cash";
 import ActivateDetails from "./component/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
-
 import Candidate from "./component/pbac/Candidate";
 import PolicyRoute from "./component/pbac/PolicyRoute";
 import { action, resource } from "./component/pbac/permissions";
-
 import ReservationReport from "./reports/reservation/ReservationReport";
-
-
-
+import ProtectedRoute from "./component/ProtectedRoute";
 
 const App = () => {
   const user = {
@@ -67,8 +63,11 @@ const App = () => {
           >
             <Navbar />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Dashboard />} />
+              </Route>
 
               <Route path="/pms" element={<Pms />}>
                 <Route index element={null} />
@@ -98,7 +97,6 @@ const App = () => {
                   <Route path="kitchenOrders" element={<KitchenOrders />} />
                 </Route>
               </Route>
-
 
               {/* //hotel */}
               <Route
@@ -131,7 +129,10 @@ const App = () => {
 
             {/* Reservation Report */}
             <Routes>
-              <Route path="/reservation-report" element={<ReservationReport />} />
+              <Route
+                path="/reservation-report"
+                element={<ReservationReport />}
+              />
             </Routes>
           </RepoProvider>
         </BrowserRouter>
