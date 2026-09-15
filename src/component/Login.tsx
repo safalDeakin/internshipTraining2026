@@ -18,7 +18,20 @@ const Login = () => {
       return;
     }
     login(foundUser);
-    navigate("/dsh");
+    switch (foundUser.role) {
+      case "ADMIN":
+        navigate("/");
+        break;
+      case "RECEPTIONIST":
+        navigate("/");
+        break;
+      case "WAITER":
+        navigate("/");
+        break;
+
+      default:
+        alert("Role not recognized");
+    }
   };
   return (
     <div>

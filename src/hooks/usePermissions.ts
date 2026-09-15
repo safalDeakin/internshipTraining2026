@@ -1,18 +1,22 @@
-import { useAuth } from "../context/AuthContext";
 import type { Action, Resources } from "../constants/permission";
-import { canAccess } from "../utils/canAccess";
+import { useAuth } from "../context/AuthContext";
+import { policies } from "../data/policies";
 
 const usePermissions = () => {
   const { user } = useAuth();
-  const checkPermission = (resource: Resources, action: Action) => {
+  const canAccess = (resource: Resources, action: Action) => {
     if (!user) {
       return false;
     }
-    return canAccess(user.role, resource, action);
+    const policy = policies.find(
+      (pol) =>
+        pol.role === user.role &&
+        pol.resource === resource &&
+        pol.action === action,
+    );
+    return policy?.effect === "allow";
   };
-  return {
-    canAccess: checkPermission,
-  };
+  return { canAccess };
 };
 
 export default usePermissions;

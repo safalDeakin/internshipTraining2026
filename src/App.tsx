@@ -9,7 +9,7 @@ import Reservation from "./component/routing/hotel/Reservation";
 import ResDash from "./component/routing/restaurant/ResDash";
 import Hoteldetails from "./component/routing/hotel/Hoteldetails";
 import Login from "./component/role-based/Login";
-import RoleRoute from "./component/role-based/RoleRoute";
+// import RoleRoute from "./component/role-based/RoleRoute";
 import Stock from "./component/routing/restaurant/Stock";
 // import Offer from "./component/routing/restaurant/Offer";
 import Sales from "./component/routing/restaurant/Sales";
@@ -28,13 +28,12 @@ import Arrivals from "./component/pms/operations/list/Arrivals";
 import Cash from "./component/pms/operations/list/Cash";
 import ActivateDetails from "./component/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
-import Candidate from "./component/pbac/Candidate";
-import PolicyRoute from "./component/pbac/PolicyRoute";
-import { action, resource } from "./component/pbac/permissions";
+// import Candidate from "./component/pbac/Candidate";
+// import PolicyRoute from "./component/pbac/PolicyRoute";
+// import { action, resource } from "./component/pbac/permissions";
 import ReservationReport from "./reports/reservation/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 import ProtectedRoute from "./component/ProtectedRoute";
-
 
 const App = () => {
   const user = {
@@ -57,7 +56,7 @@ const App = () => {
 
   const reservationReportState = useMemo(() => {
     return new ReservationReportStateHolder(repo);
-  }, [repo])
+  }, [repo]);
 
   return (
     <>
@@ -77,7 +76,7 @@ const App = () => {
                 <Route path="/" element={<Dashboard />} />
               </Route>
 
-              <Route path="/pms" element={<Pms />}>
+              <Route path="/:organizationSlug/pms" element={<Pms />}>
                 <Route index element={null} />
 
                 <Route path="operations/arrivals" element={<Arrivals />} />
@@ -92,39 +91,35 @@ const App = () => {
               </Route>
 
               {/* Restaurant */}
+
               <Route
-                element={
-                  <RoleRoute allowedRoles={["ADMIN", "RESTAURANT_MANAGER"]} />
-                }
+                path="/:organizationSlug/restaurant"
+                element={<Restaurant />}
               >
-                <Route path="/restaurant" element={<Restaurant />}>
-                  <Route index element={<ResDash />} />
-                  <Route path="sales" element={<Sales />} />
-                  <Route path="stock" element={<Stock />} />
-                  <Route path="offer" element={<Offers />} />
-                  <Route path="kitchenOrders" element={<KitchenOrders />} />
-                </Route>
+                <Route index element={<ResDash />} />
+                <Route path="sales" element={<Sales />} />
+                <Route path="stock" element={<Stock />} />
+                <Route path="offer" element={<Offers />} />
+                <Route path="kitchenOrders" element={<KitchenOrders />} />
               </Route>
 
               {/* //hotel */}
-              <Route
-                element={
-                  <RoleRoute allowedRoles={["ADMIN", "HOTEL_MANAGER"]} />
-                }
-              >
-                <Route path="/accomodation" element={<Hotel />}>
-                  <Route index element={<Dash />} />
-                  <Route path="room" element={<Rooms />} />
 
-                  <Route path="reservation" element={<Reservation />}>
-                    <Route path=":id" element={<Hoteldetails />} />
-                  </Route>
+              <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
+                <Route index element={<Dash />} />
+                <Route path="room" element={<Rooms />} />
 
+                <Route path="reservation" element={<Reservation />}>
+                  <Route path=":id" element={<Hoteldetails />} />
                 </Route>
               </Route>
-              <Route path="/catering" element={<Catering />} />
-              <Route path="/unauthorized" element={<Unauthorized />} />
+
               <Route
+                path="/:organizationSlug/catering"
+                element={<Catering />}
+              />
+              <Route path="/unauthorized" element={<Unauthorized />} />
+              {/* <Route
                 element={
                   <PolicyRoute
                     user={user}
@@ -134,11 +129,13 @@ const App = () => {
                 }
               >
                 <Route path="/candidates" element={<Candidate user={user} />} />
-              </Route>
+              </Route> */}
 
               {/* Reservation Report */}
-              <Route path="/reservation-report" element={<ReservationReport />} />
-
+              <Route
+                path="/:organizationSlug/reservation-report"
+                element={<ReservationReport />}
+              />
             </Routes>
           </RepoProvider>
         </BrowserRouter>
