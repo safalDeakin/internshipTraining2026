@@ -1,20 +1,13 @@
-import {
-  ACTIONS,
-  RESOURCES,
-  type Action,
-  type Resources,
-} from "../constants/permission";
 import { ROLES, type Role } from "./roles";
-
+import { ACTIONS, RESOURCES } from "../constants/permission";
 type Policy = {
   role: Role;
-  resource: Resources;
-  action: Action;
+  resource: string;
+  action: string;
   effect: "allow" | "deny";
 };
 
 export const policies: Policy[] = [
-  //admin
   {
     role: ROLES.ADMIN,
     resource: RESOURCES.ROOM,
@@ -25,12 +18,6 @@ export const policies: Policy[] = [
     role: ROLES.ADMIN,
     resource: RESOURCES.ROOM,
     action: ACTIONS.CREATE,
-    effect: "allow",
-  },
-  {
-    role: ROLES.ADMIN,
-    resource: RESOURCES.ROOM,
-    action: ACTIONS.UPDATE,
     effect: "allow",
   },
   {
@@ -39,7 +26,13 @@ export const policies: Policy[] = [
     action: ACTIONS.DELETE,
     effect: "allow",
   },
-  //reception
+  {
+    role: ROLES.ADMIN,
+    resource: RESOURCES.ROOM,
+    action: ACTIONS.UPDATE,
+    effect: "allow",
+  },
+  //receptionist
   {
     role: ROLES.RECEPTIONIST,
     resource: RESOURCES.ROOM,
@@ -48,21 +41,7 @@ export const policies: Policy[] = [
   },
   {
     role: ROLES.RECEPTIONIST,
-    resource: RESOURCES.RESERVATION,
-    action: ACTIONS.CREATE,
-    effect: "allow",
-  },
-
-  //waiter
-  {
-    role: ROLES.WAITER,
-    resource: RESOURCES.ORDER,
-    action: ACTIONS.VIEW,
-    effect: "allow",
-  },
-  {
-    role: ROLES.WAITER,
-    resource: RESOURCES.ORDER,
+    resource: RESOURCES.ROOM,
     action: ACTIONS.CREATE,
     effect: "allow",
   },

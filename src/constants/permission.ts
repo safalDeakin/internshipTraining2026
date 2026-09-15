@@ -1,9 +1,5 @@
 export const RESOURCES = {
   ROOM: "room",
-  RESERVATION: "reservation",
-  CUSTOMER: "customer",
-  ORDER: "order",
-  USER: "user",
 } as const;
 
 export const ACTIONS = {

@@ -1,4 +1,4 @@
-export type Role = "ADMIN" | "HR_MANAGER" | "RECRUITER";
+export type Role = "ADMIN" | "RECEPTIONIST" | "WAITER";
 
 export type Effect = "allow" | "deny";
 export interface Policy {
@@ -21,25 +21,25 @@ export const policy: Policy[] = [
     effect: "allow",
   },
   {
-    role: "HR_MANAGER",
+    role: "RECEPTIONIST",
     resource: "candidate",
     action: "view",
     effect: "allow",
   },
   {
-    role: "HR_MANAGER",
+    role: "RECEPTIONIST",
     resource: "candidate",
     action: "approve",
     effect: "allow",
   },
   {
-    role: "RECRUITER",
+    role: "WAITER",
     resource: "candidate",
     action: "view",
     effect: "allow",
   },
   {
-    role: "RECRUITER",
+    role: "WAITER",
     resource: "candidate",
     action: "approve",
     effect: "allow",
