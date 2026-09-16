@@ -1,5 +1,5 @@
 import { ROLES, type Role } from "./roles";
-import { ACTIONS, RESOURCES } from "../constants/permission";
+import { ACTIONS, RESOURCES } from "./permission";
 type Policy = {
   role: Role;
   resource: string;
@@ -39,10 +39,10 @@ export const policies: Policy[] = [
     action: ACTIONS.VIEW,
     effect: "allow",
   },
-  {
-    role: ROLES.RECEPTIONIST,
-    resource: RESOURCES.ROOM,
-    action: ACTIONS.CREATE,
-    effect: "allow",
-  },
+  //  {
+  //     role: ROLES.RECEPTIONIST,
+  //      resource: RESOURCES.ROOM,
+  //     action: ACTIONS.CREATE,
+  //     effect: "allow",
+  //   },
 ];

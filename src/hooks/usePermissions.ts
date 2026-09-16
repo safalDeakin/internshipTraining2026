@@ -1,4 +1,4 @@
-import type { Action, Resources } from "../constants/permission";
+import type { Action, Resources } from "../data/permission";
 import { useAuth } from "../context/AuthContext";
 import { policies } from "../data/policies";
 

@@ -1,17 +1,13 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { useAuth } from "./AuthContext";
-import { organizations } from "../data/organizations";
+import { organizations, type Organization } from "../data/organizations";
 
-type Organization = {
-  id: number;
-  name: string;
-};
 type OrganizationContextType = {
   organization: Organization | null;
 };
-const OrganizationContext = createContext<OrganizationContextType | undefined>(
-  undefined,
-);
+const OrganizationContext = createContext<OrganizationContextType>({
+  organization: null,
+});
 
 export const OrganizationProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();

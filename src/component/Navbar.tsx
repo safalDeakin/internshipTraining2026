@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 // import type { Resources } from "../../constants/permission";
-import type { Role } from "../../data/roles";
-import { useOrganization } from "../../context/OrganizationContext";
+import type { Role } from "../data/roles";
+import { useOrganization } from "../context/OrganizationContext";
 
 const rolePermissions: Record<Role, string[]> = {
   ADMIN: [
@@ -45,10 +45,10 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="w-full flex flex-col gap-4 p-4 bg-white shadow-sm ">
+    <div className="w-full flex flex-col gap-4  bg-white shadow-sm p-5">
       <ul className="flex justify-between ">
         <NavLink to="/" className="font-bold ">
-          LIQUID LOUNGE
+          {organization?.name || "Your Hotel"}
         </NavLink>
         <input
           type="text"
@@ -124,56 +124,6 @@ const Navbar = () => {
                     Reservation Report
                   </NavLink>
                 </>
-
-                {/* {user?.role === "RECEPTIONIST" && (
-                  <>
-                    <NavLink
-                      to="/accomodation"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Accomodations
-                    </NavLink>
-                    <NavLink
-                      to="/reservation-report"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Reservation Report
-                    </NavLink>
-                  </>
-                )}
-
-                {user?.role === "WAITER" && (
-                  <>
-                    <NavLink
-                      to="/catering"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Catering
-                    </NavLink>
-                    <NavLink
-                      to="/restaurant"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Restaurant
-                    </NavLink>
-                  </>
-                )} */}
                 <button
                   onClick={() => navigate("/login")}
                   className="bg-blue-400 rounded-2xl p-1"
