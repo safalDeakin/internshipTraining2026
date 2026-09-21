@@ -6,6 +6,7 @@ const Offer = () => {
     <div>
       <ListHeader />
       {/* <ListHeroSection /> */}
+
       <Outlet />
     </div>
   );

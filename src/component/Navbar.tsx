@@ -3,7 +3,7 @@ import { Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 // import type { Resources } from "../../constants/permission";
-import type { Role } from "../data/roles";
+import type { Role } from "../authservice/roles";
 import { useOrganization } from "../context/OrganizationContext";
 
 const rolePermissions: Record<Role, string[]> = {
@@ -40,12 +40,12 @@ const Navbar = () => {
     const allowedResources = rolePermissions[user.role];
     if (!allowedResources.includes(resource)) {
       e.preventDefault();
-      alert("Not accessibl by this role");
+      alert("Not accessible by this role");
       return;
     }
   };
   return (
-    <div className="w-full flex flex-col gap-4  bg-white shadow-sm p-5">
+    <div className="w-full flex flex-col gap-4  bg-white shadow-sm p-3">
       <ul className="flex justify-between ">
         <NavLink to="/" className="font-bold ">
           {organization?.name || "Your Hotel"}
@@ -53,7 +53,7 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="search..."
-          className="border border-gray-400 text-sm text-gray-500 p-1 rounded-lg focus:outline-none "
+          className="hidden md:flex border border-gray-400 text-sm text-gray-500  rounded-full focus:outline-none p-1 "
         />
         <div onClick={chnage}>
           <Menu />

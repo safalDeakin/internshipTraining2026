@@ -3,11 +3,15 @@ import PmsList from "./PmsList";
 
 const Pms = () => {
   return (
-    <div className="grid grid-cols-[1fr_3fr]">
+    <div className="md:grid grid-cols-[1fr_2fr]">
       <PmsList />
-      <Outlet />
+      <div className="pl-4">
+        {" "}
+        <Outlet />
+      </div>
     </div>
   );
 };
 
 export default Pms;
+//grid grid-cols-[1fr_3fr]

@@ -79,7 +79,7 @@ const SignUp = () => {
               </button>
             </div>
             <button className="text-xs text-blue-500 text-right cursor-pointer">
-              Forget Password?
+              Forget Your Password?
             </button>
           </div>
           <button

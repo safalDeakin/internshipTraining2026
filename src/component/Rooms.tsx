@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ACTIONS, RESOURCES, type Action } from "../../../data/permission";
-import usePermissions from "../../../hooks/usePermissions";
+import { ACTIONS, RESOURCES, type Action } from "../authservice/permission";
+import usePermissions from "../hooks/usePermissions";
 import { X } from "lucide-react";
-import { rooms } from "../../../data/rooms";
-import { useOrganization } from "../../../context/OrganizationContext";
+import { rooms } from "../data/rooms";
+import { useOrganization } from "../context/OrganizationContext";
 
 type RoomType = {
   roomNumber: string;
@@ -17,16 +17,16 @@ const Rooms = () => {
   const [roomForm, setRoomForm] = useState<RoomType>({
     roomNumber: "",
     roomType: "",
-    // price: "",
   });
   //list of room
   const [room, setRoom] = useState(rooms);
-
+  //filter room acc to org
   const organizationRooms = room.filter(
     (r) => r.organizationId === organization?.id,
   );
   //action according to role
   const handleAction = (action: Action) => {
+    //check loged user has permissionornot
     if (!canAccess(RESOURCES.ROOM, action)) {
       alert("Not allowed");
       return;
@@ -37,7 +37,7 @@ const Rooms = () => {
     }
     alert(`${action} allowed by this role`);
   };
-  //input chnage
+  //input chnage text inout and select input
   const handleInputChnage = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -58,12 +58,14 @@ const Rooms = () => {
       alert("Organization not found");
       return;
     }
+    //newroom object
     const newroom = {
       id: Date.now(),
       roomNumber: roomForm.roomNumber,
       roomType: roomForm.roomType,
       organizationId: organization.id,
     };
+    // add tothe list of room
     setRoom((prev) => [...prev, newroom]);
     console.log("CR", roomForm);
     alert("Create Succesfulyy");
@@ -75,8 +77,8 @@ const Rooms = () => {
     setCreateModal(false);
   };
   return (
-    <div className="border border-gray-300">
-      <div className="mt-8">
+    <div className="flex flex-col gap-5">
+      <div className="">
         <h2 className="mb-4 text-2xl font-bold">Rooms</h2>
 
         {organizationRooms.length === 0 ? (
@@ -96,7 +98,7 @@ const Rooms = () => {
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-center items-start gap-5">
+      <div className="border border-gray-100 p-2 flex justify-center items-start gap-5">
         {/* <button
           className="bg-blue-950 text-white font-bold text-xs p-2 shadow-2xl cursor-pointer rounded-lg "
           onClick={() => handleAction(ACTIONS.VIEW)}
@@ -124,40 +126,44 @@ const Rooms = () => {
         </button>
       </div>
       {createModal && (
-        <div className="bg-gray-50 shadow-sm p-5">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Create Room</h1>
-            <button onClick={() => setCreateModal(false)}>
-              <X />
-            </button>
-          </div>
-          <form className="p-5 flex flex-col gap-5" onSubmit={handleCreateForm}>
-            <div>
-              <label>Room Number</label>
-              <input
-                value={roomForm.roomNumber}
-                name="roomNumber"
-                type="text"
-                onChange={handleInputChnage}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none "
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+              <h1 className="text-2xl font-bold">Create Room</h1>
+              <button onClick={() => setCreateModal(false)}>
+                <X />
+              </button>
             </div>
-            <div>
-              <label>Room Type</label>
-              <select
-                name="roomType"
-                value={roomForm.roomType}
-                onChange={handleInputChnage}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2"
-              >
-                <option value="">Select room</option>
-                <option value="Single">Single</option>
-                <option value="Doubled">Doubled</option>
-                <option value="Deluxe">Deluxe</option>
-                <option value="Suite">Suite</option>
-              </select>
-            </div>
-            {/* <div>
+            <form
+              className="p-5 flex flex-col gap-5"
+              onSubmit={handleCreateForm}
+            >
+              <div>
+                <label>Room Number</label>
+                <input
+                  value={roomForm.roomNumber}
+                  name="roomNumber"
+                  type="text"
+                  onChange={handleInputChnage}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none "
+                />
+              </div>
+              <div>
+                <label>Room Type</label>
+                <select
+                  name="roomType"
+                  value={roomForm.roomType}
+                  onChange={handleInputChnage}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                >
+                  <option value="">Select room</option>
+                  <option value="Single">Single</option>
+                  <option value="Doubled">Doubled</option>
+                  <option value="Deluxe">Deluxe</option>
+                  <option value="Suite">Suite</option>
+                </select>
+              </div>
+              {/* <div>
               <label>Price</label>
               <input
                 value={roomForm.price}
@@ -167,13 +173,14 @@ const Rooms = () => {
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none "
               />
             </div> */}
-            <button
-              type="submit"
-              className="bg-blue-900 text-white cursor-pointer py-2 w-auto rounded-2xl "
-            >
-              Create
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="bg-blue-900 text-white cursor-pointer py-2 w-auto rounded-2xl "
+              >
+                Create
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

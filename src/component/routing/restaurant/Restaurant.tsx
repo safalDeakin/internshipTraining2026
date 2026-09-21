@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const Restaurant = () => {
   return (
-    <div className="grid grid-cols-[1fr_4fr] pt-5 gap-10">
+    <div className="md:grid grid-cols-[1fr_3fr]">
       <RestaurantNav />
       <main className="p-5">
         <Outlet />
@@ -13,3 +13,4 @@ const Restaurant = () => {
 };
 
 export default Restaurant;
+//grid grid-cols-[1fr_4fr] pt-5 gap-10

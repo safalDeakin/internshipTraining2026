@@ -43,7 +43,7 @@ const Reservation = () => {
   );
 
   return (
-    <div className="grid grid-cols-[1fr_3fr]">
+    <div className="md:grid grid-cols-[1fr_3fr]">
       <aside className="w-50 p-5 border border-blue-100 shadow-sm flex flex-col gap-4">
         {/* Search */}
         <input

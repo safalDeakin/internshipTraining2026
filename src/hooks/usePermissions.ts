@@ -1,6 +1,6 @@
-import type { Action, Resources } from "../data/permission";
+import type { Action, Resources } from "../authservice/permission";
 import { useAuth } from "../context/AuthContext";
-import { policies } from "../data/policies";
+import { policies } from "../authservice/policies";
 
 const usePermissions = () => {
   const { user } = useAuth();

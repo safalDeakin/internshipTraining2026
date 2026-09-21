@@ -8,7 +8,7 @@ const Hoteldetails = () => {
   const { reservations } = useReservationState(reservationState);
 
   const reservationDetails = reservations.find(
-    (reservation) => reservation.reservationId.toLowerCase() === id
+    (reservation) => reservation.reservationId.toLowerCase() === id,
   );
 
   if (!reservationDetails) {
@@ -17,10 +17,10 @@ const Hoteldetails = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold">Details of Reservation</h1>
-      <p>{reservationDetails.roomNumber}</p>
-      <p>{reservationDetails.guestName}</p>
-      <p>{reservationDetails.status}</p>
-      <p>{reservationDetails.accommodationId}</p>
+      <p>ROOM NO:{reservationDetails.roomNumber}</p>
+      <p>GUEST:{reservationDetails.guestName}</p>
+      <p>STATUS:{reservationDetails.status}</p>
+      <p>IDDDDDDDDD:{reservationDetails.accommodationId}</p>
     </div>
   );
 };

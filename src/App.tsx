@@ -3,11 +3,10 @@ import Restaurant from "./component/routing/restaurant/Restaurant";
 import Hotel from "./component/routing/hotel/Hotel";
 import Dashboard from "./component/Dashboard";
 import Dash from "./component/routing/hotel/Dash";
-import Rooms from "./component/routing/hotel/Rooms";
 import Reservation from "./component/routing/hotel/Reservation";
 import ResDash from "./component/routing/restaurant/ResDash";
 import Hoteldetails from "./component/routing/hotel/Hoteldetails";
-import Login from "./component/Login";
+import Login from "../src/component/Login";
 import Stock from "./component/routing/restaurant/Stock";
 import Sales from "./component/routing/restaurant/Sales";
 import Catering from "./component/routing/catering/Catering";
@@ -29,6 +28,7 @@ import ReservationReport from "./reports/reservation/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 import ProtectedRoute from "./component/ProtectedRoute";
 import SignUp from "./component/SignUp";
+import Rooms from "./component/Rooms";
 
 const App = () => {
   const user = {
@@ -67,7 +67,6 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Dashboard />} />
-
                 <Route path="/:organizationSlug/pms" element={<Pms />}>
                   <Route index element={null} />
                   <Route path="operations/arrivals" element={<Arrivals />} />

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { activeMenu } from "./activate/activateConfig";
+import { useOrganization } from "../../context/OrganizationContext";
 
 const PmsList = () => {
   const [isOperationOpen, setIsOperationOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openActiveId, setOpenActiveId] = useState(null);
+  const { organization } = useOrganization();
   const handleClick = () => {
     setIsOperationOpen(!isOperationOpen);
   };
@@ -16,29 +18,30 @@ const PmsList = () => {
     setOpenActiveId((prev) => (prev === id ? null : id));
   };
   return (
-    <div>
+    <div className="p-4">
       <NavLink
-        to="/pms"
+        to={`/${organization?.slug}/pms`}
         className={({ isActive }) =>
-          `${isActive ? "text-blue-500" : "text-black"}`
+          `font-bold ${isActive ? "text-blue-500" : "text-black"}`
         }
       >
         PMS
       </NavLink>
-      <div className="pl-5 bg-white rounded-2xl flex flex-col gap-2">
+      <div className="p-2 text-left bg-white rounded-lg flex flex-col gap-2 border border-gray-100 shadow-sm">
         <button
           onClick={handleClick}
           // to="/pms/operations"
           // className={({ isActive }) =>
           //   `p-1 shadow-sm ${isActive ? "text-blue-500" : "text-black"}`
           // }
+          className="font-bold text-left p-1 shadow-sm "
         >
           Operations
         </button>
         {isOperationOpen && (
           <>
             <NavLink
-              to="/pms/operations/arrivals"
+              to={`/${organization?.slug}/pms/operations/arrivals`}
               className={({ isActive }) =>
                 `hover:bg-blue-50 ${isActive ? "text-blue-500" : "text-black"}`
               }
@@ -46,7 +49,7 @@ const PmsList = () => {
               Arrivals
             </NavLink>
             <NavLink
-              to="/pms/operations/cash"
+              to={`/${organization?.slug}/pms/operations/cash`}
               className={({ isActive }) =>
                 `hover:bg-blue-50 ${isActive ? "text-blue-500" : "text-black"}`
               }
@@ -55,12 +58,20 @@ const PmsList = () => {
             </NavLink>
           </>
         )}
-        <button onClick={handleClickacti}>Activate</button>
+        <button
+          onClick={handleClickacti}
+          className="font-bold text-left p-1 shadow-sm "
+        >
+          Activate
+        </button>
         {isOpen &&
           activeMenu.map((active) => {
             return (
               <div key={active.id}>
-                <button onClick={() => handleActiveClick(active.id)}>
+                <button
+                  onClick={() => handleActiveClick(active.id)}
+                  // className="text-blue-500"
+                >
                   {active.label}
                 </button>
                 {openActiveId === active.id && (
@@ -68,9 +79,10 @@ const PmsList = () => {
                     {active.children.map((child) => {
                       return (
                         <NavLink
-                          to={`/pms/activate/${active.path}/${child.id}`}
+                          key={child.id}
+                          to={`/${organization?.slug}/pms/activate/${active.path}/${child.id}`}
                           className={({ isActive }) =>
-                            `flex flex-col p-1 ${isActive ? "bg-blue-200" : "bg-white"}`
+                            `flex flex-col p-1 hover:bg-blue-100 ${isActive ? "bg-blue-200" : "bg-white"}`
                           }
                         >
                           {child.name}
