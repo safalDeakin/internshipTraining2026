@@ -1,4 +1,4 @@
-import type { ReportSection } from "../types/report";
+import type { ReportSection } from "./types/report";
 import ClosingStock from "./sections/ClosingStock";
 import DiscountBreakdown from "./sections/DiscountBreakdown";
 import DiscountSummary from "./sections/DiscountSummary";

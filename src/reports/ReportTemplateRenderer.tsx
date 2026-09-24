@@ -1,4 +1,4 @@
-import type { ReportTemplate } from "../types/report";
+import type { ReportTemplate } from "./types/report";
 
 import SaleReport from "./template/SaleReport";
 import ShiftReport from "./template/ShiftReport";

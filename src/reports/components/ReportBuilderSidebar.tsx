@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 
 import { ReportBuilderStateHolder } from "../../states/ReportBuilderStateHolder";
 import { useReportBuilderState } from "../../hooks/useReportBuilderState";
-import type { ReportTemplate } from "../../types/report";
+import type { ReportTemplate } from "../types/report";
 import { REPORT_TEMPLATES } from "../../constants/reportTemplates";
 import { ALL_REPORT_SECTIONS } from "../../constants/reportSections";
 

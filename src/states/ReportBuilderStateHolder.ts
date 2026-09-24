@@ -1,6 +1,6 @@
 
 import { REPORT_SECTIONS } from "../constants/reportSections";
-import type { ReportBuilderSnapshot, ReportSection, ReportTemplate } from "../types/report";
+import type { ReportBuilderSnapshot, ReportSection, ReportTemplate } from "../reports/types/report";
 
 export class ReportBuilderStateHolder {
     private listeners = new Set<() => void>()

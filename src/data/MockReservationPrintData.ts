@@ -1,4 +1,4 @@
-import type { PrintReservationFormData } from "../types/report";
+import type { PrintReservationFormData } from "../reports/types/report";
 export const printData: PrintReservationFormData = {
     date: "16/09/2026",
     reservationNo: "RES-009",
