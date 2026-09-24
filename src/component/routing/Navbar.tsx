@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { useAuth } from "../../context/AuthContext";
 // import type { Resources } from "../../constants/permission";
 import type { Role } from "../../data/roles";
@@ -24,6 +25,12 @@ const Navbar = () => {
   const { user } = useAuth();
   const { organization } = useOrganization();
   const chnage = () => {
+=======
+// import { Button } from "../style/Button";
+const Navbar = () => {
+  const [isOpen, setISOpen] = useState(false);
+  const change = () => {
+>>>>>>> 5fa5268 (Added Report Builder and ReservationCalendar)
     setISOpen(!isOpen);
   };
   const navigate = useNavigate();
@@ -55,12 +62,51 @@ const Navbar = () => {
           placeholder="search..."
           className="border border-gray-400 text-sm text-gray-500 p-1 rounded-lg focus:outline-none "
         />
-        <div onClick={chnage}>
+        <div onClick={change} className="z-9999">
           <Menu />
           {isOpen && (
             <>
               <div className="absolute top-25 right-0 flex flex-col gap-2 w-40 p-4 shadow-sm bg-white text-left">
                 <p className="text-xs text-gray-400">Menu</p>
+<<<<<<< HEAD
+=======
+                <NavLink
+                  to="/restaurant"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Restaurant
+                </NavLink>
+                <NavLink
+                  to="/accomodation"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Accomodations
+                </NavLink>
+                <NavLink
+                  to="/catering"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Catering
+                </NavLink>
+                <NavLink
+                  to="/pms"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  PMS
+                </NavLink>
+>>>>>>> 5fa5268 (Added Report Builder and ReservationCalendar)
 
                 <>
                   <NavLink
@@ -125,6 +171,7 @@ const Navbar = () => {
                   </NavLink>
                 </>
 
+<<<<<<< HEAD
                 {/* {user?.role === "RECEPTIONIST" && (
                   <>
                     <NavLink
@@ -174,6 +221,17 @@ const Navbar = () => {
                     </NavLink>
                   </>
                 )} */}
+=======
+                <NavLink
+                  to="/reservation-report"
+                  className={({ isActive }) =>
+                    `${isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Reservation Report
+                </NavLink>
+>>>>>>> 5fa5268 (Added Report Builder and ReservationCalendar)
                 <button
                   onClick={() => navigate("/login")}
                   className="bg-blue-400 rounded-2xl p-1"

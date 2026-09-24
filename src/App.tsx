@@ -1,146 +1,256 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useMemo } from "react";
+
+// Context
+import { RepoProvider } from "./context/RepoContext";
+
+// Repository
+import { Repo } from "./repo/Repo";
+
+// State Holders
+import { KitchenStateHolder } from "./states/KitchenStateHolder";
+import { ReservationStateHolder } from "./states/ReservationStateHolder";
+import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
+
+// Data
+import {
+  mockKitchenOrders,
+  reservations,
+} from "./data/mockReservations";
+
+// Layout
 import Navbar from "./component/routing/Navbar";
-import Restaurant from "./component/routing/restaurant/Restaurant";
-import Hotel from "./component/routing/hotel/Hotel";
+
+// Common routes
 import Dashboard from "./component/routing/Dashboard";
+import Login from "./component/role-based/Login";
+import ProtectedRoute from "./component/ProtectedRoute";
+import Unauthorized from "./component/routing/unauthorized/Unauthorized";
+
+// PMS
+import Pms from "./component/pms/Pms";
+import Activate from "./component/pms/activate/Activate";
+import ActivateDetails from "./component/pms/activate/ActivateDetails";
+import Arrivals from "./component/pms/operations/list/Arrivals";
+import Cash from "./component/pms/operations/list/Cash";
+
+// Restaurant
+import Restaurant from "./component/routing/restaurant/Restaurant";
+import ResDash from "./component/routing/restaurant/ResDash";
+import Sales from "./component/routing/restaurant/Sales";
+import Stock from "./component/routing/restaurant/Stock";
+import KitchenOrders from "./component/routing/restaurant/KitchenOrders";
+import Offers from "./components/Offers";
+
+// Hotel
+import Hotel from "./component/routing/hotel/Hotel";
 import Dash from "./component/routing/hotel/Dash";
 import Rooms from "./component/routing/hotel/Rooms";
 import Reservation from "./component/routing/hotel/Reservation";
-import ResDash from "./component/routing/restaurant/ResDash";
 import Hoteldetails from "./component/routing/hotel/Hoteldetails";
-import Login from "./component/role-based/Login";
-// import RoleRoute from "./component/role-based/RoleRoute";
-import Stock from "./component/routing/restaurant/Stock";
-// import Offer from "./component/routing/restaurant/Offer";
-import Sales from "./component/routing/restaurant/Sales";
+
+// Catering
 import Catering from "./component/routing/catering/Catering";
-import Unauthorized from "./component/routing/unauthorized/Unauthorized";
-import KitchenOrders from "./component/routing/restaurant/KitchenOrders";
-import { RepoProvider } from "./context/RepoContext";
-import { Repo } from "./repo/Repo";
-import { useMemo } from "react";
-import { ReservationStateHolder } from "./states/ReservationStateHolder";
-import { KitchenStateHolder } from "./states/KitchenStateHolder";
-import { mockKitchenOrders, reservations } from "./data/mockReservations";
-import Pms from "./component/pms/Pms";
-import Activate from "./component/pms/activate/Activate";
-import Arrivals from "./component/pms/operations/list/Arrivals";
-import Cash from "./component/pms/operations/list/Cash";
-import ActivateDetails from "./component/pms/activate/ActivateDetails";
-import Offers from "./components/Offers";
-// import Candidate from "./component/pbac/Candidate";
-// import PolicyRoute from "./component/pbac/PolicyRoute";
-// import { action, resource } from "./component/pbac/permissions";
-import ReservationReport from "./reports/reservation/ReservationReport";
-import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
-import ProtectedRoute from "./component/ProtectedRoute";
+
+// Reports
+// import ReservationReport from "./reports/reservation/ReservationReport";
+import Report from "./reports/Report";
+import PrintReservationForm from "./reports/printableData/PrintReservationForm";
+
+// Calendar
+import Render from "./component/calendar/renderItem/Render";
+import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
+
 
 const App = () => {
-  const user = {
-    role: "ADMIN",
-  };
   const repo = useMemo(() => {
-    const repo = new Repo();
+    const repository = new Repo();
 
-    repo.setReservations(reservations);
-    repo.setKitchenOrders(mockKitchenOrders);
+    repository.setReservations(reservations);
+    repository.setKitchenOrders(mockKitchenOrders);
 
-    return repo;
+    return repository;
   }, []);
-  const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
+
+  const kitchenState = useMemo(
+    () => new KitchenStateHolder(repo),
+    [repo]
+  );
 
   const reservationState = useMemo(
     () => new ReservationStateHolder(repo),
-    [repo],
+    [repo]
   );
 
-  const reservationReportState = useMemo(() => {
-    return new ReservationReportStateHolder(repo);
-  }, [repo]);
+  const reservationReportState = useMemo(
+    () => new ReservationReportStateHolder(repo),
+    [repo]
+  );
 
   return (
-    <>
-      <div className="bg-blue-50 p-10">
-        <BrowserRouter>
-          <RepoProvider
-            repo={repo}
-            kitchenState={kitchenState}
-            reservationState={reservationState}
-            reservationReportState={reservationReportState}
+    <BrowserRouter>
+      <RepoProvider
+        repo={repo}
+        kitchenState={kitchenState}
+        reservationState={reservationState}
+        reservationReportState={reservationReportState}
+      >
+        <Navbar />
+
+        <Routes>
+          {/* =========================
+              Authentication
+          ========================= */}
+          <Route path="/login" element={<Login />} />
+
+          {/* =========================
+              Protected Routes
+          ========================= */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Dashboard />} />
+          </Route>
+
+          {/* =========================
+              PMS
+          ========================= */}
+          <Route
+            path="/:organizationSlug/pms"
+            element={<Pms />}
           >
-            <Navbar />
-            <Routes>
-              <Route path="/login" element={<Login />} />
+            <Route index element={null} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<Dashboard />} />
-              </Route>
+            <Route
+              path="operations/arrivals"
+              element={<Arrivals />}
+            />
 
-              <Route path="/:organizationSlug/pms" element={<Pms />}>
-                <Route index element={null} />
+            <Route
+              path="operations/cash"
+              element={<Cash />}
+            />
 
-                <Route path="operations/arrivals" element={<Arrivals />} />
-                <Route path="operations/cash" element={<Cash />} />
-
-                <Route path="activate" element={<Activate />}>
-                  <Route
-                    path=":activeId/:childId"
-                    element={<ActivateDetails />}
-                  />
-                </Route>
-              </Route>
-
-              {/* Restaurant */}
-
+            <Route
+              path="activate"
+              element={<Activate />}
+            >
               <Route
-                path="/:organizationSlug/restaurant"
-                element={<Restaurant />}
-              >
-                <Route index element={<ResDash />} />
-                <Route path="sales" element={<Sales />} />
-                <Route path="stock" element={<Stock />} />
-                <Route path="offer" element={<Offers />} />
-                <Route path="kitchenOrders" element={<KitchenOrders />} />
-              </Route>
-
-              {/* //hotel */}
-
-              <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
-                <Route index element={<Dash />} />
-                <Route path="room" element={<Rooms />} />
-
-                <Route path="reservation" element={<Reservation />}>
-                  <Route path=":id" element={<Hoteldetails />} />
-                </Route>
-              </Route>
-
-              <Route
-                path="/:organizationSlug/catering"
-                element={<Catering />}
+                path=":activeId/:childId"
+                element={<ActivateDetails />}
               />
-              <Route path="/unauthorized" element={<Unauthorized />} />
-              {/* <Route
-                element={
-                  <PolicyRoute
-                    user={user}
-                    resource={resource.CANDIDATE}
-                    action={action.VIEW}
-                  />
-                }
-              >
-                <Route path="/candidates" element={<Candidate user={user} />} />
-              </Route> */}
+            </Route>
+          </Route>
 
-              {/* Reservation Report */}
+          {/* =========================
+              Restaurant
+          ========================= */}
+          <Route
+            path="/:organizationSlug/restaurant"
+            element={<Restaurant />}
+          >
+            <Route index element={<ResDash />} />
+
+            <Route
+              path="sales"
+              element={<Sales />}
+            />
+
+            <Route
+              path="stock"
+              element={<Stock />}
+            />
+
+            <Route
+              path="offer"
+              element={<Offers />}
+            />
+
+            <Route
+              path="kitchenOrders"
+              element={<KitchenOrders />}
+            />
+          </Route>
+
+          {/* =========================
+              Hotel / Accommodation
+          ========================= */}
+          <Route
+            path="/:organizationSlug/accomodation"
+            element={<Hotel />}
+          >
+            <Route index element={<Dash />} />
+
+            <Route
+              path="room"
+              element={<Rooms />}
+            />
+
+            <Route
+              path="reservation"
+              element={<Reservation />}
+            >
               <Route
-                path="/:organizationSlug/reservation-report"
-                element={<ReservationReport />}
+                path=":id"
+                element={<Hoteldetails />}
               />
-            </Routes>
-          </RepoProvider>
-        </BrowserRouter>
-      </div>
-    </>
+            </Route>
+          </Route>
+
+          {/* =========================
+              Catering
+          ========================= */}
+          <Route
+            path="/:organizationSlug/catering"
+            element={<Catering />}
+          />
+
+          {/* =========================
+              Reservation Reports
+          ========================= */}
+
+          {/* Existing reservation report */}
+          {/* <Route
+            path="/:organizationSlug/reservation-report"
+            element={<ReservationReport />}
+          /> */}
+
+          {/* Report Builder */}
+          <Route
+            path="/reservation-report"
+            element={<Report />}
+          />
+
+          {/* Printable reservation form */}
+          <Route
+            path="/print-data"
+            element={<PrintReservationForm />}
+          />
+
+          {/* =========================
+              Reservation Calendar
+          ========================= */}
+
+          {/* Existing calendar render */}
+          <Route
+            path="/reservation-calender"
+            element={<Render />}
+          />
+
+          {/* New reservation calendar */}
+          <Route
+            path="/reservation-calendar"
+            element={<ReservationCalendar />}
+          />
+
+          {/* =========================
+              Unauthorized
+          ========================= */}
+          <Route
+            path="/unauthorized"
+            element={<Unauthorized />}
+          />
+        </Routes>
+      </RepoProvider>
+    </BrowserRouter>
   );
 };
 
