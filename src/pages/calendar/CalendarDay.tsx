@@ -1,5 +1,5 @@
-import type { CalendarEvent } from "../../../types/calendar";
-import { EVENT_STYLES } from "../../../data/calendar";
+import type { CalendarEvent } from "../../types/calendar";
+import { EVENT_STYLES } from "../../data/calendar";
 
 interface CalendarDayProps {
   day: number | null;
