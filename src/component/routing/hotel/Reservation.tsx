@@ -33,7 +33,7 @@ const Reservation = () => {
 
     if (saved) {
       navigate(
-        `/accomodation/reservation/${saved}`,
+        `${saved}`,
         {
           replace: true,
         }
@@ -69,7 +69,7 @@ const Reservation = () => {
         {filteredReservations.map((reservation) => (
           <Link
             key={reservation.reservationId}
-            to={`/accomodation/reservation/${reservation.reservationId.toLowerCase()}`}
+            to={`${reservation.reservationId.toLowerCase()}`}
             onClick={() =>
               selectReservation(reservation.reservationId)
             }

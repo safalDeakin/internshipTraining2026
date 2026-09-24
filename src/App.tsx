@@ -58,7 +58,7 @@ import Report from "./reports/Report";
 import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 
 // Calendar
-import Render from "./component/calendar/renderItem/Render";
+// import Render from "./component/calendar/renderItem/Render";
 import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
 
 
@@ -215,7 +215,7 @@ const App = () => {
 
           {/* Report Builder */}
           <Route
-            path="/reservation-report"
+            path="/:organizationSlug/reservation-report"
             element={<Report />}
           />
 
@@ -230,14 +230,14 @@ const App = () => {
           ========================= */}
 
           {/* Existing calendar render */}
-          <Route
+          {/* <Route
             path="/reservation-calender"
             element={<Render />}
-          />
+          /> */}
 
           {/* New reservation calendar */}
           <Route
-            path="/reservation-calendar"
+            path="/:organizationSlug/reservation-calendar"
             element={<ReservationCalendar />}
           />
 
