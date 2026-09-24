@@ -1,5 +1,5 @@
-import { useRepo } from "../../../context/RepoContext";
-import { useKitchenState } from "../../../hooks/useKitchenState";
+import { useRepo } from "../../context/RepoContext";
+import { useKitchenState } from "../../hooks/useKitchenState";
 
 const KitchenOrders = () => {
   const { kitchenState } = useRepo();

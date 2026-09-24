@@ -1,25 +1,13 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-// import type { Resources } from "../../constants/permission";
-import type { Role } from "../authservice/roles";
+import { useAuth } from "../auth/AuthContext";
 import { useOrganization } from "../context/OrganizationContext";
+import NavigationSecurity from "../security/NavigationSecurity";
+import { RESOURCES, type Resources } from "../security/permission";
 
-const rolePermissions: Record<Role, string[]> = {
-  ADMIN: [
-    "restaurant",
-    "accomodation",
-    "catering",
-    "pms",
-    "reservation-report",
-  ],
-
-  RECEPTIONIST: ["accomodation", "reservation-report"],
-
-  WAITER: ["restaurant", "catering"],
-};
 const Navbar = () => {
+  const navigationSecurity = new NavigationSecurity();
   const [isOpen, setISOpen] = useState(false);
   const { user } = useAuth();
   const { organization } = useOrganization();
@@ -27,9 +15,10 @@ const Navbar = () => {
     setISOpen(!isOpen);
   };
   const navigate = useNavigate();
+  // Handle
   const handleNavigation = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    resource: string,
+    resource: Resources,
   ) => {
     if (user === null) {
       e.preventDefault();
@@ -37,13 +26,17 @@ const Navbar = () => {
       return;
     }
 
-    const allowedResources = rolePermissions[user.role];
-    if (!allowedResources.includes(resource)) {
+    const allowedResources = navigationSecurity.canNavigate(
+      user.role,
+      resource,
+    );
+    if (!allowedResources) {
       e.preventDefault();
-      alert("Not accessible by this role");
+      alert("cannot access by this role");
       return;
     }
   };
+
   return (
     <div className="w-full flex flex-col gap-4  bg-white shadow-sm p-3">
       <ul className="flex justify-between ">
@@ -66,7 +59,7 @@ const Navbar = () => {
                   <NavLink
                     // to="/restaurant"
                     to={`/${organization?.slug}/restaurant`}
-                    onClick={(e) => handleNavigation(e, "restaurant")}
+                    onClick={(e) => handleNavigation(e, RESOURCES.RESTAURANT)}
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-blue-800" : "text-black"
@@ -75,10 +68,13 @@ const Navbar = () => {
                   >
                     Restaurant
                   </NavLink>
+
                   <NavLink
                     // to="/accomodation"
                     to={`/${organization?.slug}/accomodation`}
-                    onClick={(e) => handleNavigation(e, "accomodation")}
+                    onClick={(e) =>
+                      handleNavigation(e, RESOURCES.ACCOMMODATION)
+                    }
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-blue-800" : "text-black"
@@ -90,7 +86,7 @@ const Navbar = () => {
                   <NavLink
                     // to="/catering"
                     to={`/${organization?.slug}/catering`}
-                    onClick={(e) => handleNavigation(e, "catering")}
+                    onClick={(e) => handleNavigation(e, RESOURCES.CATERING)}
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-blue-800" : "text-black"
@@ -102,7 +98,7 @@ const Navbar = () => {
                   <NavLink
                     // to="/pms"
                     to={`/${organization?.slug}/pms`}
-                    onClick={(e) => handleNavigation(e, "pms")}
+                    onClick={(e) => handleNavigation(e, RESOURCES.PMS)}
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-blue-800" : "text-black"
@@ -111,10 +107,10 @@ const Navbar = () => {
                   >
                     PMS
                   </NavLink>
-                  <NavLink
+                  {/* <NavLink
                     // to="/reservation-report"
                     to={`/${organization?.slug}/reservation-report`}
-                    onClick={(e) => handleNavigation(e, "reservation-report")}
+                    onClick={(e) => handleNavigation(e, RESOURCES.)}
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-blue-800" : "text-black"
@@ -122,13 +118,13 @@ const Navbar = () => {
                     }
                   >
                     Reservation Report
-                  </NavLink>
+                  </NavLink> */}
                 </>
                 <button
                   onClick={() => navigate("/login")}
                   className="bg-blue-400 rounded-2xl p-1"
                 >
-                  Login
+                  Logout
                 </button>
               </div>
               {/* <Button onClick={() => navigate("/login")}>Login</Button> */}

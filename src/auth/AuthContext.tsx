@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { User } from "../authservice/users";
-import AuthService from "../authservice/authservice";
+import type { User } from "./users";
+import AuthService from "./authservice";
 
 //to use service make object of that class
 const authService = new AuthService();

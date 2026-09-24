@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
-import { useRepo } from "../../../context/RepoContext";
-import { useReservationState } from "../../../hooks/userReservationState";
-import { useOrganization } from "../../../context/OrganizationContext";
+import { useRepo } from "../../context/RepoContext";
+import { useReservationState } from "../../hooks/userReservationState";
+import { useOrganization } from "../../context/OrganizationContext";
 
 const Reservation = () => {
   const { id } = useParams();

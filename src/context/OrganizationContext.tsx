@@ -1,6 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
-import { useAuth } from "./AuthContext";
-import { organizations, type Organization } from "../authservice/organizations";
+import { useAuth } from "../auth/AuthContext";
+import { organizations, type Organization } from "../auth/organizations";
 
 type OrganizationContextType = {
   organization: Organization | null;
@@ -12,7 +12,7 @@ const OrganizationContext = createContext<OrganizationContextType>({
 
 export const OrganizationProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  //loggedin user they hae org find that
+  //loggedin user they have org find that
   const organization =
     organizations.find((org) => org.id === user?.organizationId) ?? null;
   return (

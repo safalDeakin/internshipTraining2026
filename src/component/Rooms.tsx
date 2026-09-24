@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { ACTIONS, RESOURCES, type Action } from "../authservice/permission";
-import usePermissions from "../hooks/usePermissions";
+import { ACTIONS, RESOURCES, type Action } from "../security/permission";
+// import usePermissions from "../hooks/usePermissions";
 import { X } from "lucide-react";
 import { rooms } from "../data/rooms";
 import { useOrganization } from "../context/OrganizationContext";
+import AccessControl from "../security/AccessControl";
+import { useAuth } from "../auth/AuthContext";
 
 type RoomType = {
   roomNumber: string;
@@ -11,7 +13,9 @@ type RoomType = {
   // price: string;
 };
 const Rooms = () => {
-  const { canAccess } = usePermissions();
+  // const { canAccess } = usePermissions();
+  const { user } = useAuth();
+  const accessControl = new AccessControl();
   const { organization } = useOrganization();
   const [createModal, setCreateModal] = useState(false);
   const [roomForm, setRoomForm] = useState<RoomType>({
@@ -20,22 +24,38 @@ const Rooms = () => {
   });
   //list of room
   const [room, setRoom] = useState(rooms);
+
+  //create accescontrol
   //filter room acc to org
   const organizationRooms = room.filter(
     (r) => r.organizationId === organization?.id,
   );
   //action according to role
   const handleAction = (action: Action) => {
-    //check loged user has permissionornot
-    if (!canAccess(RESOURCES.ROOM, action)) {
-      alert("Not allowed");
+    if (!user) {
+      return null;
+    }
+    console.log("USER:", user);
+    console.log("ROLE:", user.role);
+    console.log("RESOURCE:", RESOURCES.ACCOMMODATION);
+    console.log("ACTION:", action);
+
+    //can craete accomodation
+    const allowed = accessControl.can(
+      user.role,
+      RESOURCES.ACCOMMODATION,
+      action,
+    );
+    console.log("ALLOWED:", allowed);
+    if (!allowed) {
+      alert("Not allowed by this");
       return;
     }
     if (action === ACTIONS.CREATE) {
       setCreateModal(true);
       return;
     }
-    alert(`${action} allowed by this role`);
+    alert(`${action} allowed by this role.`);
   };
   //input chnage text inout and select input
   const handleInputChnage = (
