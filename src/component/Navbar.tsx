@@ -48,7 +48,7 @@ const Navbar = () => {
           placeholder="search..."
           className="hidden md:flex border border-gray-400 text-sm text-gray-500  rounded-full focus:outline-none p-1 "
         />
-        <div onClick={chnage}>
+        <div onClick={chnage} className="z-9999">
           <Menu />
           {isOpen && (
             <>
@@ -120,6 +120,67 @@ const Navbar = () => {
                     Reservation Report
                   </NavLink> */}
                 </>
+
+                {/* {user?.role === "RECEPTIONIST" && (
+                  <>
+                    <NavLink
+                      to="/accomodation"
+                      className={({ isActive }) =>
+                        `${
+                          isActive ? "text-blue-800" : "text-black"
+                        } hover:bg-blue-50 px-2 border border-gray-100`
+                      }
+                    >
+                      Accomodations
+                    </NavLink>
+                    <NavLink
+                      to="/reservation-report"
+                      className={({ isActive }) =>
+                        `${
+                          isActive ? "text-blue-800" : "text-black"
+                        } hover:bg-blue-50 px-2 border border-gray-100`
+                      }
+                    >
+                      Reservation Report
+                    </NavLink>
+                  </>
+                )}
+
+                {user?.role === "WAITER" && (
+                  <>
+                    <NavLink
+                      to="/catering"
+                      className={({ isActive }) =>
+                        `${
+                          isActive ? "text-blue-800" : "text-black"
+                        } hover:bg-blue-50 px-2 border border-gray-100`
+                      }
+                    >
+                      Catering
+                    </NavLink>
+                    <NavLink
+                      to="/restaurant"
+                      className={({ isActive }) =>
+                        `${
+                          isActive ? "text-blue-800" : "text-black"
+                        } hover:bg-blue-50 px-2 border border-gray-100`
+                      }
+                    >
+                      Restaurant
+                    </NavLink>
+                  </>
+                )} */}
+
+                <NavLink
+                  to="/reservation-report"
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "text-blue-800" : "text-black"
+                    } hover:bg-blue-50 px-2 border border-gray-100`
+                  }
+                >
+                  Reservation Report
+                </NavLink>
                 <button
                   onClick={() => navigate("/login")}
                   className="bg-blue-400 rounded-2xl p-1"

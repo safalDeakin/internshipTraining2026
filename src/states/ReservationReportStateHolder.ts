@@ -1,8 +1,8 @@
 import { Repo } from "../repo/Repo";
 import type { Reservation } from "../types/reservation";
 
-import { filterReservations } from "../reports/reservation/filterReservation";
-import { buildReservationReport } from "../reports/reservation/reservationReportData";
+import { filterReservations } from "../reports/filterReservation";
+import { buildReservationReport } from "../reports/reservationReportData";
 
 export class ReservationReportStateHolder {
     private repo: Repo;

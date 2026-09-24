@@ -1,4 +1,4 @@
-import type { Reservation } from "./reservationData";
+import type { Reservation } from "../../types/reservation";
 
 export const getTotalReservations = (reservations: Reservation[]): number => {
     return reservations.length;

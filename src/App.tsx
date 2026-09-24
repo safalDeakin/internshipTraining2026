@@ -22,7 +22,7 @@ import Arrivals from "./pages/pms/operations/list/Arrivals";
 import Cash from "./pages/pms/operations/list/Cash";
 import ActivateDetails from "./pages/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
-import ReservationReport from "./reports/reservation/ReservationReport";
+import ReservationReport from "./reports/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 import ProtectedRoute from "./component/ProtectedRoute";
 import SignUp from "./component/SignUp";
@@ -36,17 +36,15 @@ import CateringLayout from "./pages/catering/CateringLayout";
 import Details from "./pages/pms/Details";
 
 const App = () => {
-  const user = {
-    role: "ADMIN",
-  };
   const repo = useMemo(() => {
-    const repo = new Repo();
+    const repository = new Repo();
 
-    repo.setReservations(reservations);
-    repo.setKitchenOrders(mockKitchenOrders);
+    repository.setReservations(reservations);
+    repository.setKitchenOrders(mockKitchenOrders);
 
-    return repo;
+    return repository;
   }, []);
+
   const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
 
   const reservationState = useMemo(
@@ -54,9 +52,10 @@ const App = () => {
     [repo],
   );
 
-  const reservationReportState = useMemo(() => {
-    return new ReservationReportStateHolder(repo);
-  }, [repo]);
+  const reservationReportState = useMemo(
+    () => new ReservationReportStateHolder(repo),
+    [repo],
+  );
 
   return (
     <BrowserRouter>

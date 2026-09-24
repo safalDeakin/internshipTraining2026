@@ -1,8 +1,8 @@
-import CalendarToolbar from "../pages/calendar/CalendarToolbar";
-import CalendarGrid from "../pages/calendar/CalendarGrid";
-import EventsSidebar from "../pages/calendar/EventsSideBar";
-import EventModal from "../pages/calendar/EventModal";
-import { useCalendar } from "../hooks/useCalendar";
+import { useCalendar } from "../../../hooks/useCalendar";
+import CalendarGrid from "../calendarComponents/CalendarGrid";
+import CalendarToolbar from "../calendarComponents/CalendarToolbar";
+import EventModal from "../calendarComponents/EventModal";
+import EventsSidebar from "../calendarComponents/EventsSideBar";
 
 const Render = () => {
   const {
