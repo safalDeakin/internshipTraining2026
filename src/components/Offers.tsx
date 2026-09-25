@@ -6,10 +6,10 @@ const Offers = () => {
 
   return (
     <>
-      <div className="page">
-        <h1>List-One Line</h1>
-        <div className="main-card">
-          {/* <ListHeader /> */}
+      <div className="py-4">
+        <div className="w-75 min-h-screen bg-[#ffffff] pt-5 px-3.75 pb-3.75 ">
+          <ListHeader />
+          <div className="h-6" />
           <ListHeroSection />
         </div>
       </div>
