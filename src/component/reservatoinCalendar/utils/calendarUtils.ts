@@ -66,7 +66,8 @@ export function getMoveValidationMessage(
 export function calculateDropSlot(
   event: React.DragEvent<HTMLDivElement>,
   reservation: Reservation,
-  totalSlots: number
+  totalSlots: number,
+  dragOffsetX = 0
 ): number {
   const timeline =
     event.currentTarget;
@@ -87,11 +88,14 @@ export function calculateDropSlot(
     rect.left +
     scrollLeft;
 
+  const reservationLeftX =
+    mouseX - dragOffsetX;
+
   const timelineWidth =
     timeline.offsetWidth;
 
   const rawSlot =
-    (mouseX / timelineWidth) *
+    (reservationLeftX / timelineWidth) *
     totalSlots;
 
   const targetSlot =

@@ -62,8 +62,7 @@ const Navbar = () => {
                     to={`/${organization?.slug}/restaurant`}
                     onClick={(e) => handleNavigation(e, RESOURCES.RESTAURANT)}
                     className={({ isActive }) =>
-                      `${
-                        isActive ? "text-blue-800" : "text-black"
+                      `${isActive ? "text-blue-800" : "text-black"
                       } hover:bg-blue-50 px-2 border border-gray-100`
                     }
                   >
@@ -77,8 +76,7 @@ const Navbar = () => {
                       handleNavigation(e, RESOURCES.ACCOMMODATION)
                     }
                     className={({ isActive }) =>
-                      `${
-                        isActive ? "text-blue-800" : "text-black"
+                      `${isActive ? "text-blue-800" : "text-black"
                       } hover:bg-blue-50 px-2 border border-gray-100`
                     }
                   >
@@ -89,8 +87,7 @@ const Navbar = () => {
                     to={`/${organization?.slug}/catering`}
                     onClick={(e) => handleNavigation(e, RESOURCES.CATERING)}
                     className={({ isActive }) =>
-                      `${
-                        isActive ? "text-blue-800" : "text-black"
+                      `${isActive ? "text-blue-800" : "text-black"
                       } hover:bg-blue-50 px-2 border border-gray-100`
                     }
                   >
@@ -101,8 +98,7 @@ const Navbar = () => {
                     to={`/${organization?.slug}/pms`}
                     onClick={(e) => handleNavigation(e, RESOURCES.PMS)}
                     className={({ isActive }) =>
-                      `${
-                        isActive ? "text-blue-800" : "text-black"
+                      `${isActive ? "text-blue-800" : "text-black"
                       } hover:bg-blue-50 px-2 border border-gray-100`
                     }
                   >
@@ -111,10 +107,10 @@ const Navbar = () => {
                   {/* */}
                 </>
                 <NavLink
-                  to="/reservation-report"
+                  to={`/${organization?.slug}/reservation-report`}
+
                   className={({ isActive }) =>
-                    `${
-                      isActive ? "text-blue-800" : "text-black"
+                    `${isActive ? "text-blue-800" : "text-black"
                     } hover:bg-blue-50 px-2 border border-gray-100`
                   }
                 >

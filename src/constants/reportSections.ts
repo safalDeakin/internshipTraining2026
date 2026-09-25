@@ -1,7 +1,7 @@
 import type {
     ReportSection,
     ReportTemplate,
-} from "../types/report";
+} from "../reports/types/report";
 
 export const REPORT_SECTIONS: Record<ReportTemplate,
     {

@@ -22,7 +22,7 @@ import Arrivals from "./pages/pms/operations/list/Arrivals";
 import Cash from "./pages/pms/operations/list/Cash";
 import ActivateDetails from "./pages/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
-import ReservationReport from "./reports/ReservationReport";
+// import ReservationReport from "./reports/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 import ProtectedRoute from "./component/ProtectedRoute";
 import SignUp from "./component/SignUp";
@@ -35,6 +35,18 @@ import Activate from "./pages/pms/activate/Activate";
 import CateringLayout from "./pages/catering/CateringLayout";
 import Details from "./pages/pms/Details";
 import Pricelist from "./pages/restaurant/Pricelist";
+
+// Hotel
+
+// Reports
+// import ReservationReport from "./reports/reservation/ReservationReport";
+import Report from "./reports/Report";
+import PrintReservationForm from "./reports/printableData/PrintReservationForm";
+
+// Calendar
+// import Render from "./component/calendar/renderItem/Render";
+import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
+
 
 const App = () => {
   const repo = useMemo(() => {
@@ -148,10 +160,64 @@ const App = () => {
             {/* Reservation Report */}
             <Route
               path="/:organizationSlug/reservation-report"
-              element={<ReservationReport />}
+              element={<Report />}
             />
           </Route>
           <Route path="/signin" element={<SignUp />} />
+
+          {/* =========================
+              Catering
+          ========================= */}
+          <Route
+            path="/:organizationSlug/catering"
+            element={<Catering />}
+          />
+
+          {/* =========================
+              Reservation Reports
+          ========================= */}
+
+          {/* Existing reservation report */}
+          {/* <Route
+            path="/:organizationSlug/reservation-report"
+            element={<ReservationReport />}
+          /> */}
+
+          {/* Report Builder */}
+          <Route
+            path="/:organizationSlug/reservation-report"
+            element={<Report />}
+          />
+
+          {/* Printable reservation form */}
+          <Route
+            path="/print-data"
+            element={<PrintReservationForm />}
+          />
+
+          {/* =========================
+              Reservation Calendar
+          ========================= */}
+
+          {/* Existing calendar render */}
+          {/* <Route
+            path="/reservation-calender"
+            element={<Render />}
+          /> */}
+
+          {/* New reservation calendar */}
+          <Route
+            path="/:organizationSlug/reservation-calendar"
+            element={<ReservationCalendar />}
+          />
+
+          {/* =========================
+              Unauthorized
+          ========================= */}
+          <Route
+            path="/unauthorized"
+            element={<Unauthorized />}
+          />
         </Routes>
       </RepoProvider>
     </BrowserRouter>

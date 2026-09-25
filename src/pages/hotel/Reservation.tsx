@@ -61,11 +61,10 @@ const Reservation = () => {
             to={reservation.reservationId.toLowerCase()}
             onClick={() => selectReservation(reservation.reservationId)}
             className={`
-    ${
-      String(reservation.reservationId) === id
-        ? "bg-blue-100 text-blue-800 border-blue-500"
-        : "hover:bg-gray-100"
-    }
+    ${String(reservation.reservationId) === id
+                ? "bg-blue-100 text-blue-800 border-blue-500"
+                : "hover:bg-gray-100"
+              }
   `}
           >
             <p className="border-b border-gray-100 hover:bg-blue-100 p-2">

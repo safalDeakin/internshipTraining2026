@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import CalendarHeader from "./components/CalendarHeader";
 import CalendarControls from "./components/CalendarControls";
 import CalendarGrid from "./components/CalendarGrid";
-import { ROOMS, RESERVATIONS, SLOTS_PER_DAY, TOTAL_SLOTS } from "./data/reservationData";
+import { ROOMS, RESERVATIONS, SLOTS_PER_DAY, TOTAL_SLOTS, } from "./data/reservationData";
 
 
 import {
@@ -58,6 +58,8 @@ export default function ReservationCalendar() {
     //Temporary drag state
     const [draggedReservation, setDraggedReservation] = useState<Reservation | null>(null)
 
+    const [dragOffsetX, setDragOffsetX] = useState(0);
+
     const [calendarReservations, setCalendarReservations] = useState<Record<string, Reservation[]>>(RESERVATIONS);
 
     const [dropPreview, setDropPreview] = useState<DropPreview | null>(null);
@@ -72,6 +74,7 @@ export default function ReservationCalendar() {
     const pointerDragRef = useRef<{
         reservation: Reservation;
         pointerId: number;
+        offsetX: number;
     } | null>(null);
 
 
@@ -175,13 +178,23 @@ export default function ReservationCalendar() {
 
 
     //Drag and Drop
-    const handleReservationDragStart = (event: React.DragEvent<HTMLDivElement>, reservation: Reservation) => {
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.setData("reservationId", reservation.id)
+    const handleReservationDragStart = (
+        event: React.DragEvent<HTMLDivElement>,
+        reservation: Reservation
+    ) => {
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData(
+            "reservationId",
+            reservation.id
+        );
 
-        setDraggedReservation(reservation)
+        const rect = event.currentTarget.getBoundingClientRect();
 
-    }
+        const offsetX = event.clientX - rect.left;
+
+        setDragOffsetX(offsetX);
+        setDraggedReservation(reservation);
+    };
 
     const handleReservationDragEnd = () => {
         setDraggedReservation(null);
@@ -234,7 +247,8 @@ export default function ReservationCalendar() {
             calculateDropSlot(
                 event,
                 draggedReservation,
-                TOTAL_SLOTS
+                TOTAL_SLOTS,
+                dragOffsetX
             );
 
         // Room type check
@@ -319,7 +333,8 @@ export default function ReservationCalendar() {
         const startSlot = calculateDropSlot(
             event,
             draggedReservation,
-            TOTAL_SLOTS
+            TOTAL_SLOTS,
+            dragOffsetX
         );
 
         // Check room type
@@ -481,9 +496,14 @@ export default function ReservationCalendar() {
             event.pointerId
         );
 
+        const rect = event.currentTarget.getBoundingClientRect();
+
+        const offsetX = event.clientX - rect.left;
+
         pointerDragRef.current = {
             reservation,
             pointerId: event.pointerId,
+            offsetX,
         };
 
         setDraggedReservation(
@@ -570,19 +590,20 @@ export default function ReservationCalendar() {
             return;
         }
 
-        const rect =
-            timeline.getBoundingClientRect();
+        const rect = timeline.getBoundingClientRect();
 
         const mouseX =
             event.clientX -
             rect.left;
+
+        const reservationLeftX = mouseX - drag.offsetX;
 
         const clampedX =
             Math.max(
                 0,
                 Math.min(
                     rect.width,
-                    mouseX
+                    reservationLeftX
                 )
             );
 
