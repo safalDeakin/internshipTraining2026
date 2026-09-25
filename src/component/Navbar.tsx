@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigationSecurity = new NavigationSecurity();
   const [isOpen, setISOpen] = useState(false);
   const { user } = useAuth();
+  const { logout } = useAuth();
   const { organization } = useOrganization();
   const chnage = () => {
     setISOpen(!isOpen);
@@ -107,70 +108,8 @@ const Navbar = () => {
                   >
                     PMS
                   </NavLink>
-                  {/* <NavLink
-                    // to="/reservation-report"
-                    to={`/${organization?.slug}/reservation-report`}
-                    onClick={(e) => handleNavigation(e, RESOURCES.)}
-                    className={({ isActive }) =>
-                      `${
-                        isActive ? "text-blue-800" : "text-black"
-                      } hover:bg-blue-50 px-2 border border-gray-100`
-                    }
-                  >
-                    Reservation Report
-                  </NavLink> */}
+                  {/* */}
                 </>
-
-                {/* {user?.role === "RECEPTIONIST" && (
-                  <>
-                    <NavLink
-                      to="/accomodation"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Accomodations
-                    </NavLink>
-                    <NavLink
-                      to="/reservation-report"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Reservation Report
-                    </NavLink>
-                  </>
-                )}
-
-                {user?.role === "WAITER" && (
-                  <>
-                    <NavLink
-                      to="/catering"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Catering
-                    </NavLink>
-                    <NavLink
-                      to="/restaurant"
-                      className={({ isActive }) =>
-                        `${
-                          isActive ? "text-blue-800" : "text-black"
-                        } hover:bg-blue-50 px-2 border border-gray-100`
-                      }
-                    >
-                      Restaurant
-                    </NavLink>
-                  </>
-                )} */}
-
                 <NavLink
                   to="/reservation-report"
                   className={({ isActive }) =>
@@ -182,7 +121,7 @@ const Navbar = () => {
                   Reservation Report
                 </NavLink>
                 <button
-                  onClick={() => navigate("/login")}
+                  onClick={logout}
                   className="bg-blue-400 rounded-2xl p-1"
                 >
                   Logout

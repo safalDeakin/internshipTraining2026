@@ -32,7 +32,7 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
     `${linkBase} ${isActive ? linkActive : linkInactive}`;
 
   return (
-    <nav className="flex h-full max-h-screen flex-col gap-1 overscroll-contain p-4">
+    <nav className="flex h-full max-h-screen flex-col gap-1 p-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div className="relative flex items-center px-1 py-2">
@@ -60,7 +60,7 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
             />
           </button>
           {isRestaurantOpen && (
-            <div className="absolute left-0 top-full z-50 mt-1 flex h-40 w-full flex-col gap-1 overflow-y-auto rounded-xl border border-gray-100 bg-white p-1.5 shadow-lg scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            <div className="absolute left-0 top-full z-50 mt-1 flex h-auto w-full flex-col gap-1 overflow-y-auto rounded-xl border border-gray-100 bg-white p-1.5 shadow-lg">
               <div className="flex flex-col gap-1 w-full">
                 <p className="text-gray-600 text-medium flex items-center gap-2 border-b border-gray-200">
                   <SquareChevronUp className="w-4 h-4 text-gray-500" />

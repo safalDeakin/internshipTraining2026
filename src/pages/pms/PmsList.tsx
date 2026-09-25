@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { activeMenu } from "./activate/activateConfig";
 import { useOrganization } from "../../context/OrganizationContext";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MonitorCheck } from "lucide-react";
 
 interface PmsProps {
   closeBar: () => void;
@@ -26,10 +26,11 @@ const PmsList = ({ closeBar }: PmsProps) => {
           to={`/${organization?.slug}/pms`}
           onClick={closeBar}
           className={({ isActive }) =>
-            `font-bold ${isActive ? "text-blue-500" : "text-black"}`
+            `${isActive ? "text-blue-500" : "text-black"}`
           }
         >
-          PMS
+          <MonitorCheck />
+          <span>PMS</span>
         </NavLink>
         <button
           onClick={() => setIsPmsOpen(!isPmsOpen)}

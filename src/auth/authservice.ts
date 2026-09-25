@@ -15,6 +15,13 @@ class AuthService {
     localStorage.setItem("user", JSON.stringify(user));
     return user;
   }
+  getCurrentUser(): User | null {
+    const savedUser = localStorage.getItem("user");
+    if (!savedUser) {
+      return null;
+    }
+    return JSON.parse(savedUser);
+  }
   //logout concept remove from localStorage
   logout(): void {
     localStorage.removeItem("user");

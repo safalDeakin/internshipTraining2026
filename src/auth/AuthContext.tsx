@@ -7,13 +7,15 @@ const authService = new AuthService();
 type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => User;
-  // logout: () => void;
+  logout: () => void;
   setUser: (user: User | null) => void;
 };
 //createContext allowed to share data with manu compo
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    return authService.getCurrentUser();
+  });
 
   //call login fun from class then store in state then return that
   const login = (email: string, password: string) => {
@@ -27,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
   return (
-    <AuthContext.Provider value={{ user, login, setUser }}>
+    <AuthContext.Provider value={{ user, login, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

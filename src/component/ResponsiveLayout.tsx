@@ -3,8 +3,9 @@ import { Outlet } from "react-router-dom";
 
 interface ResponsiveLayoutProps {
   sidebar: (closeBar: () => void) => React.ReactNode;
+  children?: React.ReactNode;
 }
-const ResponsiveLayout = ({ sidebar }: ResponsiveLayoutProps) => {
+const ResponsiveLayout = ({ sidebar, children }: ResponsiveLayoutProps) => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -44,9 +45,7 @@ const ResponsiveLayout = ({ sidebar }: ResponsiveLayoutProps) => {
         {sidebar(closeBar)}
       </aside>
 
-      <main className="pl-5 md:min-h-0">
-        <Outlet />
-      </main>
+      <main className="pl-5 md:min-h-0">{children ?? <Outlet />}</main>
     </div>
   );
 };
