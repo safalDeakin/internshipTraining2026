@@ -34,6 +34,7 @@ import Pms from "./pages/pms/Pms";
 import Activate from "./pages/pms/activate/Activate";
 import CateringLayout from "./pages/catering/CateringLayout";
 import Details from "./pages/pms/Details";
+import Pricelist from "./pages/restaurant/Pricelist";
 
 const App = () => {
   const repo = useMemo(() => {
@@ -105,6 +106,7 @@ const App = () => {
               <Route element={<Restaurant />}>
                 <Route index element={<ResDash />} />
                 <Route path="sales" element={<Sales />} />
+                <Route path="price" element={<Pricelist />} />
                 <Route path="stock" element={<Stock />} />
                 <Route path="offer" element={<Offers />} />
                 <Route path="products" element={<Products />} />
