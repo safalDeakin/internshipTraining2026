@@ -1,4 +1,4 @@
-import type { ReservationReportData } from "../reservationReportData";
+import type { ReservationReportData } from "../XXreservationReportData";
 
 interface ReservationReportTemplateProps {
     report: ReservationReportData;

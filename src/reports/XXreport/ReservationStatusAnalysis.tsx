@@ -1,4 +1,4 @@
-import type { ReservationReportData } from "../reservationReportData";
+import type { ReservationReportData } from "../XXreservationReportData";
 
 interface ReservationStatusAnalysisProps {
     data: ReservationReportData["statusAnalysis"];

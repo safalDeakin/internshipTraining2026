@@ -1,5 +1,5 @@
 import { Eye, EyeClosed, LoaderCircle } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 

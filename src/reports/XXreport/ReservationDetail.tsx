@@ -1,4 +1,4 @@
-import type { ReservationReportData } from "../reservationReportData";
+import type { ReservationReportData } from "../XXreservationReportData";
 
 interface ReservationReportTemplateProps {
     report: ReservationReportData;
@@ -91,17 +91,17 @@ const ReservationDetail = ({ report }: ReservationReportTemplateProps) => {
                                     </td>
 
                                     <td className=" px-2 py-4 text-right">
-                                        
+
                                         {reservation.totalAmount.toLocaleString()}
                                     </td>
 
                                     <td className=" px-2 py-4 text-right">
-                                        
+
                                         {reservation.advanceAmount.toLocaleString()}
                                     </td>
 
                                     <td className=" px-2 py-4 text-right">
-                                        
+
                                         {reservation.remainingAmount.toLocaleString()}
                                     </td>
 

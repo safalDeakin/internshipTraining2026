@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import ReservationReportTemplate from "./report/ReservationReportTemplate";
+import ReservationReportTemplate from "./XXreport/ReservationReportTemplate";
 
 import ReservationReportFilters from "./components/ReservationReportFilters";
 

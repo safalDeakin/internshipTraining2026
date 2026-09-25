@@ -1,4 +1,4 @@
-import type { ReservationReportData } from "../reservationReportData";
+import type { ReservationReportData } from "../XXreservationReportData";
 import CancellationAnalysis from "./CancellationAnalysis";
 import CancellationDetails from "./CancellationDetails";
 

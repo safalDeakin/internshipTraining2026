@@ -36,14 +36,3 @@ export interface ReportBuilderSnapshot {
     startDate: string;
     terminal: string;
 }
-
-
-
-// Sale report 
-// Shift report 
-// Products performance report 
-// Stock movement report 
-// Tax report 
-// Compiled report
-// Offer report 
-// Discount report
