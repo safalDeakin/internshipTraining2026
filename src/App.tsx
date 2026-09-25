@@ -25,7 +25,7 @@ import Offers from "./components/Offers";
 // import ReservationReport from "./reports/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
 import ProtectedRoute from "./component/ProtectedRoute";
-import SignUp from "./component/SignUp";
+// import SignUp from "./component/SignUp";
 import Rooms from "./component/Rooms";
 import Products from "./pages/restaurant/Products";
 import SecureCellRoute from "./security/SecureCellRoute";
@@ -46,7 +46,6 @@ import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 // Calendar
 // import Render from "./component/calendar/renderItem/Render";
 import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
-
 
 const App = () => {
   const repo = useMemo(() => {
@@ -163,15 +162,12 @@ const App = () => {
               element={<Report />}
             />
           </Route>
-          <Route path="/signin" element={<SignUp />} />
+          {/* <Route path="/signin" element={<SignUp />} /> */}
 
           {/* =========================
               Catering
           ========================= */}
-          <Route
-            path="/:organizationSlug/catering"
-            element={<Catering />}
-          />
+          <Route path="/:organizationSlug/catering" element={<Catering />} />
 
           {/* =========================
               Reservation Reports
@@ -190,10 +186,7 @@ const App = () => {
           />
 
           {/* Printable reservation form */}
-          <Route
-            path="/print-data"
-            element={<PrintReservationForm />}
-          />
+          <Route path="/print-data" element={<PrintReservationForm />} />
 
           {/* =========================
               Reservation Calendar
@@ -214,10 +207,7 @@ const App = () => {
           {/* =========================
               Unauthorized
           ========================= */}
-          <Route
-            path="/unauthorized"
-            element={<Unauthorized />}
-          />
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </RepoProvider>
     </BrowserRouter>

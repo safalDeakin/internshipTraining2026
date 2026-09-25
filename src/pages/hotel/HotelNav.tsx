@@ -22,9 +22,9 @@ const linkInactive = "text-blue-950 hover:bg-blue-50";
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
   const { organization } = useOrganization();
   const [isAccomodationOpen, setIsAccomodationOpen] = useState(false);
-  const [openSubMenu, setOpenSubMenu] = useState<
-    "rooms" | "reservation" | "frontdesk" | null
-  >(null);
+  const [openSubMenus, setOpenSubMenus] = useState<
+    ("rooms" | "reservation" | "frontdesk")[]
+  >([]);
   const [activeSubItem, setActiveSubItem] = useState<{
     menu: "rooms" | "reservation" | "frontdesk";
     key: string;
@@ -43,9 +43,12 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
   };
 
   const toggleSubMenu = (menu: "rooms" | "reservation" | "frontdesk") => {
-    setOpenSubMenu((current) => (current === menu ? null : menu));
+    setOpenSubMenus((current) =>
+      current.includes(menu)
+        ? current.filter((item) => item !== menu)
+        : [...current, menu],
+    );
   };
-
   const handleSubItemClick = (
     menu: "rooms" | "reservation" | "frontdesk",
     key: string,
@@ -164,19 +167,19 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
       <div className="h-px bg-gray-100 mx-1 mb-2" />
       {/* //main */}
       <div className="flex flex-col gap-1 pr-1">
-        <div className="relative w-full">
+        <div className="w-full">
           <button
             type="button"
             onClick={() => toggleSubMenu("frontdesk")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenu === "frontdesk" ? linkActive : linkInactive}`}
+            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("frontdesk") ? linkActive : linkInactive}`}
           >
             <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenu === "frontdesk" ? "rotate-180 text-blue-500" : ""}`}
+              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("frontdesk") ? "rotate-180 text-blue-500" : ""}`}
             />
             <span>Front-Desk</span>
           </button>
-          {openSubMenu === "frontdesk" && (
-            <div className="absolute z-50 mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
+          {openSubMenus.includes("frontdesk") && (
+            <div className=" mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
               <NavLink
                 to={`/${organization?.slug}/accomodation/room`}
                 onClick={() => handleSubItemClick("frontdesk", "guestRequest")}
@@ -245,20 +248,20 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
             </div>
           )}
         </div>
-        <div className="relative w-full">
+        <div className=" w-full">
           <button
             type="button"
             onClick={() => toggleSubMenu("rooms")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenu === "rooms" ? linkActive : linkInactive}`}
+            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("rooms") ? linkActive : linkInactive}`}
           >
             <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenu === "rooms" ? "rotate-180 text-blue-500" : ""}`}
+              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("rooms") ? "rotate-180 text-blue-500" : ""}`}
             />
             <span>Rooms</span>
           </button>
 
-          {openSubMenu === "rooms" && (
-            <div className="absolute z-50 mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
+          {openSubMenus.includes("rooms") && (
+            <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
               <NavLink
                 to={`/${organization?.slug}/accomodation/room`}
                 onClick={() => handleSubItemClick("rooms", "roomList")}
@@ -273,19 +276,19 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
           )}
         </div>
 
-        <div className="relative">
+        <div className="w-full">
           <button
             type="button"
             onClick={() => toggleSubMenu("reservation")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenu === "reservation" ? linkActive : linkInactive}`}
+            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("reservation") ? linkActive : linkInactive}`}
           >
             <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenu === "reservation" ? "rotate-180 text-blue-500" : ""}`}
+              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("reservation") ? "rotate-180 text-blue-500" : ""}`}
             />
             <span>Reservation</span>
           </button>
 
-          {openSubMenu === "reservation" && (
+          {openSubMenus.includes("reservation") && (
             <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
               <NavLink
                 to={`/${organization?.slug}/accomodation/reservation`}
