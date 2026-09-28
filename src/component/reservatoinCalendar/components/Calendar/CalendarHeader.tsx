@@ -1,6 +1,6 @@
 
-import type { Status } from "../types/reservation";
-import { getDotColor } from "../utils/calendarUtils";
+import type { Status } from "../../types/reservation";
+import { getDotColor } from "../../utils/calendarUtils";
 
 const STATUSES: Status[] = [
   // "Available",

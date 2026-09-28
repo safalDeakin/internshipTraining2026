@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import RotateDeviceMessage from "./RotateDeviceMessage";
+import RotateDeviceMessage from "../UI/RotateDeviceMessage";
 interface LandscapeGuardProps {
     children: ReactNode;
 }

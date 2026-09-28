@@ -5,9 +5,9 @@ import {
     SLOTS_PER_DAY,
     TIME_LABELS,
     TOTAL_SLOTS,
-} from "../data/reservationData";
+} from "../../data/reservationData";
 
-import { isSameDay } from "../utils/calendarUtils";
+import { isSameDay } from "../../utils/calendarUtils";
 
 interface ScaleRulerProps {
     weekDates: Date[];

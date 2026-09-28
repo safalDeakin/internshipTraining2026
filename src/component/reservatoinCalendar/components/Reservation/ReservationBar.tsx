@@ -1,5 +1,5 @@
 
-import type { Reservation } from "../types/reservation";
+import type { Reservation } from "../../types/reservation";
 
 interface ReservationBarProps {
     reservation: Reservation;

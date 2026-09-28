@@ -6,7 +6,7 @@ import ItemsActions from "./components/Actions/ItemsActions";
 import { useItemsTable } from "./hooks/useItemTables";
 import { getItemColumns } from "./columns/ItemColumns";
 
-import "../styles/tableConent.css";
+import "./styles/tableConent.css";
 
 const ItemsPage = () => {
     const {

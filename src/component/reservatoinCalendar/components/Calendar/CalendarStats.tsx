@@ -1,6 +1,6 @@
 
-import { STATS } from "../data/reservationData";
-import { getDotColor } from "../utils/calendarUtils";
+import { STATS } from "../../data/reservationData";
+import { getDotColor } from "../../utils/calendarUtils";
 
 export default function CalendarStats() {
   return (

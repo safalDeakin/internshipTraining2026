@@ -4,8 +4,8 @@ import {
     AlignJustify,
 } from "lucide-react";
 
-import type { ViewMode } from "../types/reservation";
-import { ROOMS } from "../data/reservationData";
+import type { ViewMode } from "../../types/reservation";
+import { ROOMS } from "../../data/reservationData";
 import CalendarDateFilter from "./CalendarDateFilter";
 
 interface CalendarControlsProps {

@@ -3,20 +3,20 @@ import type {
     Reservation,
     Room,
     DropPreview
-} from "../types/reservation";
+} from "../../types/reservation";
 
 import {
     DAYS,
     SLOTS_PER_DAY,
     TOTAL_SLOTS,
-} from "../data/reservationData";
+} from "../../data/reservationData";
 
 import {
     getStatusColors,
     isSameDay,
     MIN_TIMELINE_CONTENT_WIDTH,
-} from "../utils/calendarUtils";
-import ReservationBar from "./ReservationBar";
+} from "../../utils/calendarUtils";
+import ReservationBar from "../Reservation/ReservationBar";
 
 interface RoomRowProps {
     room: Room;

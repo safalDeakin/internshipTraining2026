@@ -1,15 +1,15 @@
-import ScaleRuler from "./ScaleRuler";
-import RoomRow from "./RoomRow";
+import ScaleRuler from "../UI/ScaleRuler";
+import RoomRow from "../Reservation/RoomRow";
 
 import type {
     Reservation,
     Room,
     DropPreview,
-} from "../types/reservation";
+} from "../../types/reservation";
 
 import {
     MIN_TIMELINE_CONTENT_WIDTH,
-} from "../utils/calendarUtils";
+} from "../../utils/calendarUtils";
 
 interface ReservationCalendarGridProps {
     rooms: Room[];

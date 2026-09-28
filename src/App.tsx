@@ -46,8 +46,9 @@ import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 
 // Calendar
 // import Render from "./component/calendar/renderItem/Render";
-import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
+import ReservationCalendar from "./component/reservatoinCalendar/components/ReservationCalendar";
 import ItemsPage from "./component/table/ItemPage";
+import Render from "./component/calendar/renderItem/Render";
 
 
 const App = () => {
@@ -225,6 +226,11 @@ const App = () => {
           <Route
             path="/reservation-table"
             element={<ItemsPage />}
+          />
+
+          <Route
+            path="/calendar"
+            element={<Render />}
           />
         </Routes>
 

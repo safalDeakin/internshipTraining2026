@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
-import { useViewportSize } from "../hooks/useViewportSize";
-import { useOrientation } from "../hooks/useOrientation";
+import { useViewportSize } from "../../hooks/useViewportSize";
+import { useOrientation } from "../../hooks/useOrientation";
 
-import RotateDeviceMessage from "./RotateDeviceMessage";
+import RotateDeviceMessage from "../UI/RotateDeviceMessage";
 
 interface ResponsiveCalendarViewProps {
     timeline: ReactNode;
