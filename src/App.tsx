@@ -47,7 +47,7 @@ import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 // Calendar
 // import Render from "./component/calendar/renderItem/Render";
 import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
-import ItemsPage from "./component/table/pages/ItemPage";
+import ItemsPage from "./component/table/ItemPage";
 
 
 const App = () => {
