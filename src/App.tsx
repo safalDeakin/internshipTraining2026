@@ -35,6 +35,7 @@ import Activate from "./pages/pms/activate/Activate";
 import CateringLayout from "./pages/catering/CateringLayout";
 import Details from "./pages/pms/Details";
 import Pricelist from "./pages/restaurant/Pricelist";
+import "./component/table/styles/tableConent.css"
 
 // Hotel
 
@@ -46,6 +47,7 @@ import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 // Calendar
 // import Render from "./component/calendar/renderItem/Render";
 import ReservationCalendar from "./component/reservatoinCalendar/ReservationCalendar";
+import ItemsPage from "./component/table/pages/ItemPage";
 
 
 const App = () => {
@@ -218,7 +220,15 @@ const App = () => {
             path="/unauthorized"
             element={<Unauthorized />}
           />
+
+          {/**Table Content */}
+          <Route
+            path="/reservation-table"
+            element={<ItemsPage />}
+          />
         </Routes>
+
+
       </RepoProvider>
     </BrowserRouter>
   );
