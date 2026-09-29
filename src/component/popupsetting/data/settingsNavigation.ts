@@ -1,4 +1,5 @@
 import {
+    CircleHelp,
     Laptop,
     Pencil,
     UserRound,
@@ -20,4 +21,10 @@ export const settingsNavigation = [
         label: "Devices",
         icon: Laptop,
     },
+
+    {
+        id: "help" as const,
+        label: "Help",
+        icon: CircleHelp,
+    }
 ];
