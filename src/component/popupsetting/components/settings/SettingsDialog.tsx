@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { SettingsDialogProps } from "../../types/settings";
-import SettingsHeader from "../SettingsHeader";
+import SettingsHeader from "./SettingsHeader";
 import SettingsNavigation from "./SettingsNavigation";
 import SettingsContent from "./SettingsContent";
 

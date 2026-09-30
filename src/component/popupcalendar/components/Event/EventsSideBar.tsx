@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import type { CalendarEvent } from "../../../types/calendar";
+import type { CalendarEvent } from "../../types/calendar";
 import EventItem from "./EventItem";
 
 interface EventsSidebarProps {

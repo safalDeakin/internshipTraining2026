@@ -23,9 +23,9 @@ export class CalendarRepo {
     this.events = this.events.map((event) =>
       event.id === id
         ? {
-            ...event,
-            ...updates,
-          }
+          ...event,
+          ...updates,
+        }
         : event,
     );
 

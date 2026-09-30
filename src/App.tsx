@@ -48,8 +48,9 @@ import PrintReservationForm from "./reports/printableData/PrintReservationForm";
 // import Render from "./component/calendar/renderItem/Render";
 import ReservationCalendar from "./component/reservatoinCalendar/components/ReservationCalendar";
 import ItemsPage from "./component/table/ItemPage";
-import Render from "./component/calendar/renderItem/Render";
+// import Render from "./component/popupcalendar/renderItem/Render";
 import SettingRenderer from "./component/popupsetting/components/SettingRenderer";
+import CalendarRenderer from "./component/popupcalendar/components/CalendarRenderer";
 
 
 const App = () => {
@@ -232,7 +233,7 @@ const App = () => {
           {/**For Event calendar */}
           <Route
             path="/calendar"
-            element={<Render />}
+            element={<CalendarRenderer />}
           />
 
           {/*For popup Setting*/}

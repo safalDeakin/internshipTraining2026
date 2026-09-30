@@ -1,6 +1,6 @@
-import type { CalendarEvent } from "../../../types/calendar";
-import { DAYS } from "../../../data/calendar";
-import { buildCalendarGrid } from "../../../utils/calendarUtils";
+import type { CalendarEvent } from "../../types/calendar";
+import { DAYS } from "../../data/calendar";
+import { buildCalendarGrid } from "../../utils/calendarUtils";
 import CalendarDay from "./CalendarDay";
 
 interface CalendarGridProps {

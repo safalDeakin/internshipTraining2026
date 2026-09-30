@@ -1,6 +1,6 @@
 import { Pencil } from "lucide-react";
-import type { CalendarEvent } from "../../types/calendar";
-import { MONTHS } from "../../data/calendar";
+import type { CalendarEvent } from "../../component/popupcalendar/types/calendar";
+import { MONTHS } from "../../component/popupcalendar/data/calendar";
 
 interface EventItemProps {
   event: CalendarEvent;

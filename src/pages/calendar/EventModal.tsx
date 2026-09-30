@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import type { EventForm, ModalState, EventType } from "../../types/calendar";
-import { getDaysInMonth } from "../../utils/calendarUtils";
+import type { EventForm, ModalState, EventType } from "../../component/popupcalendar/types/calendar";
+import { getDaysInMonth } from "../../component/popupcalendar/utils/calendarUtils";
 
 interface EventModalProps {
   modal: ModalState;
