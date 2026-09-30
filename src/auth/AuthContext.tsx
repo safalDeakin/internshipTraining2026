@@ -10,7 +10,7 @@ type AuthContextType = {
   logout: () => void;
   setUser: (user: User | null) => void;
 };
-//createContext allowed to share data with manu compo
+//createContext allowed to share data with many compo
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => {

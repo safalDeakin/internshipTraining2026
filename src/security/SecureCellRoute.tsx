@@ -4,21 +4,37 @@ import type { Action, Resources } from "./permission";
 import AccessControl from "./AccessControl";
 import TenantSecurity from "./TenantSecurity";
 import { organizations } from "../auth/organizations";
+import Navbar from "../component/Navbar";
 
 type SecureCellRouteProps = {
   resource?: Resources;
   action?: Action;
+  showNavbar?: boolean;
 };
-const SecureCellRoute = ({ resource, action }: SecureCellRouteProps) => {
+const SecureCellRoute = ({
+  resource,
+  action,
+  showNavbar = false,
+}: SecureCellRouteProps) => {
   //gets authentication info from auth context
   const { user } = useAuth();
   //slug name og hotel
   const { organizationSlug } = useParams();
+
+  //create object
   const accessControl = new AccessControl();
   const tenantSecurity = new TenantSecurity();
   //authentication
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+  if (!organizationSlug) {
+    return (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    );
   }
   //find org from url
   const requestedOrganization = organizations.find(
@@ -43,7 +59,13 @@ const SecureCellRoute = ({ resource, action }: SecureCellRouteProps) => {
     }
   }
   //access granted
-  return <Outlet />;
+
+  return (
+    <>
+      {showNavbar && <Navbar />}
+      <Outlet />
+    </>
+  );
 };
 
 export default SecureCellRoute;

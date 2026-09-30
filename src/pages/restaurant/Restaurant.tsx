@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
 const Restaurant = () => {
+  //popup settings
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   return (

@@ -6,7 +6,6 @@ import {
   Warehouse,
   ChefHat,
   Settings,
-  X,
   UtensilsCrossed,
   Play,
   SquareChevronUp,

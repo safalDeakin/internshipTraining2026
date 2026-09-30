@@ -22,9 +22,11 @@ const linkInactive = "text-blue-950 hover:bg-blue-50";
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
   const { organization } = useOrganization();
   const [isAccomodationOpen, setIsAccomodationOpen] = useState(false);
+  // which menus are currently expanded.
   const [openSubMenus, setOpenSubMenus] = useState<
     ("rooms" | "reservation" | "frontdesk")[]
   >([]);
+  //which submenu item was clicked.
   const [activeSubItem, setActiveSubItem] = useState<{
     menu: "rooms" | "reservation" | "frontdesk";
     key: string;
@@ -42,6 +44,7 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
     return `${linkBase} ${isSelected ? linkActive : linkInactive}`;
   };
 
+  //open if closed closed if already expanded
   const toggleSubMenu = (menu: "rooms" | "reservation" | "frontdesk") => {
     setOpenSubMenus((current) =>
       current.includes(menu)
@@ -49,6 +52,8 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
         : [...current, menu],
     );
   };
+  //remembers the selected item:
+  //close bar
   const handleSubItemClick = (
     menu: "rooms" | "reservation" | "frontdesk",
     key: string,

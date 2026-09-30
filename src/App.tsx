@@ -24,7 +24,7 @@ import ActivateDetails from "./pages/pms/activate/ActivateDetails";
 import Offers from "./components/Offers";
 // import ReservationReport from "./reports/ReservationReport";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
-import ProtectedRoute from "./component/ProtectedRoute";
+import ProtectedRoute from "./component/XXProtectedRoute";
 // import SignUp from "./component/SignUp";
 import Rooms from "./component/Rooms";
 import Products from "./pages/restaurant/Products";
@@ -79,7 +79,7 @@ const App = () => {
       >
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute />}>
+          <Route element={<SecureCellRoute showNavbar />}>
             <Route path="/" element={<Dashboard />} />
             {/* //PMS */}
             <Route
@@ -155,19 +155,19 @@ const App = () => {
                 <Route index element={<Catering />} />
               </Route>
             </Route>
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            {/* Reservation Report */}
             <Route
               path="/:organizationSlug/reservation-report"
               element={<Report />}
             />
-          </Route>
-          {/* <Route path="/signin" element={<SignUp />} /> */}
-
-          {/* =========================
+            {/* =========================
               Catering
           ========================= */}
-          <Route path="/:organizationSlug/catering" element={<Catering />} />
+            <Route path="/:organizationSlug/catering" element={<Catering />} />
+          </Route>
+          {/* Reservation Report */}
+
+          {/* </Route> */}
+          {/* <Route path="/signin" element={<SignUp />} /> */}
 
           {/* =========================
               Reservation Reports
