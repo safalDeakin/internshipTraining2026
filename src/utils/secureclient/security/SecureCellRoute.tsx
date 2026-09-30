@@ -1,10 +1,10 @@
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../../../auth/AuthContext";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import type { Action, Resources } from "./permission";
 import AccessControl from "./AccessControl";
 import TenantSecurity from "./TenantSecurity";
-import { organizations } from "../auth/organizations";
-import Navbar from "../component/Navbar";
+import { organizations } from "../../../auth/organizations";
+import Navbar from "../../../component/Navbar";
 
 type SecureCellRouteProps = {
   resource?: Resources;

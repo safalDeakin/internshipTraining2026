@@ -1,4 +1,3 @@
-import { useState } from "react";
 import HotelNav from "./HotelNav";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
 

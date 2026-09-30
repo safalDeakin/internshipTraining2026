@@ -3,8 +3,11 @@ import { Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useOrganization } from "../context/OrganizationContext";
-import NavigationSecurity from "../security/NavigationSecurity";
-import { RESOURCES, type Resources } from "../security/permission";
+import NavigationSecurity from "../utils/secureclient/security/NavigationSecurity";
+import {
+  RESOURCES,
+  type Resources,
+} from "../utils/secureclient/security/permission";
 
 const Navbar = () => {
   const navigationSecurity = new NavigationSecurity();

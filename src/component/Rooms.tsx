@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { ACTIONS, RESOURCES, type Action } from "../security/permission";
+import {
+  ACTIONS,
+  RESOURCES,
+  type Action,
+} from "../utils/secureclient/security/permission";
 // import usePermissions from "../hooks/usePermissions";
 import { X } from "lucide-react";
 import { rooms } from "../data/rooms";
 import { useOrganization } from "../context/OrganizationContext";
-import AccessControl from "../security/AccessControl";
+import AccessControl from "../utils/secureclient/security/AccessControl";
 import { useAuth } from "../auth/AuthContext";
 
 type RoomType = {

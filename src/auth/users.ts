@@ -1,4 +1,4 @@
-import type { Role } from "../security/roles";
+import type { Role } from "../utils/secureclient/security/roles";
 
 export type User = {
   id: number;
