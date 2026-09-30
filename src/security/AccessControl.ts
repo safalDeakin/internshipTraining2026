@@ -41,6 +41,11 @@ class AccessControl {
       resource: "accommodation",
       action: ["view", "create"],
     },
+    {
+      role: "RECEPTIONIST",
+      resource: "pms",
+      action: ["view", "create"],
+    },
     //for waiter
     {
       role: "WAITER",

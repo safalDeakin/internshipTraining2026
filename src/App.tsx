@@ -82,96 +82,56 @@ const App = () => {
           <Route element={<SecureCellRoute showNavbar />}>
             <Route path="/" element={<Dashboard />} />
             {/* //PMS */}
-            <Route
-              path="/:organizationSlug/pms"
-              element={
-                <SecureCellRoute
-                  resource={RESOURCES.PMS}
-                  action={ACTIONS.VIEW}
+            <Route path="/:organizationSlug/pms" element={<Pms />}>
+              <Route index element={<Details />} />
+              <Route path="operations/arrivals" element={<Arrivals />} />
+              <Route path="operations/cash" element={<Cash />} />
+              <Route path="activate" element={<Activate />}>
+                <Route
+                  path=":activeId/:childId"
+                  element={<ActivateDetails />}
                 />
-              }
-            >
-              <Route path="" element={<Pms />}>
-                <Route index element={<Details />} />
-                <Route path="operations/arrivals" element={<Arrivals />} />
-                <Route path="operations/cash" element={<Cash />} />
-                <Route path="activate" element={<Activate />}>
-                  <Route
-                    path=":activeId/:childId"
-                    element={<ActivateDetails />}
-                  />
-                </Route>
               </Route>
             </Route>
 
             {/* Restaurant */}
             <Route
               path="/:organizationSlug/restaurant"
-              element={
-                <SecureCellRoute
-                  resource={RESOURCES.RESTAURANT}
-                  action={ACTIONS.VIEW}
-                />
-              }
+              element={<Restaurant />}
             >
-              <Route element={<Restaurant />}>
-                <Route index element={<ResDash />} />
-                <Route path="sales" element={<Sales />} />
-                <Route path="price" element={<Pricelist />} />
-                <Route path="stock" element={<Stock />} />
-                <Route path="offer" element={<Offers />} />
-                <Route path="products" element={<Products />} />
-                <Route path="kitchenOrders" element={<KitchenOrders />} />
-              </Route>
+              <Route index element={<ResDash />} />
+              <Route path="sales" element={<Sales />} />
+              <Route path="price" element={<Pricelist />} />
+              <Route path="stock" element={<Stock />} />
+              <Route path="offer" element={<Offers />} />
+              <Route path="products" element={<Products />} />
+              <Route path="kitchenOrders" element={<KitchenOrders />} />
             </Route>
             {/* //hotel */}
-            <Route
-              path="/:organizationSlug/accomodation"
-              element={
-                <SecureCellRoute
-                  resource={RESOURCES.ACCOMMODATION}
-                  action={ACTIONS.VIEW}
-                />
-              }
-            >
-              <Route element={<Hotel />}>
-                <Route index element={<Dash />} />
-                <Route path="room" element={<Rooms />} />
-                <Route path="reservation" element={<Reservation />}>
-                  <Route path=":id" element={<Hoteldetails />} />
-                </Route>
+            <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
+              <Route index element={<Dash />} />
+              <Route path="room" element={<Rooms />} />
+              <Route path="reservation" element={<Reservation />}>
+                <Route path=":id" element={<Hoteldetails />} />
               </Route>
             </Route>
+            {/* // <SecureCellRoute
+                //   resource={RESOURCES.CATERING}
+                //   action={ACTIONS.VIEW}
+                // /> */}
             <Route
               path="/:organizationSlug/catering"
-              element={
-                <SecureCellRoute
-                  resource={RESOURCES.CATERING}
-                  action={ACTIONS.VIEW}
-                />
-              }
+              element={<CateringLayout />}
             >
-              <Route element={<CateringLayout />}>
-                <Route index element={<Catering />} />
-              </Route>
+              {/* <Route element={<CateringLayout />}> */}
+              <Route index element={<Catering />} />
+              {/* </Route> */}
             </Route>
             <Route
               path="/:organizationSlug/reservation-report"
               element={<Report />}
             />
-            {/* =========================
-              Catering
-          ========================= */}
-            <Route path="/:organizationSlug/catering" element={<Catering />} />
           </Route>
-          {/* Reservation Report */}
-
-          {/* </Route> */}
-          {/* <Route path="/signin" element={<SignUp />} /> */}
-
-          {/* =========================
-              Reservation Reports
-          ========================= */}
 
           {/* Existing reservation report */}
           {/* <Route
@@ -184,20 +144,8 @@ const App = () => {
             path="/:organizationSlug/reservation-report"
             element={<Report />}
           />
-
           {/* Printable reservation form */}
           <Route path="/print-data" element={<PrintReservationForm />} />
-
-          {/* =========================
-              Reservation Calendar
-          ========================= */}
-
-          {/* Existing calendar render */}
-          {/* <Route
-            path="/reservation-calender"
-            element={<Render />}
-          /> */}
-
           {/* New reservation calendar */}
           <Route
             path="/:organizationSlug/reservation-calendar"
