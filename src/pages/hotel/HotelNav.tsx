@@ -3,6 +3,8 @@ import {
   Building,
   ChevronDown,
   ClipboardList,
+  Files,
+  FilesIcon,
   Gauge,
   Hotel,
   ListChevronsDownUp,
@@ -16,9 +18,9 @@ import { useState } from "react";
 interface AccomodationNavbarProps {
   closeBar: () => void;
 }
-const linkBase = "flex items-center gap-2 px-3 py-2 rounded-xl text-sm";
-const linkActive = " text-blue-800";
-const linkInactive = "text-blue-950 hover:bg-blue-50";
+const linkBase = "flex justify-between pb-2 rounded-xl";
+const linkActive = " text-blue-500 font-bold";
+const linkInactive = "hover:bg-blue-50";
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
   const { organization } = useOrganization();
   const [isAccomodationOpen, setIsAccomodationOpen] = useState(false);
@@ -64,8 +66,8 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
 
   return (
     <nav className="flex h-full w-full max-h-screen flex-col bg-white p-3">
-      <div className="flex w-full items-center justify-between gap-2">
-        <div className="relative flex w-full items-center gap-1 px-1 py-2">
+      <div className="relative flex w-full items-center justify-between gap-2">
+        <div className="flex w-full items-center gap-1 px-1 py-2">
           <h1
             // to={`/${organization?.slug}/accomodation`}
             // onClick={closeBar}
@@ -84,73 +86,90 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
             />
           </button>
           {isAccomodationOpen && (
-            <div className="absolute left-0 top-full z-50 mt-1 flex h-auto w-full flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 shadow-lg">
-              <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-700 border-b border-gray-200">
-                  <span>Manage</span>
-                </p>
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/products`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2 "
-                  className={getLinkClass}
-                >
-                  <Tag className="w-4 h-4" />
-                  Products
-                </NavLink>
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/price`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2"
-                  className={getLinkClass}
-                >
-                  <ClipboardList className="w-4 h-4" />
-                  Pricelist
-                </NavLink>
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/offer`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2"
-                  className={getLinkClass}
-                >
-                  <Gauge className="w-4 h-4" />
-                  Offers
-                </NavLink>
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/setup`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2"
-                  className={getLinkClass}
-                >
-                  <Settings className="w-4 h-4" />
-                  Device Setup
-                </NavLink>
-              </div>
-              {/* // configuration*/}
-              <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-600 text-medium flex items-center gap-2 border-b border-gray-200">
-                  <SquareChevronUp className="w-4 h-4 text-gray-500" />
-                  <span>Configuration</span>
-                </p>
-
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/price`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2"
-                  className={getLinkClass}
-                >
-                  <ClipboardList className="w-4 h-4" />
-                  User settings
-                </NavLink>
-                <NavLink
-                  to={`/${organization?.slug}/restaurant/offer`}
-                  onClick={closeBar}
-                  // className="flex items-center gap-2 text-sm"
-                  className={getLinkClass}
-                >
-                  <Gauge className="w-4 h-4" />
-                  Sales Setting
-                </NavLink>
+            <div className="absolute left-0 top-full z-50 mt-1 w-full rounded-xl border border-gray-100 bg-white p-4">
+              <div className="w-full flex flex-col gap-5 ">
+                {/* //manage */}
+                <div className="border-b border-gray-300">
+                  <p className="text-gray-700 text-sm ">Manage</p>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/products`}
+                      onClick={closeBar}
+                      className={getLinkClass}
+                    >
+                      Property
+                    </NavLink>
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/price`}
+                      onClick={closeBar}
+                      // className="flex items-center gap-2"
+                      className={getLinkClass}
+                    >
+                      Rate Plan
+                    </NavLink>
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/offer`}
+                      onClick={closeBar}
+                      // className="flex items-center gap-2"
+                      className={getLinkClass}
+                    >
+                      Offers and Discounts
+                    </NavLink>
+                  </div>
+                </div>
+                {/* // configuration*/}
+                <div className="border-b border-gray-300">
+                  <p className="text-gray-700 text-sm ">Configuration</p>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/products`}
+                      onClick={closeBar}
+                      className={getLinkClass}
+                    >
+                      Sales Settings
+                      <Files className="w-4 h-4" />
+                    </NavLink>
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/price`}
+                      onClick={closeBar}
+                      // className="flex items-center gap-2"
+                      className={getLinkClass}
+                    >
+                      Staff and Access
+                      <Files className="w-4 h-4" />
+                    </NavLink>
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/offer`}
+                      onClick={closeBar}
+                      // className="flex items-center gap-2"
+                      className={getLinkClass}
+                    >
+                      Device Setup
+                      <Files className="w-4 h-4" />
+                    </NavLink>
+                  </div>
+                </div>
+                {/* //operations */}
+                <div className="border-b border-gray-300">
+                  <p className="text-gray-700 text-sm ">Operations</p>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/products`}
+                      onClick={closeBar}
+                      className={getLinkClass}
+                    >
+                      Room and HouseKeeping
+                    </NavLink>
+                    <NavLink
+                      to={`/${organization?.slug}/restaurant/price`}
+                      onClick={closeBar}
+                      // className="flex items-center gap-2"
+                      className={getLinkClass}
+                    >
+                      Night Audit
+                    </NavLink>
+                  </div>
+                </div>
               </div>
             </div>
           )}
