@@ -51,6 +51,7 @@ import ItemsPage from "./component/table/ItemPage";
 // import Render from "./component/popupcalendar/renderItem/Render";
 import SettingRenderer from "./component/popupsetting/components/SettingRenderer";
 import CalendarRenderer from "./component/popupcalendar/components/CalendarRenderer";
+import FinalApp from "./component/allReservation/FinalApp";
 
 
 const App = () => {
@@ -240,6 +241,15 @@ const App = () => {
           <Route
             path="/popupSetting"
             element={<SettingRenderer />}
+          />
+
+
+          {/**For All Reservation
+           */}
+
+          <Route
+            path="/all-reservation"
+            element={<FinalApp />}
           />
         </Routes>
 
