@@ -110,9 +110,7 @@ const App = () => {
           {/* hotel */}
           <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
             <Route index element={<Dash />} />
-
             <Route path="room" element={<Rooms />} />
-
             <Route path="reservation" element={<Reservation />}>
               <Route path=":id" element={<Hoteldetails />} />
             </Route>

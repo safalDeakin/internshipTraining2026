@@ -49,7 +49,7 @@ class AccessControl {
     {
       role: "RECEPTIONIST",
       resource: "accommodation",
-      action: ["view", "create"],
+      action: ["view", "create", "update"],
     },
     // {
     //   role: "RECEPTIONIST",

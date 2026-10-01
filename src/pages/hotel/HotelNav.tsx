@@ -12,9 +12,46 @@ import { useState } from "react";
 interface AccomodationNavbarProps {
   closeBar: () => void;
 }
+type MenuKey = "frontdesk" | "rooms" | "reservation";
+
+interface MenuItem {
+  key: string;
+  label: string;
+  count?: number;
+}
+
+interface MenuSection {
+  key: MenuKey;
+  label: string;
+  items: MenuItem[];
+}
 const linkBase = "flex justify-between pb-2 rounded-xl";
-const linkActive = " text-blue-500 font-bold";
+const linkActive = " text-blue-500 ";
 const linkInactive = "hover:bg-blue-50";
+
+const menuSection: MenuSection[] = [
+  {
+    key: "frontdesk",
+    label: "Front-Desk",
+    items: [
+      { key: "guestRequest", label: "Guest Request", count: 5 },
+      { key: "arrivals", label: "Arrivals", count: 5 },
+      { key: "inHouse", label: "In-House", count: 5 },
+      { key: "departures", label: "Departures", count: 5 },
+      { key: "overdue", label: "Overdue", count: 5 },
+    ],
+  },
+  {
+    key: "rooms",
+    label: "Rooms",
+    items: [{ key: "roomList", label: "Room List" }],
+  },
+  {
+    key: "reservation",
+    label: "Reservation",
+    items: [{ key: "reservationList", label: "Reservation data" }],
+  },
+];
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
   const { organization } = useOrganization();
   const [isAccomodationOpen, setIsAccomodationOpen] = useState(false);
@@ -182,146 +219,74 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
       <div className="h-px bg-gray-100 mx-1 mb-2" />
       {/* //main */}
       <div className="flex flex-col gap-1 pr-1">
-        <div className="w-full">
-          <button
-            type="button"
-            onClick={() => toggleSubMenu("frontdesk")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("frontdesk") ? linkActive : linkInactive}`}
-          >
-            <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("frontdesk") ? "rotate-180 text-blue-500" : ""}`}
-            />
-            <span>Front-Desk</span>
-          </button>
-          {openSubMenus.includes("frontdesk") && (
-            <div className=" mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("frontdesk", "guestRequest")}
-                className={() => getSubLinkClass("frontdesk", "guestRequest")}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <p className="flex items-center gap-2">
-                    <ListChevronsDownUp className="h-4 w-4" />
-                    <span>Guest Request</span>
-                  </p>
-                  <p>(5)</p>
-                </div>
-              </NavLink>
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("frontdesk", "arrivals")}
-                className={() => getSubLinkClass("frontdesk", "arrivals")}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <p className="flex items-center gap-2">
-                    <ListChevronsDownUp className="h-4 w-4" />
-                    <span>Arrivals</span>
-                  </p>
-                  <p>(5)</p>
-                </div>
-              </NavLink>
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("frontdesk", "inHouse")}
-                className={() => getSubLinkClass("frontdesk", "inHouse")}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <p className="flex items-center gap-2">
-                    <ListChevronsDownUp className="h-4 w-4" />
-                    <span>In-House</span>
-                  </p>
-                  <p>(5)</p>
-                </div>
-              </NavLink>
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("frontdesk", "departures")}
-                className={() => getSubLinkClass("frontdesk", "departures")}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <p className="flex items-center gap-2">
-                    <ListChevronsDownUp className="h-4 w-4" />
-                    <span>Departtures</span>
-                  </p>
-                  <p>(5)</p>
-                </div>
-              </NavLink>
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("frontdesk", "overdue")}
-                className={() => getSubLinkClass("frontdesk", "overdue")}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <p className="flex items-center gap-2">
-                    <ListChevronsDownUp className="h-4 w-4" />
-                    <span>Overdue</span>
-                  </p>
-                  <p>(5)</p>
-                </div>
-              </NavLink>
-            </div>
-          )}
-        </div>
-        <div className=" w-full">
-          <button
-            type="button"
-            onClick={() => toggleSubMenu("rooms")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("rooms") ? linkActive : linkInactive}`}
-          >
-            <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("rooms") ? "rotate-180 text-blue-500" : ""}`}
-            />
-            <span>Rooms</span>
-          </button>
-
-          {openSubMenus.includes("rooms") && (
-            <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
-              <NavLink
-                to={`/${organization?.slug}/accomodation/room`}
-                onClick={() => handleSubItemClick("rooms", "roomList")}
-                className={() => getSubLinkClass("rooms", "roomList")}
-              >
-                <p className="flex items-center gap-2">
-                  <ListChevronsDownUp className="h-4 w-4" />
-                  <span>Room List</span>
-                </p>
-              </NavLink>
-            </div>
-          )}
-        </div>
-
-        <div className="w-full">
-          <button
-            type="button"
-            onClick={() => toggleSubMenu("reservation")}
-            className={`flex items-center gap-2 py-2 rounded-xl w-full ${openSubMenus.includes("reservation") ? linkActive : linkInactive}`}
-          >
-            <ChevronDown
-              className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes("reservation") ? "rotate-180 text-blue-500" : ""}`}
-            />
-            <span>Reservation</span>
-          </button>
-
-          {openSubMenus.includes("reservation") && (
-            <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
-              <NavLink
-                to={`/${organization?.slug}/accomodation/reservation`}
+        {menuSection.map((menu) => {
+          return (
+            <div key={menu.key} className="w-full">
+              <button
+                type="button"
                 onClick={() =>
-                  handleSubItemClick("reservation", "reservationList")
+                  toggleSubMenu(
+                    menu.key as "rooms" | "reservation" | "frontdesk",
+                  )
                 }
-                className={() =>
-                  getSubLinkClass("reservation", "reservationList")
-                }
+                className={`flex w-full items-center gap-2 rounded-xl py-2 ${
+                  openSubMenus.includes(
+                    menu.key as "rooms" | "reservation" | "frontdesk",
+                  )
+                    ? linkActive
+                    : linkInactive
+                }`}
               >
-                <p className="flex items-center gap-2">
-                  <ListChevronsDownUp className="h-4 w-4" />
-                  <span>Reservation data</span>
-                </p>
-              </NavLink>
+                <ChevronDown
+                  className={`h-5 w-5 transition-transform duration-200 ${
+                    openSubMenus.includes(
+                      menu.key as "rooms" | "reservation" | "frontdesk",
+                    )
+                      ? "rotate-180 text-blue-500"
+                      : ""
+                  }`}
+                />
+                {menu.label}
+              </button>
+              {openSubMenus.includes(
+                menu.key as "rooms" | "reservation" | "frontdesk",
+              ) && (
+                <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
+                  {menu.items.map((item) => {
+                    return (
+                      <NavLink
+                        key={item.key}
+                        to={`/${organization?.slug}/accomodation/room`}
+                        onClick={() =>
+                          handleSubItemClick(
+                            menu.key as "rooms" | "reservation" | "frontdesk",
+                            item.key,
+                          )
+                        }
+                        className={() =>
+                          getSubLinkClass(
+                            menu.key as "rooms" | "reservation" | "frontdesk",
+                            item.key,
+                          )
+                        }
+                      >
+                        <div className="flex w-full items-center justify-between gap-2">
+                          <p className="flex items-center gap-2">
+                            <ListChevronsDownUp className="h-4 w-4" />
+
+                            <span>{item.label}</span>
+                          </p>
+
+                          {item.count !== undefined && <p>({item.count})</p>}
+                        </div>
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          );
+        })}
       </div>
     </nav>
   );
