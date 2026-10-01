@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
 import { useRepo } from "../../context/RepoContext";
 import { useReservationState } from "../../hooks/userReservationState";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 
 const Reservation = () => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import { organizations } from "../../../auth/organizations";
+import { organizations } from "../models/organizations";
 
 // can this user acces those organizational data
 class TenantSecurity {

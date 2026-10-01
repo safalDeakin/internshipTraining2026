@@ -1,3 +1,4 @@
+import Rooms from "../../component/Rooms";
 
 const Sales = () => {
   return (
@@ -9,6 +10,7 @@ const Sales = () => {
         ipsam molestias, quo quidem deleniti omnis enim quaerat iure id!
         Inventore, consequuntur cumque!
       </p>
+      <Rooms />
     </div>
   );
 };

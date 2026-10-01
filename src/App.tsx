@@ -22,17 +22,46 @@ import { mockKitchenOrders, reservations } from "./data/mockReservations";
 import { KitchenStateHolder } from "./states/KitchenStateHolder";
 import { ReservationStateHolder } from "./states/ReservationStateHolder";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
-import Dash from "./pages/hotel/Dash";
-import Rooms from "./component/Rooms";
-import Reservation from "./pages/hotel/Reservation";
-import Hoteldetails from "./pages/hotel/Hoteldetails";
-import Hotel from "./pages/hotel/Hotel";
-import CateringLayout from "./pages/catering/CateringLayout";
-import Catering from "./pages/catering/Catering";
 import Report from "./reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
+import type { Action, Resources } from "./utils/secureclient/models/permission";
 
+const permissions: Record<
+  string,
+  {
+    resource: Resources;
+    action: Action;
+  }
+> = {
+  restaurant: {
+    resource: "restaurant",
+    action: "view",
+  },
+
+  pms: {
+    resource: "pms",
+    action: "view",
+  },
+
+  "reservation-report": {
+    resource: "reports",
+    action: "view",
+  },
+
+  "activity-log": {
+    resource: "activity-logs",
+    action: "view",
+  },
+  "test-component": {
+    resource: "test-component",
+    action: "view",
+  },
+  //  "activity-log": {
+  //   resource: "activity-logs",
+  //   action: "view",
+  // },
+};
 const App = () => {
   const secureConfig = {
     authServerUrl: "https://auth.myspace.com",
@@ -66,7 +95,7 @@ const App = () => {
         reservationState={reservationState}
         reservationReportState={reservationReportState}
       >
-        <SecureAppClient config={secureConfig}>
+        <SecureAppClient config={secureConfig} permissions={permissions}>
           <Route path="/" element={<Dashboard />} />
           {/* //test compoent */}
           <Route

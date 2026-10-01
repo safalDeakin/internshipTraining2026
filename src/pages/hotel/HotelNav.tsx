@@ -11,7 +11,7 @@ import {
   Tag,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useState } from "react";
 interface AccomodationNavbarProps {
   closeBar: () => void;
@@ -66,16 +66,14 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
     <nav className="flex h-full w-full max-h-screen flex-col bg-white p-3">
       <div className="flex w-full items-center justify-between gap-2">
         <div className="relative flex w-full items-center gap-1 px-1 py-2">
-          <NavLink
-            to={`/${organization?.slug}/accomodation`}
-            onClick={closeBar}
-            className={({ isActive }) =>
-              `text-lg flex items-center gap-2 ${isActive ? "text-blue-800" : "text-white"}`
-            }
+          <h1
+            // to={`/${organization?.slug}/accomodation`}
+            // onClick={closeBar}
+            className="text-lg flex items-center gap-2 text-blue-500 font-bold"
           >
             <Hotel className="" />
             <span>Hotel</span>
-          </NavLink>
+          </h1>
           <button
             type="button"
             className="flex-shrink-0"
@@ -88,9 +86,8 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
           {isAccomodationOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 flex h-auto w-full flex-col gap-1 rounded-xl border border-gray-100 bg-white p-1.5 shadow-lg">
               <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-600 text-medium flex items-center gap-2 border-b border-gray-200">
-                  <SquareChevronUp className="w-4 h-4 text-gray-500" />
-                  <span>Menu</span>
+                <p className="text-gray-700 border-b border-gray-200">
+                  <span>Manage</span>
                 </p>
                 <NavLink
                   to={`/${organization?.slug}/restaurant/products`}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { activeMenu } from "./activate/activateConfig";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { ChevronDown, MonitorCheck } from "lucide-react";
 
 interface PmsProps {

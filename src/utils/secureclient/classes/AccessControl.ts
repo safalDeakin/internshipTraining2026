@@ -1,5 +1,5 @@
-import { type Role } from "./roles";
-import { type Action, type Resources } from "./permission";
+import { type Role } from "../models/roles";
+import { type Action, type Resources } from "../models/permission";
 type Policy = {
   role: Role;
   resource: Resources;

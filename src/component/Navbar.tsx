@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Import, LogOut, Menu } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
-import { useOrganization } from "../context/OrganizationContext";
-import NavigationSecurity from "../utils/secureclient/security/NavigationSecurity";
+import { useAuth } from "../utils/secureclient/context/AuthContext";
+import { useOrganization } from "../utils/secureclient/context/OrganizationContext";
+import NavigationSecurity from "../utils/secureclient/classes/NavigationSecurity";
 import {
   RESOURCES,
   type Resources,
-} from "../utils/secureclient/security/permission";
+} from "../utils/secureclient/models/permission";
 
 //dynamic items
 type NavItem = {

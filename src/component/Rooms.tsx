@@ -3,13 +3,13 @@ import {
   ACTIONS,
   RESOURCES,
   type Action,
-} from "../utils/secureclient/security/permission";
+} from "../utils/secureclient/models/permission";
 // import usePermissions from "../hooks/usePermissions";
 import { X } from "lucide-react";
 import { rooms } from "../data/rooms";
-import { useOrganization } from "../context/OrganizationContext";
-import AccessControl from "../utils/secureclient/security/AccessControl";
-import { useAuth } from "../auth/AuthContext";
+import { useOrganization } from "../utils/secureclient/context/OrganizationContext";
+import AccessControl from "../utils/secureclient/classes/AccessControl";
+import { useAuth } from "../utils/secureclient/context/AuthContext";
 
 type RoomType = {
   roomNumber: string;

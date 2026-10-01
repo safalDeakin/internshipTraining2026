@@ -1,6 +1,6 @@
 import AccessControl from "./AccessControl";
-import type { Resources } from "./permission";
-import type { Role } from "./roles";
+import type { Resources } from "../models/permission";
+import type { Role } from "../models/roles";
 
 //can navigate to view that resource
 //handle navigation-security-ermission check

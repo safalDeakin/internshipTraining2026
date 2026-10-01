@@ -1,4 +1,4 @@
-import { users, type User } from "./users";
+import { users, type User } from "../models/users";
 
 class AuthService {
   //login concept take email password as para meter

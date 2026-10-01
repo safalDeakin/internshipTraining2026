@@ -1,4 +1,4 @@
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../utils/secureclient/context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 

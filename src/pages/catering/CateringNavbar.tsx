@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import {
   ChefHat,
   ChevronDown,

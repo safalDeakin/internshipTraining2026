@@ -1,6 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
-import { useAuth } from "../auth/AuthContext";
-import { organizations, type Organization } from "../auth/organizations";
+import { useAuth } from "./AuthContext";
+import { organizations, type Organization } from "../models/organizations";
 
 type OrganizationContextType = {
   organization: Organization | null;

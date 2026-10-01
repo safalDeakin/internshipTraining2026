@@ -11,7 +11,7 @@ import {
   SquareChevronUp,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useState } from "react";
 
 interface RestaurantNavbarProps {

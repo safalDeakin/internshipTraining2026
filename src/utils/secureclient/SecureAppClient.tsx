@@ -1,31 +1,62 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SecureCellRoute from "./security/SecureCellRoute";
+import SecureCellRoute from "./routing/SecureCellRoute";
 import type { ReactNode } from "react";
-import Login from "../../component/Login";
-import Unauthorized from "../../component/Unauthorized";
+import Unauthorized from "./component/Unauthorized";
+import type { Action, Resources } from "./models/permission";
+import Login from "./component/Login";
+import { AuthProvider } from "./context/AuthContext";
+import { OrganizationProvider } from "./context/OrganizationContext";
 
 interface SecureConfig {
   authServerUrl: string;
   clientId: string;
   pubKey: string;
 }
+// interface PermissionConfig {
+//   resource: Resources;
+//   action: Action;
+// }
 interface SecureAppClientProps {
   children?: ReactNode;
   config?: SecureConfig;
+  permissions?: Record<
+    string,
+    {
+      resource: Resources;
+      action: Action;
+    }
+  >;
 }
 //should not create application route here only accept props from parent
-const SecureAppClient = ({ children, config }: SecureAppClientProps) => {
+const SecureAppClient = ({
+  children,
+  config,
+  permissions = {},
+}: SecureAppClientProps) => {
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<SecureCellRoute showNavbar />}>{children}</Route>
-        <Route path="/unauthorized" element={<Unauthorized />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <AuthProvider>
+        <OrganizationProvider>
+          {" "}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                element={
+                  <SecureCellRoute permissions={permissions} showNavbar />
+                }
+              >
+                {children}
+              </Route>
+              <Route path="/unauthorized" element={<Unauthorized />} />
+            </Routes>
+          </BrowserRouter>
+        </OrganizationProvider>
+      </AuthProvider>
+    </>
   );
 };
 
