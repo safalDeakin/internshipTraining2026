@@ -3,7 +3,7 @@ export const RESOURCES = {
   ROOM: "room",
   ACCOMMODATION: "accommodation",
   CATERING: "catering",
-  PMS: "pms",
+  // PMS: "pms",
   RESTAURANT: "restaurant",
   TESTCOMPONENT: "test-component",
   ACTIVITY: "activity-logs",

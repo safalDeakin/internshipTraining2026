@@ -1,4 +1,4 @@
-import Rooms from "../../component/Rooms";
+import Rooms from "../hotel/Rooms";
 
 const Sales = () => {
   return (

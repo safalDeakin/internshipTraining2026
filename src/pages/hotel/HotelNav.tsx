@@ -2,15 +2,9 @@ import {
   BrushCleaning,
   Building,
   ChevronDown,
-  ClipboardList,
   Files,
-  FilesIcon,
-  Gauge,
   Hotel,
   ListChevronsDownUp,
-  Settings,
-  SquareChevronUp,
-  Tag,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
@@ -68,14 +62,14 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
     <nav className="flex h-full w-full max-h-screen flex-col bg-white p-3">
       <div className="relative flex w-full items-center justify-between gap-2">
         <div className="flex w-full items-center gap-1 px-1 py-2">
-          <h1
-            // to={`/${organization?.slug}/accomodation`}
-            // onClick={closeBar}
+          <NavLink
+            to={`/${organization?.slug}/accomodation`}
+            onClick={closeBar}
             className="text-lg flex items-center gap-2 text-blue-500 font-bold"
           >
             <Hotel className="" />
             <span>Hotel</span>
-          </h1>
+          </NavLink>
           <button
             type="button"
             className="flex-shrink-0"

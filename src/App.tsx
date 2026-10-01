@@ -1,12 +1,6 @@
 import { Route } from "react-router-dom";
 import Dashboard from "./component/Dashboard";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
-import Pms from "./pages/pms/Pms";
-import Details from "./pages/pms/Details";
-import Arrivals from "./pages/pms/operations/list/Arrivals";
-import Cash from "./pages/pms/operations/list/Cash";
-import Activate from "./pages/pms/activate/Activate";
-import ActivateDetails from "./pages/pms/activate/ActivateDetails";
 import Restaurant from "./pages/restaurant/Restaurant";
 import ResDash from "./pages/restaurant/ResDash";
 import Sales from "./pages/restaurant/Sales";
@@ -26,6 +20,12 @@ import Report from "./reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
 import type { Action, Resources } from "./utils/secureclient/models/permission";
+import Hotel from "./pages/hotel/Hotel";
+import Dash from "./pages/hotel/Dash";
+import Rooms from "./pages/hotel/Rooms";
+import Reservation from "./pages/hotel/Reservation";
+import ReservationDetail from "./reports/report/ReservationDetail";
+import Hoteldetails from "./pages/hotel/Hoteldetails";
 
 const permissions: Record<
   string,
@@ -39,8 +39,8 @@ const permissions: Record<
     action: "view",
   },
 
-  pms: {
-    resource: "pms",
+  accomodation: {
+    resource: "accommodation",
     action: "view",
   },
 
@@ -107,15 +107,26 @@ const App = () => {
             path="/:organizationSlug/activity-log"
             element={<Activity />}
           />
+          {/* hotel */}
+          <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
+            <Route index element={<Dash />} />
+
+            <Route path="room" element={<Rooms />} />
+
+            <Route path="reservation" element={<Reservation />}>
+              <Route path=":id" element={<Hoteldetails />} />
+            </Route>
+          </Route>
           {/* //PMS */}
-          <Route path="/:organizationSlug/pms" element={<Pms />}>
+
+          {/* <Route path="/:organizationSlug/pms" element={<Pms />}>
             <Route index element={<Details />} />
             <Route path="operations/arrivals" element={<Arrivals />} />
             <Route path="operations/cash" element={<Cash />} />
             <Route path="activate" element={<Activate />}>
               <Route path=":activeId/:childId" element={<ActivateDetails />} />
             </Route>
-          </Route>
+          </Route> */}
           {/* Restaurant */}
           <Route path="/:organizationSlug/restaurant" element={<Restaurant />}>
             <Route index element={<ResDash />} />
@@ -126,6 +137,7 @@ const App = () => {
             <Route path="products" element={<Products />} />
             <Route path="kitchenOrders" element={<KitchenOrders />} />
           </Route>
+
           {/* report */}
           <Route
             path="/:organizationSlug/reservation-report"

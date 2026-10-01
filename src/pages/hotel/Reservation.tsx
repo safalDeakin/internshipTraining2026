@@ -10,80 +10,83 @@ const Reservation = () => {
   const navigate = useNavigate();
   const { organization } = useOrganization();
 
-  // Get the state holder from Context
   const { reservationState } = useRepo();
 
-  // Get state + actions from the hook
   const { reservations, search, setSearch, selectReservation } =
     useReservationState(reservationState);
 
   useEffect(() => {
     if (id) {
       localStorage.setItem("selected", id);
-
-      // Keep state holder selection in sync with URL
       selectReservation(id);
-
       return;
     }
 
     const saved = localStorage.getItem("selected");
 
-    if (saved) {
-      navigate(`/${organization?.slug}/accomodation/reservation/${saved}`, {
+    if (saved && organization?.slug) {
+      navigate(`/${organization.slug}/accomodation/reservation/${saved}`, {
         replace: true,
       });
     }
-  }, [id, navigate, selectReservation]);
+  }, [id, navigate, selectReservation, organization?.slug]);
 
   const filteredReservations = reservations.filter(
     (reservation) =>
       reservation.guestName.toLowerCase().includes(search.toLowerCase()) ||
-      reservation.roomNumber.toLowerCase().includes(search.toLowerCase()),
+      String(reservation.roomNumber)
+        .toLowerCase()
+        .includes(search.toLowerCase()),
   );
 
   return (
-    <div className="md:grid grid-cols-[1fr_3fr]">
-      <aside className="w-50 p-5 border border-blue-100 shadow-sm flex flex-col gap-4">
-        {/* Search */}
+    <div className="grid grid-cols-[300px_1fr] min-h-screen">
+      {/* LEFT - RESERVATION LIST */}
+      <aside className="border-r border-gray-200 p-4">
+        <h2 className="text-lg font-semibold mb-4">Reservations</h2>
+
         <input
           type="text"
           placeholder="Search reservation..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border border-gray-200 rounded-md px-3 py-2 outline-none"
+          className="w-full border border-gray-200 rounded-md px-3 py-2 mb-4 outline-none"
         />
 
-        {/* Reservations */}
-        {filteredReservations.map((reservation) => (
-          <Link
-            key={reservation.reservationId}
-            to={reservation.reservationId.toLowerCase()}
-            onClick={() => selectReservation(reservation.reservationId)}
-            className={`
-    ${
-      String(reservation.reservationId) === id
-        ? "bg-blue-100 text-blue-800 border-blue-500"
-        : "hover:bg-gray-100"
-    }
-  `}
-          >
-            <p className="border-b border-gray-100 hover:bg-blue-100 p-2">
-              {reservation.guestName}
+        <div className="flex flex-col">
+          {filteredReservations.map((reservation) => (
+            <Link
+              key={reservation.reservationId}
+              to={`./${reservation.reservationId}`}
+              onClick={() => selectReservation(reservation.reservationId)}
+              className={`p-3 border-b border-gray-100 ${
+                String(reservation.reservationId) === id
+                  ? "bg-blue-100 text-blue-800"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <p className="font-medium">{reservation.guestName}</p>
 
-              <span className="text-xs text-gray-500">
-                {" "}
+              <p className="text-xs text-gray-500">
                 Room: {reservation.roomNumber}
-              </span>
-            </p>
-          </Link>
-        ))}
+              </p>
+            </Link>
+          ))}
 
-        {filteredReservations.length === 0 && (
-          <p className="text-sm text-gray-500">No reservations found</p>
-        )}
+          {filteredReservations.length === 0 && (
+            <p className="text-sm text-gray-500">No reservations found</p>
+          )}
+        </div>
       </aside>
-      <main>{id ? <Outlet /> : <p>Not selected</p>}</main>
+
+      {/* RIGHT - RESERVATION DETAILS */}
+      <main className="p-5">
+        {id ? (
+          <Outlet />
+        ) : (
+          <div className="text-gray-500">Select a reservation</div>
+        )}
+      </main>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import Rooms from "../../component/Rooms";
+import Rooms from "../hotel/Rooms";
 import Hotel from "../hotel/Hotel";
 
 const TestComponent = () => {

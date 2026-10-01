@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { Import, LogOut, Menu } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { LogOut, Menu } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../utils/secureclient/context/AuthContext";
 import { useOrganization } from "../utils/secureclient/context/OrganizationContext";
 import NavigationSecurity from "../utils/secureclient/classes/NavigationSecurity";
-import {
-  RESOURCES,
-  type Resources,
-} from "../utils/secureclient/models/permission";
+import { type Resources } from "../utils/secureclient/models/permission";
 
 //dynamic items
 type NavItem = {
@@ -36,8 +33,8 @@ const navGroups: NavGroup[] = [
       },
       {
         label: "PMS",
-        path: "/pms",
-        resource: "pms",
+        path: "/accomodation",
+        resource: "accommodation",
       },
       {
         label: "Activity Logs",

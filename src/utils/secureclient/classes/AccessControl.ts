@@ -22,7 +22,7 @@ class AccessControl {
     },
     {
       role: "ADMIN",
-      resource: "pms",
+      resource: "accommodation",
       action: ["view", "create", "update", "delete"],
     },
     {
@@ -51,11 +51,11 @@ class AccessControl {
       resource: "accommodation",
       action: ["view", "create"],
     },
-    {
-      role: "RECEPTIONIST",
-      resource: "pms",
-      action: ["view", "create"],
-    },
+    // {
+    //   role: "RECEPTIONIST",
+    //   resource: "accommodation",
+    //   action: ["view", "create"],
+    // },
     //for waiter
     {
       role: "WAITER",
