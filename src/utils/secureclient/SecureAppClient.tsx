@@ -15,6 +15,9 @@ interface SecureAppClientProps {
 }
 //should not create application route here only accept props from parent
 const SecureAppClient = ({ children, config }: SecureAppClientProps) => {
+  //config pass to authservice and call authentication server there
+  //later after start real work for leave as it is
+  // const authService=new AuthService(config)
   return (
     <BrowserRouter>
       <Routes>

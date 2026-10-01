@@ -30,6 +30,8 @@ import Hotel from "./pages/hotel/Hotel";
 import CateringLayout from "./pages/catering/CateringLayout";
 import Catering from "./pages/catering/Catering";
 import Report from "./reports/Report";
+import TestComponent from "./pages/test/TestComponent";
+import Activity from "./pages/activity-log/Activity";
 
 const App = () => {
   const secureConfig = {
@@ -66,6 +68,16 @@ const App = () => {
       >
         <SecureAppClient config={secureConfig}>
           <Route path="/" element={<Dashboard />} />
+          {/* //test compoent */}
+          <Route
+            path="/:organizationSlug/test-component"
+            element={<TestComponent />}
+          />
+          {/* //activuty */}
+          <Route
+            path="/:organizationSlug/activity-log"
+            element={<Activity />}
+          />
           {/* //PMS */}
           <Route path="/:organizationSlug/pms" element={<Pms />}>
             <Route index element={<Details />} />
@@ -85,27 +97,12 @@ const App = () => {
             <Route path="products" element={<Products />} />
             <Route path="kitchenOrders" element={<KitchenOrders />} />
           </Route>
-          {/* //hotel */}
-          <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
-            <Route index element={<Dash />} />
-            <Route path="room" element={<Rooms />} />
-            <Route path="reservation" element={<Reservation />}>
-              <Route path=":id" element={<Hoteldetails />} />
-            </Route>
-          </Route>
-          {/* //catering</SecureAppClient> */}
-          <Route
-            path="/:organizationSlug/catering"
-            element={<CateringLayout />}
-          >
-            {/* <Route element={<CateringLayout />}> */}
-            <Route index element={<Catering />} /> {/* </Route> */}
-          </Route>
-          {/* reposrt */}
+          {/* report */}
           <Route
             path="/:organizationSlug/reservation-report"
             element={<Report />}
           />
+          {/* calender */}
         </SecureAppClient>
       </RepoProvider>
     </div>

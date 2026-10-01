@@ -5,6 +5,10 @@ export const RESOURCES = {
   CATERING: "catering",
   PMS: "pms",
   RESTAURANT: "restaurant",
+  TESTCOMPONENT: "test-component",
+  ACTIVITY: "activity-logs",
+  REPORT: "reports",
+  CALENDER: "businesscalender",
 } as const;
 
 //action sperform in thoese part

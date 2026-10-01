@@ -12,22 +12,32 @@ class AccessControl {
     //for admin access
     {
       role: "ADMIN",
+      resource: "test-component",
+      action: ["view", "create", "update", "delete"],
+    },
+    {
+      role: "ADMIN",
       resource: "restaurant",
       action: ["view", "create", "update", "delete"],
     },
     {
       role: "ADMIN",
-      resource: "accommodation",
-      action: ["view", "create", "update", "delete"],
-    },
-    {
-      role: "ADMIN",
-      resource: "catering",
-      action: ["view", "create", "update", "delete"],
-    },
-    {
-      role: "ADMIN",
       resource: "pms",
+      action: ["view", "create", "update", "delete"],
+    },
+    {
+      role: "ADMIN",
+      resource: "activity-logs",
+      action: ["view", "create", "update", "delete"],
+    },
+    {
+      role: "ADMIN",
+      resource: "reports",
+      action: ["view", "create", "update", "delete"],
+    },
+    {
+      role: "ADMIN",
+      resource: "businesscalender",
       action: ["view", "create", "update", "delete"],
     },
     //for receptionist
@@ -57,11 +67,11 @@ class AccessControl {
       resource: "accommodation",
       action: ["view"],
     },
-    {
-      role: "WAITER",
-      resource: "catering",
-      action: ["view"],
-    },
+    // {
+    //   role: "WAITER",
+    //   resource: "catering",
+    //   action: ["view"],
+    // },
   ];
   can(role: Role, resource: Resources, action: Action) {
     const policy = this.policies.find(
