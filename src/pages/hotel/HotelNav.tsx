@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useState } from "react";
 interface AccomodationNavbarProps {
-  closeBar: () => void;
+  closeBar?: () => void;
 }
 type MenuKey = "frontdesk" | "rooms" | "reservation";
 
@@ -92,7 +92,7 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
     key: string,
   ) => {
     setActiveSubItem({ menu, key });
-    closeBar();
+    closeBar?.();
   };
 
   return (

@@ -15,8 +15,8 @@ import { useOrganization } from "../../utils/secureclient/context/OrganizationCo
 import { useState } from "react";
 
 interface RestaurantNavbarProps {
-  closeBar: () => void;
-  openSettings: () => void;
+  closeBar?: () => void;
+  openSettings?: () => void;
 }
 
 const linkBase = "flex items-center gap-2 px-4 py-2 rounded-xl text-sm";
@@ -107,8 +107,8 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
                 <button
                   // to={`/${organization?.slug}/restaurant/products`}
                   onClick={() => {
-                    openSettings();
-                    closeBar();
+                    openSettings?.();
+                    closeBar?.();
                   }}
                   className={getLinkClass({ isActive: false })}
                   // className={getLinkClass}

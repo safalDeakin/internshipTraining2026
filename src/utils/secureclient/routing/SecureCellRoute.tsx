@@ -16,13 +16,9 @@ type SecureCellRouteProps = {
       action: Action;
     }
   >;
-  showNavbar?: boolean;
 };
 
-const SecureCellRoute = ({
-  permissions = {},
-  showNavbar = false,
-}: SecureCellRouteProps) => {
+const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
   const { user } = useAuth(); //gets authentication info from auth context
   const { organizationSlug } = useParams(); //slug name og hotel
   const location = useLocation();
@@ -39,7 +35,7 @@ const SecureCellRoute = ({
   if (!organizationSlug) {
     return (
       <>
-        <Navbar />
+        {/* <Navbar /> */}
         <Outlet />
       </>
     );
@@ -80,7 +76,7 @@ const SecureCellRoute = ({
 
   return (
     <>
-      {showNavbar && <Navbar />}
+      {/* {showNavbar && <Navbar />} */}
       <Outlet />
     </>
   );

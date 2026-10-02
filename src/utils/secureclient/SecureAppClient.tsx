@@ -33,6 +33,8 @@ const SecureAppClient = ({
   config,
   permissions = {},
 }: SecureAppClientProps) => {
+  console.log("SecureAppClient rendered");
+
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
@@ -44,11 +46,7 @@ const SecureAppClient = ({
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<Login />} />
-              <Route
-                element={
-                  <SecureCellRoute permissions={permissions} showNavbar />
-                }
-              >
+              <Route element={<SecureCellRoute permissions={permissions} />}>
                 {children}
               </Route>
               <Route path="/unauthorized" element={<Unauthorized />} />
