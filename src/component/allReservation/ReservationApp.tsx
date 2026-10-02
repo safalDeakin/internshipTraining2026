@@ -1,7 +1,7 @@
 import ReservationHeader from './components/reservation/ReservationHeader';
 import ReservationInfo from './components/reservation/ReservationInfo';
 import ReservationTabs from './components/reservation/ReservationTabs';
-import ReservationSidebar from './components/layout/ReservationSidebar';
+import ReservationSidebar from './components/ReservationSidebar/ReservationSidebar';
 
 export default function ReservationApp() {
   return (

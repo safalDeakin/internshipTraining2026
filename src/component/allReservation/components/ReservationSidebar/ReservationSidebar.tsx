@@ -1,4 +1,3 @@
-// import ReservationHeader from "../reservation/ReservationHeader";
 import ReservationSidebarHeader from "./ReservationHeader";
 import ReservationList from "./ReservationList";
 

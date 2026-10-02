@@ -1,11 +1,8 @@
 import { ArrowRight, Plus } from "lucide-react";
-// import { useOffer } from "../hooks/useOffer";
 
 export default function ReservationSidebarHeader (){
-    //   const { addOffer } = useOffer();
 
     const handleAdd = () => {
-        // addOffer("2025-New Special");
         console.log("Added item!!")
     };
 

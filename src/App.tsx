@@ -52,6 +52,7 @@ import ItemsPage from "./component/table/ItemPage";
 import SettingRenderer from "./component/popupsetting/components/SettingRenderer";
 import CalendarRenderer from "./component/popupcalendar/components/CalendarRenderer";
 import FinalApp from "./component/allReservation/FinalApp";
+import RoomDetailRenderer from "./component/roomDetail/RoomDetailRenderer";
 
 
 const App = () => {
@@ -250,6 +251,13 @@ const App = () => {
           <Route
             path="/all-reservation"
             element={<FinalApp />}
+          />
+
+
+          {/**For Room Detail*/}
+          <Route
+            path="/room-detail"
+            element={<RoomDetailRenderer />}
           />
         </Routes>
 
