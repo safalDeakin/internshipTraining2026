@@ -8,8 +8,6 @@ const AppLayout = () => {
     <div>
       <Navbar />
       <div>
-        {/* {nav === "hotel" && <HotelNav />} */}
-        {/* {nav === "restaurant" && <RestaurantNav />} */}
         <main>
           <Outlet />
         </main>

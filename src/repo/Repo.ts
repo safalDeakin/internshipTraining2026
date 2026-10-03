@@ -4,15 +4,20 @@ export type KitchenOrder = {
   restaurantId: string;
   status: string;
 };
-
+export type POSSession = {
+  id: string;
+  restaurantId: string;
+  name: string;
+};
 
 export class Repo {
   private kitchenOrders: KitchenOrder[] = [];
   private reservations: Reservation[] = [];
+  private posSessions: POSSession[] = [];
 
   private kitchenlisteners = new Set<() => void>();
   private reservationlisteners = new Set<() => void>();
-
+  private posSessionListeners = new Set<() => void>();
   //kitchen orders
   subscribeKitchen(listener: () => void) {
     this.kitchenlisteners.add(listener);
@@ -62,13 +67,37 @@ export class Repo {
   }
 
   getReservation(id: string) {
-    return this.reservations.find((reservation) => reservation.reservationId === id);
+    return this.reservations.find(
+      (reservation) => reservation.reservationId === id,
+    );
   }
 
   setReservations(reservations: Reservation[]) {
     this.reservations = reservations;
     this.notifyReservations();
   }
+  //possesion
+  subscribePOSSessions(listener: () => void) {
+    this.posSessionListeners.add(listener);
+    return () => {
+      this.posSessionListeners.delete(listener);
+    };
+  }
+  private notifyPOSSessions() {
+    this.posSessionListeners.forEach((listener) => {
+      listener();
+    });
+  }
+  getPOSSessions() {
+    return this.posSessions;
+  }
+  getPOSSession(id: string) {
+    return this.posSessions.find((session) => session.id === id);
+  }
+  setPOSSessions(sessions: POSSession[]) {
+    this.posSessions = sessions;
+    this.notifyPOSSessions();
+  }
 }
 
-// export const repo = new Repo();
+export const repo = new Repo();

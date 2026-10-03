@@ -1,14 +1,13 @@
 import { Navigate, Route } from "react-router-dom";
 import Dashboard from "./component/Dashboard";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
-import Restaurant from "./pages/restaurant/Restaurant";
 import ResDash from "./pages/restaurant/ResDash";
-import Sales from "./pages/restaurant/Sales";
-import Pricelist from "./pages/restaurant/Pricelist";
-import Stock from "./pages/restaurant/Stock";
+import Sales from "./pages/restaurant/pages/Sales";
+import Pricelist from "./pages/restaurant/pages/Pricelist";
+import Stock from "./pages/restaurant/pages/Stock";
 import Offers from "./components/Offers";
-import Products from "./pages/restaurant/Products";
-import KitchenOrders from "./pages/restaurant/KitchenOrders";
+import Products from "./pages/restaurant/pages/Products";
+import KitchenOrders from "./pages/restaurant/pages/KitchenOrders";
 import { RepoProvider } from "./context/RepoContext";
 import { useMemo } from "react";
 import { Repo } from "./repo/Repo";
@@ -20,13 +19,13 @@ import Report from "./reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
 import type { Action, Resources } from "./utils/secureclient/models/permission";
-import Hotel from "./pages/hotel/Hotel";
 import Dash from "./pages/hotel/Dash";
-import Rooms from "./pages/hotel/Rooms";
-import Reservation from "./pages/hotel/Reservation";
-import ReservationDetail from "./reports/report/ReservationDetail";
-import Hoteldetails from "./pages/hotel/Hoteldetails";
+import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
 import AppLayout from "./utils/secureclient/AppLayout";
+import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
+import HotelLayout from "./pages/hotel/HotelLayout";
+import Rooms from "./pages/hotel/pages/Rooms";
+import Reservation from "./pages/hotel/pages/Reservation";
 
 const permissions: Record<
   string,
@@ -100,7 +99,6 @@ const App = () => {
           <Route path="/" element={<Navigate to="/hotel-everest" replace />} />
           <Route element={<AppLayout />}>
             <Route path="/:organizationSlug" element={<Dashboard />} />
-
             {/* //test compoent */}
             <Route
               path="/:organizationSlug/test-component"
@@ -113,7 +111,10 @@ const App = () => {
             />
             {/* hotel */}
 
-            <Route path="/:organizationSlug/accomodation" element={<Hotel />}>
+            <Route
+              path="/:organizationSlug/accomodation"
+              element={<HotelLayout />}
+            >
               <Route index element={<Dash />} />
               <Route path="room" element={<Rooms />} />
               <Route path="reservation" element={<Reservation />}>
@@ -135,7 +136,7 @@ const App = () => {
 
             <Route
               path="/:organizationSlug/restaurant"
-              element={<Restaurant />}
+              element={<RestaurantLayout />}
             >
               <Route index element={<ResDash />} />
               <Route path="sales" element={<Sales />} />

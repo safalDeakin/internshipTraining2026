@@ -17,6 +17,7 @@ type MenuKey = "frontdesk" | "rooms" | "reservation";
 interface MenuItem {
   key: string;
   label: string;
+  path: string;
   count?: number;
 }
 
@@ -34,22 +35,59 @@ const menuSection: MenuSection[] = [
     key: "frontdesk",
     label: "Front-Desk",
     items: [
-      { key: "guestRequest", label: "Guest Request", count: 5 },
-      { key: "arrivals", label: "Arrivals", count: 5 },
-      { key: "inHouse", label: "In-House", count: 5 },
-      { key: "departures", label: "Departures", count: 5 },
-      { key: "overdue", label: "Overdue", count: 5 },
+      {
+        key: "guestRequest",
+        label: "Guest Request",
+        path: "guest-request",
+        count: 5,
+      },
+      {
+        key: "arrivals",
+        label: "Arrivals",
+        path: "arrivals",
+        count: 5,
+      },
+      {
+        key: "inHouse",
+        label: "In-House",
+        path: "in-house",
+        count: 5,
+      },
+      {
+        key: "departures",
+        label: "Departures",
+        path: "departures",
+        count: 5,
+      },
+      {
+        key: "overdue",
+        label: "Overdue",
+        path: "overdue",
+        count: 5,
+      },
     ],
   },
   {
     key: "rooms",
     label: "Rooms",
-    items: [{ key: "roomList", label: "Room List" }],
+    items: [
+      {
+        key: "roomList",
+        label: "Room List",
+        path: "room",
+      },
+    ],
   },
   {
     key: "reservation",
     label: "Reservation",
-    items: [{ key: "reservationList", label: "Reservation data" }],
+    items: [
+      {
+        key: "reservationList",
+        label: "Reservation data",
+        path: "reservation",
+      },
+    ],
   },
 ];
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
@@ -256,7 +294,7 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
                     return (
                       <NavLink
                         key={item.key}
-                        to={`/${organization?.slug}/accomodation/room`}
+                        to={`/${organization?.slug}/accomodation/${item.path}`}
                         onClick={() =>
                           handleSubItemClick(
                             menu.key as "rooms" | "reservation" | "frontdesk",

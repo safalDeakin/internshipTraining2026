@@ -1,15 +1,14 @@
 import { useState } from "react";
+import { useAuth } from "../../../utils/secureclient/context/AuthContext";
+import AccessControl from "../../../utils/secureclient/classes/AccessControl";
+import { useOrganization } from "../../../utils/secureclient/context/OrganizationContext";
+import { rooms } from "../../../data/rooms";
 import {
   ACTIONS,
   RESOURCES,
   type Action,
-} from "../../utils/secureclient/models/permission";
-// import usePermissions from "../hooks/usePermissions";
+} from "../../../utils/secureclient/models/permission";
 import { X } from "lucide-react";
-import { rooms } from "../../data/rooms";
-import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
-import AccessControl from "../../utils/secureclient/classes/AccessControl";
-import { useAuth } from "../../utils/secureclient/context/AuthContext";
 
 type RoomType = {
   roomNumber: string;
@@ -123,12 +122,6 @@ const Rooms = () => {
         )}
       </div>
       <div className="border border-gray-100 p-2 flex justify-center items-start gap-5">
-        {/* <button
-          className="bg-blue-950 text-white font-bold text-xs p-2 shadow-2xl cursor-pointer rounded-lg "
-          onClick={() => handleAction(ACTIONS.VIEW)}
-        >
-          View
-        </button> */}
         <button
           className="bg-blue-950 text-white font-bold text-xs p-2 shadow-2xl cursor-pointer rounded-lg "
           onClick={() => handleAction(ACTIONS.CREATE)}
@@ -187,16 +180,6 @@ const Rooms = () => {
                   <option value="Suite">Suite</option>
                 </select>
               </div>
-              {/* <div>
-              <label>Price</label>
-              <input
-                value={roomForm.price}
-                name="price"
-                type="number"
-                onChange={handleInputChnage}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none "
-              />
-            </div> */}
               <button
                 type="submit"
                 className="bg-blue-900 text-white cursor-pointer py-2 w-auto rounded-2xl "

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
-const Restaurant = () => {
+const RestaurantLayout = () => {
   //popup settings
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
@@ -79,4 +79,4 @@ const Restaurant = () => {
   );
 };
 
-export default Restaurant;
+export default RestaurantLayout;

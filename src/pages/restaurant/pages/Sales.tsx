@@ -1,5 +1,3 @@
-import Rooms from "../hotel/Rooms";
-
 const Sales = () => {
   return (
     <div>
@@ -10,7 +8,6 @@ const Sales = () => {
         ipsam molestias, quo quidem deleniti omnis enim quaerat iure id!
         Inventore, consequuntur cumque!
       </p>
-      <Rooms />
     </div>
   );
 };

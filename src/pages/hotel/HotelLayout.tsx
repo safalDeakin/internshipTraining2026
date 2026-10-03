@@ -1,7 +1,7 @@
 import HotelNav from "./HotelNav";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
 
-const Hotel = () => {
+const HotelLayout = () => {
   return (
     <ResponsiveLayout
       sidebar={(closeBar) => <HotelNav closeBar={closeBar} />}
@@ -9,4 +9,4 @@ const Hotel = () => {
   );
 };
 
-export default Hotel;
+export default HotelLayout;
