@@ -40,6 +40,7 @@ const Login = () => {
         setIsLoading(false);
         setIsLoginSuccess(true);
       } catch (error) {
+        console.log(error);
         setIsLoading(false);
         alert("Invalid email or passwrd");
       }

@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 import { useAuth } from "../../utils/secureclient/context/useAuth";
+
 interface AccomodationNavbarProps {
   closeBar?: () => void;
 }
