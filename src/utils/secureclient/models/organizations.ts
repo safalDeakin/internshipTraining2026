@@ -5,7 +5,7 @@ export type Organization = {
   slug: string;
 };
 
-export const organizations: Organization[] = [
+export const hotels: Organization[] = [
   {
     id: 1,
     name: "Hotel Everest",

@@ -1,11 +1,10 @@
 //author:shrajja
-
 import { useAuth } from "../context/AuthContext";
 import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import type { Action, Resources } from "../models/permission";
 import AccessControl from "../classes/AccessControl";
 import TenantSecurity from "../classes/TenantSecurity";
-import { organizations } from "../models/organizations";
+import { useOrganization } from "../context/OrganizationContext";
 
 type SecureCellRouteProps = {
   resource?: Resources;
@@ -17,17 +16,19 @@ type SecureCellRouteProps = {
       action: Action;
     }
   >;
+  tenantSecurity: TenantSecurity;
 };
 
-const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
+const SecureCellRoute = ({
+  permissions = {},
+  tenantSecurity,
+}: SecureCellRouteProps) => {
   const { user } = useAuth(); //gets authentication info from auth context
   const { organizationSlug } = useParams(); //slug name og hotel
   const location = useLocation();
-
+  const { organizations = [] } = useOrganization();
   //create object
   const accessControl = new AccessControl();
-  const tenantSecurity = new TenantSecurity();
-
   //authentication
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -36,7 +37,6 @@ const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
   if (!organizationSlug) {
     return (
       <>
-        {/* <Navbar /> */}
         <Outlet />
       </>
     );
@@ -45,14 +45,17 @@ const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
   const requestedOrganization = organizations.find(
     (org) => org.slug === organizationSlug,
   );
+
   if (!requestedOrganization) {
     return <Navigate to="/unauthorized" replace />;
   }
-  ///tenant check
+
+  //tenant check
   const tenantallowed = tenantSecurity.canAccessTenant(
     user.organizationId,
     requestedOrganization.id,
   );
+
   if (!tenantallowed) {
     return <Navigate to="/unauthorized" replace />;
   }
@@ -77,7 +80,6 @@ const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
 
   return (
     <>
-      {/* {showNavbar && <Navbar />} */}
       <Outlet />
     </>
   );

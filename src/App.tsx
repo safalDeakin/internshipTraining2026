@@ -25,6 +25,7 @@ import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
 import HotelLayout from "./pages/hotel/HotelLayout";
 import Rooms from "./pages/hotel/pages/Rooms";
 import Reservation from "./pages/hotel/pages/Reservation";
+import { hotels } from "./utils/secureclient/models/organizations";
 
 const permissions: Record<
   string,
@@ -94,7 +95,11 @@ const App = () => {
         reservationState={reservationState}
         reservationReportState={reservationReportState}
       >
-        <SecureAppClient config={secureConfig} permissions={permissions}>
+        <SecureAppClient
+          config={secureConfig}
+          permissions={permissions}
+          organizations={hotels}
+        >
           <Route path="/" element={<Dashboard />} />
           {/* //test compoent */}
           <Route

@@ -1,13 +1,16 @@
 //author:shrjja
-import { organizations } from "../models/organizations";
-
+import type { Organization } from "../models/organizations";
 // can this user acces those organizational data
 class TenantSecurity {
+  private organizations: Organization[];
+  constructor(organizations: Organization[]) {
+    this.organizations = organizations;
+  }
   canAccessTenant(userOrganizationId: number, requestedOrganizationId: number) {
-    const userOrganization = organizations.find(
+    const userOrganization = this.organizations.find(
       (org) => org.id === userOrganizationId,
     );
-    const requestOrganization = organizations.find(
+    const requestOrganization = this.organizations.find(
       (org) => org.id === requestedOrganizationId,
     );
     if (!userOrganization || !requestOrganization) {
