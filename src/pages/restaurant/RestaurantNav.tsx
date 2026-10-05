@@ -5,7 +5,7 @@ import {
   ListCheck,
   Files,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { repo } from "../../repo/Repo";
@@ -20,27 +20,60 @@ const linkActive = "bg-blue-100 text-blue-500";
 const linkInactive = "hover:bg-blue-50";
 
 const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
+  const location = useLocation();
   const { organization } = useOrganization();
+  //sessions aren't stored inside the component. stored in repo so React needs a way to subscribe to that external store.
   const posSessions = useSyncExternalStore(
+    //Subscribe to the Repo's POS session changes.
+    //.bind(repo)=makes sure this inside the method refers to your repo object.
     repo.subscribePOSSessions.bind(repo),
+    // When you need the current value, get it from Repo
     repo.getPOSSessions.bind(repo),
   );
+
+  //manually create Pos sessions
+  //runs once when RestaurantNav mounts
   useEffect(() => {
     repo.setPOSSessions([
       {
         id: "1",
         restaurantId: "res-1",
         name: "Mon-24",
+        children: [
+          {
+            id: "1-1",
+            name: "TiyaPiya",
+            path: "/guest",
+          },
+          {
+            id: "1-2",
+            name: "Ramsth",
+            path: "/guest",
+          },
+        ],
       },
       {
         id: "2",
         restaurantId: "res-2",
         name: "Sun-24",
+        children: [
+          {
+            id: "2-1",
+            name: "Tiya",
+            path: "/guest",
+          },
+          {
+            id: "2-2",
+            name: "Payments",
+            path: "/guest",
+          },
+        ],
       },
     ]);
   }, []);
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
   const [openMenus, setOpenMenus] = useState<number[]>([]);
+  const [openSessions, setOpenSessions] = useState<string[]>([]);
   const restroNav = [
     {
       id: 1,
@@ -61,20 +94,31 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
     {
       id: 2,
       name: "POS Sessions",
+      //generate from repository
       children: posSessions.map((session) => ({
         id: session.id,
         label: session.name,
         path: `pos-session/${session.id}`,
+        children: session.children,
       })),
     },
   ];
   // const [isSettingOpen, setIsSettingOpen] = useState(false);
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     `${linkBase} ${isActive ? linkActive : linkInactive}`;
+  //parnt
   const toggleMenu = (id: number) => {
     setOpenMenus((prev) =>
       prev.includes(id)
         ? prev.filter((menuId) => menuId !== id)
+        : [...prev, id],
+    );
+  };
+  //child
+  const toggleSession = (id: string) => {
+    setOpenSessions((prev) =>
+      prev.includes(id)
+        ? prev.filter((sessionId) => sessionId !== id)
         : [...prev, id],
     );
   };
@@ -197,7 +241,7 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
         {restroNav.map((item) => {
           const isOpen = openMenus.includes(item.id);
           return (
-            <div key={item.id} className="w-full pb-2 border-b border-gray-100">
+            <div key={item.id} className="w-full pb-2">
               {/* Parent */}
               <button
                 type="button"
@@ -214,18 +258,73 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
 
               {/* Children */}
               {isOpen && (
-                <div className="mt-1 flex flex-col gap-4 pl-5">
-                  {item.children.map((child) => (
-                    <NavLink
-                      key={child.id}
-                      to={`/${organization?.slug}/restaurant/${child.path}`}
-                      onClick={closeBar}
-                      className={getLinkClass}
-                    >
-                      <ListCheck className="w-4 h-4" />
-                      <span>{child.label}</span>
-                    </NavLink>
-                  ))}
+                <div className="mt-1 flex flex-col gap-2 pl-5">
+                  {item.children.map((child) => {
+                    //Does this object have a children property?
+                    //If children exists, give me its length. Otherwise don't crash.
+                    const hasChildren =
+                      "children" in child && child.children?.length;
+                    const isSessionActive = location.pathname.includes(
+                      `pos-session/${child.id}`,
+                    );
+                    const isSessionOpen = openSessions.includes(
+                      String(child.id),
+                    );
+
+                    return (
+                      <div key={child.id}>
+                        {/* POS Session */}
+                        {hasChildren ? (
+                          <button
+                            type="button"
+                            onClick={() => toggleSession(String(child.id))}
+                            className={`flex w-full items-center gap-2 rounded-lg border py-2 text-left transition-colors ${
+                              isSessionActive || isSessionOpen
+                                ? "border-blue-500 bg-blue-50 text-blue-600"
+                                : "border-transparent hover:bg-blue-50"
+                            }`}
+                          >
+                            <ChevronDown
+                              className={`h-4 w-4 transition-transform ${
+                                isSessionOpen
+                                  ? "rotate-180 text-blue-500"
+                                  : "text-gray-500"
+                              }`}
+                            />
+
+                            <span>{child.label}</span>
+                          </button>
+                        ) : (
+                          <NavLink
+                            to={`/${organization?.slug}/restaurant/${child.path}`}
+                            onClick={closeBar}
+                            className={`${getLinkClass}`}
+                          >
+                            <ListCheck className="h-4 w-4" />
+                            <span>{child.label}</span>
+                          </NavLink>
+                        )}
+
+                        {/* POS Session children */}
+                        {hasChildren && isSessionOpen && (
+                          <div className=" mt-1 flex flex-col gap-2 border-b border-gray-200 pb-2">
+                            {child.children?.map((subChild) => (
+                              <NavLink
+                                key={subChild.id}
+                                to={`/${organization?.slug}/restaurant/${subChild.path}`}
+                                onClick={closeBar}
+                                className={getLinkClass}
+                              >
+                                <ListCheck className="h-4 w-4" />
+
+                                <span>{subChild.name}</span>
+                              </NavLink>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>

@@ -4,19 +4,28 @@ export type KitchenOrder = {
   restaurantId: string;
   status: string;
 };
+export type POSSesionChild = {
+  id: string;
+  name: string;
+  path: string;
+};
+
 export type POSSession = {
   id: string;
   restaurantId: string;
   name: string;
+  children: POSSesionChild[];
 };
 
 export class Repo {
   private kitchenOrders: KitchenOrder[] = [];
   private reservations: Reservation[] = [];
+  //central data store
   private posSessions: POSSession[] = [];
 
   private kitchenlisteners = new Set<() => void>();
   private reservationlisteners = new Set<() => void>();
+  //allows React components the POS session data has changed. Re-render
   private posSessionListeners = new Set<() => void>();
   //kitchen orders
   subscribeKitchen(listener: () => void) {
@@ -77,12 +86,14 @@ export class Repo {
     this.notifyReservations();
   }
   //possesion
+  //subscribePOSSessions() returns an unsubscribe function.
   subscribePOSSessions(listener: () => void) {
     this.posSessionListeners.add(listener);
     return () => {
       this.posSessionListeners.delete(listener);
     };
   }
+  //This simply calls every subscribed listener.
   private notifyPOSSessions() {
     this.posSessionListeners.forEach((listener) => {
       listener();
@@ -91,11 +102,14 @@ export class Repo {
   getPOSSessions() {
     return this.posSessions;
   }
+  //This gives React the current sessions.
   getPOSSession(id: string) {
     return this.posSessions.find((session) => session.id === id);
   }
   setPOSSessions(sessions: POSSession[]) {
+    // The data changes:
     this.posSessions = sessions;
+    // React components are notified:
     this.notifyPOSSessions();
   }
 }
