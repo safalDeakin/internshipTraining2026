@@ -1,3 +1,4 @@
+//author:Shrajja
 import {
   BrushCleaning,
   Building,
@@ -5,13 +6,25 @@ import {
   Files,
   Hotel,
   ListChevronsDownUp,
+  type LucideIcon,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useState } from "react";
+import { getOrganizationPath } from "../../utils/secureclient/models/orgPath";
 interface AccomodationNavbarProps {
   closeBar?: () => void;
 }
+type AccommodationMenuItem = {
+  label: string;
+  path: string;
+  icon?: LucideIcon;
+};
+
+type AccommodationMenuSection = {
+  title: string;
+  items: AccommodationMenuItem[];
+};
 type MenuKey = "frontdesk" | "rooms" | "reservation";
 
 interface MenuItem {
@@ -29,6 +42,58 @@ interface MenuSection {
 const linkBase = "flex justify-between pb-2 rounded-xl";
 const linkActive = " text-blue-500 ";
 const linkInactive = "hover:bg-blue-50";
+const accommodationMenu: AccommodationMenuSection[] = [
+  {
+    title: "Manage",
+    items: [
+      {
+        label: "Property",
+        path: "property",
+      },
+      {
+        label: "Rate Plan",
+        path: "rate-plan",
+      },
+      {
+        label: "Offers and Discounts",
+        path: "offers",
+      },
+    ],
+  },
+  {
+    title: "Configuration",
+    items: [
+      {
+        label: "Sales Settings",
+        path: "sales-settings",
+        icon: Files,
+      },
+      {
+        label: "Staff and Access",
+        path: "staff-access",
+        icon: Files,
+      },
+      {
+        label: "Device Setup",
+        path: "device-setup",
+        icon: Files,
+      },
+    ],
+  },
+  {
+    title: "Operations",
+    items: [
+      {
+        label: "Room and HouseKeeping",
+        path: "housekeeping",
+      },
+      {
+        label: "Night Audit",
+        path: "night-audit",
+      },
+    ],
+  },
+];
 
 const menuSection: MenuSection[] = [
   {
@@ -138,7 +203,8 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
       <div className="relative flex w-full items-center justify-between gap-2">
         <div className="flex w-full items-center gap-1 px-1 py-2">
           <NavLink
-            to={`/${organization?.slug}/accomodation`}
+            // to={`/${organization?.slug}/accomodation`}
+            to={getOrganizationPath("/accommodation", organization)}
             onClick={closeBar}
             className="text-lg flex items-center gap-2 text-blue-500 font-bold"
           >
@@ -156,89 +222,37 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
           </button>
           {isAccomodationOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 w-full rounded-xl border border-gray-100 bg-white p-4">
-              <div className="w-full flex flex-col gap-5 ">
-                {/* //manage */}
-                <div className="border-b border-gray-300">
-                  <p className="text-gray-700 text-sm ">Manage</p>
-                  <div className="flex flex-col gap-1 mt-2">
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/products`}
-                      onClick={closeBar}
-                      className={getLinkClass}
-                    >
-                      Property
-                    </NavLink>
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/price`}
-                      onClick={closeBar}
-                      // className="flex items-center gap-2"
-                      className={getLinkClass}
-                    >
-                      Rate Plan
-                    </NavLink>
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/offer`}
-                      onClick={closeBar}
-                      // className="flex items-center gap-2"
-                      className={getLinkClass}
-                    >
-                      Offers and Discounts
-                    </NavLink>
+              <div className="flex w-full flex-col gap-5">
+                {accommodationMenu.map((section) => (
+                  <div
+                    key={section.title}
+                    className="border-b border-gray-300 pb-3 last:border-b-0"
+                  >
+                    <p className="text-sm text-gray-700">{section.title}</p>
+
+                    <div className="mt-2 flex flex-col gap-1">
+                      {section.items.map((item) => {
+                        const Icon = item.icon;
+
+                        return (
+                          <NavLink
+                            key={item.label}
+                            to={getOrganizationPath(
+                              `/accomodation/${item.path}`,
+                              organization,
+                            )}
+                            onClick={closeBar}
+                            className={getLinkClass}
+                          >
+                            <span>{item.label}</span>
+
+                            {Icon && <Icon className="h-4 w-4" />}
+                          </NavLink>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-                {/* // configuration*/}
-                <div className="border-b border-gray-300">
-                  <p className="text-gray-700 text-sm ">Configuration</p>
-                  <div className="flex flex-col gap-1 mt-2">
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/products`}
-                      onClick={closeBar}
-                      className={getLinkClass}
-                    >
-                      Sales Settings
-                      <Files className="w-4 h-4" />
-                    </NavLink>
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/price`}
-                      onClick={closeBar}
-                      // className="flex items-center gap-2"
-                      className={getLinkClass}
-                    >
-                      Staff and Access
-                      <Files className="w-4 h-4" />
-                    </NavLink>
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/offer`}
-                      onClick={closeBar}
-                      // className="flex items-center gap-2"
-                      className={getLinkClass}
-                    >
-                      Device Setup
-                      <Files className="w-4 h-4" />
-                    </NavLink>
-                  </div>
-                </div>
-                {/* //operations */}
-                <div className="border-b border-gray-300">
-                  <p className="text-gray-700 text-sm ">Operations</p>
-                  <div className="flex flex-col gap-1 mt-2">
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/products`}
-                      onClick={closeBar}
-                      className={getLinkClass}
-                    >
-                      Room and HouseKeeping
-                    </NavLink>
-                    <NavLink
-                      to={`/${organization?.slug}/restaurant/price`}
-                      onClick={closeBar}
-                      // className="flex items-center gap-2"
-                      className={getLinkClass}
-                    >
-                      Night Audit
-                    </NavLink>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           )}

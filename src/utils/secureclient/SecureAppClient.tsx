@@ -1,3 +1,4 @@
+//author:shrajja
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SecureCellRoute from "./routing/SecureCellRoute";
 import type { ReactNode } from "react";
@@ -6,6 +7,7 @@ import type { Action, Resources } from "./models/permission";
 import Login from "./component/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { OrganizationProvider } from "./context/OrganizationContext";
+import Navbar from "./component/Navbar";
 
 interface SecureConfig {
   authServerUrl: string;
@@ -44,6 +46,7 @@ const SecureAppClient = ({
         <OrganizationProvider>
           {" "}
           <BrowserRouter>
+            <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route element={<SecureCellRoute permissions={permissions} />}>

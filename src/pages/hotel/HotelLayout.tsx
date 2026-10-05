@@ -1,3 +1,4 @@
+//author:Shrajja
 import HotelNav from "./HotelNav";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
 

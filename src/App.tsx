@@ -21,7 +21,6 @@ import Activity from "./pages/activity-log/Activity";
 import type { Action, Resources } from "./utils/secureclient/models/permission";
 import Dash from "./pages/hotel/Dash";
 import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
-import AppLayout from "./utils/secureclient/AppLayout";
 import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
 import HotelLayout from "./pages/hotel/HotelLayout";
 import Rooms from "./pages/hotel/pages/Rooms";
@@ -96,35 +95,33 @@ const App = () => {
         reservationReportState={reservationReportState}
       >
         <SecureAppClient config={secureConfig} permissions={permissions}>
-          <Route path="/" element={<Navigate to="/hotel-everest" replace />} />
-          <Route element={<AppLayout />}>
-            <Route path="/:organizationSlug" element={<Dashboard />} />
-            {/* //test compoent */}
-            <Route
-              path="/:organizationSlug/test-component"
-              element={<TestComponent />}
-            />
-            {/* //activuty */}
-            <Route
-              path="/:organizationSlug/activity-log"
-              element={<Activity />}
-            />
-            {/* hotel */}
+          <Route path="/" element={<Dashboard />} />
+          {/* //test compoent */}
+          <Route
+            path="/:organizationSlug/test-component"
+            element={<TestComponent />}
+          />
+          {/* //activuty */}
+          <Route
+            path="/:organizationSlug/activity-log"
+            element={<Activity />}
+          />
+          {/* hotel */}
 
-            <Route
-              path="/:organizationSlug/accomodation"
-              element={<HotelLayout />}
-            >
-              <Route index element={<Dash />} />
-              <Route path="room" element={<Rooms />} />
-              <Route path="reservation" element={<Reservation />}>
-                <Route path=":id" element={<Hoteldetails />} />
-              </Route>
+          <Route
+            path="/:organizationSlug/accomodation"
+            element={<HotelLayout />}
+          >
+            <Route index element={<Dash />} />
+            <Route path="room" element={<Rooms />} />
+            <Route path="reservation" element={<Reservation />}>
+              <Route path=":id" element={<Hoteldetails />} />
             </Route>
+          </Route>
 
-            {/* //PMS */}
+          {/* //PMS */}
 
-            {/* <Route path="/:organizationSlug/pms" element={<Pms />}>
+          {/* <Route path="/:organizationSlug/pms" element={<Pms />}>
             <Route index element={<Details />} />
             <Route path="operations/arrivals" element={<Arrivals />} />
             <Route path="operations/cash" element={<Cash />} />
@@ -132,27 +129,27 @@ const App = () => {
               <Route path=":activeId/:childId" element={<ActivateDetails />} />
             </Route>
           </Route> */}
-            {/* Restaurant */}
+          {/* Restaurant */}
 
-            <Route
-              path="/:organizationSlug/restaurant"
-              element={<RestaurantLayout />}
-            >
-              <Route index element={<ResDash />} />
-              <Route path="sales" element={<Sales />} />
-              <Route path="price" element={<Pricelist />} />
-              <Route path="stock" element={<Stock />} />
-              <Route path="offer" element={<Offers />} />
-              <Route path="products" element={<Products />} />
-              <Route path="kitchenOrders" element={<KitchenOrders />} />
-            </Route>
-
-            {/* report */}
-            <Route
-              path="/:organizationSlug/reservation-report"
-              element={<Report />}
-            />
+          <Route
+            path="/:organizationSlug/restaurant"
+            element={<RestaurantLayout />}
+          >
+            <Route index element={<ResDash />} />
+            <Route path="sales" element={<Sales />} />
+            <Route path="price" element={<Pricelist />} />
+            <Route path="stock" element={<Stock />} />
+            <Route path="offer" element={<Offers />} />
+            <Route path="products" element={<Products />} />
+            <Route path="kitchenOrders" element={<KitchenOrders />} />
           </Route>
+
+          {/* report */}
+          <Route
+            path="/:organizationSlug/reservation-report"
+            element={<Report />}
+          />
+
           {/* calender */}
         </SecureAppClient>
       </RepoProvider>

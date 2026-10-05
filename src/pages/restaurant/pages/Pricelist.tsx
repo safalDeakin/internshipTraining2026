@@ -1,5 +1,4 @@
-import React from "react";
-
+//author:shrajja
 const Pricelist = () => {
   return (
     <div>

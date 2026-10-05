@@ -1,15 +1,76 @@
+//author:shrajja
 import {
   ChevronDown,
   UtensilsCrossed,
   Play,
   ListCheck,
   Files,
+  type LucideIcon,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { repo } from "../../repo/Repo";
+import { getOrganizationPath } from "../../utils/secureclient/models/orgPath";
 
+const restaurantMenu: {
+  title: string;
+  items: {
+    label: string;
+    path: string;
+    icon?: LucideIcon;
+    openSettings?: boolean;
+  }[];
+}[] = [
+  {
+    title: "Menu",
+    items: [
+      {
+        label: "Products",
+        path: "products",
+      },
+      {
+        label: "Pricelist",
+        path: "price",
+      },
+      {
+        label: "Offers",
+        path: "offer",
+      },
+    ],
+  },
+  {
+    title: "Configuration",
+    items: [
+      {
+        label: "Sales Setting",
+        path: "products",
+        icon: Files,
+        openSettings: true,
+      },
+      {
+        label: "Staffs and Access",
+        path: "price",
+        icon: Files,
+      },
+      {
+        label: "Device Setup",
+        path: "offer",
+        icon: Files,
+      },
+    ],
+  },
+  {
+    title: "Shell Profile",
+    items: [
+      {
+        label: "Shell Status",
+        path: "products",
+        openSettings: true,
+      },
+    ],
+  },
+];
 interface RestaurantNavbarProps {
   closeBar?: () => void;
   openSettings?: () => void;
@@ -128,7 +189,7 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
       <div className="flex justify-between items-center">
         <div className="relative flex items-center  w-full px-1 py-2">
           <NavLink
-            to={`/${organization?.slug}/restaurant`}
+            to={getOrganizationPath("/restaurant", organization)}
             onClick={closeBar}
             className={({ isActive }) =>
               `font-bold flex items-center gap-2 ${isActive ? "text-blue-600" : ""}`
@@ -150,84 +211,37 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
           </button>
           {isRestaurantOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 flex h-auto w-full flex-col gap-1 overflow-y-auto rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
-              <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-800 text-sm pb-2">Menu</p>
-                <div className="pb-2 border-b border-gray-300 flex flex-col gap-3">
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/products`}
-                    onClick={closeBar}
-                    className={getLinkClass}
-                  >
-                    Products
-                  </NavLink>
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/price`}
-                    onClick={closeBar}
-                    className={getLinkClass}
-                  >
-                    Pricelist
-                  </NavLink>
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/offer`}
-                    onClick={closeBar}
-                    className={getLinkClass}
-                  >
-                    Offers
-                  </NavLink>
-                </div>
-              </div>
-              {/* // configuration*/}
-              <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-900 text-sm pb-2">Configuration</p>
-                <div className="pb-2 border-b border-gray-300 flex flex-col gap-3">
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/products`}
-                    onClick={() => {
-                      openSettings?.();
-                      closeBar?.();
-                    }}
-                    className={`flex justify-between ${getLinkClass}`}
-                    // className={getLinkClass}
-                  >
-                    Sales Setting
-                    <Files className="w-4 h-4 text-right" />
-                  </NavLink>
+              {restaurantMenu.map((section, sectionIndex) => (
+                <div key={section.title} className="flex w-full flex-col gap-1">
+                  <p className="pb-2 text-sm text-gray-900">{section.title}</p>
 
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/price`}
-                    onClick={closeBar}
-                    className={`flex justify-between ${getLinkClass}`}
+                  <div
+                    className={`flex flex-col gap-3 ${
+                      sectionIndex !== restaurantMenu.length - 1
+                        ? "border-b border-gray-300 pb-2"
+                        : ""
+                    }`}
                   >
-                    Staffs and Access
-                    <Files className="w-4 h-4" />
-                  </NavLink>
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/offer`}
-                    onClick={closeBar}
-                    className={`flex justify-between ${getLinkClass}`}
-                  >
-                    Device Setup
-                    <Files className="w-4 h-4" />
-                  </NavLink>
+                    {section.items.map((item) => (
+                      <NavLink
+                        key={item.label}
+                        to={getOrganizationPath(
+                          `/restaurant/${item.path}`,
+                          organization,
+                        )}
+                        // to={`/${organization?.slug}/restaurant/${item.path}`}
+                        onClick={() => {
+                          closeBar?.();
+                        }}
+                        className={`flex justify-between ${getLinkClass}`}
+                      >
+                        <span>{item.label}</span>
+                        {item.icon && <item.icon className="h-4 w-4" />}
+                      </NavLink>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Shell Profile */}
-              <div className="flex flex-col gap-1 w-full">
-                <p className="text-gray-900 text-sm pb-2">Shell Profile</p>
-                <div className="pb-2 flex flex-col gap-3">
-                  <NavLink
-                    to={`/${organization?.slug}/restaurant/products`}
-                    onClick={() => {
-                      openSettings?.();
-                      closeBar?.();
-                    }}
-                    className={getLinkClass({ isActive: false })}
-                  >
-                    Shell Status
-                  </NavLink>
-                </div>
-              </div>
+              ))}
             </div>
           )}
         </div>
@@ -241,7 +255,7 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
         {restroNav.map((item) => {
           const isOpen = openMenus.includes(item.id);
           return (
-            <div key={item.id} className="w-full pb-2">
+            <div key={item.id} className="w-full  pb-2">
               {/* Parent */}
               <button
                 type="button"
@@ -296,9 +310,13 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
                           </button>
                         ) : (
                           <NavLink
-                            to={`/${organization?.slug}/restaurant/${child.path}`}
+                            // to={`/${organization?.slug}/restaurant/${child.path}`}
+                            to={getOrganizationPath(
+                              `/restaurant/${child.path}`,
+                              organization,
+                            )}
                             onClick={closeBar}
-                            className={`${getLinkClass}`}
+                            className={`flex gap-2 items-center ${getLinkClass}`}
                           >
                             <ListCheck className="h-4 w-4" />
                             <span>{child.label}</span>

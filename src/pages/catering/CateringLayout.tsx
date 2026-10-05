@@ -1,4 +1,4 @@
-import React from "react";
+//author:Shrajj
 import ResponsiveLayout from "../../component/ResponsiveLayout";
 import CateringNavbar from "./CateringNavbar";
 

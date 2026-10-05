@@ -1,10 +1,11 @@
+//author:shrajja
+
 import { useAuth } from "../context/AuthContext";
 import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import type { Action, Resources } from "../models/permission";
 import AccessControl from "../classes/AccessControl";
 import TenantSecurity from "../classes/TenantSecurity";
 import { organizations } from "../models/organizations";
-import Navbar from "../../../component/Navbar";
 
 type SecureCellRouteProps = {
   resource?: Resources;

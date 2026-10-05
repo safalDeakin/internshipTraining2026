@@ -1,11 +1,12 @@
+//author:shrjja
 import { useState } from "react";
 import { LogOut, Menu } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../utils/secureclient/context/AuthContext";
-import { useOrganization } from "../utils/secureclient/context/OrganizationContext";
-import NavigationSecurity from "../utils/secureclient/classes/NavigationSecurity";
-import { type Resources } from "../utils/secureclient/models/permission";
-
+import { useAuth } from "../context/AuthContext";
+import { useOrganization } from "../context/OrganizationContext";
+import NavigationSecurity from "../classes/NavigationSecurity";
+import { type Resources } from "../models/permission";
+import { getOrganizationPath } from "../models/orgPath";
 //dynamic items
 type NavItem = {
   label: string;
@@ -64,6 +65,8 @@ const Navbar = () => {
   const [isOpen, setISOpen] = useState(false);
   const { user, logout } = useAuth();
   const { organization } = useOrganization();
+  console.log("ORGANIZATION:", organization);
+  console.log("ORGANIZATION SLUG:", organization?.slug);
   const navigationSecurity = new NavigationSecurity();
 
   //filter to hide not accessible item
@@ -102,7 +105,7 @@ const Navbar = () => {
                     {group.items.map((item) => (
                       <NavLink
                         key={item.path}
-                        to={`/${organization?.slug}${item.path}`}
+                        to={getOrganizationPath(item.path, organization)}
                         onClick={() => setISOpen(false)}
                         className={({ isActive }) =>
                           `rounded mb-2 font-normal hover:bg-blue-50 ${
@@ -125,7 +128,7 @@ const Navbar = () => {
 
                 <div className="flex flex-col gap-2">
                   <NavLink
-                    to={`/${organization?.slug}/profile`}
+                    to={getOrganizationPath("/profile", organization)}
                     onClick={() => setISOpen(false)}
                     className={({ isActive }) =>
                       `rounded hover:bg-blue-50 ${
@@ -156,87 +159,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-//  <>
-//                   <NavLink
-//                     // to="/restaurant"
-//                     to={`/${organization?.slug}/restaurant`}
-//                     onClick={(e) => handleNavigation(e, RESOURCES.RESTAURANT)}
-//
-//                   >
-//                     Restaurant
-//                   </NavLink>
-
-//                   <NavLink
-//                     // to="/accomodation"
-//                     to={`/${organization?.slug}/accomodation`}
-//                     onClick={(e) =>
-//                       handleNavigation(e, RESOURCES.ACCOMMODATION)
-//                     }
-//                     className={({ isActive }) =>
-//                       `${
-//                         isActive ? "text-blue-800" : "text-black"
-//                       } hover:bg-blue-50 px-2 border border-gray-100`
-//                     }
-//                   >
-//                     Accomodations
-//                   </NavLink>
-//                   <NavLink
-//                     // to="/catering"
-//                     to={`/${organization?.slug}/catering`}
-//                     onClick={(e) => handleNavigation(e, RESOURCES.CATERING)}
-//                     className={({ isActive }) =>
-//                       `${
-//                         isActive ? "text-blue-800" : "text-black"
-//                       } hover:bg-blue-50 px-2 border border-gray-100`
-//                     }
-//                   >
-//                     Catering
-//                   </NavLink>
-//                   <NavLink
-//                     // to="/pms"
-//                     to={`/${organization?.slug}/pms`}
-//                     onClick={(e) => handleNavigation(e, RESOURCES.PMS)}
-//                     className={({ isActive }) =>
-//                       `${
-//                         isActive ? "text-blue-800" : "text-black"
-//                       } hover:bg-blue-50 px-2 border border-gray-100`
-//                     }
-//                   >
-//                     PMS
-//                   </NavLink>
-//                   {/* */}
-//                 </>
-//                 <NavLink
-//                   to={`/${organization?.slug}/reservation-report`}
-//                   className={({ isActive }) =>
-//                     `${
-//                       isActive ? "text-blue-800" : "text-black"
-//                     } hover:bg-blue-50 px-2 border border-gray-100`
-//                   }
-//                 >
-//                   Reservation Report
-//                 </NavLink>
-
-// const navigate = useNavigate();
-// Handle
-// const handleNavigation = (
-//   e: React.MouseEvent<HTMLAnchorElement>,
-//   resource: Resources,
-// ) => {
-//   if (user === null) {
-//     e.preventDefault();
-//     navigate("/login");
-//     return;
-//   }
-
-// const allowedResources = navigationSecurity.canNavigate(
-//   user.role,
-//   resource,
-// );
-// if (!allowedResources) {
-//   e.preventDefault();
-//   alert("cannot access by this role");
-//   return;
-// }
-// };

@@ -1,3 +1,4 @@
+//author:shrajja
 
 const Stock = () => {
   return (

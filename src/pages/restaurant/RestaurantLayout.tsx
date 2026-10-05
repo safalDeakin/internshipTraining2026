@@ -1,3 +1,4 @@
+//author:shrajja
 import RestaurantNav from "./RestaurantNav";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
 import { useState } from "react";
@@ -18,13 +19,7 @@ const RestaurantLayout = () => {
       )}
     >
       {/* Normal right-side content */}
-      {!isSettingOpen && (
-        <div>
-          <h1>
-            <Outlet />
-          </h1>
-        </div>
-      )}
+      {!isSettingOpen && <Outlet />}
 
       {/* Settings */}
       {isSettingOpen && (
