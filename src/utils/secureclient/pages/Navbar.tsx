@@ -1,12 +1,12 @@
 //author:shrjja
 import { useState } from "react";
 import { LogOut, Menu } from "lucide-react";
-import { NavLink } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useOrganization } from "../context/OrganizationContext";
-import NavigationSecurity from "../classes/NavigationSecurity";
-import { type Resources } from "../models/permission";
-import { getOrganizationPath } from "../models/orgPath";
+import { NavLink, useParams } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
+// import { useOrganization } from "../context/XXXOrganizationContext";
+import NavigationSecurity from "../services/utils/NavigationSecurity";
+import { type Resources } from "../services/models/permission";
+import { getOrganizationPath } from "../services/models/orgPath";
 //dynamic items
 type NavItem = {
   label: string;
@@ -63,10 +63,12 @@ const navGroups: NavGroup[] = [
 
 const Navbar = () => {
   const [isOpen, setISOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const { organization } = useOrganization();
-  console.log("ORGANIZATION:", organization);
-  console.log("ORGANIZATION SLUG:", organization?.slug);
+  const { user, logout, getOrganizationFromSlug } = useAuth();
+  const { organizationSlug } = useParams(); //sl
+
+  const organization = getOrganizationFromSlug(organizationSlug)
+
+  console.log("ORGANIZATION SLUG:", organizationSlug);
   const navigationSecurity = new NavigationSecurity();
 
   //filter to hide not accessible item
@@ -108,8 +110,7 @@ const Navbar = () => {
                         to={getOrganizationPath(item.path, organization)}
                         onClick={() => setISOpen(false)}
                         className={({ isActive }) =>
-                          `rounded mb-2 font-normal hover:bg-blue-50 ${
-                            isActive ? "text-blue-800" : "text-black"
+                          `rounded mb-2 font-normal hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
                           }`
                         }
                       >
@@ -131,8 +132,7 @@ const Navbar = () => {
                     to={getOrganizationPath("/profile", organization)}
                     onClick={() => setISOpen(false)}
                     className={({ isActive }) =>
-                      `rounded hover:bg-blue-50 ${
-                        isActive ? "text-blue-800" : "text-black"
+                      `rounded hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
                       }`
                     }
                   >

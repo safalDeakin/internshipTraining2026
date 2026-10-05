@@ -1,7 +1,6 @@
 //author:Shrajja
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import {
   ChefHat,
   ChevronDown,
@@ -13,6 +12,7 @@ import {
   Tag,
   Warehouse,
 } from "lucide-react";
+import { useAuth } from "../../utils/secureclient/context/useAuth";
 
 interface CateringNavProps {
   closeBar: () => void;
@@ -22,7 +22,7 @@ const linkActive = "bg-blue-100 text-blue-700";
 const linkInactive = "text-blue-950 hover:bg-blue-50";
 
 const CateringNavbar = ({ closeBar }: CateringNavProps) => {
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
   const [isCateringOpen, setIsCateringOpen] = useState(false);
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     `${linkBase} ${isActive ? linkActive : linkInactive}`;

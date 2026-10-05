@@ -1,4 +1,4 @@
-import type { Organization } from "./organizations";
+import type { Organization } from "./organization";
 
 export const getOrganizationPath = (
   path: string,

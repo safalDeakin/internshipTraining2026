@@ -9,9 +9,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import { useState } from "react";
-import { getOrganizationPath } from "../../utils/secureclient/models/orgPath";
+import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
+import { useAuth } from "../../utils/secureclient/context/useAuth";
 interface AccomodationNavbarProps {
   closeBar?: () => void;
 }
@@ -156,7 +156,7 @@ const menuSection: MenuSection[] = [
   },
 ];
 const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
   const [isAccomodationOpen, setIsAccomodationOpen] = useState(false);
   // which menus are currently expanded.
   const [openSubMenus, setOpenSubMenus] = useState<
@@ -281,61 +281,59 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
                     menu.key as "rooms" | "reservation" | "frontdesk",
                   )
                 }
-                className={`flex w-full items-center gap-2 rounded-xl py-2 ${
-                  openSubMenus.includes(
-                    menu.key as "rooms" | "reservation" | "frontdesk",
-                  )
-                    ? linkActive
-                    : linkInactive
-                }`}
+                className={`flex w-full items-center gap-2 rounded-xl py-2 ${openSubMenus.includes(
+                  menu.key as "rooms" | "reservation" | "frontdesk",
+                )
+                  ? linkActive
+                  : linkInactive
+                  }`}
               >
                 <ChevronDown
-                  className={`h-5 w-5 transition-transform duration-200 ${
-                    openSubMenus.includes(
-                      menu.key as "rooms" | "reservation" | "frontdesk",
-                    )
-                      ? "rotate-180 text-blue-500"
-                      : ""
-                  }`}
+                  className={`h-5 w-5 transition-transform duration-200 ${openSubMenus.includes(
+                    menu.key as "rooms" | "reservation" | "frontdesk",
+                  )
+                    ? "rotate-180 text-blue-500"
+                    : ""
+                    }`}
                 />
                 {menu.label}
               </button>
               {openSubMenus.includes(
                 menu.key as "rooms" | "reservation" | "frontdesk",
               ) && (
-                <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
-                  {menu.items.map((item) => {
-                    return (
-                      <NavLink
-                        key={item.key}
-                        to={`/${organization?.slug}/accomodation/${item.path}`}
-                        onClick={() =>
-                          handleSubItemClick(
-                            menu.key as "rooms" | "reservation" | "frontdesk",
-                            item.key,
-                          )
-                        }
-                        className={() =>
-                          getSubLinkClass(
-                            menu.key as "rooms" | "reservation" | "frontdesk",
-                            item.key,
-                          )
-                        }
-                      >
-                        <div className="flex w-full items-center justify-between gap-2">
-                          <p className="flex items-center gap-2">
-                            <ListChevronsDownUp className="h-4 w-4" />
+                  <div className="mt-1 flex w-full flex-col gap-1 border-b border-gray-100 bg-white p-1.5">
+                    {menu.items.map((item) => {
+                      return (
+                        <NavLink
+                          key={item.key}
+                          to={`/${organization?.slug}/accomodation/${item.path}`}
+                          onClick={() =>
+                            handleSubItemClick(
+                              menu.key as "rooms" | "reservation" | "frontdesk",
+                              item.key,
+                            )
+                          }
+                          className={() =>
+                            getSubLinkClass(
+                              menu.key as "rooms" | "reservation" | "frontdesk",
+                              item.key,
+                            )
+                          }
+                        >
+                          <div className="flex w-full items-center justify-between gap-2">
+                            <p className="flex items-center gap-2">
+                              <ListChevronsDownUp className="h-4 w-4" />
 
-                            <span>{item.label}</span>
-                          </p>
+                              <span>{item.label}</span>
+                            </p>
 
-                          {item.count !== undefined && <p>({item.count})</p>}
-                        </div>
-                      </NavLink>
-                    );
-                  })}
-                </div>
-              )}
+                            {item.count !== undefined && <p>({item.count})</p>}
+                          </div>
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                )}
             </div>
           );
         })}

@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Dashboard from "./component/Dashboard";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
 import ResDash from "./pages/restaurant/ResDash";
@@ -18,7 +18,7 @@ import { ReservationReportStateHolder } from "./states/ReservationReportStateHol
 import Report from "./reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
-import type { Action, Resources } from "./utils/secureclient/models/permission";
+import type { Action, Resources } from "./utils/secureclient/services/models/permission";
 import Dash from "./pages/hotel/Dash";
 import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
 import RestaurantLayout from "./pages/restaurant/RestaurantLayout";

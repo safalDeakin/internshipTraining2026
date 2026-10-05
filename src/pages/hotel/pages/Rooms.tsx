@@ -1,14 +1,14 @@
 //author:Shrajja
 import { useState } from "react";
-import { useAuth } from "../../../utils/secureclient/context/AuthContext";
-import AccessControl from "../../../utils/secureclient/classes/AccessControl";
-import { useOrganization } from "../../../utils/secureclient/context/OrganizationContext";
+import { useAuth } from "../../../utils/secureclient/context/useAuth";
+import AccessControl from "../../../utils/secureclient/services/utils/AccessControl";
+
 import { rooms } from "../../../data/rooms";
 import {
   ACTIONS,
   RESOURCES,
   type Action,
-} from "../../../utils/secureclient/models/permission";
+} from "../../../utils/secureclient/services/models/permission";
 import { X } from "lucide-react";
 
 type RoomType = {
@@ -18,9 +18,9 @@ type RoomType = {
 };
 const Rooms = () => {
   // const { canAccess } = usePermissions();
-  const { user } = useAuth();
+  const { user, organization } = useAuth();
   const accessControl = new AccessControl();
-  const { organization } = useOrganization();
+
   const [createModal, setCreateModal] = useState(false);
   const [roomForm, setRoomForm] = useState<RoomType>({
     roomNumber: "",

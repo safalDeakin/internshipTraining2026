@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeClosed, LoaderCircle } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-import type { User } from "../models/users";
+import { useAuth } from "../context/useAuth";
+import type { User } from "../services/models/users";
 
 const Login = () => {
   const { login } = useAuth();

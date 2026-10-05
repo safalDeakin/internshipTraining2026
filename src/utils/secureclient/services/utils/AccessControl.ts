@@ -74,6 +74,7 @@ class AccessControl {
     //   action: ["view"],
     // },
   ];
+
   can(role: Role, resource: Resources, action: Action) {
     const policy = this.policies.find(
       (policy) => policy.role === role && policy.resource === resource,

@@ -1,13 +1,13 @@
 //author:shrajja
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SecureCellRoute from "./routing/SecureCellRoute";
+import SecureCellRoute from "./SecureCellRoute";
 import type { ReactNode } from "react";
-import Unauthorized from "./component/Unauthorized";
-import type { Action, Resources } from "./models/permission";
-import Login from "./component/Login";
-import { AuthProvider } from "./context/AuthContext";
-import { OrganizationProvider } from "./context/OrganizationContext";
-import Navbar from "./component/Navbar";
+import Unauthorized from "./pages/Unauthorized";
+import type { Action, Resources } from "./services/models/permission";
+import Login from "./pages/Login";
+import { AuthProvider } from "./context/AuthProvider";
+import Navbar from "./pages/Navbar";
 
 interface SecureConfig {
   authServerUrl: string;
@@ -35,7 +35,8 @@ const SecureAppClient = ({
   config,
   permissions = {},
 }: SecureAppClientProps) => {
-  console.log("SecureAppClient rendered");
+
+  console.log("Loading Secure App Client: Setting config -> " + config)
 
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
@@ -43,19 +44,17 @@ const SecureAppClient = ({
   return (
     <>
       <AuthProvider>
-        <OrganizationProvider>
-          {" "}
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route element={<SecureCellRoute permissions={permissions} />}>
-                {children}
-              </Route>
-              <Route path="/unauthorized" element={<Unauthorized />} />
-            </Routes>
-          </BrowserRouter>
-        </OrganizationProvider>
+        {" "}
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<SecureCellRoute permissions={permissions} />}>
+              {children}
+            </Route>
+            <Route path="/unauthorized" element={<Unauthorized />} />
+          </Routes>
+        </BrowserRouter>
       </AuthProvider>
     </>
   );

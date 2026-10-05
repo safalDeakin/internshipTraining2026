@@ -1,15 +1,15 @@
 import { Search } from "lucide-react";
 import { useOffer } from "../hooks/useOffer";
 import { useNavigate, useParams } from "react-router-dom";
-import { useOrganization } from "../utils/secureclient/context/OrganizationContext";
 import type { Offer } from "../store/OfferState";
+import { useAuth } from "../utils/secureclient/context/useAuth";
 
 const ListHeroSection = () => {
   const { setSearch, filteredOffers } = useOffer();
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
   const storedId = localStorage.getItem("selectedOfferId");
 
   const selId = id ? Number(id) : storedId ? Number(storedId) : null;
@@ -55,10 +55,9 @@ const ListHeroSection = () => {
                   text-[#29445f]
                   transition-colors
                   cursor-pointer
-                  ${
-                    isActive
-                      ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
-                      : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
+                  ${isActive
+                    ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
+                    : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
                   }
                 `}
               >

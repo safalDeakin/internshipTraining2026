@@ -1,14 +1,14 @@
 //author:Shrajja
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { useOrganization } from "../../../utils/secureclient/context/OrganizationContext";
 import { useRepo } from "../../../context/RepoContext";
 import { useReservationState } from "../../../hooks/userReservationState";
+import { useAuth } from "../../../utils/secureclient/context/useAuth";
 
 const Reservation = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
 
   const { reservationState } = useRepo();
 
@@ -59,11 +59,10 @@ const Reservation = () => {
               key={reservation.reservationId}
               to={`./${reservation.reservationId}`}
               onClick={() => selectReservation(reservation.reservationId)}
-              className={`p-3 border-b border-gray-100 ${
-                String(reservation.reservationId) === id
-                  ? "bg-blue-100 text-blue-800"
-                  : "hover:bg-gray-100"
-              }`}
+              className={`p-3 border-b border-gray-100 ${String(reservation.reservationId) === id
+                ? "bg-blue-100 text-blue-800"
+                : "hover:bg-gray-100"
+                }`}
             >
               <p className="font-medium">{reservation.guestName}</p>
 

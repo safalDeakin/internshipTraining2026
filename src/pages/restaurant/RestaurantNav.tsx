@@ -8,10 +8,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
+
+import { useAuth } from "../../utils/secureclient/context/useAuth";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { repo } from "../../repo/Repo";
-import { getOrganizationPath } from "../../utils/secureclient/models/orgPath";
+import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 
 const restaurantMenu: {
   title: string;
@@ -22,55 +23,55 @@ const restaurantMenu: {
     openSettings?: boolean;
   }[];
 }[] = [
-  {
-    title: "Menu",
-    items: [
-      {
-        label: "Products",
-        path: "products",
-      },
-      {
-        label: "Pricelist",
-        path: "price",
-      },
-      {
-        label: "Offers",
-        path: "offer",
-      },
-    ],
-  },
-  {
-    title: "Configuration",
-    items: [
-      {
-        label: "Sales Setting",
-        path: "products",
-        icon: Files,
-        openSettings: true,
-      },
-      {
-        label: "Staffs and Access",
-        path: "price",
-        icon: Files,
-      },
-      {
-        label: "Device Setup",
-        path: "offer",
-        icon: Files,
-      },
-    ],
-  },
-  {
-    title: "Shell Profile",
-    items: [
-      {
-        label: "Shell Status",
-        path: "products",
-        openSettings: true,
-      },
-    ],
-  },
-];
+    {
+      title: "Menu",
+      items: [
+        {
+          label: "Products",
+          path: "products",
+        },
+        {
+          label: "Pricelist",
+          path: "price",
+        },
+        {
+          label: "Offers",
+          path: "offer",
+        },
+      ],
+    },
+    {
+      title: "Configuration",
+      items: [
+        {
+          label: "Sales Setting",
+          path: "products",
+          icon: Files,
+          openSettings: true,
+        },
+        {
+          label: "Staffs and Access",
+          path: "price",
+          icon: Files,
+        },
+        {
+          label: "Device Setup",
+          path: "offer",
+          icon: Files,
+        },
+      ],
+    },
+    {
+      title: "Shell Profile",
+      items: [
+        {
+          label: "Shell Status",
+          path: "products",
+          openSettings: true,
+        },
+      ],
+    },
+  ];
 interface RestaurantNavbarProps {
   closeBar?: () => void;
   openSettings?: () => void;
@@ -82,7 +83,7 @@ const linkInactive = "hover:bg-blue-50";
 
 const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
   const location = useLocation();
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
   //sessions aren't stored inside the component. stored in repo so React needs a way to subscribe to that external store.
   const posSessions = useSyncExternalStore(
     //Subscribe to the Repo's POS session changes.
@@ -204,9 +205,8 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
             aria-label="Toggle restaurant menu"
           >
             <ChevronDown
-              className={`w-5 h-5 text-gray-500  cursor-pointer transition-transform duration-200 ${
-                isRestaurantOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+              className={`w-5 h-5 text-gray-500  cursor-pointer transition-transform duration-200 ${isRestaurantOpen ? "rotate-180 text-blue-500" : ""
+                }`}
             />
           </button>
           {isRestaurantOpen && (
@@ -216,11 +216,10 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
                   <p className="pb-2 text-sm text-gray-900">{section.title}</p>
 
                   <div
-                    className={`flex flex-col gap-3 ${
-                      sectionIndex !== restaurantMenu.length - 1
-                        ? "border-b border-gray-300 pb-2"
-                        : ""
-                    }`}
+                    className={`flex flex-col gap-3 ${sectionIndex !== restaurantMenu.length - 1
+                      ? "border-b border-gray-300 pb-2"
+                      : ""
+                      }`}
                   >
                     {section.items.map((item) => (
                       <NavLink
@@ -263,9 +262,8 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
                 className="flex w-full gap-1 items-center rounded-lg text-left text-gray-800 hover:bg-blue-50  pb-2"
               >
                 <ChevronDown
-                  className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                    isOpen ? "rotate-180 text-blue-500" : ""
-                  }`}
+                  className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180 text-blue-500" : ""
+                    }`}
                 />
                 <span className="font-medium">{item.name}</span>
               </button>
@@ -292,18 +290,16 @@ const RestaurantNav = ({ closeBar, openSettings }: RestaurantNavbarProps) => {
                           <button
                             type="button"
                             onClick={() => toggleSession(String(child.id))}
-                            className={`flex w-full items-center gap-2 rounded-lg border py-2 text-left transition-colors ${
-                              isSessionActive || isSessionOpen
-                                ? "border-blue-500 bg-blue-50 text-blue-600"
-                                : "border-transparent hover:bg-blue-50"
-                            }`}
+                            className={`flex w-full items-center gap-2 rounded-lg border py-2 text-left transition-colors ${isSessionActive || isSessionOpen
+                              ? "border-blue-500 bg-blue-50 text-blue-600"
+                              : "border-transparent hover:bg-blue-50"
+                              }`}
                           >
                             <ChevronDown
-                              className={`h-4 w-4 transition-transform ${
-                                isSessionOpen
-                                  ? "rotate-180 text-blue-500"
-                                  : "text-gray-500"
-                              }`}
+                              className={`h-4 w-4 transition-transform ${isSessionOpen
+                                ? "rotate-180 text-blue-500"
+                                : "text-gray-500"
+                                }`}
                             />
 
                             <span>{child.label}</span>
