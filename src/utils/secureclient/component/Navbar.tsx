@@ -8,65 +8,24 @@ import NavigationSecurity from "../classes/NavigationSecurity";
 import { type Resources } from "../models/permission";
 import { getOrganizationPath } from "../models/orgPath";
 //dynamic items
-type NavItem = {
+export type NavItem = {
   label: string;
   path: string;
   resource: Resources;
 };
 
-type NavGroup = {
+export type NavGroup = {
   label: string;
   items: NavItem[];
 };
-const navGroups: NavGroup[] = [
-  {
-    label: "Manage",
-    items: [
-      {
-        label: "Test Component",
-        path: "/test-component",
-        resource: "test-component",
-      },
-      {
-        label: "Restaurant Session",
-        path: "/restaurant",
-        resource: "restaurant",
-      },
-      {
-        label: "PMS",
-        path: "/accomodation",
-        resource: "accommodation",
-      },
-      {
-        label: "Activity Logs",
-        path: "/activity-log",
-        resource: "activity-logs",
-      },
-      {
-        label: "Reports",
-        path: "/reservation-report",
-        resource: "reports",
-      },
-    ],
-  },
-  {
-    label: "Utilities",
-    items: [
-      {
-        label: "Business Calendar",
-        path: "/business-calender",
-        resource: "businesscalender",
-      },
-    ],
-  },
-];
 
-const Navbar = () => {
+export interface NavbarProps {
+  navGroups: NavGroup[];
+}
+const Navbar = ({ navGroups }: NavbarProps) => {
   const [isOpen, setISOpen] = useState(false);
   const { user, logout } = useAuth();
   const { organization } = useOrganization();
-  console.log("ORGANIZATION:", organization);
-  console.log("ORGANIZATION SLUG:", organization?.slug);
   const navigationSecurity = new NavigationSecurity();
 
   //filter to hide not accessible item

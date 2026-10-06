@@ -10,6 +10,7 @@ import { OrganizationProvider } from "./context/OrganizationContext";
 import Navbar from "./component/Navbar";
 import type { Organization } from "./models/organizations";
 import TenantSecurity from "./classes/TenantSecurity";
+import { hotelnavGroups } from "./models/navigation";
 
 interface SecureConfig {
   authServerUrl: string;
@@ -44,10 +45,11 @@ const SecureAppClient = ({
     <>
       <AuthProvider>
         {/* doesnot care where organizations are useful for another app too */}
+        {/* organizations?? pass hotels as organizations */}
         <OrganizationProvider organizations={organizations ?? []}>
           {" "}
           <BrowserRouter>
-            <Navbar />
+            <Navbar navGroups={hotelnavGroups} />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route

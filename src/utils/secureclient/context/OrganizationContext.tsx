@@ -25,6 +25,8 @@ export const OrganizationProvider = ({
   //get current logged in user
   const { user } = useAuth();
   const organization =
+    //org are comes from backend after
+    //find cuurent org from here currentlyloggedin user
     organizations.find((org) => org.id === user?.organizationId) ?? null;
   //Everything in children can now read { organization, organizations }.
   return (
