@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { useAuth } from "../../utils/secureclient/context/useAuth";
+import { useAuth } from "../../utils/secureclient/useAuth";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { repo } from "../../repo/Repo";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";

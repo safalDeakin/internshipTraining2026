@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useRepo } from "../../../context/RepoContext";
 import { useReservationState } from "../../../hooks/userReservationState";
-import { useAuth } from "../../../utils/secureclient/context/useAuth";
+import { useAuth } from "../../../utils/secureclient/useAuth";
 
 const Reservation = () => {
   const { id } = useParams();

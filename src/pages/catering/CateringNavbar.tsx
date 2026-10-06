@@ -12,7 +12,7 @@ import {
   Tag,
   Warehouse,
 } from "lucide-react";
-import { useAuth } from "../../utils/secureclient/context/useAuth";
+import { useAuth } from "../../utils/secureclient/useAuth";
 
 interface CateringNavProps {
   closeBar: () => void;
