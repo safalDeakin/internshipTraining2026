@@ -18,7 +18,10 @@ import { ReservationReportStateHolder } from "./states/ReservationReportStateHol
 import Report from "./reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
-import type { Action, Resources } from "./utils/secureclient/services/models/permission";
+import type {
+  Action,
+  Resources,
+} from "./utils/secureclient/services/models/permission";
 import Dash from "./pages/hotel/Dash";
 import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
 import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
@@ -95,46 +98,22 @@ const App = () => {
         reservationReportState={reservationReportState}
       >
         <SecureAppClient config={secureConfig} permissions={permissions}>
-          <Route path="/" element={<Dashboard />} />
-          {/* //test compoent */}
-          <Route
-            path="/:organizationSlug/test-component"
-            element={<TestComponent />}
-          />
-          {/* //activuty */}
-          <Route
-            path="/:organizationSlug/activity-log"
-            element={<Activity />}
-          />
-          {/* hotel */}
+          <Route path="" element={<Dashboard />} />
 
-          <Route
-            path="/:organizationSlug/accomodation"
-            element={<HotelLayout />}
-          >
+          <Route path="test-component" element={<TestComponent />} />
+
+          <Route path="activity-log" element={<Activity />} />
+
+          <Route path="accomodation" element={<HotelLayout />}>
             <Route index element={<Dash />} />
             <Route path="room" element={<Rooms />} />
+
             <Route path="reservation" element={<Reservation />}>
               <Route path=":id" element={<Hoteldetails />} />
             </Route>
           </Route>
 
-          {/* //PMS */}
-
-          {/* <Route path="/:organizationSlug/pms" element={<Pms />}>
-            <Route index element={<Details />} />
-            <Route path="operations/arrivals" element={<Arrivals />} />
-            <Route path="operations/cash" element={<Cash />} />
-            <Route path="activate" element={<Activate />}>
-              <Route path=":activeId/:childId" element={<ActivateDetails />} />
-            </Route>
-          </Route> */}
-          {/* Restaurant */}
-
-          <Route
-            path="/:organizationSlug/restaurant"
-            element={<RestaurantLayout />}
-          >
+          <Route path="restaurant" element={<RestaurantLayout />}>
             <Route index element={<ResDash />} />
             <Route path="sales" element={<Sales />} />
             <Route path="price" element={<Pricelist />} />
@@ -144,13 +123,7 @@ const App = () => {
             <Route path="kitchenOrders" element={<KitchenOrders />} />
           </Route>
 
-          {/* report */}
-          <Route
-            path="/:organizationSlug/reservation-report"
-            element={<Report />}
-          />
-
-          {/* calender */}
+          <Route path="reservation-report" element={<Report />} />
         </SecureAppClient>
       </RepoProvider>
     </div>

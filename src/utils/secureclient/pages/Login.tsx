@@ -6,7 +6,7 @@ import { useAuth } from "../context/useAuth";
 import type { User } from "../services/models/users";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, organization } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,20 +15,13 @@ const Login = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
+
   const handletogoDashboard = () => {
-    switch (loggedUser?.role) {
-      case "ADMIN":
-        navigate("/");
-        break;
-      case "RECEPTIONIST":
-        navigate("/");
-        break;
-      case "WAITER":
-        navigate("/");
-        break;
-      default:
-        alert("Rolenot recognized");
+    if (!loggedUser || !organization) {
+      return;
     }
+
+    navigate(`/${organization.slug}`);
   };
   const handlelogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

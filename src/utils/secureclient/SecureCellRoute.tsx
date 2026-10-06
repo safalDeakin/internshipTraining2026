@@ -17,51 +17,51 @@ type SecureCellRouteProps = {
 };
 
 const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
-  const { isAuthenticated, isAuthorized } = useAuth(); //gets authentication info from auth context
-  const { organizationSlug } = useParams(); //slug name og hotel
+  const { isAuthenticated, isAuthorized } = useAuth();
+
+  const { organizationSlug } = useParams();
+
   const location = useLocation();
 
-  console.log("We are here");
+  console.log("organizationSlug:", organizationSlug);
 
-  //Here we check if user has valid token or not.
   if (!isAuthenticated()) {
-    console.log("isAuthenticated Result False");
     return <Navigate to="/login" replace />;
   }
-  console.log("isAuthenticated Result True");
 
-
-  //slug
+  // Organization slug must exist
   if (!organizationSlug) {
-    console.log("organizationSlug Result True");
-    return (
-      <>
-        {/* <Navbar /> */}
-        <Outlet />
-      </>
-    );
+    return <Navigate to="/login" replace />;
   }
 
-  // looking at the current URL to figure out which resource the user is trying to access.
   const pathparts = location.pathname.split("/");
-  //Look at the third part of the URL and treat that as the application resource.
+
+  console.log("PATH PARTS:", pathparts);
+
   const routeKey = pathparts[2];
+
+  console.log("ROUTE KEY:", routeKey);
+
+  // /hotel-everest
+  // There is no resource yet.
+  if (!routeKey) {
+    return <Outlet />;
+  }
+
   const permission = permissions[routeKey];
 
-  // Her we check if user is authorized or not
-  if (!isAuthorized(organizationSlug, permission.resource, permission.action)) {
-    console.log("isAuthorized Result False");
+  console.log("PERMISSION:", permission);
+
+  // Resource exists in URL but no permission configuration exists
+  if (!permission) {
     return <Navigate to="/unauthorized" replace />;
   }
 
+  if (!isAuthorized(organizationSlug, permission.resource, permission.action)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-  //access granted
-  return (
-    <>
-      {/* {showNavbar && <Navbar />} */}
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 };
 
 export default SecureCellRoute;

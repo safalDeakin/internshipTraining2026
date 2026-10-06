@@ -65,10 +65,10 @@ const Navbar = () => {
   const [isOpen, setISOpen] = useState(false);
   const { user, logout, getOrganizationFromSlug } = useAuth();
   const { organizationSlug } = useParams(); //sl
-
-  const organization = getOrganizationFromSlug(organizationSlug)
-
   console.log("ORGANIZATION SLUG:", organizationSlug);
+  const organization = getOrganizationFromSlug(organizationSlug);
+  console.log("org", organization);
+
   const navigationSecurity = new NavigationSecurity();
 
   //filter to hide not accessible item
@@ -84,7 +84,7 @@ const Navbar = () => {
   return (
     <div className="w-full flex flex-col gap-4  bg-white shadow-sm p-3">
       <ul className="flex justify-between ">
-        <NavLink to="/" className="font-bold ">
+        <NavLink to={`/${organization?.slug}/`} className="font-bold ">
           {organization?.name || "Your Hotel"}
         </NavLink>
         <input
@@ -110,7 +110,8 @@ const Navbar = () => {
                         to={getOrganizationPath(item.path, organization)}
                         onClick={() => setISOpen(false)}
                         className={({ isActive }) =>
-                          `rounded mb-2 font-normal hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
+                          `rounded mb-2 font-normal hover:bg-blue-50 ${
+                            isActive ? "text-blue-800" : "text-black"
                           }`
                         }
                       >
@@ -132,7 +133,8 @@ const Navbar = () => {
                     to={getOrganizationPath("/profile", organization)}
                     onClick={() => setISOpen(false)}
                     className={({ isActive }) =>
-                      `rounded hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
+                      `rounded hover:bg-blue-50 ${
+                        isActive ? "text-blue-800" : "text-black"
                       }`
                     }
                   >
