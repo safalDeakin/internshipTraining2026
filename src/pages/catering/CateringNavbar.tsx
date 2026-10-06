@@ -1,6 +1,7 @@
+//author:Shrajja
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useOrganization } from "../../context/OrganizationContext";
+import { useOrganization } from "../../utils/secureclient/context/OrganizationContext";
 import {
   ChefHat,
   ChevronDown,
@@ -19,6 +20,7 @@ interface CateringNavProps {
 const linkBase = "flex items-center gap-2 px-4 py-2 rounded-xl text-sm";
 const linkActive = "bg-blue-100 text-blue-700";
 const linkInactive = "text-blue-950 hover:bg-blue-50";
+
 const CateringNavbar = ({ closeBar }: CateringNavProps) => {
   const { organization } = useOrganization();
   const [isCateringOpen, setIsCateringOpen] = useState(false);

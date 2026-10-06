@@ -1,4 +1,4 @@
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../utils/secureclient/context/AuthContext";
 
 const Dashboard = () => {
   const { user } = useAuth();

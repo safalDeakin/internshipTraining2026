@@ -1,0 +1,21 @@
+import { useAuth } from "../utils/secureclient/context/AuthContext";
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../utils/secureclient/component/Navbar";
+
+const ProtectedRoute = () => {
+  const { user } = useAuth();
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+
+      <main className="flex-1">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+
+export default ProtectedRoute;
