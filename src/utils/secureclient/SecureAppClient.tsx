@@ -1,5 +1,4 @@
 //author:shrajja
-
 import {
   BrowserRouter,
   Routes,
@@ -15,6 +14,7 @@ import type { Action, Resources } from "./services/models/permission";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
+import type { AppRoute } from "./services/routes/appRoutes";
 
 interface SecureConfig {
   authServerUrl: string;
@@ -22,10 +22,7 @@ interface SecureConfig {
   pubKey: string;
 }
 
-// interface PermissionConfig {
-//   resource: Resources;
-//   action: Action;
-// }
+//things that application must give your package.
 interface SecureAppClientProps {
   children?: ReactNode;
   config?: SecureConfig;
@@ -36,42 +33,63 @@ interface SecureAppClientProps {
       action: Action;
     }
   >;
+  routes: AppRoute[];
 }
-const OrganizationLayout = () => {
+const OrganizationLayout = ({ routes }: { routes: AppRoute[] }) => {
   const { organizationSlug } = useParams();
   console.log("ORGANIZATION LAYOUT SLUG:", organizationSlug);
   return (
     <>
-      {" "}
-      <Navbar /> <Outlet />{" "}
+      <Navbar routes={routes} /> <Outlet />{" "}
     </>
   );
 };
-//should not create application route here only accept props from parent
+
 const SecureAppClient = ({
   children,
   config,
   permissions = {},
+  routes,
 }: SecureAppClientProps) => {
   console.log("Loading Secure App Client: Setting config -> " + config);
 
+  const renderRoutes = (routes: AppRoute[]): ReactNode => {
+    return routes.map((route, index) => {
+      if (route.index) {
+        return <Route key={`index-${index}`} index element={route.element} />;
+      }
+      return (
+        <Route
+          key={route.path ?? `route-${index}`}
+          path={route.path}
+          element={route.element}
+        >
+          {route.children && renderRoutes(route.children)}
+        </Route>
+      );
+    });
+  };
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
   return (
     <>
       <AuthProvider>
-        {" "}
         <BrowserRouter>
-          {/* <Navbar /> */}
           <Routes>
-            {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+            <Route
+              path="/"
+              element={<Navigate to="/hotel-everest" replace />}
+            />{" "}
             <Route path="/login" element={<Login />} />
             <Route
-              path=":organizationSlug/*"
+              path=":organizationSlug"
               element={<SecureCellRoute permissions={permissions} />}
             >
-              <Route element={<OrganizationLayout />}> {children} </Route>
+              <Route element={<OrganizationLayout routes={routes} />}>
+                {" "}
+                {renderRoutes(routes)}{" "}
+              </Route>
             </Route>
             <Route path="/unauthorized" element={<Unauthorized />} />
           </Routes>
