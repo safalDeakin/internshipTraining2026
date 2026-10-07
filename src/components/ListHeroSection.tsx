@@ -1,22 +1,18 @@
 import { Search } from "lucide-react";
 import { useOffer } from "../hooks/useOffer";
 import { useNavigate, useParams } from "react-router-dom";
-import { useOrganization } from "../context/OrganizationContext";
 import type { Offer } from "../store/OfferState";
+import { useAuth } from "../utils/secureclient/useAuth";
 
 const ListHeroSection = () => {
   const { setSearch, filteredOffers } = useOffer();
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { organization } = useOrganization();
+  const { organization } = useAuth();
   const storedId = localStorage.getItem("selectedOfferId");
 
-  const selId = id
-    ? Number(id)
-    : storedId
-      ? Number(storedId)
-      : null;
+  const selId = id ? Number(id) : storedId ? Number(storedId) : null;
 
   const handleOfferClick = (id: number) => {
     localStorage.setItem("selectedOfferId", String(id));
@@ -26,13 +22,9 @@ const ListHeroSection = () => {
   return (
     <div className="min-h-svh rounded border border-[#e1e7ed] bg-white p-2">
       <div className="p-2">
-
         {/* Search */}
         <div className="mb-3 flex h-9 items-center rounded-[5px] border border-[#e1e7ed] px-2">
-          <Search
-            size={18}
-            className="mr-2 shrink-0 text-[#9ba7b5]"
-          />
+          <Search size={18} className="mr-2 shrink-0 text-[#9ba7b5]" />
 
           <input
             type="text"
@@ -74,7 +66,6 @@ const ListHeroSection = () => {
             );
           })}
         </nav>
-
       </div>
     </div>
   );
