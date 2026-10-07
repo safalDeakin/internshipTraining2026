@@ -1,11 +1,24 @@
+
+import { useMemo } from "react";
+import SecureAppClient from "./utils/secureclient/SecureAppClient";
+
+import { RepoProvider } from "./context/RepoContext";
+import "./component/table/styles/tableConent.css"
+
 import type {
   Action,
   Resources,
 } from "./utils/secureclient/services/models/permission";
+
 import { appRoutes } from "./routes/appRoutes";
-import SecureAppClient from "./utils/secureclient/SecureAppClient";
-// import { useMemo } from "react";
-// import { Repo } from "./repo/Repo";
+import { KitchenStateHolder } from "./states/KitchenStateHolder";
+import { reservations } from "./data/mockReservations";
+
+
+import { Repo } from "./repo/Repo";
+import { ReservationStateHolder } from "./states/ReservationStateHolder";
+import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
+import { mockKitchenOrders } from "./data/mockReservations";
 
 const permissions: Record<
   string,
@@ -18,6 +31,7 @@ const permissions: Record<
     resource: "restaurant",
     action: "view",
   },
+
 
   accomodation: {
     resource: "accommodation",
@@ -48,13 +62,46 @@ const App = () => {
 
   //starts SEcureAppclient package from here
   //SecureAppClient handles authentication,authorization,navigation
+
+
+
+  const repo = useMemo(() => {
+    const repository = new Repo();
+
+    repository.setReservations(reservations);
+    repository.setKitchenOrders(mockKitchenOrders);
+
+    return repository;
+  }, []);
+  const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
+
+  const reservationState = useMemo(
+    () => new ReservationStateHolder(repo),
+    [repo],
+  );
+
+  const reservationReportState = useMemo(
+    () => new ReservationReportStateHolder(repo),
+    [repo],
+  );
+
+  //starts SEcureAppclient package from here
+  //SecureAppClient handles authentication,authorization,navigation
   return (
+
     <>
-      <SecureAppClient
-        config={secureConfig}
-        permissions={permissions}
-        routes={appRoutes}
-      />
+      <RepoProvider
+        repo={repo}
+        kitchenState={kitchenState}
+        reservationState={reservationState}
+        reservationReportState={reservationReportState}
+      >
+        <SecureAppClient
+          config={secureConfig}
+          permissions={permissions}
+          routes={appRoutes}
+        />
+      </RepoProvider>
     </>
   );
 };

@@ -16,7 +16,9 @@ import Pricelist from "../pages/restaurant/pages/Pricelist";
 import Sales from "../pages/restaurant/pages/Sales";
 import ResDash from "../pages/restaurant/ResDash";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
-import Report from "../reports/Report";
+import Report from "../pages/reports/Report";
+import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
+import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 
 //information needed for a navigation
 export type AppNav = {
@@ -113,6 +115,14 @@ export const appRoutes: AppRoute[] = [
           {
             path: ":id",
             element: <Hoteldetails />,
+          },
+          {
+            path: "all-reservation",
+            element: <FinalAllReservationPage />,
+          },
+          {
+            path: "reservation-calendar",
+            element: <ReservationCalendar />,
           },
         ],
       },
