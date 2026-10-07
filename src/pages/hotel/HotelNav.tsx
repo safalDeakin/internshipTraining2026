@@ -48,8 +48,8 @@ const accommodationMenu: AccommodationMenuSection[] = [
     title: "Manage",
     items: [
       {
-        label: "Property",
-        path: "property",
+        label: "All Rooms",
+        path: "all-rooms",
       },
       {
         label: "Rate Plan",

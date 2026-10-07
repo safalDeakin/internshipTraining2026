@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "../component/ListView/Listview";
-import SidebarList from "../component/ListView/ListViewList";
+import SidebarList from "../component/ListView/ListViewItem";
 import SearchInput from "../component/ListView/SearchInput";
 
 import { useOffer } from "../hooks/useOffer";

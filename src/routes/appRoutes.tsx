@@ -19,6 +19,7 @@ import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
+import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -103,6 +104,10 @@ export const appRoutes: AppRoute[] = [
       {
         index: true,
         element: <Dash />,
+      },
+      {
+        path: "all-rooms",
+        element: <RoomDetailRenderer />,
       },
       {
         path: "room",
