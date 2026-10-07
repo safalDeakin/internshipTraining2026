@@ -113,6 +113,10 @@ export const appRoutes: AppRoute[] = [
         element: <Reservation />,
         children: [
           {
+            path: ":id",
+            element: <Hoteldetails />,
+          },
+          {
             path: "all-reservation",
             element: <FinalAllReservationPage />,
           },
