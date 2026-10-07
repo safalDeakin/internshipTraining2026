@@ -150,8 +150,13 @@ const menuSection: MenuSection[] = [
     items: [
       {
         key: "reservationList",
-        label: "Reservation data",
+        label: "All Reservations",
         path: "reservation",
+      },
+      {
+        key: "reservationCalendar",
+        label: "Reservation Calendar",
+        path: "reservation-calendar",
       },
     ],
   },

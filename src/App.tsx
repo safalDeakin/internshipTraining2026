@@ -15,7 +15,13 @@ import { mockKitchenOrders, reservations } from "./data/mockReservations";
 import { KitchenStateHolder } from "./states/KitchenStateHolder";
 import { ReservationStateHolder } from "./states/ReservationStateHolder";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
-import Report from "./reports/Report";
+import "./component/table/styles/tableConent.css"
+
+// Hotel
+
+// Reports
+// import ReservationReport from "./reports/reservation/ReservationReport";
+import Report from "./pages/reports/Report";
 import TestComponent from "./pages/test/TestComponent";
 import Activity from "./pages/activity-log/Activity";
 import type {
@@ -27,7 +33,11 @@ import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
 import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
 import HotelLayout from "./pages/hotel/HotelLayout";
 import Rooms from "./pages/hotel/pages/Rooms";
-import Reservation from "./pages/hotel/pages/Reservation";
+// import Reservation from "./pages/hotel/pages/Reservation";
+import FinalAllReservationPage from "./pages/hotel/pages/FinalAllReservationPage";
+import ReservationCalendar from "./pages/hotel/pages/ReservationCalendar";
+
+
 
 const permissions: Record<
   string,
@@ -40,6 +50,7 @@ const permissions: Record<
     resource: "restaurant",
     action: "view",
   },
+
 
   accomodation: {
     resource: "accommodation",
@@ -108,9 +119,11 @@ const App = () => {
             <Route index element={<Dash />} />
             <Route path="room" element={<Rooms />} />
 
-            <Route path="reservation" element={<Reservation />}>
+            <Route path="reservation" element={<FinalAllReservationPage />}>
               <Route path=":id" element={<Hoteldetails />} />
             </Route>
+
+            <Route path="reservation-calendar" element={<ReservationCalendar />} />
           </Route>
 
           <Route path="restaurant" element={<RestaurantLayout />}>
@@ -124,9 +137,91 @@ const App = () => {
           </Route>
 
           <Route path="reservation-report" element={<Report />} />
-        </SecureAppClient>
-      </RepoProvider>
-    </div>
+        </SecureAppClient >
+        {/* =========================
+              Reservation Reports
+          ========================= */}
+
+        {/* Existing reservation report */}
+        {/* <Route
+            path="/:organizationSlug/reservation-report"
+            element={<ReservationReport />}
+          /> */}
+
+        {/* Report Builder */}
+        {/* <Route
+            path="/:organizationSlug/reservation-report"
+            element={<Report />}
+          /> */}
+
+        {/* Printable reservation form */}
+        {/* <Route
+            path="/print-data"
+            element={<PrintReservationForm />}
+          /> */}
+
+        {/* =========================
+              Reservation Calendar
+          ========================= */}
+
+        {/* Existing calendar render */}
+        {/* <Route
+            path="/reservation-calender"
+            element={<Render />}
+          /> */}
+
+        {/* New reservation calendar */}
+        {/* <Route
+            path="/:organizationSlug/reservation-calendar"
+            element={<ReservationCalendar />}
+          /> */}
+
+        {/* =========================
+              Unauthorized
+          ========================= */}
+        {/* <Route
+            path="/unauthorized"
+            element={<Unauthorized />}
+          /> */}
+
+        {/**Table Content */}
+        {/* <Route
+            path="/reservation-table"
+            element={<ItemsPage />}
+          /> */}
+
+        {/**For Event calendar */}
+        {/* <Route
+            path="/calendar"
+            element={<CalendarRenderer />}
+          /> */}
+
+        {/*For popup Setting*/}
+        {/* <Route
+            path="/popupSetting"
+            element={<SettingRenderer />}
+          /> */}
+
+
+        {/**For All Reservation
+           */}
+
+        {/* <Route
+            path="/all-reservation"
+            element={<FinalApp />}
+          /> */}
+
+
+        {/**For Room Detail*/}
+        {/* <Route
+            path="/room-detail"
+            element={<RoomDetailRenderer />}
+          />
+        </Routes> */}
+
+
+      </RepoProvider >
+    </div >
   );
 };
 
