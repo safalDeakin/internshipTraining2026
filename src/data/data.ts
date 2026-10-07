@@ -1,18 +1,18 @@
 export const initialData = [
     {
-        id: 1,
+        id: "1",
         name: "2024-Winter Special",
     },
     {
-        id: 2,
+        id: "2",
         name: "2024 - Dashain Tihar Special",
     },
     {
-        id: 3,
+        id: "3",
         name: "2024-Winter Special",
     },
     {
-        id: 4,
+        id: "4",
         name: "2024-Winter Special",
     },
 ];
