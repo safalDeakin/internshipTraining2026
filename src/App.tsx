@@ -1,44 +1,20 @@
-import { Route } from "react-router-dom";
-import Dashboard from "./component/Dashboard";
-import {useMemo} from "react";
+
+import { useMemo } from "react";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
-import ResDash from "./pages/restaurant/ResDash";
-import Sales from "./pages/restaurant/pages/Sales";
-import Pricelist from "./pages/restaurant/pages/Pricelist";
-import Stock from "./pages/restaurant/pages/Stock";
-import Offers from "./components/Offers";
-import Products from "./pages/restaurant/pages/Products";
-import KitchenOrders from "./pages/restaurant/pages/KitchenOrders";
+
 import { RepoProvider } from "./context/RepoContext";
 import "./component/table/styles/tableConent.css"
 
-// Hotel
-
-// Reports
-// import ReservationReport from "./reports/reservation/ReservationReport";
-import Report from "./pages/reports/Report";
-import TestComponent from "./pages/test/TestComponent";
-import Activity from "./pages/activity-log/Activity";
 import type {
   Action,
   Resources,
 } from "./utils/secureclient/services/models/permission";
-import Dash from "./pages/hotel/Dash";
-import Hoteldetails from "./pages/hotel/pages/Hoteldetails";
-import RestaurantLayout from "./pages/restaurant/RestaurantLayout";
-import HotelLayout from "./pages/hotel/HotelLayout";
-import Rooms from "./pages/hotel/pages/Rooms";
-// import Reservation from "./pages/hotel/pages/Reservation";
-import FinalAllReservationPage from "./pages/hotel/pages/FinalAllReservationPage";
-import ReservationCalendar from "./pages/hotel/pages/ReservationCalendar";
+
 import { appRoutes } from "./routes/appRoutes";
-import { repo } from "./repo/Repo";
 import { KitchenStateHolder } from "./states/KitchenStateHolder";
 import { reservations } from "./data/mockReservations";
 
 
-// import SecureAppClient from "./utils/secureclient/SecureAppClient";
-// import { useMemo } from "react";
 import { Repo } from "./repo/Repo";
 import { ReservationStateHolder } from "./states/ReservationStateHolder";
 import { ReservationReportStateHolder } from "./states/ReservationReportStateHolder";
@@ -108,6 +84,9 @@ const App = () => {
     () => new ReservationReportStateHolder(repo),
     [repo],
   );
+
+  //starts SEcureAppclient package from here
+  //SecureAppClient handles authentication,authorization,navigation
   return (
 
     <>
@@ -124,8 +103,6 @@ const App = () => {
         />
       </RepoProvider>
     </>
-
-
   );
 };
 
