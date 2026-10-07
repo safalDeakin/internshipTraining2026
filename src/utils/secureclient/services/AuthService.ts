@@ -28,6 +28,7 @@ class AuthService {
       selectedOrgId,
     );
     console.log("Authserivce tenantallowed", tenantAllowed);
+
     const accessAllowed = this.accessControl.can(user?.role, resource, action);
     return tenantAllowed && accessAllowed;
   };

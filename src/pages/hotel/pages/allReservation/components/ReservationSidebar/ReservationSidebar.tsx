@@ -1,4 +1,4 @@
-import SidebarHeader from "../../../sidebar/SidebarHeader";
+import SidebarHeader from "../../../../../../component/ListView/ListViewHeader";
 // import ReservationSidebarHeader from "./ReservationHeader";
 import ReservationList from "./ReservationList";
 
