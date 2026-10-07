@@ -151,12 +151,12 @@ const menuSection: MenuSection[] = [
       {
         key: "reservationList",
         label: "All Reservations",
-        path: "reservation/all-reservation",
+        path: "/reservation/all-reservation",
       },
       {
         key: "reservationCalendar",
         label: "Reservation Calendar",
-        path: "reservation/reservation-calendar",
+        path: "/reservation/reservation-calendar",
       },
     ],
   },
