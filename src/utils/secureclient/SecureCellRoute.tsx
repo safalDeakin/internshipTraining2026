@@ -1,6 +1,6 @@
 //author:shrajja
 
-import { useAuth } from "./context/useAuth";
+import { useAuth } from "./useAuth";
 import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import type { Action, Resources } from "./services/models/permission";
 

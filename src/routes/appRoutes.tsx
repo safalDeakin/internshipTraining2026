@@ -1,22 +1,22 @@
 //author:shrajja
 //central route + navigation configuration
 import type { ReactNode } from "react";
-import type { Resources } from "../models/permission";
-import Dashboard from "../../../../component/Dashboard";
-import TestComponent from "../../../../pages/test/TestComponent";
-import Activity from "../../../../pages/activity-log/Activity";
-import Hoteldetails from "../../../../pages/hotel/pages/Hoteldetails";
-import Reservation from "../../../../pages/hotel/pages/Reservation";
-import Rooms from "../../../../pages/hotel/pages/Rooms";
-import Dash from "../../../../pages/hotel/Dash";
-import HotelLayout from "../../../../pages/hotel/HotelLayout";
-import Products from "../../../../pages/restaurant/pages/Products";
-import Offers from "../../../../components/Offers";
-import Pricelist from "../../../../pages/restaurant/pages/Pricelist";
-import Sales from "../../../../pages/restaurant/pages/Sales";
-import ResDash from "../../../../pages/restaurant/ResDash";
-import RestaurantLayout from "../../../../pages/restaurant/RestaurantLayout";
-import Report from "../../../../reports/Report";
+import type { Resources } from "../utils/secureclient/services/models/permission";
+import Dashboard from "../component/Dashboard";
+import TestComponent from "../pages/test/TestComponent";
+import Activity from "../pages/activity-log/Activity";
+import Hoteldetails from "../pages/hotel/pages/Hoteldetails";
+import Reservation from "../pages/hotel/pages/Reservation";
+import Rooms from "../pages/hotel/pages/Rooms";
+import Dash from "../pages/hotel/Dash";
+import HotelLayout from "../pages/hotel/HotelLayout";
+import Products from "../pages/restaurant/pages/Products";
+import Offers from "../components/Offers";
+import Pricelist from "../pages/restaurant/pages/Pricelist";
+import Sales from "../pages/restaurant/pages/Sales";
+import ResDash from "../pages/restaurant/ResDash";
+import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
+import Report from "../reports/Report";
 
 //information needed for a navigation
 export type AppNav = {

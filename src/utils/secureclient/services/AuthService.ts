@@ -1,6 +1,5 @@
 //author: Shrajja
-// bridge between authentication, tenant security, and role/permission security.
-//modified by: Safal
+//modified by: Safal Shrestha
 import type { Organization } from "./models/organization";
 import type { Action, Resources } from "./models/permission";
 import type { User } from "./models/users";

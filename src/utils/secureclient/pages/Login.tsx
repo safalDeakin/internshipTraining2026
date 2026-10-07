@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeClosed, LoaderCircle } from "lucide-react";
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../useAuth";
 import type { User } from "../services/models/users";
 
 const Login = () => {

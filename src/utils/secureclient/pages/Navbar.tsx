@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { LogOut, Menu } from "lucide-react";
 import { NavLink, useParams } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../useAuth";
+// import { useOrganization } from "../context/XXXOrganizationContext";
 import NavigationSecurity from "../services/utils/NavigationSecurity";
-import type { AppRoute } from "../services/routes/appRoutes";
+import type { AppRoute } from "../../../routes/appRoutes";
 
 interface NavbarProps {
   routes: AppRoute[];
@@ -77,8 +78,7 @@ const Navbar = ({ routes }: NavbarProps) => {
                         to={route.path!}
                         onClick={() => setIsOpen(false)}
                         className={({ isActive }) =>
-                          `rounded mb-2 font-normal hover:bg-blue-50 ${
-                            isActive ? "text-blue-800" : "text-black"
+                          `rounded mb-2 font-normal hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
                           }`
                         }
                       >
@@ -100,8 +100,7 @@ const Navbar = ({ routes }: NavbarProps) => {
                     to="profile"
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) =>
-                      `rounded hover:bg-blue-50 ${
-                        isActive ? "text-blue-800" : "text-black"
+                      `rounded hover:bg-blue-50 ${isActive ? "text-blue-800" : "text-black"
                       }`
                     }
                   >

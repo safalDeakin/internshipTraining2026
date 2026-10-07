@@ -1,6 +1,6 @@
 //author:Shrajja
 import { useState } from "react";
-import { useAuth } from "../../../utils/secureclient/context/useAuth";
+import { useAuth } from "../../../utils/secureclient/useAuth";
 import AccessControl from "../../../utils/secureclient/services/utils/AccessControl";
 
 import { rooms } from "../../../data/rooms";

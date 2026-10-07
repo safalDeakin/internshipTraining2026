@@ -3,9 +3,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
   Outlet,
-  useParams,
 } from "react-router-dom";
 import SecureCellRoute from "./SecureCellRoute";
 import type { ReactNode } from "react";
@@ -14,10 +12,8 @@ import type { Action, Resources } from "./services/models/permission";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
-import type { AppRoute } from "./services/routes/appRoutes";
-import Dashboard from "../../component/Dashboard";
-import { useAuth } from "./context/useAuth";
-import { organizations } from "./services/utils/TenantSecurity";
+import type { AppRoute } from "../../routes/appRoutes";
+import RootRedirect from "./pages/RouteRedirect";
 
 interface SecureConfig {
   authServerUrl: string;
@@ -40,8 +36,6 @@ interface SecureAppClientProps {
   routes: AppRoute[];
 }
 const OrganizationLayout = ({ routes }: { routes: AppRoute[] }) => {
-  const { organizationSlug } = useParams();
-  console.log("ORGANIZATION LAYOUT SLUG:", organizationSlug);
   return (
     <>
       <Navbar routes={routes} /> <Outlet />{" "}
@@ -73,20 +67,8 @@ const SecureAppClient = ({
       );
     });
   };
-  const RootRedirect = () => {
-    const { user } = useAuth();
-    if (!user) {
-      return <Navigate to="/login" replace />;
-    }
-    const organization = organizations.find(
-      (org) => org.id === user.organizationId,
-    );
 
-    if (!organization) {
-      return <Navigate to="/unauthorized" replace />;
-    }
-    return <Navigate to={`/${organization.slug}`} replace />;
-  };
+
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
@@ -113,5 +95,6 @@ const SecureAppClient = ({
     </>
   );
 };
+
 
 export default SecureAppClient;

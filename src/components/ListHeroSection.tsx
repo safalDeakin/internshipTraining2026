@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { useOffer } from "../hooks/useOffer";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Offer } from "../store/OfferState";
-import { useAuth } from "../utils/secureclient/context/useAuth";
+import { useAuth } from "../utils/secureclient/useAuth";
 
 const ListHeroSection = () => {
   const { setSearch, filteredOffers } = useOffer();
