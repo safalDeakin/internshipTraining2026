@@ -18,13 +18,9 @@ type SecureCellRouteProps = {
 
 const SecureCellRoute = ({ permissions = {} }: SecureCellRouteProps) => {
   const { isAuthenticated, isAuthorized } = useAuth();
-
   const { organizationSlug } = useParams();
-
   const location = useLocation();
-
   console.log("organizationSlug:", organizationSlug);
-
   if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }

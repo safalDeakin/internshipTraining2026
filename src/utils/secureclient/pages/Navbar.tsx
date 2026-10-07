@@ -13,14 +13,13 @@ interface NavbarProps {
 
 const Navbar = ({ routes }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const { user, logout, getOrganizationFromSlug } = useAuth();
   const { organizationSlug } = useParams();
-
   const organization = getOrganizationFromSlug(organizationSlug);
-
+  //permission check
   const navigationSecurity = new NavigationSecurity();
 
+  //routes the current user is allowed to see.
   const visibleRoutes = routes.filter(
     (route) =>
       route.nav &&
@@ -28,27 +27,26 @@ const Navbar = ({ routes }: NavbarProps) => {
       navigationSecurity.canNavigate(user.role, route.nav.resource),
   );
 
+  //put routes into groups
   const groupedRoutes = visibleRoutes.reduce<Record<string, AppRoute[]>>(
     (groups, route) => {
       const group = route.nav!.group;
-
       if (!groups[group]) {
         groups[group] = [];
       }
-
       groups[group].push(route);
-
       return groups;
     },
     {},
   );
+  //this groupedroutes return in object
 
   return (
     <div className="w-full flex flex-col gap-4 bg-white shadow-sm p-3">
       <ul className="flex justify-between items-center">
         {/* Organization / Dashboard */}
         <NavLink to="." className="font-bold">
-          {organization?.name || "Your Hotel"}
+          {organization?.name || " "}
         </NavLink>
 
         {/* Search */}
@@ -65,6 +63,7 @@ const Navbar = ({ routes }: NavbarProps) => {
           {isOpen && (
             <div className="absolute top-8 right-2 z-50 w-56 p-4 rounded-md bg-white text-left shadow-lg">
               {/* Navigation Groups */}
+              {/* make array to map it  */}
               {Object.entries(groupedRoutes).map(([groupName, groupRoutes]) => (
                 <div key={groupName} className="mb-4">
                   <p className="mb-2 text-xs font-semibold text-gray-700">

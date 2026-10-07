@@ -2,7 +2,7 @@
 //Does this logged-in user belong to the organization they are trying to access?
 import type { Organization } from "../models/organization";
 
-const organizations: Organization[] = [
+export const organizations: Organization[] = [
   {
     id: 1,
     name: "Hotel Everest",

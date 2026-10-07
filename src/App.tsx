@@ -4,6 +4,8 @@ import type {
 } from "./utils/secureclient/services/models/permission";
 import { appRoutes } from "./utils/secureclient/services/routes/appRoutes";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
+// import { useMemo } from "react";
+// import { Repo } from "./repo/Repo";
 
 const permissions: Record<
   string,

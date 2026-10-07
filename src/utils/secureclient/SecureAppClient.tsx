@@ -15,11 +15,15 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
 import type { AppRoute } from "./services/routes/appRoutes";
+import Dashboard from "../../component/Dashboard";
+import { useAuth } from "./context/useAuth";
+import { organizations } from "./services/utils/TenantSecurity";
 
 interface SecureConfig {
   authServerUrl: string;
   clientId: string;
   pubKey: string;
+  // defaultOrganization?: string;
 }
 
 //things that application must give your package.
@@ -69,6 +73,20 @@ const SecureAppClient = ({
       );
     });
   };
+  const RootRedirect = () => {
+    const { user } = useAuth();
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
+    const organization = organizations.find(
+      (org) => org.id === user.organizationId,
+    );
+
+    if (!organization) {
+      return <Navigate to="/unauthorized" replace />;
+    }
+    return <Navigate to={`/${organization.slug}`} replace />;
+  };
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
@@ -77,10 +95,7 @@ const SecureAppClient = ({
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={<Navigate to="/hotel-everest" replace />}
-            />{" "}
+            <Route path="/" element={<RootRedirect />} />
             <Route path="/login" element={<Login />} />
             <Route
               path=":organizationSlug"
