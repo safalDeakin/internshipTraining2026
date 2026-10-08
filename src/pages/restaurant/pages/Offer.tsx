@@ -1,6 +1,6 @@
 //author:shrajja
 import { Outlet } from "react-router-dom";
-import ListHeader from "../../../components/ListHeader";
+import ListHeader from "../../../XXcomponents/ListHeader";
 
 const Offer = () => {
   return (
