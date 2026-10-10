@@ -5,14 +5,14 @@ import {
     calculateDropSlot,
     canMoveReservation,
     hasReservationOverlap,
-} from "../utils/calendarUtils";
+} from "../../pages/reservatoinCalendar/utils/calendarUtils";
 
 import type {
     Reservation,
     DropPreview,
-} from "../types/reservation";
+} from "../../pages/reservatoinCalendar/types/reservation";
 
-import { TOTAL_SLOTS } from "../data/reservationData";
+import { TOTAL_SLOTS } from "../../pages/reservatoinCalendar/data/reservationData";
 
 interface Props {
     calendarReservations: Record<string, Reservation[]>;

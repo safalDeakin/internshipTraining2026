@@ -4,14 +4,14 @@ import {
     getRoomById,
     hasReservationOverlap,
     canMoveReservation,
-} from "../utils/calendarUtils";
+} from "../../pages/reservatoinCalendar/utils/calendarUtils";
 
-import { TOTAL_SLOTS } from "../data/reservationData";
+import { TOTAL_SLOTS } from "../../pages/reservatoinCalendar/data/reservationData";
 
 import type {
     Reservation,
     DropPreview,
-} from "../types/reservation";
+} from "../../pages/reservatoinCalendar/types/reservation";
 
 interface UsePointerReservationDragProps {
     calendarReservations: Record<string, Reservation[]>;

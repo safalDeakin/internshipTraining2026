@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-import { useViewportSize } from "../../hooks/useViewportSize";
-import { useOrientation } from "../../hooks/useOrientation";
+import { useViewportSize } from "../../../../hooks/reservationCalendar/useViewportSize";
+import { useOrientation } from "../../../../hooks/reservationCalendar/useOrientation";
 
 import RotateDeviceMessage from "../UI/RotateDeviceMessage";
 

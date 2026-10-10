@@ -1,5 +1,5 @@
 // import { CreditCard } from 'lucide-react';
-import { useReservationState } from '../../../hooks/useReservationState';
+import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
 
 export default function PaymentsTab() {
     const { selectedReservation: r } = useReservationState();

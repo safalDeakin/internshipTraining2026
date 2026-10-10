@@ -1,4 +1,4 @@
-import { useReservationState } from '../../../hooks/useReservationState';
+import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
 
 function InfoRow({ label, value }: { label: string; value: string }) {
     return (

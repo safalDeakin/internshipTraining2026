@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
-import { useAppContext } from '../context/AppContext';
-import type { TabKey } from '../types';
+import { useAppContext } from '../../pages/allReservation/context/AppContext';
+import type { TabKey } from '../../pages/allReservation/types/index';
 
 export function useUIState() {
     const { uiState } = useAppContext();

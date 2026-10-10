@@ -11,7 +11,7 @@ import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
 import Products from "../pages/restaurant/pages/Products";
-import Offers from "../components/Offers";
+import Offer from "../pages/restaurant/pages/Offer";
 import Pricelist from "../pages/restaurant/pages/Pricelist";
 import Sales from "../pages/restaurant/pages/Sales";
 import ResDash from "../pages/restaurant/ResDash";
@@ -84,7 +84,7 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "offer",
-        element: <Offers />,
+        element: <Offer />,
       },
       {
         path: "products",

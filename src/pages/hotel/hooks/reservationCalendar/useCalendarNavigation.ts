@@ -1,4 +1,4 @@
-import { getSundayOfWeek } from "../utils/calendarUtils";
+import { getSundayOfWeek } from "../../pages/reservatoinCalendar/utils/calendarUtils";
 
 interface UseCalendarNavigationProps {
     weekStart: Date;

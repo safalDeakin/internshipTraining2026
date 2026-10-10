@@ -1,5 +1,5 @@
 import RoomDetail from "./components/RoomDetail/RoomDetail";
-import { useRoomDetail } from "./hooks/useRoomDetail";
+import { useRoomDetail } from "../../hooks/roomDetail/useRoomDetail";
 
 export default function RoomDetailRenderer() {
     const roomDetail = useRoomDetail();

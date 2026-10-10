@@ -1,13 +1,14 @@
 import { Plus } from 'lucide-react';
-import { useReservationState } from '../../../hooks/useReservationState';
+import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
 import { useAppContext } from '../../../context/AppContext';
+import type { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from 'react';
 
 export default function GuestFolio() {
     const { selectedReservation: r } = useReservationState();
     const { repo } = useAppContext();
 
-    const totalCharges = r.folioItems.reduce((sum, i) => sum + i.charge, 0);
-    const totalCredits = r.folioItems.reduce((sum, i) => sum + i.credit, 0);
+    const totalCharges = r.folioItems.reduce((sum: any, i: { charge: any; }) => sum + i.charge, 0);
+    const totalCredits = r.folioItems.reduce((sum: any, i: { credit: any; }) => sum + i.credit, 0);
     const balance = totalCharges - totalCredits;
 
     const handleAddCharge = () => {
@@ -46,7 +47,7 @@ export default function GuestFolio() {
                         </tr>
                     </thead>
                     <tbody>
-                        {r.folioItems.map((item) => (
+                        {r.folioItems.map((item: { id: Key | null | undefined; date: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; description: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; charge: number; credit: number; }) => (
                             <tr key={item.id} className="border-b border-gray-100 hover:bg-gray-50">
                                 <td className="px-3 py-2 text-gray-500">{item.date}</td>
                                 <td className="px-3 py-2 text-gray-700">{item.description}</td>

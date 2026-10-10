@@ -1,9 +1,9 @@
-import { useCalendarState } from "./reservatoinCalendar/hooks/useCalendarState";
-import { useCalendarNavigation } from "./reservatoinCalendar/hooks/useCalendarNavigation";
-import { useCalendarFilters } from "./reservatoinCalendar/hooks/useCalendarFilters";
-import { useDragMessage } from "./reservatoinCalendar/hooks/useDragMessage";
-import { useReservationDrag } from "./reservatoinCalendar/hooks/useReservationDrag";
-import { usePointerReservationDrag } from "./reservatoinCalendar/hooks/usePointerReservationDrag";
+import { useCalendarState } from "../hooks/reservationCalendar/useCalendarState";
+import { useCalendarNavigation } from "../hooks/reservationCalendar/useCalendarNavigation";
+import { useCalendarFilters } from "../hooks/reservationCalendar/useCalendarFilters";
+import { useDragMessage } from "../hooks/reservationCalendar/useDragMessage";
+import { useReservationDrag } from "../hooks/reservationCalendar/useReservationDrag";
+import { usePointerReservationDrag } from "../hooks/reservationCalendar/usePointerReservationDrag";
 
 import CalendarHeader from "./reservatoinCalendar/components/Calendar/CalendarHeader";
 import CalendarControls from "./reservatoinCalendar/components/Calendar/CalendarControls";
@@ -11,7 +11,7 @@ import CalendarGrid from "./reservatoinCalendar/components/Calendar/CalendarGrid
 import ResponsiveCalendarView from "./reservatoinCalendar/components/Calendar/ResponsiveCalendarView";
 import LandscapeGuard from "./reservatoinCalendar/components/Responsive/LandScapeGuard";
 
-import "../css/reservationCalendar.css"
+import "../css/reservationCalendar/reservationCalendar.css"
 
 import DragMessage from "./reservatoinCalendar/components/UI/DragMessag";
 

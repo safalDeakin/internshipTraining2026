@@ -1,15 +1,15 @@
 import { useMemo, useState } from "react";
-import type { ViewMode, Reservation, DropPreview } from "../types/reservation";
+import type { ViewMode, Reservation, DropPreview } from "../../pages/reservatoinCalendar/types/reservation";
 import {
     getSundayOfWeek,
     getWeekDates,
     isSameDay,
-} from "../utils/calendarUtils";
+} from "../../pages/reservatoinCalendar/utils/calendarUtils";
 import {
     RESERVATIONS,
     SLOTS_PER_DAY,
     TOTAL_SLOTS,
-} from "../data/reservationData";
+} from "../../pages/reservatoinCalendar/data/reservationData";
 
 export function useCalendarState() {
     const [viewMode, setViewMode] =
