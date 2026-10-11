@@ -10,13 +10,16 @@ import Reservation from "../pages/hotel/pages/Reservation";
 import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/pages/Products";
+import Products from "../pages/restaurant/dropdown/Products";
 import Offers from "../XXcomponents/Offers";
-import Pricelist from "../pages/restaurant/pages/Pricelist";
+import Pricelist from "../pages/restaurant/dropdown/Pricelist";
 import Sales from "../pages/restaurant/pages/Sales";
-import ResDash from "../pages/restaurant/ResDash";
+import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
-import Report from "../reports/Report";
+import Report from "../pages/reports/Report";
+import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
+import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
+import POSUserSession from "../pages/restaurant/pages/POSUserSession";
 
 //information needed for a navigation
 export type AppNav = {
@@ -69,7 +72,7 @@ export const appRoutes: AppRoute[] = [
     children: [
       {
         index: true,
-        element: <ResDash />,
+        element: <RestaurantDashboard />,
       },
       {
         path: "sales",
@@ -83,6 +86,11 @@ export const appRoutes: AppRoute[] = [
         path: "offer",
         element: <Offers />,
       },
+      {
+        path: "session",
+        element: <POSUserSession />,
+      },
+
       {
         path: "products",
         element: <Products />,
@@ -113,6 +121,14 @@ export const appRoutes: AppRoute[] = [
           {
             path: ":id",
             element: <Hoteldetails />,
+          },
+          {
+            path: "all-reservation",
+            element: <FinalAllReservationPage />,
+          },
+          {
+            path: "reservation-calendar",
+            element: <ReservationCalendar />,
           },
         ],
       },

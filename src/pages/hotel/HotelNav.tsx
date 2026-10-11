@@ -149,14 +149,14 @@ const menuSection: MenuSection[] = [
     label: "Reservation",
     items: [
       {
-        key: "all reservation",
-        label: "All reservation",
-        path: "reservation",
+        key: "reservationList",
+        label: "All Reservations",
+        path: "/reservation/all-reservation",
       },
       {
-        key: "calender",
-        label: "Calender",
-        path: "calender",
+        key: "reservationCalendar",
+        label: "Reservation Calendar",
+        path: "/reservation/reservation-calendar",
       },
     ],
   },
@@ -219,7 +219,7 @@ const HotelNav = ({ closeBar }: AccomodationNavbarProps) => {
           </NavLink>
           <button
             type="button"
-            className="flex-shrink-0"
+            className="shrink-0"
             onClick={() => setIsAccomodationOpen(!isAccomodationOpen)}
           >
             <ChevronDown

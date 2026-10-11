@@ -13,13 +13,43 @@ const App = () => {
 
   //starts SEcureAppclient package from here
   //SecureAppClient handles authentication,authorization,navigation
+
+  // const repo = useMemo(() => {
+  //   const repository = new Repo();
+
+  //   repository.setReservations(reservations);
+  //   repository.setKitchenOrders(mockKitchenOrders);
+
+  //   return repository;
+  // }, []);
+  // const kitchenState = useMemo(() => new KitchenStateHolder(repo), [repo]);
+
+  // const reservationState = useMemo(
+  //   () => new ReservationStateHolder(repo),
+  //   [repo],
+  // );
+
+  // const reservationReportState = useMemo(
+  //   () => new ReservationReportStateHolder(repo),
+  //   [repo],
+  // );
+
+  //starts SEcureAppclient package from here
+  //SecureAppClient handles authentication,authorization,navigation
   return (
     <>
+      {/* <RepoProvider
+        repo={repo}
+        kitchenState={kitchenState}
+        reservationState={reservationState}
+        reservationReportState={reservationReportState}
+      > */}
       <SecureAppClient
         config={secureConfig}
         permissions={permissions}
         routes={appRoutes}
       />
+      {/* </RepoProvider> */}
     </>
   );
 };

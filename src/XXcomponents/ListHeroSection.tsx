@@ -1,74 +1,74 @@
-import { Search } from "lucide-react";
-import { useOffer } from "../hooks/useOffer";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import Sidebar from "../component/ListView/Listview";
+import SidebarList from "../component/ListView/ListViewList";
+import SearchInput from "../component/ListView/SearchInput";
+
+import { useOffer } from "../hooks/useOffer";
 import type { Offer } from "../store/OfferState";
 import { useAuth } from "../utils/secureclient/useAuth";
 
 const ListHeroSection = () => {
-  const { setSearch, filteredOffers } = useOffer();
+    const { setSearch, filteredOffers } = useOffer();
 
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const { organization } = useAuth();
-  const storedId = localStorage.getItem("selectedOfferId");
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const { organization } = useAuth();
 
-  const selId = id ? Number(id) : storedId ? Number(storedId) : null;
+    const storedId = localStorage.getItem("selectedOfferId");
 
-  const handleOfferClick = (id: number) => {
-    localStorage.setItem("selectedOfferId", String(id));
-    navigate(`/${organization?.slug}/restaurant/offer/${id}`);
-  };
+    const selId = id
+        ? Number(id)
+        : storedId
+            ? Number(storedId)
+            : null;
 
-  return (
-    <div className="min-h-svh rounded border border-[#e1e7ed] bg-white p-2">
-      <div className="p-2">
-        {/* Search */}
-        <div className="mb-3 flex h-9 items-center rounded-[5px] border border-[#e1e7ed] px-2">
-          <Search size={18} className="mr-2 shrink-0 text-[#9ba7b5]" />
+    const [search, setSearchValue] = useState("");
 
-          <input
-            type="text"
-            placeholder="Search price lists..."
-            className="h-full w-full border-0 bg-transparent text-[14px] text-[#34495e] outline-none placeholder:text-[#9da8b5]"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+    const handleSearchChange = (value: string) => {
+        setSearchValue(value);
+        setSearch(value);
+    };
 
-        {/* Offer List */}
-        <nav className="flex flex-col">
-          {filteredOffers.map((offer: Offer) => {
-            const isActive = selId === offer.id;
+    const handleOfferClick = (offer: Offer) => {
+        localStorage.setItem("selectedOfferId", String(offer.id));
 
-            return (
-              <button
-                key={offer.id}
-                type="button"
-                onClick={() => handleOfferClick(offer.id)}
-                className={`
-                  flex
-                  min-h-12
-                  w-full
-                  items-center
-                  px-3
-                  text-left
-                  text-[15px]
-                  text-[#29445f]
-                  transition-colors
-                  cursor-pointer
-                  ${isActive
-                    ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
-                    : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
-                  }
-                `}
-              >
-                {offer.name}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-    </div>
-  );
+        navigate(
+            `/${organization?.slug}/restaurant/offer/${offer.id}`
+        );
+    };
+
+    return (
+        <Sidebar className="rounded border border-[#e1e7ed] p-2">
+            <div className="p-2">
+
+                {/* Search */}
+                <SearchInput
+                    value={search}
+                    handleChange={handleSearchChange}
+                    placeholder="Search price lists..."
+                    className="mb-3"
+                />
+
+                {/* Offer List */}
+                <SidebarList<Offer>
+                    items={filteredOffers}
+                    selectedId={
+                        selId !== null
+                            ? String(selId)
+                            : undefined
+                    }
+                    getId={(offer) => String(offer.id)}
+                    onSelect={handleOfferClick}
+                    renderItem={(offer) => (
+                        <span>{offer.name}</span>
+                    )}
+                />
+
+            </div>
+        </Sidebar>
+    );
 };
 
 export default ListHeroSection;
