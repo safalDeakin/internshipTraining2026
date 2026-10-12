@@ -1,9 +1,9 @@
 import { useSyncExternalStore } from 'react';
-import { useAppContext } from '../../pages/allReservation/context/AppContext';
+import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
 import type { TabKey } from '../../pages/allReservation/types/index';
 
 export function useUIState() {
-    const { uiState } = useAppContext();
+    const { uiState } = useAllReservationContext();
 
     const snapshot = useSyncExternalStore(
         uiState.subscribe,

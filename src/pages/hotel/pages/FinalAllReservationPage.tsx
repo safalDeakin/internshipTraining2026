@@ -1,10 +1,10 @@
-import { AppProvider } from "./allReservation/context/AppContext";
+import { AllReservationProvider } from "./allReservation/context/AllReservationContext";
 import ReservationApp from "./allReservation/ReservationApp";
 
 export default function FinalAllReservationPage() {
   return (
-    <AppProvider>
+    <AllReservationProvider>
       <ReservationApp />
-    </AppProvider>
+    </AllReservationProvider>
   );
 }

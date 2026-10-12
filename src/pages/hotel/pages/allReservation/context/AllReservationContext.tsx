@@ -9,9 +9,9 @@ type AppContextValue = {
     uiState: UIStateHolder;
 };
 
-const AppContext = createContext<AppContextValue | null>(null);
+const AllReservationContext = createContext<AppContextValue | null>(null);
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
+export function AllReservationProvider({ children }: { children: React.ReactNode }) {
     // Created once per mount; refs ensure stable instances across re-renders
     const repoRef = useRef<Repo | null>(null);
     const reservationStateRef = useRef<ReservationStateHolder | null>(null);
@@ -24,7 +24,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <AppContext.Provider
+        <AllReservationContext.Provider
             value={{
                 repo: repoRef.current,
                 reservationState: reservationStateRef.current!,
@@ -32,12 +32,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             }}
         >
             {children}
-        </AppContext.Provider>
+        </AllReservationContext.Provider>
     );
 }
 
-export function useAppContext(): AppContextValue {
-    const ctx = useContext(AppContext);
+export function useAllReservationContext(): AppContextValue {
+    const ctx = useContext(AllReservationContext);
     if (!ctx) throw new Error('useAppContext must be used inside AppProvider');
     return ctx;
 }

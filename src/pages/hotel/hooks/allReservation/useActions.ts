@@ -1,8 +1,8 @@
-import { useAppContext } from '../../pages/allReservation/context/AppContext';
+import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
 import { useReservationState } from './useReservationState';
 
 export function useReservationActions() {
-    const { repo } = useAppContext();
+    const { repo } = useAllReservationContext();
     const { selectedReservation } = useReservationState();
     const r = selectedReservation;
 

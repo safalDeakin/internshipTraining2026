@@ -1,8 +1,8 @@
 import { useSyncExternalStore } from 'react';
-import { useAppContext } from '../../pages/allReservation/context/AppContext';
+import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
 
 export function useReservationState() {
-  const { reservationState } = useAppContext();
+  const { reservationState } = useAllReservationContext();
 
   const snapshot = useSyncExternalStore(
     reservationState.subscribe,

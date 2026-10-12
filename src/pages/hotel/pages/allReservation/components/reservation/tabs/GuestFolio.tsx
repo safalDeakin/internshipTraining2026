@@ -1,11 +1,11 @@
 import { Plus } from 'lucide-react';
 import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
-import { useAppContext } from '../../../context/AppContext';
+import { useAllReservationContext } from '../../../context/AllReservationContext';
 import type { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from 'react';
 
 export default function GuestFolio() {
     const { selectedReservation: r } = useReservationState();
-    const { repo } = useAppContext();
+    const { repo } = useAllReservationContext();
 
     const totalCharges = r.folioItems.reduce((sum: any, i: { charge: any; }) => sum + i.charge, 0);
     const totalCredits = r.folioItems.reduce((sum: any, i: { credit: any; }) => sum + i.credit, 0);
