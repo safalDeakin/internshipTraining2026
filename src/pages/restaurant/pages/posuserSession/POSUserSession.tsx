@@ -8,9 +8,12 @@ import {
   Receipt,
   Undo2,
   Wallet,
+  Warehouse,
   type LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Ordering from "./steps/Ordering";
+//navigation
 const tabs: { id: string; label: string; icon: LucideIcon }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "invoicing", label: "Invoicing", icon: Receipt },
@@ -18,6 +21,7 @@ const tabs: { id: string; label: string; icon: LucideIcon }[] = [
   { id: "ordering", label: "Ordering", icon: ClipboardList },
   { id: "reservation", label: "Reservation", icon: CalendarCheck },
   { id: "return", label: "Return", icon: Undo2 },
+  { id: "stock", label: "Stock", icon: Warehouse },
 ];
 
 interface SessionPageProps {
@@ -26,7 +30,7 @@ interface SessionPageProps {
 
 const POSUserSession = ({ onExit }: SessionPageProps) => {
   const [shown, setShown] = useState(false); // drives the slide animation
-  const [activeTab, setActiveTab] = useState("ordering");
+  const [activeTab, setActiveTab] = useState("ordering"); //always redneing this
   const navigate = useNavigate();
   // slide in after first paint
   useEffect(() => {
@@ -82,14 +86,7 @@ const POSUserSession = ({ onExit }: SessionPageProps) => {
         {activeTab === "dashboard" && <div>Dashboard</div>}
         {activeTab === "invoicing" && <div>Invoicing</div>}
         {activeTab === "payments" && <div>Payments</div>}
-        {activeTab === "ordering" && (
-          <div>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea saepe
-            accusantium nulla consectetur, deleniti et officia, deserunt,
-            tempora impedit fugit at voluptatibus explicabo. Sunt cupiditate
-            dolores temporibus corrupti quaerat praesentium.
-          </div>
-        )}
+        {activeTab === "ordering" && <Ordering />}
         {activeTab === "reservation" && <div>Reservation</div>}
         {activeTab === "return" && <div>Return</div>}
       </main>

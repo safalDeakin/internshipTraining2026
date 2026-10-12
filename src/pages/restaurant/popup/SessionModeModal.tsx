@@ -1,31 +1,70 @@
-// author: shrjja
 import { X } from "lucide-react";
+import type { POSSessionMode } from "../../../types/POSUserSession";
 
 interface SessionModeModalProps {
   onClose: () => void;
-  onSelect?: () => void;
+  onSelect?: (mode: POSSessionMode) => void;
+  onEndSession?: () => void;
+  onPause?: () => void;
+  isSessionActive?: boolean;
+  staffName: string;
+  terminal: string;
+  date: string;
+  activeSessionStartTime?: string;
 }
+
 interface ButtonModeProps {
   title: string;
   onClick?: () => void;
 }
+
 export const ButtonMode = ({ title, onClick }: ButtonModeProps) => {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="bg-orange-500 shadow-md border border-amber-50 text-white w-full h-auto px-2 py-2 rounded-lg "
+      className="w-full rounded-lg border border-amber-50 bg-orange-500 px-2 py-2 text-white shadow-md hover:bg-orange-600"
     >
-      <p className="text-sm p-2">{title}</p>
+      <p className="p-2 text-sm">{title}</p>
     </button>
   );
 };
-const SessionModeModal = ({ onClose, onSelect }: SessionModeModalProps) => {
-  const handleSessionMode = () => {
-    onSelect?.();
+
+const sessionModes: {
+  label: string;
+  value: POSSessionMode;
+}[] = [
+  { label: "Session Mode (Standard)", value: "Standard" },
+  { label: "Over The Air", value: "Over The Air" },
+  { label: "Manager Mode", value: "Manager Mode" },
+  {
+    label: "Service and Technical Check",
+    value: "Service and Technical Check",
+  },
+];
+
+const SessionModeModal = ({
+  onClose,
+  onSelect,
+  onEndSession,
+  onPause,
+  isSessionActive = false,
+  staffName,
+  terminal,
+  date,
+  activeSessionStartTime,
+}: SessionModeModalProps) => {
+  const handleSessionMode = (mode: POSSessionMode) => {
+    onSelect?.(mode);
   };
+
   return (
-    <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl mb-2">
+    <div
+      className="relative mb-2 w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="session-mode-title"
+    >
       <button
         type="button"
         onClick={onClose}
@@ -34,32 +73,56 @@ const SessionModeModal = ({ onClose, onSelect }: SessionModeModalProps) => {
       >
         <X className="h-5 w-5" />
       </button>
-      <h1 className="font-bold text-center">Select Shell Mode</h1>
-      <div className="flex flex-col gap-1">
-        <div className="">
-          <h2 className="text-md">Staff</h2>
-          <p className="text-sm text-gray-400">john</p>
+
+      <h1 id="session-mode-title" className="text-center font-bold">
+        Select Shell Mode
+      </h1>
+
+      <div className="mt-5 flex flex-col gap-3">
+        {isSessionActive && (
+          <div>
+            <h2 className="font-semibold">Active Session</h2>
+            <p className="text-sm text-gray-400">
+              {activeSessionStartTime ?? "Start time unavailable"}
+            </p>
+          </div>
+        )}
+
+        <div>
+          <h2 className="font-semibold">Staff</h2>
+          <p className="text-sm text-gray-400">{staffName}</p>
         </div>
-        <div className="">
-          <h2 className="text-md">Terminal</h2>
-          <p className="text-sm text-gray-400">Main Counter</p>
+
+        <div>
+          <h2 className="font-semibold">Terminal</h2>
+          <p className="text-sm text-gray-400">{terminal}</p>
         </div>
-        <div className="">
-          <h2 className="text-md">Date</h2>
-          <p className="text-sm text-gray-400">2083/1/03</p>
+
+        <div>
+          <h2 className="font-semibold">Date</h2>
+          <p className="text-sm text-gray-400">{date}</p>
         </div>
       </div>
+
       <div className="mt-5">
-        <h2 className="text-md">Choose: </h2>
-        <div className="px-2 mt-4 flex flex-col gap-3">
-          <ButtonMode
-            title="Session Mode (Standard)"
-            onClick={handleSessionMode}
-          />
-          <ButtonMode title="Over The Air" />
-          <ButtonMode title="Manager Mode" />
-          <ButtonMode title="Service and Technical check" />
-          <ButtonMode title="Review Only" />
+        <h2 className="text-md">Choose:</h2>
+
+        <div className="mt-4 flex flex-col gap-3 px-2">
+          {isSessionActive ? (
+            <>
+              <ButtonMode title="End Session" onClick={onEndSession} />
+              {/* Pause now has its own handler (previously it called onEndSession) */}
+              <ButtonMode title="Pause" onClick={onPause} />
+            </>
+          ) : (
+            sessionModes.map((mode) => (
+              <ButtonMode
+                key={mode.value}
+                title={mode.label}
+                onClick={() => handleSessionMode(mode.value)}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

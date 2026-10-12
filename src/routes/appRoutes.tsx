@@ -19,7 +19,8 @@ import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
-import POSUserSession from "../pages/restaurant/pages/POSUserSession";
+import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
+import { POSUserSessionProvider } from "../context/PosUserSessionContext";
 
 //information needed for a navigation
 export type AppNav = {
@@ -63,7 +64,11 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "restaurant",
-    element: <RestaurantLayout />,
+    element: (
+      // <POSUserSessionProvider>
+      <RestaurantLayout />
+      // </POSUserSessionProvider>
+    ),
     nav: {
       label: "Restaurant Session",
       group: "Manage",

@@ -1,3 +1,4 @@
+import { POSUserSessionProvider } from "./context/PosUserSessionContext";
 import { appRoutes } from "./routes/appRoutes";
 import SecureAppClient from "./utils/secureclient/SecureAppClient";
 import { permissions } from "./utils/secureclient/services/models/viewpermission";
@@ -44,11 +45,13 @@ const App = () => {
         reservationState={reservationState}
         reservationReportState={reservationReportState}
       > */}
-      <SecureAppClient
-        config={secureConfig}
-        permissions={permissions}
-        routes={appRoutes}
-      />
+      <POSUserSessionProvider>
+        <SecureAppClient
+          config={secureConfig}
+          permissions={permissions}
+          routes={appRoutes}
+        />
+      </POSUserSessionProvider>
       {/* </RepoProvider> */}
     </>
   );
