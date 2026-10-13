@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import type { POSSessionMode } from "../../../types/POSUserSession";
-
+import { LoaderCircle } from "lucide-react";
 interface SessionModeModalProps {
   onClose: () => void;
   onSelect?: (mode: POSSessionMode) => void;
@@ -16,16 +16,29 @@ interface SessionModeModalProps {
 interface ButtonModeProps {
   title: string;
   onClick?: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  type?: "button" | "submit";
 }
 
-export const ButtonMode = ({ title, onClick }: ButtonModeProps) => {
+export const ButtonMode = ({
+  title,
+  onClick,
+  disabled = false,
+  loading = false,
+  type = "button",
+}: ButtonModeProps) => {
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick}
-      className="w-full rounded-lg border border-amber-50 bg-orange-500 px-2 py-2 text-white shadow-md hover:bg-orange-600"
+      disabled={disabled || loading}
+      className="w-full inline-flex items-center justify-center gap-2 rounded-lg
+        bg-orange-600 px-6 py-3 font-medium text-white
+        transition-all duration-200
+        disabled:cursor-not-allowed disabled:opacity-60"
     >
-      <p className="p-2 text-sm">{title}</p>
+      {loading ? "Submitting..." : title}
     </button>
   );
 };
