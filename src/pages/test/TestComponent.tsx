@@ -1,10 +1,13 @@
-import ResponsiveLayout from "../../component/ResponsiveLayout";
+import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
+
 
 const TestComponent = () => {
   return (
-    <ResponsiveLayout
-      sidebar={(closeBar) => <TestNav closeBar={closeBar} />}
-    />
+    // <ResponsiveLayout
+    // sidebar={(closeBar) => <TestNav closeBar={closeBar} />}
+    // /
+    <RatePlanPageRenderer />
+
   );
 };
 

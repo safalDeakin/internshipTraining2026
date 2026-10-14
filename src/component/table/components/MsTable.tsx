@@ -7,7 +7,7 @@ import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
 import TableSearch from "./Table/TableSearch";
 import TableHeader from "./Table/TableHeader";
 import TableRow from "./Table/TableRow";
-import SkeletonRows from "./Loading/SkeletonRows";
+import SkeletonRows from "../Loading/SkeletonRows";
 
 import type { MsTableProps } from "../types/types";
 

@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
-import { useReservationState } from '../../hooks/useReservationState';
-import { useUIState } from '../../hooks/useUIState';
+import { useReservationState } from '../../../../hooks/allReservation/useReservationState';
+import { useUIState } from '../../../../hooks/allReservation/useUIState';
 
 export default function ReservationList() {
     const {

@@ -1,72 +1,37 @@
-import { useCalendarState } from "./reservatoinCalendar/hooks/useCalendarState";
-import { useCalendarNavigation } from "./reservatoinCalendar/hooks/useCalendarNavigation";
-import { useCalendarFilters } from "./reservatoinCalendar/hooks/useCalendarFilters";
-import { useDragMessage } from "./reservatoinCalendar/hooks/useDragMessage";
-import { useReservationDrag } from "./reservatoinCalendar/hooks/useReservationDrag";
-import { usePointerReservationDrag } from "./reservatoinCalendar/hooks/usePointerReservationDrag";
+import { useReservationCalendarContext } from
+    "./reservatoinCalendar/context/ReservationCalendarContext";
 
 import CalendarHeader from "./reservatoinCalendar/components/Calendar/CalendarHeader";
 import CalendarControls from "./reservatoinCalendar/components/Calendar/CalendarControls";
 import CalendarGrid from "./reservatoinCalendar/components/Calendar/CalendarGrid";
 import ResponsiveCalendarView from "./reservatoinCalendar/components/Calendar/ResponsiveCalendarView";
 import LandscapeGuard from "./reservatoinCalendar/components/Responsive/LandScapeGuard";
-
-import "../css/reservationCalendar.css"
-
 import DragMessage from "./reservatoinCalendar/components/UI/DragMessag";
 
-export default function ReservationCalendar() {
+import { ReservationCalendarProvider } from
+    "./reservatoinCalendar/context/ReservationCalendarProvider";
 
-    // Calendar state
-    const calendar = useCalendarState();
+import "../css/reservationCalendar/reservationCalendar.css";
 
-    // Filters
-    const filters = useCalendarFilters();
-
-    // Navigation
-    const navigation = useCalendarNavigation({
-        weekStart: calendar.weekStart,
-        setWeekStart: calendar.setWeekStart,
-        setSelectedDate: calendar.setSelectedDate,
-    });
-
-    // Drag message
-    const dragMessage = useDragMessage();
-
-    // Desktop drag
-    const desktopDrag = useReservationDrag({
-        calendarReservations: calendar.calendarReservations,
-        setCalendarReservations: calendar.setCalendarReservations,
-        draggedReservation: calendar.draggedReservation,
-        setDraggedReservation: calendar.setDraggedReservation,
-        dropPreview: calendar.dropPreview,
-        setDropPreview: calendar.setDropPreview,
-        showDragMessage: dragMessage.showDragMessage,
-    });
-
-    // Mobile / tablet drag
-    const pointerDrag = usePointerReservationDrag({
-        calendarReservations: calendar.calendarReservations,
-        setCalendarReservations: calendar.setCalendarReservations,
-        setDraggedReservation: calendar.setDraggedReservation,
-        dropPreview: calendar.dropPreview,
-        setDropPreview: calendar.setDropPreview,
-        showDragMessage: dragMessage.showDragMessage,
-    });
+function ReservationCalendarContent() {
+    const {
+        calendar,
+        filters,
+        navigation,
+        dragMessage,
+        desktopDrag,
+        pointerDrag,
+    } = useReservationCalendarContext();
 
     return (
         <div className="min-h-screen bg-[#f5f7f8] font-sans text-[#1a2332] max-w-375 mx-auto">
-
             <CalendarHeader />
 
             <LandscapeGuard>
-
                 <div className="px-6 py-5 space-y-4">
-
                     <ResponsiveCalendarView
                         timeline={
                             <>
-
                                 <CalendarControls
                                     weekStart={calendar.weekStart}
                                     weekDates={calendar.weekDates}
@@ -108,17 +73,20 @@ export default function ReservationCalendar() {
                                     onPointerUp={pointerDrag.handlePointerUp}
                                 />
 
-                                <DragMessage
-                                    message={dragMessage.dragMessage}
-                                />
-
+                                <DragMessage message={dragMessage.dragMessage} />
                             </>
                         }
                     />
-
                 </div>
-
             </LandscapeGuard>
         </div>
+    );
+}
+
+export default function ReservationCalendar() {
+    return (
+        <ReservationCalendarProvider>
+            <ReservationCalendarContent />
+        </ReservationCalendarProvider>
     );
 }
