@@ -1,0 +1,141 @@
+/* Generic reusable DataTable styles */
+.data-table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 920px;
+    font-size: clamp(12px, .78vw, 15px);
+}
+
+.data-table th {
+    padding: 12px 14px;
+    color: #7b8696;
+    background: #f8f9fb;
+    font-size: clamp(11px, .7vw, 13px);
+    font-weight: 650;
+    letter-spacing: .02em;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.data-table td {
+    height: clamp(50px, 3.4vw, 62px);
+    padding: 9px 14px;
+    color: #465163;
+    border-top: 1px solid #edf0f3;
+}
+
+.data-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.data-table .selection-column {
+    width: 52px;
+    padding-left: 18px;
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #2e63d4;
+    cursor: pointer;
+}
+
+.remarks {
+    max-width: 150px;
+    color: #687486;
+}
+
+.no-results {
+    padding: 50px;
+    color: #7a8595;
+    font-size: clamp(13px, .84vw, 16px);
+    text-align: center;
+}
+
+@media (max-width: 560px) {
+
+
+    .data-table-container {
+        overflow: visible;
+        padding: 10px;
+        background: #f8f9fb;
+    }
+
+    .data-table {
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        font-size: 13px;
+    }
+
+    .data-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .data-table tbody,
+    .data-table tr,
+    .data-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table tr {
+        position: relative;
+        padding: 12px 12px 10px;
+        background: white;
+        border: 1px solid #e2e7ed;
+        border-radius: 9px;
+        box-shadow: 0 2px 5px #1720330a;
+    }
+
+    .data-table td {
+        display: grid;
+        min-height: 36px;
+        height: auto;
+        grid-template-columns: minmax(105px, 42%) 1fr;
+        align-items: center;
+        padding: 7px 4px;
+        border: 0;
+        text-align: right;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        color: #7b8696;
+        font-size: 11px;
+        font-weight: 650;
+        text-align: left;
+    }
+
+    .data-table .selection-column {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: block;
+        width: auto;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .data-table .selection-column::before {
+        display: none;
+    }
+
+    .data-table .selection-column+td {
+        padding-right: 34px;
+    }
+
+    .data-table .remarks {
+        max-width: none;
+    }
+}
