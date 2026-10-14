@@ -1,8 +1,8 @@
 
-import { DataChangeListener } from "../../infra/models/DataSource";
-import { Repository } from "../../infra/Repository";
+import { type DataChangeListener } from "../../utils/repo/models/DataSource";
+import { Repository } from "../../utils/repo/Repository";
 
-class QueryService<T extends Object, ID> {
+class QueryService<T extends object, ID> {
 
     constructor(private readonly source: Repository<T, ID>) { };
 

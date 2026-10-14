@@ -1,4 +1,4 @@
-import { Repository } from "../../infra/Repository";
+import { Repository } from "../../utils/repo/Repository";
 
 class CommandService<T extends object, ID> {
     constructor(
