@@ -1,4 +1,5 @@
-import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
+import PackageRenderer from "../hotel-packages/components/PackageRenderer";
+// import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
 
 const TestComponent = () => {
@@ -6,7 +7,8 @@ const TestComponent = () => {
     // <ResponsiveLayout
     // sidebar={(closeBar) => <TestNav closeBar={closeBar} />}
     // /
-    <RatePlanPageRenderer />
+    // <RatePlanPageRenderer />
+    <PackageRenderer />
 
   );
 };
