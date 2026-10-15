@@ -2,9 +2,10 @@ import { useState } from "react";
 import { ChevronDown, Loader, X } from "lucide-react";
 import { AU, GB, IN, NP, US } from "country-flag-icons/react/1x1";
 
-import { ButtonMode } from "../../../popup/SessionModeModal";
+import { ButtonMode } from "../../../../popup/SessionModeModal";
 import OrderSection, { type OrderLine } from "./OrderSection";
 import OrderReceipt from "./OrderReceipt";
+import LoadingOverlay from "../LoadingOverlay";
 
 //properties this form accepts
 interface OrderFormProps {
@@ -202,13 +203,14 @@ const OrderForm = ({
           </div>
           {isSubmitting && (
             <>
-              {/* Blur the entire form */}
-              <div className="absolute inset-0 z-40 rounded-lg bg-white/30 backdrop-blur-[3px]" />
+              {/* Blur the entire form
+              <div className="absolute inset-0 z-20 rounded-lg bg-white/30 backdrop-blur-[3px]" />
 
               {/* Keep the loader clear */}
-              <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-3">
+              {/* <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-3">
                 <Loader className="h-10 w-10 animate-spin text-gray-700" />
-              </div>
+              </div> */}
+              <LoadingOverlay />
             </>
           )}
         </form>

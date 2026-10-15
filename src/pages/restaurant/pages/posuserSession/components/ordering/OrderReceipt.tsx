@@ -1,5 +1,8 @@
 //author:shrajja
-import { Download, Printer } from "lucide-react";
+import { BadgeCheck, Download, Printer } from "lucide-react";
+import { useState } from "react";
+import LoadingOverlay from "../LoadingOverlay";
+import StatusOverlay from "../StatusOverlay";
 //structure of a single item displayed on the receipt.
 export interface ReceiptItem {
   id: number;
@@ -33,6 +36,24 @@ const OrderReceipt = ({
   botItems,
   onDownloadPDF,
 }: OrderReceiptProps) => {
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [printSucess, setPrintSuccess] = useState(false);
+  const handlePrint = () => {
+    if (isPrinting) return;
+
+    setIsPrinting(true);
+    setPrintSuccess(false);
+
+    setTimeout(() => {
+      setIsPrinting(false);
+      setPrintSuccess(true);
+
+      setTimeout(() => {
+        setPrintSuccess(false);
+        // window.print();
+      }, 5000);
+    }, 1500);
+  };
   const renderItems = (title: string, items: ReceiptItem[]) => (
     <div className="mb-2 bg-gray-200">
       <p className="mb-2 text-sm font-bold">{title}</p>
@@ -100,7 +121,8 @@ const OrderReceipt = ({
       <div className="mt-3 flex flex-col gap-1">
         <button
           type="button"
-          onClick={() => window.print()}
+          onClick={handlePrint}
+          disabled={isPrinting || printSucess}
           className="flex items-center justify-center gap-2 rounded-md bg-orange-500 py-2 text-sm font-medium text-white hover:bg-orange-600"
         >
           <Printer size={14} />
@@ -137,6 +159,15 @@ const OrderReceipt = ({
           }
         }
       `}</style>
+
+      {isPrinting && <LoadingOverlay />}
+      {printSucess && (
+        <StatusOverlay
+          show={printSucess}
+          icon={<BadgeCheck className="h-16 w-16 text-green-500" />}
+          title="Order Created Successfully!"
+        />
+      )}
     </div>
   );
 };

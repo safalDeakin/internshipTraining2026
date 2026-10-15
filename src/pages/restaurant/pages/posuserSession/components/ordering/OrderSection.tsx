@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Minus, Plus, Trash2, ChevronDown } from "lucide-react";
-import type { MenuItem } from "../steps/Ordering";
+import type { MenuItem } from "../../steps/OrderingLayout";
 
 export type OrderLine = MenuItem & {
   qty: number;

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ItemCards from "../components/ItemCards";
-import type { OrderLine } from "../components/OrderSection";
-import OrderForm from "../components/OrderForm";
+import ItemCards from "../components/ordering/ItemCards";
+import type { OrderLine } from "../components/ordering/OrderSection";
+import OrderForm from "../components/ordering/OrderForm";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 
 // types for item
@@ -127,7 +127,7 @@ const foodItems: MenuItem[] = [
   },
 ];
 
-const Ordering = () => {
+const OrderingLayout = () => {
   const [searchText, setSearchText] = useState(""); //the user types in the search field.
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null); //currently selected menu item.
   const [orderItems, setOrderItems] = useState<Record<number, number>>({}); //quantities of selected items using their IDs.
@@ -228,4 +228,4 @@ const Ordering = () => {
   );
 };
 
-export default Ordering;
+export default OrderingLayout;

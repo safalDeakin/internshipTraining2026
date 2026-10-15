@@ -12,7 +12,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Ordering from "./steps/Ordering";
+import OrderingLayout from "./steps/OrderingLayout";
+import PaymentLayout from "./steps/PaymentLayout";
+import PaymentCards from "./components/payment/PaymentCards";
+import InvoicingLayout from "./steps/InvoicingLayout";
 //navigation
 const tabs: { id: string; label: string; icon: LucideIcon }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -84,9 +87,17 @@ const POSUserSession = ({ onExit }: SessionPageProps) => {
       {/* Page content */}
       <main className="flex-1 overflow-auto p-6">
         {activeTab === "dashboard" && <div>Dashboard</div>}
-        {activeTab === "invoicing" && <div>Invoicing</div>}
-        {activeTab === "payments" && <div>Payments</div>}
-        {activeTab === "ordering" && <Ordering />}
+        {activeTab === "invoicing" && (
+          <div>
+            <InvoicingLayout />
+          </div>
+        )}
+        {activeTab === "payments" && (
+          <div>
+            <PaymentLayout />
+          </div>
+        )}
+        {activeTab === "ordering" && <OrderingLayout />}
         {activeTab === "reservation" && <div>Reservation</div>}
         {activeTab === "return" && <div>Return</div>}
       </main>
