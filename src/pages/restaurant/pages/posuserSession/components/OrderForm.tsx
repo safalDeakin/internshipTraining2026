@@ -6,6 +6,7 @@ import { ButtonMode } from "../../../popup/SessionModeModal";
 import OrderSection, { type OrderLine } from "./OrderSection";
 import OrderReceipt from "./OrderReceipt";
 
+//properties this form accepts
 interface OrderFormProps {
   orderedItems: OrderLine[];
   kotItems: OrderLine[];
@@ -31,35 +32,35 @@ const OrderForm = ({
   onRemove,
   onClose,
 }: OrderFormProps) => {
-  const [selectedCode, setSelectedCode] = useState("+977");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [selectedCode, setSelectedCode] = useState("+977"); //selected phone country code.
+  const [isSubmitting, setIsSubmitting] = useState(false); //order is currently being submitted.
+  const [submitted, setSubmitted] = useState(false); //order is currently being submitted.
 
-  const [customerName, setCustomerName] = useState("");
-  const [referenceNumber, setReferenceNumber] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-
+  const [customerName, setCustomerName] = useState(""); //customer's name typed into the input.
+  const [referenceNumber, setReferenceNumber] = useState(""); //customer's reference number.
+  const [phone, setPhone] = useState(""); //phone number, without the country code.
+  const [location, setLocation] = useState(""); //customer's location.
+  //Finding the selected country
   const selectedCountry =
     countries.find((country) => country.dialCode === selectedCode) ??
     countries[0];
-
+  //function that processes the Submit button.
   const handleSubmit = async () => {
+    //no items to order.An order is already being submitted.
     if (orderedItems.length === 0 || isSubmitting) return;
     setIsSubmitting(true);
 
     try {
-      // Replace this simulation with your order API request.
+      //replace with actual api request
+      //waits for approximately two seconds. {loadin gshow in form place}
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      console.log("Submitted order:", {
-        customerName,
-        referenceNumber,
-        phone: `${selectedCode}${phone}`,
-        location,
-        items: orderedItems,
-      });
-
+      // console.log("Submitted order:", {
+      //   customerName,
+      //   referenceNumber,
+      //   phone: `${selectedCode}${phone}`,
+      //   location,
+      //   items: orderedItems,
+      // });
       setSubmitted(true);
     } catch (error) {
       console.error("Failed to submit order:", error);
@@ -70,6 +71,7 @@ const OrderForm = ({
 
   return (
     <div className="relative w-full rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+      {/* /If submitted is true, display OrderReceipt. */}
       {submitted ? (
         <OrderReceipt
           restaurantName="VIP Restaurant"
@@ -199,12 +201,15 @@ const OrderForm = ({
             />
           </div>
           {isSubmitting && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 rounded-xl bg-white/70 backdrop-blur-sm">
-              <Loader className="h-10 w-10 animate-spin text-gray-600" />
-              <p className="text-sm font-medium text-gray-700">
-                Submitting order...
-              </p>
-            </div>
+            <>
+              {/* Blur the entire form */}
+              <div className="absolute inset-0 z-40 rounded-lg bg-white/30 backdrop-blur-[3px]" />
+
+              {/* Keep the loader clear */}
+              <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-3">
+                <Loader className="h-10 w-10 animate-spin text-gray-700" />
+              </div>
+            </>
           )}
         </form>
       )}

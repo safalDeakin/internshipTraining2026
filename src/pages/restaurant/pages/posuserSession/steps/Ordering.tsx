@@ -4,6 +4,7 @@ import type { OrderLine } from "../components/OrderSection";
 import OrderForm from "../components/OrderForm";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 
+// types for item
 export type MenuItem = {
   id: number;
   image?: string;
@@ -12,7 +13,7 @@ export type MenuItem = {
   status?: string;
   type: "food" | "beverage";
 };
-
+//mock data for show
 const foodItems: MenuItem[] = [
   {
     id: 1,
@@ -127,66 +128,69 @@ const foodItems: MenuItem[] = [
 ];
 
 const Ordering = () => {
-  const [searchText, setSearchText] = useState("");
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  const [orderItems, setOrderItems] = useState<Record<number, number>>({});
-
+  const [searchText, setSearchText] = useState(""); //the user types in the search field.
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null); //currently selected menu item.
+  const [orderItems, setOrderItems] = useState<Record<number, number>>({}); //quantities of selected items using their IDs.
+  //filtered list based on the search text.
   const filteredItems = foodItems.filter((item) =>
     item.label.toLowerCase().includes(searchText.toLowerCase().trim()),
   );
-
+  //quantity map into a list of complete ordered items.
   const orderedItems: OrderLine[] = foodItems
     .filter((item) => orderItems[item.id])
     .map((item) => ({
       ...item,
       qty: orderItems[item.id],
     }));
-
+  //separate the items type
   const kotItems = orderedItems.filter((item) => item.type === "food");
   const botItems = orderedItems.filter((item) => item.type === "beverage");
-
+  //css grid layout
   const gridClasses = selectedItem
     ? "grid grid-cols-2 gap-3 py-3 md:grid-cols-3 2xl:grid-cols-4"
     : "grid grid-cols-2 gap-3 py-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5";
 
+  //click menuitems
   const handleItemClick = (item: MenuItem) => {
-    setSelectedItem(item);
-
+    setSelectedItem(item); //select the item.
+    //increase its quantity.
     setOrderItems((prev) => ({
       ...prev,
       [item.id]: (prev[item.id] ?? 0) + 1,
     }));
   };
-
+  //Increasing and decreasing quantity
   const changeQty = (id: number, delta: number) => {
     setOrderItems((prev) => {
-      const next = (prev[id] ?? 0) + delta;
+      const next = (prev[id] ?? 0) + delta; //delta parameter represents the change:
       const copy = { ...prev };
-
-      if (next <= 0) delete copy[id];
+      if (next <= 0)
+        delete copy[id]; //calculates the new quantity.
       else copy[id] = next;
 
       return copy;
     });
   };
-
+  //Removing an item completely
   const removeItem = (id: number) => {
     setOrderItems((prev) => {
       const next = { ...prev };
       delete next[id];
       return next;
     });
-
+    //copies the existing map and deletes the requested ID.
     if (selectedItem?.id === id) {
       setSelectedItem(null);
     }
   };
 
   return (
+    //reusable layout
     <TwoPanelLayout
       gap="20px"
       className="px-6"
       panelWidth="400px"
+      //  to display OrderForm
       panel={
         selectedItem ? (
           <OrderForm
@@ -209,6 +213,7 @@ const Ordering = () => {
       >
         {" "}
         <div className={gridClasses}>
+          {/* search */}
           {filteredItems.map((item) => (
             <ItemCards
               key={item.id}

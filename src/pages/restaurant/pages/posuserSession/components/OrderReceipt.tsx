@@ -1,12 +1,13 @@
+//author:shrajja
 import { Download, Printer } from "lucide-react";
-
+//structure of a single item displayed on the receipt.
 export interface ReceiptItem {
   id: number;
   label: string;
   qty: number;
   remarks?: string;
 }
-
+//this accepts
 interface OrderReceiptProps {
   restaurantName: string;
   address: string;

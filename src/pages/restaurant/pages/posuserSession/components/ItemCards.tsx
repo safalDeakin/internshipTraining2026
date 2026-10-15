@@ -1,12 +1,13 @@
 // author:shrajja
 
+//properties this accepts
 interface ItemCardProps {
   image?: string;
   label: string;
   date: string;
   status?: string;
-  isSelected?: boolean;
-  onClick?: () => void;
+  isSelected?: boolean; //Whether the card is selected
+  onClick?: () => void; //Function to execute when clicked
 }
 
 const ItemCards = ({
@@ -19,24 +20,20 @@ const ItemCards = ({
 }: ItemCardProps) => {
   return (
     <>
-      {" "}
-      {/* Food Card */}{" "}
+      {/* Food Card */}
       <div
         onClick={onClick}
-        className={`w-full min-w-0 cursor-pointer overflow-hidden rounded-lg p-4 shadow-md transition ${isSelected ? "border-2 border-blue-500 bg-blue-50" : "border border-gray-100 hover:shadow-lg"}`}
+        className={`w-full min-w-0 cursor-pointer overflow-hidden rounded-lg p-4 shadow-md transition ${isSelected ? "border border-gray-200" : "border border-gray-100 hover:shadow-lg"}`}
       >
-        {" "}
         <img
           src={image || "/images.jpg"}
           alt={label}
           className="h-28 w-full rounded-md object-cover"
-        />{" "}
+        />
         <div className="pt-2">
-          {" "}
-          <h3 className="truncate font-medium">{label}</h3>{" "}
+          <h3 className="truncate font-medium">{label}</h3>
           <p className="flex justify-between gap-2 text-xs">
-            {" "}
-            {date}{" "}
+            {date}
             <span
               className={
                 status === "N/A"
@@ -44,12 +41,11 @@ const ItemCards = ({
                   : "rounded bg-green-50 px-2 text-green-600"
               }
             >
-              {" "}
-              {status || "Available"}{" "}
-            </span>{" "}
-          </p>{" "}
-        </div>{" "}
-      </div>{" "}
+              {status || "Available"}
+            </span>
+          </p>
+        </div>
+      </div>
     </>
   );
 };
