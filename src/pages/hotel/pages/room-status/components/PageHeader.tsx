@@ -3,7 +3,7 @@ import { CalendarIcon, PencilIcon } from "../Icons";
 export function PageHeader() {
     return (
         <>
-            <header className="top-header">
+            {/* <header className="top-header">
                 <div>
                     <p className="hotel-name">Vintage Yard Hotel</p>
                 </div>
@@ -14,7 +14,7 @@ export function PageHeader() {
                         <small>View details</small>
                     </span>
                 </div>
-            </header>
+            </header> */}
 
             <div className="page-heading">
                 <div>
