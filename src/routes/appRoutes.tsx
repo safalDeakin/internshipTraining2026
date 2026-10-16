@@ -21,6 +21,8 @@ import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPag
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
 import { POSUserSessionProvider } from "../context/PosUserSessionContext";
+import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
+import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
 
 //information needed for a navigation
 export type AppNav = {
@@ -99,6 +101,14 @@ export const appRoutes: AppRoute[] = [
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "track",
+        element: <ViewHistory />,
+      },
+      {
+        path: "history",
+        element: <PaymentHistory />,
       },
     ],
   },

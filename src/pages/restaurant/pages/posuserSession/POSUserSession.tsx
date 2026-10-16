@@ -16,6 +16,8 @@ import OrderingLayout from "./steps/OrderingLayout";
 import PaymentLayout from "./steps/PaymentLayout";
 import PaymentCards from "./components/payment/PaymentCards";
 import InvoicingLayout from "./steps/InvoicingLayout";
+import ViewHistory from "./components/ViewHistory";
+import PaymentHistory from "./components/payment/PaymentHistory";
 //navigation
 const tabs: { id: string; label: string; icon: LucideIcon }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -94,10 +96,14 @@ const POSUserSession = ({ onExit }: SessionPageProps) => {
         )}
         {activeTab === "payments" && (
           <div>
-            <PaymentLayout />
+            <PaymentLayout onTrackClick={() => setActiveTab("history")} />
           </div>
         )}
-        {activeTab === "ordering" && <OrderingLayout />}
+        {activeTab === "history" && <PaymentHistory />}
+        {activeTab === "ordering" && (
+          <OrderingLayout onTrackClick={() => setActiveTab("track")} />
+        )}
+        {activeTab === "track" && <ViewHistory />}
         {activeTab === "reservation" && <div>Reservation</div>}
         {activeTab === "return" && <div>Return</div>}
       </main>

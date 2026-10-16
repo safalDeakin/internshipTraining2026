@@ -2,7 +2,9 @@ import { useState } from "react";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import PaymentForm from "../components/payment/PaymentForm";
 import PaymentCards from "../components/payment/PaymentCards";
-
+interface LayoutProps {
+  onTrackClick: () => void;
+}
 export interface Cards {
   id?: number;
   image?: string;
@@ -51,7 +53,7 @@ export const paymentCards: Cards[] = [
   },
 ];
 
-const PaymentLayout = () => {
+const PaymentLayout = ({ onTrackClick }: LayoutProps) => {
   const [selectedItem, setSelectedItem] = useState<Cards | null>(null);
 
   const gridClasses = selectedItem
@@ -79,6 +81,14 @@ const PaymentLayout = () => {
             : ""
         }
       >
+        <div className="mt-3">
+          <button
+            onClick={onTrackClick}
+            className="rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+          >
+            Track
+          </button>
+        </div>
         <div className={gridClasses}>
           {paymentCards.map((item) => (
             <PaymentCards

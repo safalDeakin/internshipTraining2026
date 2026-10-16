@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import InvoicingForm from "../components/invoicing/InvoicingForm";
 import InvoicingCards from "../components/invoicing/InvoicingCards";
+import FilterBar from "../components/FilterBar";
 
 export type InvoiceType = "KOT" | "BOT" | "Reservation";
 
@@ -171,60 +172,18 @@ const InvoicingLayout = () => {
       }
     >
       {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-2 pt-3">
-        {FILTERS.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            onClick={() => setActiveType(filter)}
-            className={`rounded-md border px-4 py-1.5 text-xs font-medium transition ${
-              activeType === filter
-                ? "border-orange-200 bg-orange-100 text-orange-600"
-                : "border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
-            }`}
-          >
-            {filter}
-          </button>
-        ))}
-
-        <form
-          className="flex items-center overflow-hidden rounded-md border border-gray-300 bg-white"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setAppliedSearch(search);
-          }}
-        >
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Name, Table"
-            className="w-36 px-3 py-1.5 text-xs outline-none"
-          />
-          <button
-            type="submit"
-            className="border-l border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
-          >
-            APPLY
-          </button>
-        </form>
-
-        <div className="relative">
-          <select
-            aria-label="Staff"
-            value={staff}
-            onChange={(e) => setStaff(e.target.value)}
-            className="appearance-none rounded-md border border-gray-300 bg-white py-1.5 pl-3 pr-8 text-xs text-gray-600 outline-none"
-          >
-            <option value="All">Staff Name</option>
-            {staffOptions.map((w) => (
-              <option key={w} value={w}>
-                Waiter {w}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-        </div>
-      </div>
+      <FilterBar
+        filters={FILTERS}
+        activeFilter={activeType}
+        onFilterChange={(filter) => setActiveType(filter as Filter)}
+        search={search}
+        onSearchChange={setSearch}
+        onSearch={() => setAppliedSearch(search)}
+        searchPlaceholder="Name, Table"
+        staffOptions={staffOptions}
+        staff={staff}
+        onStaffChange={setStaff}
+      />
 
       {/* Cards */}
       <div
