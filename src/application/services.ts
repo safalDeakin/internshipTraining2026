@@ -70,19 +70,3 @@ const HouseKeeping = new Repository<Room, string>({
 
 export const HouseKeepingQueryService = new QueryService<Room, string>(HouseKeeping);
 export const HouseKeepingCmdService = new CommandService<Room, string>(HouseKeeping);
-
-
-//This is for Lost and Found
-const LostandFound = new Repository<Room, string>({
-    sourceType: 'InMemoryLocal',
-    domain: 'LostandFound',
-    tenantId: 'MySpace1234',
-    getId: (entity: Room) => String(entity.id),
-    initialData: rooms,
-    baseUrl: "asas",
-    eventsUrl: "events"
-})
-
-export const LostandFoundQueryService = new QueryService<Room, string>(LostandFound);
-export const LostandFoundCmdService = new CommandService<Room, string>(LostandFound);
-
