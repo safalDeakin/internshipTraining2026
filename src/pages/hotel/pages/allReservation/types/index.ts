@@ -6,6 +6,10 @@ export interface GuestInfo {
   phone: string;
   email: string;
   idType: string;
+
+  title?: string;
+  address?: string;
+  idNumber?: string;
 }
 
 export interface RoomInfo {
@@ -25,6 +29,8 @@ export interface PaymentSummary {
   totalAmount: number;
   advancePaid: number;
   outstandingBalance: number;
+
+  paymentMethod?: "Cash" | "Credit" | "Bank Transfer";
 }
 
 export interface Reservation {
@@ -74,4 +80,36 @@ export interface ReservationListItem {
   time?: string;
   isSelected: boolean;
   subItems?: string[];
+}
+
+
+
+export interface PrintReservationFormData {
+  date: string;
+  reservationNo: string;
+
+  title: string;
+  fullName: string;
+  phoneNumber: string;
+  address: string;
+  nationality: string;
+  emailAddress: string;
+  idType: string;
+  idNumber: string;
+
+  arrivalDate: string;
+  departureDate: string;
+  noOfNight: number;
+  noOfAdult: number;
+  noOfChildren: number;
+
+  ratePlan: string;
+  ratePerRoom: number;
+  currency: string;
+  totalEstimateAmount: number;
+
+  paymentGuarantee: string;
+
+  agreementName: string;
+  signature: string;
 }

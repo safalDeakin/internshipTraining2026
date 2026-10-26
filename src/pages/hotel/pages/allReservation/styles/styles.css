@@ -1,35 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import 'tailwindcss';
-
-/* @theme {
-    --font-sans: 'Inter', system-ui, sans-serif;
-} */
-
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #e5e7eb transparent;
-}
-
-*::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-}
-
-*::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-    background: #e5e7eb;
-    border-radius: 2px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-    background: #d1d5db;
+@page {
+    size: A4 portrait;
+    margin: 0;
 }
 
 @media print {
-    .no-print {
+    html,
+    body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Hide everything by default */
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* Display only the reservation form */
+    #print-reservation-form,
+    #print-reservation-form * {
+        visibility: visible !important;
+    }
+
+    #print-reservation-form {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+
+        display: block !important;
+        box-sizing: border-box !important;
+        width: 210mm !important;
+        height: auto !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 6mm !important;
+
+        overflow: visible !important;
+        box-shadow: none !important;
+        background: white !important;
+    }
+
+    #print-reservation-form > div {
+        min-height: 0 !important;
+    }
+
+    .reservation-print-actions {
         display: none !important;
     }
 }
