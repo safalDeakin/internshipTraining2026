@@ -1,5 +1,5 @@
 import { Field, FormActions, FormShell } from './FormFields'
-import type { GuestDetails } from '../hooks/useReservationFlow'
+import type { GuestDetails } from '../../../hooks/hotelReservation/useReservationFlow'
 
 type Props = {
     data: GuestDetails
@@ -25,7 +25,7 @@ export function GuestInformation({ data, onChange, onBack, onNext }: Props) {
                 <Field label="ID type" placeholder="Passport or identity card" value={data.idType} onChange={(value) => onChange('idType', value)} />
                 <Field label="ID number" value={data.idNumber} onChange={(value) => onChange('idNumber', value)} />
             </div>
-            <FormActions onBack={onBack} onNext={onNext} nextLabel="Continue to payment" />
+            <FormActions onBack={onBack} onNext={onNext} nextLabel="Next" />
         </FormShell>
     )
 }

@@ -3,7 +3,7 @@ import { ReservationStepper } from './components/ReservationStepper'
 import { RoomSelection } from './components/RoomSelection'
 import { GuestInformation } from './components/GuestInformation'
 import { PaymentInformation } from './components/PaymentInformation'
-import { useReservationFlow } from './hooks/useReservationFlow'
+import { useReservationFlow } from '../../hooks/hotelReservation/useReservationFlow'
 import "./styles/index.css"
 
 export default function HotelReservation() {

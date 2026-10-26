@@ -1,6 +1,6 @@
 import { CreditCard } from 'lucide-react'
 import { Field, FormActions, FormShell } from './FormFields'
-import type { PaymentDetails } from '../hooks/useReservationFlow'
+import type { PaymentDetails } from '../../../hooks/hotelReservation/useReservationFlow'
 
 type Props = {
     data: PaymentDetails
