@@ -60,9 +60,11 @@ export default function ReservationHeader() {
                 >
                     <Download size={13} /> Export CSV
                 </button>
-
                 <button
-                    onClick={() => setReservationToPrint(r)}
+                    onClick={() => {
+                        setReservationToPrint(r);
+                        window.open(`/reservation/${r.id}`, "_blank");
+                    }}
                     className="flex items-center gap-1.5 rounded border border-gray-200 px-2.5 py-2 text-xs text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-600"
                 >
                     <Printer size={13} />

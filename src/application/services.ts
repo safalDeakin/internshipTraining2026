@@ -13,6 +13,11 @@ import type { Room } from "../domain/houseKeeping";
 import { rooms } from "../pages/houseKeeping/data/data"
 
 
+//LostAndFound
+import { initialLostAndFoundItems } from "../pages/lost-found/data/data";
+import type { Item } from "../domain/lostfound";
+
+
 
 
 const repo = new Repository<Guest, string>({
@@ -70,3 +75,20 @@ const HouseKeeping = new Repository<Room, string>({
 
 export const HouseKeepingQueryService = new QueryService<Room, string>(HouseKeeping);
 export const HouseKeepingCmdService = new CommandService<Room, string>(HouseKeeping);
+
+
+
+//This is for Lost and Found
+const LostandFound = new Repository<Item, string>({
+    sourceType: 'InMemoryLocal',
+    domain: 'LostandFound',
+    tenantId: 'MySpace1234',
+    getId: (entity: Item) => String(entity.id),
+    initialData: initialLostAndFoundItems,
+    baseUrl: "asas",
+    eventsUrl: "events"
+})
+
+export const LostandFoundQueryService = new QueryService<Item, string>(LostandFound);
+export const LostandFoundCmdService = new CommandService<Item, string>(LostandFound);
+

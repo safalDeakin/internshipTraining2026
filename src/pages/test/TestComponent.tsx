@@ -1,9 +1,7 @@
 
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
-// import HouseKeepingRenderer from "../houseKeeping/components/HousekeepingRenderer";
-import HotelReservation from "../hotel/pages/hotelReservation/HotelReservation";
-import PrintReservationForm from "../reports/printableData/PrintReservationForm";
+import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 
 
 
@@ -15,11 +13,8 @@ const TestComponent = () => {
     <RatePlanPageRenderer />
      <PackageRenderer />
      <RoomsDetailRenderer/> */}
-      {/* <HouseKeepingRenderer /> */}
 
-      {/* <PrintReservationForm />
-       */}
-      <HotelReservation />
+      <LostAndFoundRenderer />
 
     </>
 
