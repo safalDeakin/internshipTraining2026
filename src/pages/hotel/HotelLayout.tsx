@@ -11,6 +11,7 @@ import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer"
 import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";
 import SettingRenderer from "../popupsetting/components/SettingRenderer";
+import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,7 @@ type ViewKey =
   | "device-setup"
   | "housekeeping"
   | "night-audit"
+  | "lost-found"
   | "guest-request"
   | "arrivals"
   | "in-house"
@@ -200,6 +202,13 @@ export default function HotelLayout() {
         // Replace with your real NightAudit component.
         return (
           <DemoComponent title="Night Audit" />
+        );
+
+
+      case "lost-found":
+        // Replace with your real NightAudit component.
+        return (
+          <LostAndFoundRenderer />
         );
 
       /*

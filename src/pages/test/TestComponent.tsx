@@ -1,6 +1,8 @@
 
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
+import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
+
 
 
 
@@ -13,7 +15,7 @@ const TestComponent = () => {
      <PackageRenderer />
      <RoomsDetailRenderer/> */}
 
-      {/* <LostAndFoundRenderer /> */}
+      <LostAndFoundRenderer />
       {/* <FinalReceipts /> */}
 
     </>
