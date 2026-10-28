@@ -224,21 +224,18 @@ export default function HotelLayout() {
         );
 
       case "arrivals":
-        // Replace with your real Arrivals component.
         return (
-          <DemoComponent title="Arrivals" />
+          <FinalAllReservationPage />
         );
 
       case "in-house":
-        // Replace with your real InHouse component.
         return (
-          <DemoComponent title="In-House Guests" />
+          <FinalAllReservationPage />
         );
 
       case "overdue":
-        // Replace with your real Overdue component.
         return (
-          <DemoComponent title="Overdue" />
+          <FinalAllReservationPage />
         );
 
       /*

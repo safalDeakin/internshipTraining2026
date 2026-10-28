@@ -126,17 +126,17 @@ const menuSection: MenuSection[] = [
       },
     ],
   },
-  {
-    key: "rooms",
-    label: "Rooms",
-    items: [
-      {
-        key: "roomList",
-        label: "Room List",
-        path: "room",
-      },
-    ],
-  },
+  // {
+  //   key: "rooms",
+  //   label: "Rooms",
+  //   items: [
+  //     {
+  //       key: "roomList",
+  //       label: "Room List",
+  //       path: "room",
+  //     },
+  //   ],
+  // },
   {
     key: "reservation",
     label: "Reservation",
