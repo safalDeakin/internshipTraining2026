@@ -1,10 +1,5 @@
 //author:shrajja
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import SecureCellRoute from "./SecureCellRoute";
 import type { ReactNode } from "react";
 import Unauthorized from "./pages/Unauthorized";
@@ -68,7 +63,6 @@ const SecureAppClient = ({
     });
   };
 
-
   //config pass to authservice and call authentication server there
   //later after start real work for leave as it is
   // const authService=new AuthService(config)
@@ -95,6 +89,5 @@ const SecureAppClient = ({
     </>
   );
 };
-
 
 export default SecureAppClient;

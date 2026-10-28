@@ -8,160 +8,186 @@ import TableSearch from "./Table/TableSearch";
 import TableHeader from "./Table/TableHeader";
 import TableRow from "./Table/TableRow";
 import SkeletonRows from "../Loading/SkeletonRows";
-
 import type { MsTableProps } from "../types/types";
 
 const MsTable = (props: MsTableProps) => {
-    const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+  const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Show skeleton for 2 seconds
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
+  // Show skeleton for 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
 
-        return () => clearTimeout(timer);
-    }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const {
-        containerWidth,
-        tableWrapperRef,
-    } = useTableResize();
+  const { containerWidth, tableWrapperRef } = useTableResize();
 
-    const {
-        visibleColumns,
-        hiddenColumns,
-        columnWidths,
-    } = useTableColumns(
-        props.columns,
-        containerWidth
-    );
+  const { visibleColumns, hiddenColumns, columnWidths } = useTableColumns(
+    props.columns,
+    containerWidth,
+  );
 
-    const tableData = props.data ?? [];
-    const selectedItems = props.selectedItems ?? [];
+  const tableData = props.data ?? [];
+  const selectedItems = props.selectedItems ?? [];
 
-    const {
-        focusedRowIndex,
-        isKeyboardNavigation,
-        setIsKeyboardNavigation,
-    } = useKeyboardNavigation({
-        tableData,
-        hiddenColumnsLength: hiddenColumns.length,
+  const { focusedRowIndex, isKeyboardNavigation, setIsKeyboardNavigation } =
+    useKeyboardNavigation({
+      tableData,
+      hiddenColumnsLength: hiddenColumns.length,
 
-        onToggleItem: props.onToggleItem,
+      onToggleItem: props.onToggleItem,
 
-        onExpandRow: (id) => {
-            setExpandedRowId((current) =>
-                current === id ? null : id
-            );
-        },
+      onExpandRow: (id) => {
+        setExpandedRowId((current) => (current === id ? null : id));
+      },
     });
 
-    useEffect(() => {
-        if (hiddenColumns.length === 0) {
-            setExpandedRowId(null);
-        }
-    }, [hiddenColumns.length]);
+  useEffect(() => {
+    if (hiddenColumns.length === 0) {
+      setExpandedRowId(null);
+    }
+  }, [hiddenColumns.length]);
 
-    // Safe callback functions
-    const handleSearchTypeChange = props.onSearchTypeChange ?? (() => { });
+  // Safe callback functions
+  const handleSearchTypeChange = props.onSearchTypeChange ?? (() => { });
 
-    const handleSearchChange = props.onChange ?? (() => { });
+  const handleSearchChange = props.onChange ?? (() => { });
 
-    return (
-        <div
-            ref={tableWrapperRef}
-            className="table-wrapper"
-            onMouseDown={() =>
-                setIsKeyboardNavigation(false)
-            }
-        >
-            {props.showSearchBar && (
-                <TableSearch
-                    searchType={props.searchType ?? "All"}
-                    onSearchTypeChange={handleSearchTypeChange}
-                    onChange={handleSearchChange}
-                />
-            )}
+  // return (
+  //   // <div
+  //   //   ref={tableWrapperRef}
+  //   //   className="table-wrapper"
+  //   //   onMouseDown={() => setIsKeyboardNavigation(false)}
+  //   // >
+  //   //   {props.showSearchBar && (
+  //   //     <TableSearch
+  //   //       searchType={props.searchType ?? "All"}
+  //   //       onSearchTypeChange={handleSearchTypeChange}
+  //   //       onChange={handleSearchChange}
+  //   //     />
+  //   //   )}
 
-            <table className="item-table">
+  //   //   <table className="item-table">
+  //   //     <TableHeader
+  //   //       visibleColumns={visibleColumns}
+  //   //       hiddenColumnsCount={hiddenColumns.length}
+  //   //       columnWidths={columnWidths}
+  //   //       infoColumnWidth={40}
+  //   //     />
 
-                <TableHeader
-                    visibleColumns={visibleColumns}
-                    hiddenColumnsCount={hiddenColumns.length}
-                    columnWidths={columnWidths}
-                    infoColumnWidth={40}
-                />
+  //   //     <tbody>
+  //   //       {isLoading ? (
+  //   //         <SkeletonRows
+  //   //           visibleColumns={visibleColumns}
+  //   //           hiddenColumnsCount={hiddenColumns.length}
+  //   //           columnWidths={columnWidths}
+  //   //         />
+  //   //       ) : tableData.length === 0 ? (
+  //   //         <tr>
+  //   //           <td
+  //   //             colSpan={
+  //   //               visibleColumns.length + (hiddenColumns.length > 0 ? 1 : 0)
+  //   //             }
+  //   //             className="no-data"
+  //   //           >
+  //   //             No data available
+  //   //           </td>
+  //   //         </tr>
+  //   //       ) : (
+  //   //         tableData.map((item: any) => (
+  //   //           <TableRow
+  //   //             key={item.id}
+  //   //             item={item}
+  //   //             visibleColumns={visibleColumns}
+  //   //             hiddenColumns={hiddenColumns}
+  //   //             columnWidths={columnWidths}
+  //   //             selected={selectedItems.includes(item.id)}
+  //   //             changed={props.changedRowIds?.includes(item.id)}
+  //   //             expanded={expandedRowId === item.id}
+  //   //             keyboardFocused={
+  //   //               isKeyboardNavigation &&
+  //   //               tableData[focusedRowIndex]?.id === item.id
+  //   //             }
+  //   //             onExpand={(id) =>
+  //   //               setExpandedRowId((current) => (current === id ? null : id))
+  //   //             }
+  //   //             onMouseDown={() => setIsKeyboardNavigation(false)}
+  //   //           />
+  //   //         ))
+  //   //       )}
+  //   //     </tbody>
+  //   //   </table>
+  //   // </div>
+  // );
+  return (
+    <div
+      ref={tableWrapperRef}
+      className="rounded-md border border-gray-200 bg-white"
+      onMouseDown={() => setIsKeyboardNavigation(false)}
+    >
+      {props.showSearchBar && (
+        <TableSearch
+          searchType={props.searchType ?? "All"}
+          onSearchTypeChange={handleSearchTypeChange}
+          onChange={handleSearchChange}
+        />
+      )}
 
-                <tbody>
+      <table className="item-table w-full">
+        <TableHeader
+          visibleColumns={visibleColumns}
+          hiddenColumnsCount={hiddenColumns.length}
+          columnWidths={columnWidths}
+          infoColumnWidth={40}
+        />
 
-                    {isLoading ? (
-                        <SkeletonRows
-                            visibleColumns={visibleColumns}
-                            hiddenColumnsCount={hiddenColumns.length}
-                            columnWidths={columnWidths}
-                        />
-                    ) : tableData.length === 0 ? (
-                        <tr>
-                            <td
-                                colSpan={
-                                    visibleColumns.length +
-                                    (
-                                        hiddenColumns.length > 0
-                                            ? 1
-                                            : 0
-                                    )
-                                }
-                                className="no-data"
-                            >
-                                No data available
-                            </td>
-                        </tr>
-                    ) : (
-                        tableData.map((item: any) => (
-                            <TableRow
-                                key={item.id}
-                                item={item}
-                                visibleColumns={visibleColumns}
-                                hiddenColumns={hiddenColumns}
-                                columnWidths={columnWidths}
-                                selected={
-                                    selectedItems.includes(item.id)
-                                }
-                                changed={
-                                    props.changedRowIds?.includes(
-                                        item.id
-                                    )
-                                }
-                                expanded={
-                                    expandedRowId === item.id
-                                }
-                                keyboardFocused={
-                                    isKeyboardNavigation &&
-                                    tableData[
-                                        focusedRowIndex
-                                    ]?.id === item.id
-                                }
-                                onExpand={(id) =>
-                                    setExpandedRowId(
-                                        (current) =>
-                                            current === id
-                                                ? null
-                                                : id
-                                    )
-                                }
-                                onMouseDown={() =>
-                                    setIsKeyboardNavigation(false)
-                                }
-                            />
-                        ))
-                    )}
-
-                </tbody>
-            </table>
-        </div>
-    );
+        <tbody>
+          {isLoading ? (
+            <SkeletonRows
+              visibleColumns={visibleColumns}
+              hiddenColumnsCount={hiddenColumns.length}
+              columnWidths={columnWidths}
+            />
+          ) : tableData.length === 0 ? (
+            <tr>
+              <td
+                colSpan={
+                  visibleColumns.length + (hiddenColumns.length > 0 ? 1 : 0)
+                }
+                className="no-data"
+              >
+                No data available
+              </td>
+            </tr>
+          ) : (
+            tableData.map((item: any) => (
+              <TableRow
+                key={item.id}
+                item={item}
+                visibleColumns={visibleColumns}
+                hiddenColumns={hiddenColumns}
+                columnWidths={columnWidths}
+                selected={selectedItems.includes(item.id)}
+                changed={props.changedRowIds?.includes(item.id)}
+                expanded={expandedRowId === item.id}
+                keyboardFocused={
+                  isKeyboardNavigation &&
+                  tableData[focusedRowIndex]?.id === item.id
+                }
+                onExpand={(id) =>
+                  setExpandedRowId((current) => (current === id ? null : id))
+                }
+                onMouseDown={() => setIsKeyboardNavigation(false)}
+              />
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default MsTable;

@@ -10,15 +10,19 @@ import Reservation from "../pages/hotel/pages/Reservation";
 import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/pages/Products";
-import Offer from "../pages/restaurant/pages/Offer";
-import Pricelist from "../pages/restaurant/pages/Pricelist";
+import Products from "../pages/restaurant/dropdown/Products";
+import Offers from "../XXcomponents/Offers";
+import Pricelist from "../pages/restaurant/dropdown/Pricelist";
 import Sales from "../pages/restaurant/pages/Sales";
-import ResDash from "../pages/restaurant/ResDash";
+import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
+import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
+import { POSUserSessionProvider } from "../context/PosUserSessionContext";
+import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
+import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
 import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 
@@ -64,7 +68,11 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "restaurant",
-    element: <RestaurantLayout />,
+    element: (
+      // <POSUserSessionProvider>
+      <RestaurantLayout />
+      // </POSUserSessionProvider>
+    ),
     nav: {
       label: "Restaurant Session",
       group: "Manage",
@@ -73,7 +81,7 @@ export const appRoutes: AppRoute[] = [
     children: [
       {
         index: true,
-        element: <ResDash />,
+        element: <RestaurantDashboard />,
       },
       {
         path: "sales",
@@ -85,11 +93,24 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "offer",
-        element: <Offer />,
+        element: <Offers />,
       },
+      {
+        path: "session",
+        element: <POSUserSession />,
+      },
+
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "track",
+        element: <ViewHistory />,
+      },
+      {
+        path: "history",
+        element: <PaymentHistory />,
       },
     ],
   },

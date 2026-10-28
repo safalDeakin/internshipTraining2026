@@ -1,39 +1,57 @@
 import { ArrowRight, Plus } from "lucide-react";
 
-type ListViewHeaderProps = {
+interface SidebarHeaderProps {
     title: string;
     onAdd?: () => void;
-};
+    showAddButton?: boolean;
+}
 
-export default function ListViewHeader({
+export default function SidebarHeader({
     title,
     onAdd,
-}: ListViewHeaderProps) {
+    showAddButton = true,
+}: SidebarHeaderProps) {
     return (
-        <div className="flex items-center h-6 justify-between">
+        <div className="flex h-6 items-center justify-between p-2">
             {/* Left Side */}
-            <div className="flex items-center gap-3 text-[#0066b3] text-xl font-medium">
+            <div className="flex items-center gap-3 text-xl font-medium text-[#0066b3]">
                 <ArrowRight
-                    size={24}
+                    size={22}
                     strokeWidth={2}
                 />
 
-                <span>{title}</span>
+                <span className="text-[16px] font-medium text-[#0066B3]">
+                    {title}
+                </span>
             </div>
 
-            {/* Add */}
-            {onAdd && (
+            {/* Right Side Add Button */}
+            {showAddButton && (
                 <button
                     type="button"
                     onClick={onAdd}
-                    className="flex h-8 w-8 items-center justify-center rounded border border-[#e1e7ed] bg-white cursor-pointer"
+                    className="
+                        flex
+                        h-8
+                        w-8
+                        cursor-pointer
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        border-gray-300
+                        bg-white
+                        hover:bg-[#f3f7fb]
+                    "
                 >
                     <Plus
-                        size={18}
-                        className="text-[#0066b3]"
+                        size={20}
+                        strokeWidth={2}
+                        className="text-[#0066B3]"
                     />
                 </button>
             )}
         </div>
     );
 }
+

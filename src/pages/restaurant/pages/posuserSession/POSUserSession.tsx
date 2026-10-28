@@ -1,0 +1,114 @@
+// author: shrjja
+import { useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  CalendarCheck,
+  ClipboardList,
+  LayoutDashboard,
+  Receipt,
+  Undo2,
+  Wallet,
+  Warehouse,
+  type LucideIcon,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import OrderingLayout from "./steps/OrderingLayout";
+import PaymentLayout from "./steps/PaymentLayout";
+import PaymentCards from "./components/payment/PaymentCards";
+import InvoicingLayout from "./steps/InvoicingLayout";
+import ViewHistory from "./components/ViewHistory";
+import PaymentHistory from "./components/payment/PaymentHistory";
+//navigation
+const tabs: { id: string; label: string; icon: LucideIcon }[] = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { id: "invoicing", label: "Invoicing", icon: Receipt },
+  { id: "payments", label: "Payments", icon: Wallet },
+  { id: "ordering", label: "Ordering", icon: ClipboardList },
+  { id: "reservation", label: "Reservation", icon: CalendarCheck },
+  { id: "return", label: "Return", icon: Undo2 },
+  { id: "stock", label: "Stock", icon: Warehouse },
+];
+
+interface SessionPageProps {
+  onExit?: () => void;
+}
+
+const POSUserSession = ({ onExit }: SessionPageProps) => {
+  const [shown, setShown] = useState(false); // drives the slide animation
+  const [activeTab, setActiveTab] = useState("ordering"); //always redneing this
+  const navigate = useNavigate();
+  // slide in after first paint
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const handleExit = () => {
+    if (onExit) onExit();
+    else navigate(-1);
+  };
+  return (
+    <div
+      className={`fixed inset-x-0 bottom-0 top-13 z-[9000] flex flex-col bg-white transition-transform duration-300 ease-out ${
+        shown ? "translate-x-0" : "translate-x-full"
+      }`}
+    >
+      {/* Top navbar */}
+      <nav className="flex items-center gap-2 bg-gray-100 px-4 py-3">
+        <button
+          type="button"
+          onClick={handleExit}
+          className="rounded-lg p-2 hover:bg-gray-200"
+          aria-label="Exit session"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+
+        <div className="flex flex-1 items-center justify-around overflow-x-auto">
+          {tabs.map(({ id, label, icon: Icon }) => {
+            const isActive = activeTab === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveTab(id)}
+                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
+                  isActive
+                    ? "text-blue-500 underline underline-offset-4"
+                    : "text-gray-800 hover:text-blue-500"
+                }`}
+              >
+                <Icon className="h-6 w-6" />
+                <span>{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Page content */}
+      <main className="flex-1 overflow-auto p-6">
+        {activeTab === "dashboard" && <div>Dashboard</div>}
+        {activeTab === "invoicing" && (
+          <div>
+            <InvoicingLayout />
+          </div>
+        )}
+        {activeTab === "payments" && (
+          <div>
+            <PaymentLayout onTrackClick={() => setActiveTab("history")} />
+          </div>
+        )}
+        {activeTab === "history" && <PaymentHistory />}
+        {activeTab === "ordering" && (
+          <OrderingLayout onTrackClick={() => setActiveTab("track")} />
+        )}
+        {activeTab === "track" && <ViewHistory />}
+        {activeTab === "reservation" && <div>Reservation</div>}
+        {activeTab === "return" && <div>Return</div>}
+      </main>
+    </div>
+  );
+};
+
+export default POSUserSession;

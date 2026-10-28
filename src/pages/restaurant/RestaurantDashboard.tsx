@@ -1,6 +1,6 @@
 //author:shrajja
 
-const ResDash = () => {
+const RestaurantDashboard = () => {
   return (
     <div className="p-5">
       <h1 className="text-2xl">RESTAURANT</h1>
@@ -11,4 +11,4 @@ const ResDash = () => {
   );
 };
 
-export default ResDash;
+export default RestaurantDashboard;
