@@ -210,18 +210,18 @@ export default function HotelNav({
       {/* HEADER */}
       <div className="relative flex w-full items-center justify-between gap-2">
         <div className="flex w-full items-center gap-1 px-1 py-2">
-          <Hotel />
-
-          <span>Hotel</span>
-
           <button
             type="button"
-            className="shrink-0"
+            className="shrink-0 flex items-center gap-2 text-blue-600"
             aria-label="Toggle accommodation menu"
             onClick={() =>
               setIsAccommodationOpen((current) => !current)
             }
           >
+            <Hotel />
+
+            <span>Hotel</span>
+
             <ChevronDown
               className={`h-4 w-4 transition-transform ${isAccommodationOpen
                 ? "rotate-180 text-blue-500"
