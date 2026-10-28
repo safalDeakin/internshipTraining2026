@@ -20,6 +20,7 @@ import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
+import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 
 //information needed for a navigation
 export type AppNav = {
@@ -133,6 +134,12 @@ export const appRoutes: AppRoute[] = [
       },
     ],
   },
+
+  {
+    path: "print-reservation-form",
+    element: <PrintBlankReservationForm />,
+  },
+
   {
     path: "reservation-report",
     element: <Report />,

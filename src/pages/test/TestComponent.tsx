@@ -1,12 +1,24 @@
-import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
+
+// import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
+
+import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
+
+
 
 
 const TestComponent = () => {
   return (
-    // <ResponsiveLayout
-    // sidebar={(closeBar) => <TestNav closeBar={closeBar} />}
-    // /
+    <>
+      {/* <ResponsiveLayout
+     sidebar={(closeBar) => <TestNav closeBar={closeBar} />}
     <RatePlanPageRenderer />
+     <PackageRenderer />
+     <RoomsDetailRenderer/> */}
+
+      <LostAndFoundRenderer />
+      {/* <FinalReceipts /> */}
+
+    </>
 
   );
 };

@@ -109,37 +109,40 @@ export default function ListView<T>({
 
 
 //Usage of the listvew like this
-// const [search, setSearch] = useState("");
-// const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    // const [search, setSearch] = useState("");
+    // const {
+    //     data,
+    //     selectedPackageId,
+    //     selectPackage,
+    // } = useRepoPackageHook();
 
-//     const filteredOffers = offers.filter((offer) =>
-//         offer.name
-//             .toLowerCase()
-//             .includes(search.toLowerCase())
-//     );
 
-//     const handleUserSelect = (user: any) => {
-//         setSelectedUserId(user.id);
-//     };
-//     return (
-//         <ListView
-//             title="Offers"
-//             items={filteredOffers}
-//             getKey={(offer) => offer.id}
-//             selectedId={selectedUserId}
-//             onSelect={handleUserSelect}
-//             onAdd={() => {
-//                 console.log("Add offer");
-//             }}
-//             renderItem={(offer) => (
-//                 <div className="flex flex-col">
-//                     <span className="text-[12px] font-medium text-[#29445f]">
-//                         {offer.name}
-//                     </span>
-//                 </div>
-//             )}
-//             searchable
-//             search={search}
-//             onSearchChange={setSearch}
-//             searchPlaceholder="Search offers..."
-//         />
+    // const filteredData = data.filter((offer) =>
+    //     offer.name
+    //         .toLowerCase()
+    //         .includes(search.toLowerCase())
+    // );
+
+    // return (
+    //     <ListView
+    //         title="Packages"
+    //         items={filteredData}
+    //         getKey={(item) => item.id}
+    //         selectedId={selectedPackageId}
+    //         onSelect={(item) => selectPackage(item.id)}
+    //         onAdd={() => {
+    //             console.log("Add offer");
+    //         }}
+    //         renderItem={(item) => (
+    //             <div className="flex flex-col">
+    //                 <span className="text-[14px] font-medium text-[#29445f]">
+    //                     {item.name}
+    //                 </span>
+    //             </div>
+    //         )}
+    //         searchable
+    //         search={search}
+    //         onSearchChange={setSearch}
+    //         searchPlaceholder="Search offers..."
+    //     />
+    // );
