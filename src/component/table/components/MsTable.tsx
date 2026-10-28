@@ -4,12 +4,11 @@ import { useTableResize } from "../hooks/useTableResize";
 import { useTableColumns } from "../hooks/useTableColumns";
 import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
 
-import SkeletonRows from "./Loading/SkeletonRows";
-
+import TableSearch from "./Table/TableSearch";
+import TableHeader from "./Table/TableHeader";
+import TableRow from "./Table/TableRow";
+import SkeletonRows from "../Loading/SkeletonRows";
 import type { MsTableProps } from "../types/types";
-import TableSearch from "./table/TableSearch";
-import TableHeader from "./table/TableHeader";
-import TableRow from "./table/TableRow";
 
 const MsTable = (props: MsTableProps) => {
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
@@ -53,9 +52,9 @@ const MsTable = (props: MsTableProps) => {
   }, [hiddenColumns.length]);
 
   // Safe callback functions
-  const handleSearchTypeChange = props.onSearchTypeChange ?? (() => {});
+  const handleSearchTypeChange = props.onSearchTypeChange ?? (() => { });
 
-  const handleSearchChange = props.onChange ?? (() => {});
+  const handleSearchChange = props.onChange ?? (() => { });
 
   // return (
   //   // <div

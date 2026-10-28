@@ -1,5 +1,5 @@
 
-const PrintReservationForm = () => {
+const PrintBlankReservationForm = () => {
     return (
         <>
             <div
@@ -358,4 +358,4 @@ const SignatureField = ({
     );
 };
 
-export default PrintReservationForm;
+export default PrintBlankReservationForm;

@@ -23,6 +23,8 @@ import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSess
 import { POSUserSessionProvider } from "../context/PosUserSessionContext";
 import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
 import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
+import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
+import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 
 //information needed for a navigation
 export type AppNav = {
@@ -126,6 +128,10 @@ export const appRoutes: AppRoute[] = [
         element: <Dash />,
       },
       {
+        path: "all-rooms",
+        element: <RoomDetailRenderer />,
+      },
+      {
         path: "room",
         element: <Rooms />,
       },
@@ -149,6 +155,12 @@ export const appRoutes: AppRoute[] = [
       },
     ],
   },
+
+  {
+    path: "print-reservation-form",
+    element: <PrintBlankReservationForm />,
+  },
+
   {
     path: "reservation-report",
     element: <Report />,
