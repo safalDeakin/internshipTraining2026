@@ -40,15 +40,14 @@ export default function SidebarList<T>({
                             transition-colors
                             cursor-pointer
 
-                            ${
-                                isActive
-                                    ? `
+                            ${isActive
+                                ? `
                                         rounded-[5px]
                                         border
                                         border-[#2779e6]
                                         bg-[#f5f9ff]
                                     `
-                                    : `
+                                : `
                                         border-0
                                         border-b
                                         border-[#e5e9ed]
