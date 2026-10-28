@@ -1,5 +1,5 @@
 
-import { DataTable, type DataTableColumn } from "../../../../component/table/DataTable/DataTable";
+import { DataTable, type DataTableColumn } from "../../../../../../component/table/DataTable/DataTable";
 import type { RoomRate } from "../../types/types";
 import ModalShell from "./ModalShell";
 

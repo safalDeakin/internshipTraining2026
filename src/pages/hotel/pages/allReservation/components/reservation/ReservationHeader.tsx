@@ -1,14 +1,16 @@
-import { Bed, Download, Printer, ChevronDown } from "lucide-react";
+import { Bed, Download, Printer, ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 import { useReservationState } from "../../../../hooks/allReservation/useReservationState";
 import type { Reservation } from "../../types";
 import { mapReservationToPrintData } from "../../utils/mapReservationToPrintData";
 import PrintReservationForm from "../PrintReservationForm";
+import FinalReceipts from "../../../../../recepits/FinalReceipts";
 
 export default function ReservationHeader() {
 
     const [reservationToPrint, setReservationToPrint] =
         useState<Reservation | null>(null);
+    const [showReceipt, setShowReceipt] = useState(false);
     const { selectedReservation: r } = useReservationState();
 
     const isCancelled = r.reservationStatus === 'Cancelled';
@@ -31,6 +33,41 @@ export default function ReservationHeader() {
                 >
                     Request Room Service
                 </button>
+
+                {/* Invoice Button */}
+                <button
+                    className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded transition-colors"
+                    onClick={() => setShowReceipt(true)}
+                >
+                    Invoice
+                </button>
+
+                {/* FinalReceipts Popup */}
+                {showReceipt && (
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-overlay-in"
+                        onClick={() => setShowReceipt(false)}
+                    >
+                        {/* Popup Container */}
+                        <div
+                            className="relative w-full max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-2xl animate-modal-in"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Close Button */}
+                            <button
+                                onClick={() => setShowReceipt(false)}
+                                className="absolute right-3 top-3 z-10 rounded-full bg-white p-2 text-gray-500 shadow-sm transition hover:bg-gray-100 hover:text-gray-900"
+                                aria-label="Close invoice"
+                            >
+                                <X size={18} />
+                            </button>
+
+                            {/* Your Component */}
+                            <FinalReceipts />
+                        </div>
+                    </div>
+                )}
+
                 <button
                     onClick={() => {
                         console.log("Change Room clicked");

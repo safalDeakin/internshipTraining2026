@@ -17,10 +17,12 @@ export function ReservationHeader({ onClose }: { onClose: () => void }) {
             </div>
 
             <div>
-                <button >
-                    <a href="" target='_blank'>
-                        Print Reservation Form
-                    </a>
+                <button
+                    type="button"
+                    onClick={() => window.open("/print-reservation-form", "_blank", "noopener,noreferrer")}
+                    className="cursor-pointer"
+                >
+                    Print Reservation Form
                 </button>
             </div>
         </header>
