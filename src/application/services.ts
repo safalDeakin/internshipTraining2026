@@ -18,6 +18,11 @@ import { initialLostAndFoundItems } from "../pages/lost-found/data/data";
 import type { Item } from "../domain/lostfound";
 
 
+//Night Audit
+import type { NightAuditData } from "../domain/nightAudit";
+import { nightAuditData } from "../pages/hotel/pages/nightAudit/data/nightAuditData";
+
+
 
 
 const repo = new Repository<Guest, string>({
@@ -91,4 +96,19 @@ const LostandFound = new Repository<Item, string>({
 
 export const LostandFoundQueryService = new QueryService<Item, string>(LostandFound);
 export const LostandFoundCmdService = new CommandService<Item, string>(LostandFound);
+
+
+//This is for Night audit
+const NightAudit = new Repository<NightAuditData, string>({
+    sourceType: 'InMemoryLocal',
+    domain: 'LostandFound',
+    tenantId: 'MySpace1234',
+    getId: (entity: NightAuditData) => String(entity.id),
+    initialData: [nightAuditData],
+    baseUrl: "asas",
+    eventsUrl: "events"
+})
+
+export const nightAuditQueryService = new QueryService<NightAuditData, string>(NightAudit);
+export const nightAuditCmdService = new CommandService<NightAuditData, string>(NightAudit);
 
