@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import type { InvoiceType } from "../../steps/InvoicingLayout";
+import type { InvoiceType } from "../../stepslayout/InvoicingLayout";
 
 export interface InvoicingCardsProps {
   type: InvoiceType;

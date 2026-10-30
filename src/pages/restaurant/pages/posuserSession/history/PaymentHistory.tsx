@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { HistoryTopbar } from "../ViewHistory";
-import TableView from "../TableView";
-
+import HistoryHeader from "./HistoryHeader";
+import TableView from "./TableView";
+interface PaymentHistoryProps {
+  onBack: () => void;
+}
 interface InvoiceRow {
   invoiceNumber: string;
   invoiceDate: string;
@@ -134,12 +136,9 @@ const Section = ({
   </section>
 );
 
-const toNumber = (value: string) => Number(value.replace(/[^\d.]/g, "")) || 0;
-
-// must match the ViewMode type used by your HistoryTopbar
 type ViewMode = "grid" | "table";
 
-const PaymentHistory = () => {
+const PaymentHistory = ({ onBack }: PaymentHistoryProps) => {
   const [selectedId, setSelectedId] = useState<number | null>(
     receipts[0]?.id ?? null,
   );
@@ -148,7 +147,7 @@ const PaymentHistory = () => {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return receipts;
+
     return receipts.filter(
       (r) =>
         r.receiptNo.toLowerCase().includes(q) ||
@@ -156,21 +155,112 @@ const PaymentHistory = () => {
     );
   }, [query]);
 
-  const selected = receipts.find((r) => r.id === selectedId) ?? null;
+  const selected = filtered.find((r) => r.id === selectedId) ?? null;
+
+  // Table summary
+  const summary = [
+    { label: "Total Receipts", value: String(filtered.length) },
+    {
+      label: "Total Amount",
+      value: `Rs ${filtered.reduce(
+        (sum, r) =>
+          sum +
+          r.invoiceRows.reduce(
+            (total, row) =>
+              total + Number(row.dueAmount.replace(/[^\d.]/g, "")),
+            0,
+          ),
+        0,
+      )}`,
+    },
+    {
+      label: "Received Amount",
+      value: `Rs ${filtered.reduce(
+        (sum, r) =>
+          sum +
+          r.invoiceRows.reduce(
+            (total, row) =>
+              total + Number(row.paidAmount.replace(/[^\d.]/g, "")),
+            0,
+          ),
+        0,
+      )}`,
+    },
+    {
+      label: "Due Amount",
+      value: `Rs ${filtered.reduce(
+        (sum, r) =>
+          sum +
+          r.invoiceRows.reduce(
+            (total, row) =>
+              total +
+              Math.max(
+                0,
+                Number(row.dueAmount.replace(/[^\d.]/g, "")) -
+                  Number(row.paidAmount.replace(/[^\d.]/g, "")),
+              ),
+            0,
+          ),
+        0,
+      )}`,
+    },
+    {
+      label: "Payment Types",
+      value: String(new Set(filtered.map((r) => r.type)).size),
+    },
+  ];
+
+  const columns = [
+    { key: "receiptNo", label: "Receipt No" },
+    { key: "date", label: "Date" },
+    { key: "customerName", label: "Customer Name" },
+    { key: "type", label: "Payment Type" },
+    { key: "phone", label: "Phone Number" },
+    { key: "bankName", label: "Bank Name" },
+    { key: "chequeNumber", label: "Cheque Number" },
+    { key: "totalAmount", label: "Total Amount" },
+    { key: "paidAmount", label: "Paid Amount" },
+  ];
+
+  const rows: Record<string, ReactNode>[] = filtered.map((r) => {
+    const total = r.invoiceRows.reduce(
+      (sum, row) => sum + Number(row.dueAmount.replace(/[^\d.]/g, "")),
+      0,
+    );
+
+    const paid = r.invoiceRows.reduce(
+      (sum, row) => sum + Number(row.paidAmount.replace(/[^\d.]/g, "")),
+      0,
+    );
+
+    return {
+      receiptNo: r.receiptNo,
+      date: r.date,
+      customerName: r.customerName,
+      type: r.type,
+      phone: r.phone,
+      bankName: r.bankName,
+      chequeNumber: r.chequeNumber,
+      totalAmount: `Rs ${total}`,
+      paidAmount: `Rs ${paid}`,
+    };
+  });
 
   return (
-    <div className="px-6 py-4">
-      {/* top bar */}
-      <div className="mb-4">
-        <HistoryTopbar viewMode={viewMode} setViewMode={setViewMode} />
-      </div>
+    <div className="px-4 py-4 sm:px-6">
+      <HistoryHeader
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        onBack={onBack}
+      />
 
       {viewMode === "table" ? (
-        <TableView />
+        <div className="mt-5">
+          <TableView summary={summary} columns={columns} rows={rows} />
+        </div>
       ) : (
-        // make this reusable
-        <div className="flex flex-col gap-6 lg:flex-row">
-          {/* sidebar */}
+        <div className="mt-5 flex flex-col gap-6 lg:flex-row">
+          {/* Sidebar  make reusable */}
           <aside className="w-full shrink-0 lg:w-64">
             <p className="mb-2 text-xs text-gray-500">
               <span className="text-sm font-medium text-gray-700">
@@ -183,7 +273,7 @@ const PaymentHistory = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search item"
-              className="mb-3 w-full rounded border border-gray-300 px-2 py-1.5 text-xs outline-none focus:border-blue-400"
+              className="mb-3 w-full rounded border border-gray-300 px-2 py-2 text-xs outline-none focus:border-blue-400"
             />
 
             <ul className="space-y-1">
@@ -202,12 +292,14 @@ const PaymentHistory = () => {
                       <span className="text-xs font-medium text-gray-800">
                         {r.receiptNo}
                       </span>
+
                       {r.active && (
                         <span className="text-[10px] text-green-600">
                           Active
                         </span>
                       )}
                     </div>
+
                     <p className="text-[10px] text-gray-500">{r.listDate}</p>
                     <p className="text-[10px] text-gray-500">
                       {r.customerName}
@@ -215,56 +307,27 @@ const PaymentHistory = () => {
                   </button>
                 </li>
               ))}
-
-              {filtered.length === 0 && (
-                <li className="px-3 py-4 text-center text-xs text-gray-400">
-                  No receipts found
-                </li>
-              )}
             </ul>
           </aside>
 
-          {/* main content */}
-          <main className="flex-1">
+          {/* Receipt details */}
+          <main className="min-w-0 flex-1">
             {selected ? (
-              <div className="rounded border border-gray-200 bg-white px-8 py-6">
+              <div className="rounded border border-gray-200 bg-white px-5 py-6 sm:px-8">
                 <h2 className="mb-6 text-center text-xl font-semibold text-gray-900">
                   Receipt
                 </h2>
 
                 <div className="space-y-1.5 pb-5">
-                  <p className="text-base text-gray-500">
-                    Receipt no:{" "}
-                    <span className="font-medium text-gray-900">
-                      {selected.receiptNo}
-                    </span>
-                  </p>
-                  <p className="text-base text-gray-500">
-                    Type:{" "}
-                    <span className="font-medium text-gray-900">
-                      {selected.type}
-                    </span>
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Date:{" "}
-                    <span className="font-medium text-gray-900">
-                      {selected.date}
-                    </span>
-                  </p>
+                  <Field label="Receipt no">{selected.receiptNo}</Field>
+                  <Field label="Type">{selected.type}</Field>
+                  <Field label="Date">{selected.date}</Field>
                 </div>
 
                 <section className="border-t border-gray-200 py-5">
-                  <p className="text-sm text-gray-500">
-                    Invoice number:{" "}
-                    {selected.invoices.map((inv) => (
-                      <span
-                        key={inv}
-                        className="mr-3 font-medium text-gray-900"
-                      >
-                        {inv}
-                      </span>
-                    ))}
-                  </p>
+                  <Field label="Invoice number">
+                    {selected.invoices.join(", ")}
+                  </Field>
                 </section>
 
                 <Section title="Customer Information">
@@ -279,29 +342,28 @@ const PaymentHistory = () => {
                   <Field label="Payment Note">{selected.note}</Field>
                 </Section>
 
-                <section className="border-t border-gray-200 py-5">
-                  <table className="w-full text-sm">
+                <section className="overflow-x-auto border-t border-gray-200 py-5">
+                  <table className="w-full min-w-[600px] text-sm">
                     <thead>
                       <tr className="text-left text-gray-600">
                         <th className="pb-3 font-medium">Invoice Number</th>
                         <th className="pb-3 font-medium">Invoice Date</th>
                         <th className="pb-3 text-right font-medium">
-                          Due amount
+                          Due Amount
                         </th>
                         <th className="pb-3 text-right font-medium">
                           Paid Amount
                         </th>
                       </tr>
                     </thead>
+
                     <tbody>
                       {selected.invoiceRows.map((row) => (
                         <tr key={row.invoiceNumber} className="text-gray-800">
-                          <td className="py-1.5">{row.invoiceNumber}</td>
-                          <td className="py-1.5">{row.invoiceDate}</td>
-                          <td className="py-1.5 text-right">{row.dueAmount}</td>
-                          <td className="py-1.5 text-right">
-                            {row.paidAmount}
-                          </td>
+                          <td className="py-2">{row.invoiceNumber}</td>
+                          <td className="py-2">{row.invoiceDate}</td>
+                          <td className="py-2 text-right">{row.dueAmount}</td>
+                          <td className="py-2 text-right">{row.paidAmount}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -310,7 +372,9 @@ const PaymentHistory = () => {
               </div>
             ) : (
               <p className="py-10 text-center text-sm text-gray-400">
-                Select a receipt to view its details
+                {filtered.length === 0
+                  ? "No receipts found"
+                  : "Select a receipt to view its details"}
               </p>
             )}
           </main>

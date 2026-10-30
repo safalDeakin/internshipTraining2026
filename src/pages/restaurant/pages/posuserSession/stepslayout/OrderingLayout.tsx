@@ -4,9 +4,8 @@ import type { OrderLine } from "../components/ordering/OrderSection";
 import OrderForm from "../components/ordering/OrderForm";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import FilterBar from "../components/FilterBar";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../../../utils/secureclient/useAuth";
-import { getOrganizationPath } from "../../../../../utils/secureclient/services/models/orgPath";
+import { History } from "lucide-react";
+
 interface OrderingLayoutProps {
   onTrackClick: () => void;
 }
@@ -225,21 +224,25 @@ const OrderingLayout = ({ onTrackClick }: OrderingLayoutProps) => {
         }
       >
         {/* Reusable filter and search */}
-        <FilterBar
-          filters={FILTERS}
-          activeFilter={activeFilter}
-          onFilterChange={(filter) => setActiveFilter(filter as Filter)}
-          search={searchText}
-          onSearchChange={setSearchText}
-          onSearch={() => setAppliedSearch(searchText)}
-          searchPlaceholder="Search menu items..."
-        />
-        <div className="mt-3">
+        <div className="flex justify-between p-3">
+          <FilterBar
+            filters={FILTERS}
+            activeFilter={activeFilter}
+            onFilterChange={(filter) => setActiveFilter(filter as Filter)}
+            search={searchText}
+            onSearchChange={setSearchText}
+            onSearch={() => setAppliedSearch(searchText)}
+            searchPlaceholder="Search menu items..."
+          />
+
+          {/* Switches to the history tab inside the POS session (navbar stays visible) */}
           <button
+            type="button"
             onClick={onTrackClick}
-            className="rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+            className="p-2 hover:bg-gray-100"
+            aria-label="View history"
           >
-            Track
+            <History size={20} />
           </button>
         </div>
         {/* Menu cards */}

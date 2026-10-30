@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Download, Printer, X } from "lucide-react";
-import type { InvoiceType } from "../steps/InvoicingLayout";
+import type { InvoiceType } from "../stepslayout/InvoicingLayout";
 
 interface HistoryModalProps {
   item: {

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AU, GB, IN, NP, US } from "country-flag-icons/react/1x1";
 import { ChevronDown, Download, Printer, X } from "lucide-react";
-import type { InvoiceCards } from "../../steps/InvoicingLayout";
+import type { InvoiceCards } from "../../stepslayout/InvoicingLayout";
 import PaymentMethodFields, {
   type PaymentMethod,
 } from "../PaymentMethodFields";

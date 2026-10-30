@@ -1,5 +1,5 @@
 import { Printer, Download, CreditCard, HandCoins } from "lucide-react";
-import type { Cards } from "../../steps/PaymentLayout";
+import type { Cards } from "../../stepslayout/PaymentLayout";
 import { useState } from "react";
 import StatusOverlay from "../StatusOverlay";
 import LoadingOverlay from "../LoadingOverlay";

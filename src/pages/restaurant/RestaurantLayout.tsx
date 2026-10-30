@@ -39,9 +39,7 @@ const RestaurantLayout = () => {
   };
 
   const handleSelectMode = (mode: POSSessionMode) => {
-    if (!user || organizationId == null) {
-      return;
-    }
+    if (!user || organizationId == null) return;
 
     const now = new Date();
 
@@ -49,7 +47,7 @@ const RestaurantLayout = () => {
       id: Date.now(),
       staffId: user.id,
       staffName: user.name,
-      terminal: "Main Counter", // Replace with the selected terminal.
+      terminal: "Main Counter",
       date: now.toISOString().slice(0, 10),
       mode,
       organizationId,
@@ -59,10 +57,12 @@ const RestaurantLayout = () => {
       isVerified: false,
     });
 
+    // Close only the modal.
     setIsModeOpen(false);
     setIsSessionOpen(false);
 
-    navigate(getOrganizationPath("/restaurant/session", organization));
+    // Do not navigate here.
+    // The page should already be open from the Play click.
   };
 
   const handleEndSession = () => {

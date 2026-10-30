@@ -2,6 +2,8 @@ import { useState } from "react";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import PaymentForm from "../components/payment/PaymentForm";
 import PaymentCards from "../components/payment/PaymentCards";
+import { History } from "lucide-react";
+
 interface LayoutProps {
   onTrackClick: () => void;
 }
@@ -82,11 +84,8 @@ const PaymentLayout = ({ onTrackClick }: LayoutProps) => {
         }
       >
         <div className="mt-3">
-          <button
-            onClick={onTrackClick}
-            className="rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-          >
-            Track
+          <button onClick={onTrackClick} className=" px-4 py-2">
+            <History />
           </button>
         </div>
         <div className={gridClasses}>

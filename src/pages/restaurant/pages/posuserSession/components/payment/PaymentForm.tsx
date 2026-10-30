@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CreditCard, UserRound } from "lucide-react";
-import type { Cards } from "../../steps/PaymentLayout";
+import type { Cards } from "../../stepslayout/PaymentLayout";
 import LoadingOverlay from "../LoadingOverlay";
 import PaymentReceipt from "./PaymentReceipt";
 import PaymentMethodFields, {

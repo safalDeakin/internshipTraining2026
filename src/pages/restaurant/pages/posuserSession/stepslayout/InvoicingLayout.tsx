@@ -1,10 +1,13 @@
 import { useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, History } from "lucide-react";
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import InvoicingForm from "../components/invoicing/InvoicingForm";
 import InvoicingCards from "../components/invoicing/InvoicingCards";
 import FilterBar from "../components/FilterBar";
 
+interface InvoiceLayoutProps {
+  onTrackClick: () => void;
+}
 export type InvoiceType = "KOT" | "BOT" | "Reservation";
 
 export interface InvoiceItem {
@@ -100,7 +103,7 @@ export const invoicingCards: InvoiceCards[] = [
 const FILTERS = ["All", "KOT", "BOT", "Reservation"] as const;
 type Filter = (typeof FILTERS)[number];
 
-const InvoicingLayout = () => {
+const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [activeType, setActiveType] = useState<Filter>("All");
   const [search, setSearch] = useState("");
@@ -172,19 +175,28 @@ const InvoicingLayout = () => {
       }
     >
       {/* Filter bar */}
-      <FilterBar
-        filters={FILTERS}
-        activeFilter={activeType}
-        onFilterChange={(filter) => setActiveType(filter as Filter)}
-        search={search}
-        onSearchChange={setSearch}
-        onSearch={() => setAppliedSearch(search)}
-        searchPlaceholder="Name, Table"
-        staffOptions={staffOptions}
-        staff={staff}
-        onStaffChange={setStaff}
-      />
-
+      <div>
+        <FilterBar
+          filters={FILTERS}
+          activeFilter={activeType}
+          onFilterChange={(filter) => setActiveType(filter as Filter)}
+          search={search}
+          onSearchChange={setSearch}
+          onSearch={() => setAppliedSearch(search)}
+          searchPlaceholder="Name, Table"
+          staffOptions={staffOptions}
+          staff={staff}
+          onStaffChange={setStaff}
+        />
+        <button
+          type="button"
+          onClick={onTrackClick}
+          className="p-2 hover:bg-gray-100"
+          aria-label="View history"
+        >
+          <History size={20} />
+        </button>
+      </div>
       {/* Cards */}
       <div
         className={

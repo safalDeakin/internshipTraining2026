@@ -1,4 +1,5 @@
-// author: shrjja
+// author: shrajja
+
 import { useEffect, useState } from "react";
 import {
   ArrowLeft,
@@ -12,14 +13,20 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import OrderingLayout from "./steps/OrderingLayout";
-import PaymentLayout from "./steps/PaymentLayout";
-import PaymentCards from "./components/payment/PaymentCards";
-import InvoicingLayout from "./steps/InvoicingLayout";
-import ViewHistory from "./components/ViewHistory";
-import PaymentHistory from "./components/payment/PaymentHistory";
-//navigation
-const tabs: { id: string; label: string; icon: LucideIcon }[] = [
+
+import OrderingLayout from "./stepslayout/OrderingLayout";
+import PaymentLayout from "./stepslayout/PaymentLayout";
+import InvoicingLayout from "./stepslayout/InvoicingLayout";
+
+import OrderHistory from "./history/OrderHistory";
+import PaymentHistory from "./history/PaymentHistory";
+import InvoiceHistory from "./history/InvoiceHistory";
+
+const tabs: {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+}[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "invoicing", label: "Invoicing", icon: Receipt },
   { id: "payments", label: "Payments", icon: Wallet },
@@ -34,26 +41,49 @@ interface SessionPageProps {
 }
 
 const POSUserSession = ({ onExit }: SessionPageProps) => {
-  const [shown, setShown] = useState(false); // drives the slide animation
-  const [activeTab, setActiveTab] = useState("ordering"); //always redneing this
+  const [shown, setShown] = useState(false);
+  const [activeTab, setActiveTab] = useState("ordering");
+
   const navigate = useNavigate();
-  // slide in after first paint
+
   useEffect(() => {
     const id = requestAnimationFrame(() => setShown(true));
+
     return () => cancelAnimationFrame(id);
   }, []);
 
   const handleExit = () => {
-    if (onExit) onExit();
-    else navigate(-1);
+    if (onExit) {
+      onExit();
+    } else {
+      navigate(-1);
+    }
   };
+
+  // Keep the parent navigation tab highlighted while viewing its history.
+  const isTabActive = (id: string) => {
+    if (id === "ordering") {
+      return activeTab === "ordering" || activeTab === "track";
+    }
+
+    if (id === "invoicing") {
+      return activeTab === "invoicing" || activeTab === "invoiceHistory";
+    }
+
+    if (id === "payments") {
+      return activeTab === "payments" || activeTab === "history";
+    }
+
+    return activeTab === id;
+  };
+
   return (
     <div
       className={`fixed inset-x-0 bottom-0 top-13 z-[9000] flex flex-col bg-white transition-transform duration-300 ease-out ${
         shown ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      {/* Top navbar */}
+      {/* Navigation */}
       <nav className="flex items-center gap-2 bg-gray-100 px-4 py-3">
         <button
           type="button"
@@ -66,7 +96,8 @@ const POSUserSession = ({ onExit }: SessionPageProps) => {
 
         <div className="flex flex-1 items-center justify-around overflow-x-auto">
           {tabs.map(({ id, label, icon: Icon }) => {
-            const isActive = activeTab === id;
+            const isActive = isTabActive(id);
+
             return (
               <button
                 key={id}
@@ -86,26 +117,45 @@ const POSUserSession = ({ onExit }: SessionPageProps) => {
         </div>
       </nav>
 
-      {/* Page content */}
-      <main className="flex-1 overflow-auto p-6">
-        {activeTab === "dashboard" && <div>Dashboard</div>}
-        {activeTab === "invoicing" && (
-          <div>
-            <InvoicingLayout />
-          </div>
-        )}
-        {activeTab === "payments" && (
-          <div>
-            <PaymentLayout onTrackClick={() => setActiveTab("history")} />
-          </div>
-        )}
-        {activeTab === "history" && <PaymentHistory />}
+      {/* Main content */}
+      <main className="min-h-0 flex-1 overflow-y-auto">
+        {/* Ordering */}
         {activeTab === "ordering" && (
           <OrderingLayout onTrackClick={() => setActiveTab("track")} />
         )}
-        {activeTab === "track" && <ViewHistory />}
-        {activeTab === "reservation" && <div>Reservation</div>}
-        {activeTab === "return" && <div>Return</div>}
+
+        {activeTab === "track" && (
+          <OrderHistory onBack={() => setActiveTab("ordering")} />
+        )}
+
+        {/* Invoicing */}
+        {activeTab === "invoicing" && (
+          <InvoicingLayout
+            onTrackClick={() => setActiveTab("invoiceHistory")}
+          />
+        )}
+
+        {activeTab === "invoiceHistory" && (
+          <InvoiceHistory onBack={() => setActiveTab("invoicing")} />
+        )}
+
+        {/* Payments */}
+        {activeTab === "payments" && (
+          <PaymentLayout onTrackClick={() => setActiveTab("history")} />
+        )}
+
+        {activeTab === "history" && (
+          <PaymentHistory onBack={() => setActiveTab("payments")} />
+        )}
+
+        {/* Other tabs */}
+        {activeTab === "dashboard" && <div className="p-6">Dashboard</div>}
+
+        {activeTab === "reservation" && <div className="p-6">Reservation</div>}
+
+        {activeTab === "return" && <div className="p-6">Return</div>}
+
+        {activeTab === "stock" && <div className="p-6">Stock</div>}
       </main>
     </div>
   );

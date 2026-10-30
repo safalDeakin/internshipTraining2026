@@ -1,10 +1,9 @@
-//have to managed
-import { ArrowLeft, Blocks, Table } from "lucide-react";
 import { useState } from "react";
 import InvoicingCards from "../components/invoicing/InvoicingCards";
-import type { InvoiceType } from "../steps/InvoicingLayout";
+import type { InvoiceType } from "../stepslayout/InvoicingLayout";
 import TableView from "./TableView";
 import HistoryModal from "./HistoryModal";
+import HistoryHeader from "./HistoryHeader";
 
 interface ReusableDropdownProps {
   label?: string;
@@ -14,6 +13,7 @@ interface ReusableDropdownProps {
   onChange: (value: string) => void;
 }
 
+// Reusable dropdown
 export const ReusableDropdown = ({
   placeholder,
   options,
@@ -37,61 +37,7 @@ export const ReusableDropdown = ({
   );
 };
 
-interface HistoryTopbarProps {
-  viewMode: "grid" | "table";
-  setViewMode: (mode: "grid" | "table") => void;
-}
-
-export const HistoryTopbar = ({
-  viewMode,
-  setViewMode,
-}: HistoryTopbarProps) => {
-  return (
-    <div className="flex items-center justify-between text-gray-700">
-      {/* Back button */}
-      <button
-        type="button"
-        onClick={() => window.history.back()}
-        className="rounded-md p-2 hover:bg-gray-100"
-        aria-label="Go back"
-      >
-        <ArrowLeft size={20} />
-      </button>
-
-      {/* View toggle buttons */}
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={() => setViewMode("grid")}
-          className={`rounded-md p-2 ${
-            viewMode === "grid"
-              ? "bg-blue-100 text-blue-600"
-              : "text-gray-600 hover:bg-gray-100"
-          }`}
-          aria-label="Grid view"
-          aria-pressed={viewMode === "grid"}
-        >
-          <Blocks size={20} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setViewMode("table")}
-          className={`rounded-md p-2 ${
-            viewMode === "table"
-              ? "bg-blue-100 text-blue-600"
-              : "text-gray-600 hover:bg-gray-100"
-          }`}
-          aria-label="Table view"
-          aria-pressed={viewMode === "table"}
-        >
-          <Table size={20} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
+// History data
 const historyItems: {
   type: InvoiceType;
   reference: string;
@@ -144,64 +90,112 @@ const historyItems: {
   },
 ];
 
-const ViewHistory = () => {
+interface OrderHistoryProps {
+  // Called when the back arrow is clicked (parent switches back to ordering)
+  onBack: () => void;
+}
+
+const OrderHistory = ({ onBack }: OrderHistoryProps) => {
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [receiptNumber, setReceiptNumber] = useState("");
   const [orderId, setOrderId] = useState("");
+
   const [appliedFilters, setAppliedFilters] = useState({
     invoiceNumber: "",
     customerName: "",
     receiptNumber: "",
     orderId: "",
   });
+
   const [selectedHistory, setSelectedHistory] = useState<
     (typeof historyItems)[number] | null
   >(null);
 
+  // Filter history when Go is clicked
   const filteredItems = historyItems.filter((item) => {
-    const filters = appliedFilters;
-
     return (
-      (!filters.invoiceNumber || item.reference === filters.invoiceNumber) &&
-      (!filters.customerName || item.name === filters.customerName) &&
-      (!filters.receiptNumber || item.number === filters.receiptNumber) &&
-      (!filters.orderId || item.table === filters.orderId)
+      (!appliedFilters.invoiceNumber ||
+        item.reference === appliedFilters.invoiceNumber) &&
+      (!appliedFilters.customerName ||
+        item.name === appliedFilters.customerName) &&
+      (!appliedFilters.receiptNumber ||
+        item.number === appliedFilters.receiptNumber) &&
+      (!appliedFilters.orderId || item.table === appliedFilters.orderId)
     );
   });
+  const summary = [
+    { label: "Total Invoices", value: "8" },
+    { label: "Total Amount", value: "Rs 120000" },
+    { label: "Received Amount", value: "Rs 25000" },
+    { label: "Due Amount", value: "Rs 25000" },
+    { label: "Total Paid", value: "Rs 25000" },
+  ];
 
+  const columns = [
+    { key: "receiptNo", label: "Receipt No" },
+    { key: "invoiceNumber", label: "Invoice Number" },
+    { key: "customer", label: "Customer" },
+    { key: "contact", label: "Contact" },
+    { key: "date", label: "Date" },
+    { key: "references", label: "Reference Number" },
+    { key: "type", label: "Type" },
+    { key: "subTotal", label: "Sub total" },
+    { key: "totalAmount", label: "Total Amount" },
+  ];
+
+  const rows = Array.from({ length: 5 }, () => ({
+    receiptNo: "#R_555",
+    invoiceNumber: "INV_555",
+    customer: "Ram",
+    contact: "9876543210",
+    date: "2024-12-23",
+    references: (
+      <>
+        <div>KOT#125</div>
+        <div>BOT#125</div>
+      </>
+    ),
+    type: "Cheque",
+    subTotal: "Rs 800",
+    totalAmount: "Rs 832.35",
+  }));
   return (
-    <div className="flex flex-col gap-5 px-5">
-      {/* Header */}
-      <HistoryTopbar viewMode={viewMode} setViewMode={setViewMode} />
+    <div className="flex w-full min-w-0 flex-col gap-5">
+      {/* Top bar: Back arrow and view toggle */}
+      <HistoryHeader
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        onBack={onBack}
+      />
 
       {/* Filters */}
-      <div className="flex w-full justify-end items-end gap-1">
+      <div className="flex w-full min-w-0 flex-wrap items-end justify-end gap-2 px-5">
         <ReusableDropdown
           placeholder="Invoice number"
-          options={["INV-001", "INV-002", "INV-003", "INV-004"]}
+          options={historyItems.map((item) => item.reference)}
           value={invoiceNumber}
           onChange={setInvoiceNumber}
         />
 
         <ReusableDropdown
           placeholder="Customer name"
-          options={["Ram Sharma", "Shyam Thapa", "Hari Karki", "Sita Rai"]}
+          options={[...new Set(historyItems.map((item) => item.name))]}
           value={customerName}
           onChange={setCustomerName}
         />
 
         <ReusableDropdown
           placeholder="Order ID"
-          options={["1", "2", "3", "4"]}
+          options={[...new Set(historyItems.map((item) => item.table))]}
           value={orderId}
           onChange={setOrderId}
         />
 
         <ReusableDropdown
           placeholder="Receipt number"
-          options={["9800000001", "9800000002", "9800000003", "9800000004"]}
+          options={[...new Set(historyItems.map((item) => item.number))]}
           value={receiptNumber}
           onChange={setReceiptNumber}
         />
@@ -222,14 +216,13 @@ const ViewHistory = () => {
         </button>
       </div>
 
-      {/* History Cards */}
-      <main>
+      {/* History content changes according to selected view */}
+      <main className="w-full min-w-0 px-5 pb-5">
         {filteredItems.length === 0 ? (
           <p className="py-10 text-center text-sm text-gray-500">
             No history found.
           </p>
         ) : viewMode === "grid" ? (
-          // Grid / Cards view
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredItems.map((item) => (
               <InvoicingCards
@@ -240,10 +233,11 @@ const ViewHistory = () => {
             ))}
           </div>
         ) : (
-          // Table view
-          <TableView />
+          <TableView summary={summary} columns={columns} rows={rows} />
         )}
       </main>
+
+      {/* History details modal */}
       {selectedHistory && (
         <HistoryModal
           item={selectedHistory}
@@ -254,4 +248,4 @@ const ViewHistory = () => {
   );
 };
 
-export default ViewHistory;
+export default OrderHistory;

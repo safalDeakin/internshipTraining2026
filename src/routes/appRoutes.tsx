@@ -20,9 +20,7 @@ import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
-import { POSUserSessionProvider } from "../context/PosUserSessionContext";
-import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
-import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
+import ViewHistory from "../pages/restaurant/pages/posuserSession/history/OrderHistory";
 
 //information needed for a navigation
 export type AppNav = {
@@ -102,14 +100,14 @@ export const appRoutes: AppRoute[] = [
         path: "products",
         element: <Products />,
       },
-      {
-        path: "track",
-        element: <ViewHistory />,
-      },
-      {
-        path: "history",
-        element: <PaymentHistory />,
-      },
+      // {
+      //   path: "history",
+      //   element: <ViewHistory />,
+      // },
+      // {
+      //   path: "phistory",
+      //   element: <PaymentHistory />,
+      // },
     ],
   },
   {

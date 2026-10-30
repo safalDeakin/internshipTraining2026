@@ -1,7 +1,7 @@
 // author: shrajja
 
 import { ChevronDown, UtensilsCrossed, Play, ListCheck } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { useAuth } from "../../utils/secureclient/useAuth";
@@ -53,15 +53,16 @@ const RestaurantNavbar = ({
     }
   }, [activeSessions.length]);
 
+  const navigate = useNavigate();
+
   const handlePlayClick = () => {
     if (activeSessions.length > 0) {
-      // Play clicked while a session is already active -> gray
       setSessionInactive(true);
     } else {
-      // Starting a fresh session -> green
       setSessionInactive(false);
     }
 
+    navigate(getOrganizationPath("/restaurant/session", organization));
     openSessionMode?.();
   };
 
