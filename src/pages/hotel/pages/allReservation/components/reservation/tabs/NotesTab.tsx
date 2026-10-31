@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
-import { useReservationState } from '../../../hooks/useReservationState';
-import { useAppContext } from '../../../context/AppContext';
+import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
+import { useAllReservationContext } from '../../../context/AllReservationContext';
 
 export default function NotesTab() {
     const { selectedReservation: r } = useReservationState();
-    const { repo } = useAppContext();
+    const { repo } = useAllReservationContext();
     const [value, setValue] = useState(r.notes);
     const [saved, setSaved] = useState(false);
 

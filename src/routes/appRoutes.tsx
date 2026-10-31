@@ -13,14 +13,15 @@ import HotelLayout from "../pages/hotel/HotelLayout";
 import Products from "../pages/restaurant/dropdown/Products";
 import Offers from "../XXcomponents/Offers";
 import Pricelist from "../pages/restaurant/dropdown/Pricelist";
-import Sales from "../pages/restaurant/pages/Sales";
+import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
 import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
-import ViewHistory from "../pages/restaurant/pages/posuserSession/history/OrderHistory";
+import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
+import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 
 //information needed for a navigation
 export type AppNav = {
@@ -102,7 +103,7 @@ export const appRoutes: AppRoute[] = [
       },
       // {
       //   path: "history",
-      //   element: <ViewHistory />,
+      //   element: <OrderHistory />,
       // },
       // {
       //   path: "phistory",
@@ -122,6 +123,10 @@ export const appRoutes: AppRoute[] = [
       {
         index: true,
         element: <Dash />,
+      },
+      {
+        path: "all-rooms",
+        element: <RoomDetailRenderer />,
       },
       {
         path: "room",
@@ -147,6 +152,12 @@ export const appRoutes: AppRoute[] = [
       },
     ],
   },
+
+  {
+    path: "print-reservation-form",
+    element: <PrintBlankReservationForm />,
+  },
+
   {
     path: "reservation-report",
     element: <Report />,

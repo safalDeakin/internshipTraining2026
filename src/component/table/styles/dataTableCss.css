@@ -1,0 +1,194 @@
+.data-table-container {
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    container-type: inline-size;
+}
+
+.data-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: auto;
+    border-collapse: collapse;
+    font-size: clamp(12px, 0.78vw, 15px);
+}
+
+/* Table Header */
+.data-table th {
+    padding: 12px 14px;
+    color: #7b8696;
+    background: #f8f9fb;
+    font-size: clamp(11px, 0.7vw, 13px);
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Table Cells */
+.data-table td {
+    height: clamp(50px, 3.4vw, 62px);
+    padding: 9px 14px;
+    color: #465163;
+    border-top: 1px solid #edf0f3;
+}
+
+/* Row Hover */
+.data-table tbody tr:hover {
+    background: #fafcff;
+}
+
+/* Selection Checkbox Column */
+.data-table .selection-column {
+    width: 42px;
+    padding-left: 14px;
+}
+
+/* Checkboxes */
+.data-table input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #2e63d4;
+    cursor: pointer;
+}
+
+/* Remarks Column */
+.data-table .remarks {
+    max-width: 150px;
+    color: #687486;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Empty State */
+.no-results {
+    padding: 30px 16px;
+    color: #7a8595;
+    font-size: clamp(13px, 0.84vw, 16px);
+    text-align: center;
+}
+
+
+/* Hide low-priority columns when space is limited. */
+@container (max-width: 650px) {
+    .data-table th.priority-low,
+    .data-table td.priority-low {
+        display: none;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+/* Hide medium-priority columns on very narrow tables. */
+@container (max-width: 450px) {
+    .data-table th.priority-medium,
+    .data-table td.priority-medium {
+        display: none;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+}
+
+
+@media (max-width: 560px) {
+    .data-table-container {
+        overflow: visible;
+        padding: 10px;
+        background: #f8f9fb;
+    }
+
+    .data-table {
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        font-size: 13px;
+    }
+
+    /* Hide the regular table headings. */
+    .data-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Convert table rows into cards. */
+    .data-table tbody,
+    .data-table tbody tr,
+    .data-table tbody td {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table tbody tr {
+        position: relative;
+        padding: 12px 12px 10px;
+        background: #ffffff;
+        border: 1px solid #e2e7ed;
+        border-radius: 9px;
+        box-shadow: 0 2px 5px #1720330a;
+    }
+
+    /* Show each cell as a label-value pair. */
+    .data-table tbody td {
+        display: grid;
+        min-width: 0;
+        min-height: 36px;
+        height: auto;
+        grid-template-columns: minmax(105px, 42%) minmax(0, 1fr);
+        align-items: center;
+        gap: 8px;
+        padding: 7px 4px;
+        border: 0;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+
+    /* Labels come from data-label in DataTable.tsx. */
+    .data-table tbody td::before {
+        content: attr(data-label);
+        color: #7b8696;
+        font-size: 11px;
+        font-weight: 650;
+        text-align: left;
+    }
+
+    /* Position selection checkbox in the card's top-right corner. */
+    .data-table tbody .selection-column {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: block;
+        width: auto;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .data-table tbody .selection-column::before {
+        display: none;
+    }
+
+    /* Leave room for the checkbox beside the first data cell. */
+    .data-table tbody .selection-column + td {
+        padding-right: 34px;
+    }
+
+    /* Allow remarks to use the available card width. */
+    .data-table tbody .remarks {
+        max-width: none;
+    }
+}

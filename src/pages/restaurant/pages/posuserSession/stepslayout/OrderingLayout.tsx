@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ItemCards from "../components/ordering/ItemCards";
-import type { OrderLine } from "../components/ordering/OrderSection";
-import OrderForm from "../components/ordering/OrderForm";
-import TwoPanelLayout from "../components/TwoPanelLayout";
-import FilterBar from "../components/FilterBar";
+import ItemCards from "../features/ordering/ItemCards";
+import type { OrderLine } from "../features/ordering/OrderSection";
+import OrderForm from "../features/ordering/OrderForm";
 import { History } from "lucide-react";
+import TwoPanelLayout from "../shared/components/TwoPanelLayout";
+import FilterBar from "../shared/components/FilterBar";
 
 interface OrderingLayoutProps {
   onTrackClick: () => void;

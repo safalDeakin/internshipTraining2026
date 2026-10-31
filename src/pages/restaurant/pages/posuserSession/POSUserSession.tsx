@@ -1,5 +1,4 @@
 // author: shrajja
-
 import { useEffect, useState } from "react";
 import {
   ArrowLeft,
@@ -13,34 +12,16 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 import OrderingLayout from "./stepslayout/OrderingLayout";
 import PaymentLayout from "./stepslayout/PaymentLayout";
 import InvoicingLayout from "./stepslayout/InvoicingLayout";
+import OrderHistory from "./shared/history/OrderHistory";
+import PaymentHistory from "./shared/history/PaymentHistory";
+import InvoiceHistory from "./shared/history/InvoiceHistory";
+import type { POSUserSessionProps } from "./types/posSessionTypes";
+import { tabs } from "./constants/posSessionAlldata";
 
-import OrderHistory from "./history/OrderHistory";
-import PaymentHistory from "./history/PaymentHistory";
-import InvoiceHistory from "./history/InvoiceHistory";
-
-const tabs: {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-}[] = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "invoicing", label: "Invoicing", icon: Receipt },
-  { id: "payments", label: "Payments", icon: Wallet },
-  { id: "ordering", label: "Ordering", icon: ClipboardList },
-  { id: "reservation", label: "Reservation", icon: CalendarCheck },
-  { id: "return", label: "Return", icon: Undo2 },
-  { id: "stock", label: "Stock", icon: Warehouse },
-];
-
-interface SessionPageProps {
-  onExit?: () => void;
-}
-
-const POSUserSession = ({ onExit }: SessionPageProps) => {
+const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const [shown, setShown] = useState(false);
   const [activeTab, setActiveTab] = useState("ordering");
 

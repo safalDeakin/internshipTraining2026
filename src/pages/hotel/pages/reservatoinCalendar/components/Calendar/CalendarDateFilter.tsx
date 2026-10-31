@@ -6,10 +6,8 @@ interface CalendarDateFilterProps {
     onDateChange: (date: Date) => void;
 }
 
-const YEARS = Array.from(
-    { length: 11 },
-    (_, index) => 2020 + index
-);
+const YEAR_RANGE = 10;
+
 
 export default function CalendarDateFilter({
     selectedDate,
@@ -18,6 +16,12 @@ export default function CalendarDateFilter({
     const day = selectedDate.getDate();
     const month = selectedDate.getMonth();
     const year = selectedDate.getFullYear();
+
+
+    const YEARS = Array.from(
+        { length: YEAR_RANGE * 2 + 1 },
+        (_, index) => year - YEAR_RANGE + index
+    );
 
     /* Number of days in selected month.*/
     const daysInMonth = new Date(

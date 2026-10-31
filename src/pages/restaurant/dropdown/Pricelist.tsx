@@ -14,7 +14,7 @@ import {
   TextAlignJustify,
   Trash,
 } from "lucide-react";
-import PricelistEditModal from "../popup/PricelistEditModal";
+import PricelistEditModal from "../../test/PricelistEditModal";
 
 const sidebarItems = [
   {
