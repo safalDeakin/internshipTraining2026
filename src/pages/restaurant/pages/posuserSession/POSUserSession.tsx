@@ -1,35 +1,23 @@
 // author: shrajja
 import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  CalendarCheck,
-  ClipboardList,
-  LayoutDashboard,
-  Receipt,
-  Undo2,
-  Wallet,
-  Warehouse,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import OrderingLayout from "./stepslayout/OrderingLayout";
-import PaymentLayout from "./stepslayout/PaymentLayout";
-import InvoicingLayout from "./stepslayout/InvoicingLayout";
-import OrderHistory from "./shared/history/OrderHistory";
-import PaymentHistory from "./shared/history/PaymentHistory";
-import InvoiceHistory from "./shared/history/InvoiceHistory";
+import OrderingLayout from "./features/ordering/OrderingLayout";
+import PaymentLayout from "./features/payment/PaymentLayout";
+import InvoicingLayout from "./features/invoicing/InvoicingLayout";
+import OrderHistory from "./features/ordering/OrderHistory";
+import PaymentHistory from "./features/payment/PaymentHistory";
+import InvoiceHistory from "./features/invoicing/InvoiceHistory";
 import type { POSUserSessionProps } from "./types/posSessionTypes";
 import { tabs } from "./constants/posSessionAlldata";
 
 const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const [shown, setShown] = useState(false);
   const [activeTab, setActiveTab] = useState("ordering");
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setShown(true));
-
     return () => cancelAnimationFrame(id);
   }, []);
 
@@ -44,17 +32,14 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   // Keep the parent navigation tab highlighted while viewing its history.
   const isTabActive = (id: string) => {
     if (id === "ordering") {
-      return activeTab === "ordering" || activeTab === "track";
+      return activeTab === "ordering" || activeTab === "orderHistory";
     }
-
     if (id === "invoicing") {
       return activeTab === "invoicing" || activeTab === "invoiceHistory";
     }
-
     if (id === "payments") {
-      return activeTab === "payments" || activeTab === "history";
+      return activeTab === "payments" || activeTab === "paymentsHistory";
     }
-
     return activeTab === id;
   };
 
@@ -78,7 +63,6 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
         <div className="flex flex-1 items-center justify-around overflow-x-auto">
           {tabs.map(({ id, label, icon: Icon }) => {
             const isActive = isTabActive(id);
-
             return (
               <button
                 key={id}
@@ -102,17 +86,17 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
       <main className="min-h-0 flex-1 overflow-y-auto">
         {/* Ordering */}
         {activeTab === "ordering" && (
-          <OrderingLayout onTrackClick={() => setActiveTab("track")} />
+          <OrderingLayout onTrackClick={() => setActiveTab("orderHistory")} />
         )}
 
-        {activeTab === "track" && (
+        {activeTab === "orderHistory" && (
           <OrderHistory onBack={() => setActiveTab("ordering")} />
         )}
 
         {/* Invoicing */}
         {activeTab === "invoicing" && (
           <InvoicingLayout
-            onTrackClick={() => setActiveTab("invoiceHistory")}
+            onTrackClick={() => setActiveTab("invoicingHistory")}
           />
         )}
 
@@ -122,10 +106,10 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
 
         {/* Payments */}
         {activeTab === "payments" && (
-          <PaymentLayout onTrackClick={() => setActiveTab("history")} />
+          <PaymentLayout onTrackClick={() => setActiveTab("paymentsHistory")} />
         )}
 
-        {activeTab === "history" && (
+        {activeTab === "paymentsHistory" && (
           <PaymentHistory onBack={() => setActiveTab("payments")} />
         )}
 

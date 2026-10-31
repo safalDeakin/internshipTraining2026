@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { AU, GB, IN, NP, US } from "country-flag-icons/react/1x1";
 import { ChevronDown, Download, Printer, X, Loader2 } from "lucide-react";
 
-import type { InvoiceCards } from "../../stepslayout/InvoicingLayout";
+import type { InvoiceCards } from "../InvoicingLayout";
 
+import type { PaymentMethod } from "../../../shared/components/PaymentMethodFields";
+import FormFrame from "../../../shared/components/forms/FormFrame";
+import LoadingOverlay from "../../../shared/components/LoadingOverlay";
+import PaymentMethodFields from "../../../shared/components/PaymentMethodFields";
 import SalesReceipt from "./SalesReceipt";
-import type { PaymentMethod } from "../../shared/components/PaymentMethodFields";
-import FormFrame from "../../shared/components/forms/FormFrame";
-import LoadingOverlay from "../../shared/components/LoadingOverlay";
-import PaymentMethodFields from "../../shared/components/PaymentMethodFields";
 
 const countries = [
   { code: "NP", dialCode: "+977", Flag: NP },

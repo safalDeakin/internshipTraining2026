@@ -28,22 +28,61 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
   icon?: ReactNode;
 }
-//
+//----------------------------------------------------------------------------------------------------------
+
+//POSUser session first
 export interface POSUserSessionProps {
   onExit?: () => void;
 }
-// 3://the session data structure
-export interface POSUserSession {
-  id: number;
-  staffId: number;
-  staffName: string;
-  terminal: string;
-  date: string;
-  mode: POSSessionMode;
-  organizationId: number;
-  startTime: string;
-  endTime: string | null;
-  isApproved: boolean;
-  isVerified: boolean;
-  isPaused?: boolean;
+
+//properties that layout accepts
+export interface TwoPanelLayoutProps {
+  // Main content
+  children: ReactNode;
+
+  // Right-side panel
+  panel?: ReactNode;
+  panelWidth?: string;
+
+  // Filter configuration
+  filters?: readonly string[];
+  activeFilter?: string;
+  onFilterChange?: (filter: string) => void;
+
+  // Search configuration
+  search?: string;
+  onSearchChange?: (value: string) => void;
+  onSearch?: () => void;
+  searchPlaceholder?: string;
+
+  // History button
+  onHistoryClick?: () => void;
 }
+
+//formframe
+export interface FormFrameProps {
+  title: string;
+  description?: string;
+  children: ReactNode;
+  footer?: ReactNode;
+  onClose?: () => void;
+  className?: string;
+}
+//receipt
+export interface ReceiptFrameProps {
+  hotelName: string;
+  address: string;
+  phone: string;
+  children: ReactNode;
+  onPrint?: () => void;
+  onDownloadPDF?: () => void;
+}
+
+// export const INVOICE_FILTERS = [
+//   "All",
+//   "KOT",
+//   "BOT",
+//   "Reservation",
+// ] as const;
+
+// export type InvoiceFilter = (typeof INVOICE_FILTERS)[number];

@@ -1,14 +1,5 @@
-import type { ReactNode } from "react";
 import { X } from "lucide-react";
-
-interface FormFrameProps {
-  title: string;
-  description?: string;
-  children: ReactNode;
-  footer?: ReactNode;
-  onClose?: () => void;
-  className?: string;
-}
+import type { FormFrameProps } from "../../../types/posSessionTypes";
 
 const FormFrame = ({
   title,
@@ -20,7 +11,7 @@ const FormFrame = ({
 }: FormFrameProps) => {
   return (
     <div
-      className={`flex h-full min-h-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm ${className}`}
+      className={`flex my-5 h-full min-h-screen flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm ${className}`}
     >
       {/* Form Header */}
       <div className="flex shrink-0 items-start justify-between px-4 py-3">

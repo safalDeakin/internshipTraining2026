@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import HistoryHeader from "./HistoryHeader";
-import TableView from "./TableView";
+import HistoryHeader from "../../shared/history/HistoryHeader";
+import TableView from "../../shared/history/TableView";
 interface PaymentHistoryProps {
   onBack: () => void;
 }

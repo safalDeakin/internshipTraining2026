@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Printer, Download, HandCoins } from "lucide-react";
-import FormFrame from "../../shared/components/forms/FormFrame";
-import LoadingOverlay from "../../shared/components/LoadingOverlay";
-import StatusOverlay from "../../shared/components/StatusOverlay";
-
+import FormFrame from "../../../shared/components/forms/FormFrame";
+import LoadingOverlay from "../../../shared/components/LoadingOverlay";
+import StatusOverlay from "../../../shared/components/StatusOverlay";
 interface SalesReceiptProps {
   invoice: {
     receiptNo: string;

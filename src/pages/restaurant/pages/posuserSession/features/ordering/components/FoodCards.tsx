@@ -1,23 +1,13 @@
 // author:shrajja
-
-//properties this accepts
-interface ItemCardProps {
-  image?: string;
-  label: string;
-  date: string;
-  status?: string;
-  isSelected?: boolean; //Whether the card is selected
-  onClick?: () => void; //Function to execute when clicked
-}
-
-const ItemCards = ({
+import type { FoodCardProps } from "../types/OrderingTypes";
+const FoodCards = ({
   image,
   label,
   date,
   status,
   isSelected,
   onClick,
-}: ItemCardProps) => {
+}: FoodCardProps) => {
   return (
     <>
       {/* Food Card */}
@@ -49,4 +39,4 @@ const ItemCards = ({
     </>
   );
 };
-export default ItemCards;
+export default FoodCards;

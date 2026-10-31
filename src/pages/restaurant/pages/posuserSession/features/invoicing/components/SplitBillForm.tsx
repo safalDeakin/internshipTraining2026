@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ChevronDown, Printer, Trash2 } from "lucide-react";
 import SplitBillReceipt from "./SplitBillReceipt";
-import FormFrame from "../../shared/components/forms/FormFrame";
+import FormFrame from "../../../shared/components/forms/FormFrame";
 
 interface ReceiptBill {
   billNo: number;

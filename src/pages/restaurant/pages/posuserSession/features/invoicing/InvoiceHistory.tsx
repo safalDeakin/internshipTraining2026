@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import HistoryHeader from "./HistoryHeader";
-import TableView from "./TableView";
-import SalesReceipt from "../../features/invoicing/SalesReceipt";
-import ReferenceDetailsModal from "../components/forms/ReferenceDetailsModals";
+import HistoryHeader from "../../shared/history/HistoryHeader";
+import TableView from "../../shared/history/TableView";
+import ReferenceDetailsModal from "../../shared/components/forms/ReferenceDetailsModals";
+import SalesReceipt from "./components/SalesReceipt";
 
 interface Invoice {
   id: number;

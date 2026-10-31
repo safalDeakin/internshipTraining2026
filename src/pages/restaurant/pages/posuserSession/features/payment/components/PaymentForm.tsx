@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { UserRound, Loader2 } from "lucide-react";
-import type { Cards } from "../../stepslayout/PaymentLayout";
-import PaymentReceipt from "./PaymentReceipt";
-import type { PaymentMethod } from "../../shared/components/PaymentMethodFields";
-import LoadingOverlay from "../../shared/components/LoadingOverlay";
-import PaymentMethodFields from "../../shared/components/PaymentMethodFields";
-import FormFrame from "../../shared/components/forms/FormFrame";
+import type { Cards } from "../PaymentLayout";
+import type { PaymentMethod } from "../../../shared/components/PaymentMethodFields";
+import { PaymentReceipt } from "../../../../../../recepits/components/PaymentReceipt";
+import FormFrame from "../../../shared/components/forms/FormFrame";
+import LoadingOverlay from "../../../shared/components/LoadingOverlay";
+import PaymentMethodFields from "../../../shared/components/PaymentMethodFields";
 
 interface PaymentFormProps {
   customer: Cards;
@@ -45,17 +45,17 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
     }
   };
 
-  if (submitted && !isSubmitting) {
-    return (
-      <PaymentReceipt
-        customer={customer}
-        total={total}
-        paymentMethod={paymentMethod}
-        receivedAmount={receivedAmount}
-        onClose={onCancel}
-      />
-    );
-  }
+  // if (submitted && !isSubmitting) {
+  //   return (
+  //     <PaymentReceipt
+  //       customer={customer}
+  //       total={total}
+  //       paymentMethod={paymentMethod}
+  //       receivedAmount={receivedAmount}
+  //       onClose={onCancel}
+  //     />
+  //   );
+  // }
 
   return (
     <FormFrame

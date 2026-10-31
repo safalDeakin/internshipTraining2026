@@ -1,9 +1,9 @@
 import { useState } from "react";
-import InvoicingCards from "../../features/invoicing/InvoicingCards";
-import type { InvoiceType } from "../../stepslayout/InvoicingLayout";
-import TableView from "./TableView";
-import HistoryModal from "./HistoryModal";
-import HistoryHeader from "./HistoryHeader";
+import InvoicingCards from "../invoicing/components/InvoicingCards";
+import type { InvoiceType } from "../invoicing/InvoicingLayout";
+import TableView from "../../shared/history/TableView";
+import HistoryModal from "../../shared/history/HistoryModal";
+import HistoryHeader from "../../shared/history/HistoryHeader";
 
 interface ReusableDropdownProps {
   label?: string;

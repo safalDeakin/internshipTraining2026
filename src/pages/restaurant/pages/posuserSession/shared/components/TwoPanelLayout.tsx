@@ -1,33 +1,62 @@
-import type { ReactNode } from "react";
-//properties layout accept
-interface TwoPanelLayoutProps {
-  children: ReactNode;
-  panel: ReactNode;
-  panelWidth?: string;
-  gap?: string;
-  className?: string;
-}
+import { History } from "lucide-react";
+import FilterBar from "./FilterBar";
+import type { TwoPanelLayoutProps } from "../../types/posSessionTypes";
 
 const TwoPanelLayout = ({
   children,
   panel,
   panelWidth = "400px",
-  gap = "20px",
-  className = "",
+
+  filters,
+  activeFilter,
+  onFilterChange,
+
+  search = "",
+  onSearchChange,
+  onSearch,
+  searchPlaceholder = "Search...",
+
+  onHistoryClick,
 }: TwoPanelLayoutProps) => {
+  const showHeader = filters || onHistoryClick;
+
   return (
-    // main wrapper that arranges the two panels ${className}	Adds extra classes provided by the parent
-    <div
-      className={`flex w-full flex-col items-start lg:flex-row ${className}`}
-      style={{ gap }}
-    >
-      {/* Main content (children) */}
-      <div className="min-w-0 w-full flex-1">{children} </div>
-      {/* Side panel (panel) */}
+    <div className="flex w-full flex-col items-start gap-5 px-6 lg:flex-row">
+      <div className="min-w-0 w-full flex-1">
+        {showHeader && (
+          <div className="flex items-center justify-between gap-3 p-3">
+            {filters && (
+              <FilterBar
+                filters={filters}
+                activeFilter={activeFilter ?? ""}
+                onFilterChange={onFilterChange ?? (() => {})}
+                search={search}
+                onSearchChange={onSearchChange ?? (() => {})}
+                onSearch={onSearch ?? (() => {})}
+                searchPlaceholder={searchPlaceholder}
+              />
+            )}
+
+            {onHistoryClick && (
+              <button
+                type="button"
+                onClick={onHistoryClick}
+                className="shrink-0 rounded-md p-2 hover:bg-gray-100"
+                aria-label="View history"
+              >
+                <History size={20} />
+              </button>
+            )}
+          </div>
+        )}
+
+        {children}
+      </div>
+
       {panel && (
         <div
           className="w-full shrink-0 self-start lg:sticky lg:top-4"
-          style={{ maxWidth: panelWidth }}
+          style={{ maxWidth: panelWidth ?? "400px" }}
         >
           {panel}
         </div>

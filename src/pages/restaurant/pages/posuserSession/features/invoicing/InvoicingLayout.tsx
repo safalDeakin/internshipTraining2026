@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { History, X } from "lucide-react";
-import InvoicingForm from "../features/invoicing/InvoicingForm";
-import InvoicingCards from "../features/invoicing/InvoicingCards";
-import SplitBillForm from "../features/invoicing/SplitBillForm";
-import TwoPanelLayout from "../shared/components/TwoPanelLayout";
-import FilterBar from "../shared/components/FilterBar";
+import InvoicingForm from "./components/InvoicingForm";
+import InvoicingCards from "./components/InvoicingCards";
+import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
+import FilterBar from "../../shared/components/FilterBar";
+import SplitBillForm from "./components/SplitBillForm";
 
 interface InvoiceLayoutProps {
   onTrackClick: () => void;

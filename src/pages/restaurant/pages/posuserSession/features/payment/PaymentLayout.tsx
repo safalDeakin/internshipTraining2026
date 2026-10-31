@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PaymentForm from "../features/payment/PaymentForm";
-import PaymentCards from "../features/payment/PaymentCards";
+import PaymentCards from "./components/PaymentCards";
 import { History } from "lucide-react";
-import TwoPanelLayout from "../shared/components/TwoPanelLayout";
+import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
+import PaymentForm from "./components/PaymentForm";
 
 interface LayoutProps {
   onTrackClick: () => void;
