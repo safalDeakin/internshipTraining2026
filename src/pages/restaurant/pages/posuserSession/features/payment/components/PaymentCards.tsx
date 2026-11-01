@@ -1,15 +1,5 @@
 import { useState } from "react";
-
-export interface PaymentCardsProps {
-  id?: number;
-  image?: string;
-  name?: string;
-  number?: string;
-  payment?: string;
-  invoice?: string[];
-  isSelected?: boolean;
-  onClick?: () => void;
-}
+import type { PaymentCardsProps } from "../types/PaymentTypes";
 
 const PaymentCards = ({
   image,

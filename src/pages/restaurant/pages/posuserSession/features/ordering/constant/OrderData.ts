@@ -99,4 +99,4 @@ export const foodItems: FoodItem[] = [
 ];
 
 ///for filter at top of page
-export const ORDER_FILTERS = ["All", "Food", "Drinks", "Extras"] as const;
+export const ORDER_FILTERS = ["All", "Food", "Drinks", "Extras"];

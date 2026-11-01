@@ -37,25 +37,21 @@ export interface POSUserSessionProps {
 
 //properties that layout accepts
 export interface TwoPanelLayoutProps {
-  // Main content
   children: ReactNode;
-
-  // Right-side panel
   panel?: ReactNode;
   panelWidth?: string;
 
-  // Filter configuration
-  filters?: readonly string[];
-  activeFilter?: string;
-  onFilterChange?: (filter: string) => void;
+  header?: ReactNode;
 
-  // Search configuration
+  filters?: string[];
+  activeFilter?: string;
+  onFilterChange?: (value: string) => void;
+
   search?: string;
   onSearchChange?: (value: string) => void;
   onSearch?: () => void;
   searchPlaceholder?: string;
 
-  // History button
   onHistoryClick?: () => void;
 }
 

@@ -96,7 +96,7 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
         {/* Invoicing */}
         {activeTab === "invoicing" && (
           <InvoicingLayout
-            onTrackClick={() => setActiveTab("invoicingHistory")}
+            onTrackClick={() => setActiveTab("invoiceHistory")}
           />
         )}
 

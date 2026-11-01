@@ -2,11 +2,11 @@ import { useState } from "react";
 import ItemCards from "./components/FoodCards";
 import OrderForm from "./components/OrderForm";
 import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
-import type { OrderLine } from "./components/OrderSection";
 import type {
   FoodItem,
   Orderfilter,
   OrderingLayoutProps,
+  OrderLine,
 } from "./types/OrderingTypes";
 import { foodItems, ORDER_FILTERS } from "./constant/OrderData";
 

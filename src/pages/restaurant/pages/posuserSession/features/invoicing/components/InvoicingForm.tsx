@@ -1,40 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
-import { AU, GB, IN, NP, US } from "country-flag-icons/react/1x1";
-import { ChevronDown, Download, Printer, X, Loader2 } from "lucide-react";
+import { Download, Printer, X } from "lucide-react";
 
-import type { InvoiceCards } from "../InvoicingLayout";
+import type { InvoiceCards, InvoicingFormProps } from "../types/InvoiceTypes";
+import type { PaymentMethod } from "../../../shared/components/reuse/PaymentMethodFields";
 
-import type { PaymentMethod } from "../../../shared/components/PaymentMethodFields";
 import FormFrame from "../../../shared/components/forms/FormFrame";
+import PaymentMethodFields from "../../../shared/components/reuse/PaymentMethodFields";
 import LoadingOverlay from "../../../shared/components/LoadingOverlay";
-import PaymentMethodFields from "../../../shared/components/PaymentMethodFields";
+import ReusableButton from "../../../shared/components/reuse/ReusableButton";
+import PhoneInput from "../../../shared/components/reuse/PhoneInput";
 import SalesReceipt from "./SalesReceipt";
 
-const countries = [
-  { code: "NP", dialCode: "+977", Flag: NP },
-  { code: "IN", dialCode: "+91", Flag: IN },
-  { code: "US", dialCode: "+1", Flag: US },
-  { code: "GB", dialCode: "+44", Flag: GB },
-  { code: "AU", dialCode: "+61", Flag: AU },
-];
-
-interface InvoicingFormProps {
-  customers: InvoiceCards[];
-  onRemove: (id: number) => void;
-  onClose: () => void;
-  onGenerate?: (data: {
-    guest: string;
-    phone: string;
-    references: string[];
-    total: number;
-  }) => void;
-  onSplit?: () => void;
-}
-
-const VAT_RATE = 0.13;
-
 const inputClass =
-  "h-9 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30";
+  "h-9 w-full bg-white px-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30";
 
 const InvoicingForm = ({
   customers,
@@ -44,7 +22,6 @@ const InvoicingForm = ({
   onSplit,
 }: InvoicingFormProps) => {
   const [guest, setGuest] = useState("");
-  const [selectedCode, setSelectedCode] = useState("+977");
   const [phone, setPhone] = useState("");
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("Cash");
@@ -55,82 +32,73 @@ const InvoicingForm = ({
     { id: number; method: PaymentMethod; amount: number }[]
   >([]);
 
+  const [isGenerating, setIsGenerating] = useState(false);
   const [isSplitting, setIsSplitting] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const addPayment = () =>
-    setExtraPayments((prev) => [
-      ...prev,
-      { id: Date.now(), method: "Cash", amount: 0 },
-    ]);
 
-  const updatePayment = (
-    id: number,
-    patch: Partial<{ method: PaymentMethod; amount: number }>,
-  ) =>
-    setExtraPayments((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, ...patch } : p)),
-    );
+  const isProcessing = isGenerating || isSplitting;
 
-  const selectedCountry =
-    countries.find((c) => c.dialCode === selectedCode) ?? countries[0];
+  const today = new Date().toLocaleDateString("en-CA");
 
-  const today = new Date().toLocaleDateString("en-CA").replace(/-/g, "/");
-
-  // Pre-fill guest details from the first selected card
+  // Prefill customer details
   const primary = customers[0];
 
   useEffect(() => {
     if (primary) {
       setGuest(primary.name);
       setPhone(primary.number);
+    } else {
+      setGuest("");
+      setPhone("");
     }
-  }, [primary]);
+  }, [primary?.id]);
 
-  // Combine items from all selected cards
+  // Combine invoice items
   const rows = useMemo(
     () =>
-      customers.flatMap((c) =>
-        c.invoiceItems.map((item) => ({
+      customers.flatMap((customer) =>
+        customer.invoiceItems.map((item) => ({
           ...item,
-          key: `${c.id}-${item.id}`,
+          key: `${customer.id}-${item.id}`,
         })),
       ),
     [customers],
   );
 
+  // Calculate subtotal
   const subtotal = useMemo(
     () => rows.reduce((sum, item) => sum + item.amount, 0),
     [rows],
   );
 
-  const vat = subtotal * VAT_RATE;
-  const total = subtotal + vat;
-  const service = subtotal * 0.1;
-
-  const handleGenerate = () => {
-    onGenerate?.({
-      guest,
-      phone: `${selectedCode}${phone}`,
-      references: customers.map((c) => c.reference),
-      total,
-    });
-
-    setShowReceipt(true);
+  // Add another payment method
+  const addPayment = () => {
+    setExtraPayments((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        method: "Cash",
+        amount: 0,
+      },
+    ]);
   };
-  const handleSplit = () => {
-    if (isSplitting) return;
 
-    setIsSplitting(true);
-
-    setTimeout(() => {
-      setIsSplitting(false);
-      onSplit?.();
-    }, 1500);
+  // Update additional payment
+  const updatePayment = (
+    id: number,
+    patch: Partial<{
+      method: PaymentMethod;
+      amount: number;
+    }>,
+  ) => {
+    setExtraPayments((prev) =>
+      prev.map((payment) =>
+        payment.id === id ? { ...payment, ...patch } : payment,
+      ),
+    );
   };
-  const totalReceived =
-    receivedAmount +
-    extraPayments.reduce((sum, payment) => sum + payment.amount, 0);
 
+  // Receipt payment methods
   const receiptPaymentMethod = [
     ...(receivedAmount > 0 ? [paymentMethod] : []),
     ...extraPayments
@@ -138,33 +106,75 @@ const InvoicingForm = ({
       .map((payment) => payment.method),
   ].join(", ");
 
-  const dueDate = "Not set";
+  // Generate sales receipt
+  const handleGenerate = async () => {
+    if (isProcessing || customers.length === 0) return;
 
+    setIsGenerating(true);
+
+    try {
+      onGenerate?.({
+        guest,
+        phone,
+        references: customers.map((customer) => customer.reference),
+        total: subtotal,
+      });
+
+      // Replace with your actual API request.
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setShowReceipt(true);
+    } catch (error) {
+      console.error("Failed to generate invoice:", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Split bill
+  const handleSplit = async () => {
+    if (isProcessing || customers.length === 0 || !onSplit) return;
+
+    setIsSplitting(true);
+
+    try {
+      // Replace with your actual split bill API request.
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      onSplit();
+    } catch (error) {
+      console.error("Failed to split bill:", error);
+    } finally {
+      setIsSplitting(false);
+    }
+  };
+
+  // Sales receipt view
   if (showReceipt) {
     return (
       <SalesReceipt
         invoice={{
           receiptNo: `INV-${Date.now()}`,
           customerName: guest,
-          phone: `${selectedCode}${phone}`,
-          references: customers.map((c) => c.reference),
+          phone,
+          references: customers.map((customer) => customer.reference),
           items: rows.map((item) => ({
             name: item.name,
             quantity: item.quantity,
             amount: item.amount,
           })),
           subtotal,
-          vat,
-          service,
-          totalAmount: total,
-          paidAmount: totalReceived,
+          vat: 0,
+          service: 0,
+          totalAmount: subtotal,
+          paidAmount: receivedAmount,
           paymentMethod: receiptPaymentMethod || "Not selected",
-          dueDate,
+          dueDate: "Not set",
         }}
-        onClose={() => setShowReceipt(false)}
       />
     );
   }
+
   return (
     <FormFrame
       title="Invoice"
@@ -172,32 +182,27 @@ const InvoicingForm = ({
       onClose={onClose}
       footer={
         <div className="flex flex-col gap-2">
-          <button
+          <ReusableButton
+            title="Generate Sales Receipt"
+            variant="primary"
+            size="md"
             type="button"
             onClick={handleGenerate}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-600"
-          >
-            Generate Sales Receipt
-            <Download className="h-4 w-4" />
-          </button>
+            disabled={isProcessing || customers.length === 0}
+            icon={<Download size={16} />}
+            className="w-full"
+          />
 
-          <button
+          <ReusableButton
+            title="Split Bill"
+            variant="primary"
+            size="md"
             type="button"
             onClick={handleSplit}
-            disabled={isSplitting}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isSplitting ? (
-              <>
-                <LoadingOverlay />
-              </>
-            ) : (
-              <>
-                Split Bill
-                <Download className="h-4 w-4" />
-              </>
-            )}
-          </button>
+            disabled={isProcessing || customers.length === 0 || !onSplit}
+            icon={<Download size={16} />}
+            className="w-full"
+          />
         </div>
       }
     >
@@ -206,7 +211,7 @@ const InvoicingForm = ({
         Customer Billing Info
       </h3>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1.6fr]">
+      <div className="flex flex-col gap-3">
         <div className="flex min-w-0 flex-col gap-1">
           <label htmlFor="guest-name" className="text-[11px] font-medium">
             Guest Name
@@ -221,40 +226,10 @@ const InvoicingForm = ({
           />
         </div>
 
-        <div className="flex min-w-0 flex-col gap-1">
-          <label htmlFor="guest-phone" className="text-[11px] font-medium">
-            Mobile Number
-          </label>
-
-          <div className="flex h-9 items-center rounded-lg border border-gray-300 bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/30">
-            <div className="relative flex h-full shrink-0 items-center border-r border-gray-300">
-              <selectedCountry.Flag className="pointer-events-none absolute left-2.5 h-4 w-4 rounded-full object-cover" />
-
-              <select
-                aria-label="Country code"
-                value={selectedCode}
-                onChange={(e) => setSelectedCode(e.target.value)}
-                className="h-full appearance-none rounded-l-lg bg-transparent pl-9 pr-7 text-sm outline-none"
-              >
-                {countries.map(({ code, dialCode }) => (
-                  <option key={code} value={dialCode}>
-                    {dialCode}
-                  </option>
-                ))}
-              </select>
-
-              <ChevronDown className="pointer-events-none absolute right-2 h-4 w-4 text-gray-400" />
-            </div>
-
-            <input
-              id="guest-phone"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="9800000000"
-              className="h-full min-w-0 flex-1 bg-transparent px-2 text-sm outline-none"
-            />
-          </div>
+        {/* Mobile Number */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium">Mobile Number</label>
+          <PhoneInput />
         </div>
       </div>
 
@@ -265,32 +240,32 @@ const InvoicingForm = ({
         </p>
 
         <div className="flex flex-wrap gap-2">
-          {customers.map((c) => (
+          {customers.map((customer) => (
             <span
-              key={c.id}
+              key={customer.id}
               className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
             >
-              {c.reference}
+              {customer.reference}
 
               <button
                 type="button"
-                onClick={() => onRemove(c.id)}
-                aria-label={`Remove ${c.reference}`}
+                onClick={() => onRemove(customer.id)}
+                aria-label={`Remove ${customer.reference}`}
                 className="rounded-full p-0.5 hover:bg-blue-200"
               >
-                <X className="h-3 w-3" />
+                <X size={12} />
               </button>
             </span>
           ))}
         </div>
       </div>
 
-      {/* Items and Totals */}
-      <div className="mt-4">
+      {/* Invoice Items */}
+      <div className="mt-4 overflow-x-auto">
         <table className="w-full text-left text-xs">
           <thead>
             <tr className="border-b border-gray-300 font-semibold text-gray-800">
-              <th className="py-1.5">S.No.</th>
+              <th className="py-2">S.No.</th>
               <th>Items</th>
               <th className="text-center">Quantity</th>
               <th className="text-right">Amount</th>
@@ -300,41 +275,43 @@ const InvoicingForm = ({
           <tbody>
             {rows.map((item, index) => (
               <tr key={item.key} className="text-gray-700">
-                <td className="py-1.5">{index + 1}</td>
+                <td className="py-2">{index + 1}</td>
                 <td>{item.name}</td>
                 <td className="text-center">{item.quantity} Unit</td>
-                <td className="text-right">Rs {item.amount}</td>
+                <td className="text-right">Rs {item.amount.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
 
-        <div className="mt-2 flex items-center justify-between border-t border-gray-300 pt-2 text-xs">
-          <span>Subtotal</span>
-          <span>Rs {subtotal.toFixed(2)}</span>
-        </div>
+      {/* Amount Summary */}
+      <div className="mt-3 flex items-center justify-between border-t border-gray-300 pt-3">
+        <span className="text-sm font-medium text-gray-700">Subtotal</span>
 
-        <div className="mt-2 flex items-center justify-between border-t border-gray-300 pt-2 text-xs">
-          <span>Tax (13% VAT)</span>
-          <span>Rs {vat.toFixed(2)}</span>
-        </div>
+        <span className="text-sm font-semibold text-gray-800">
+          Rs {subtotal.toFixed(2)}
+        </span>
+      </div>
 
-        <div className="mt-2 flex items-center justify-between border-t border-gray-300 pt-2 text-xs">
-          <span>10% Service Charge</span>
-          <span>Rs {vat.toFixed(2)}</span>
-        </div>
+      <div className="mt-2 flex items-center justify-between border-t border-gray-300 pt-3">
+        <span className="text-sm font-bold text-gray-900">Total Amount</span>
+
+        <span className="text-sm font-bold text-orange-600">
+          Rs {subtotal.toFixed(2)}
+        </span>
       </div>
 
       {/* Print Sample */}
       <button
         type="button"
-        className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-500"
+        className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-500 hover:bg-gray-50"
       >
         <Printer size={16} />
-        <span>Print Sample</span>
+        Print Sample
       </button>
 
-      {/* Payment Methods */}
+      {/* Primary Payment Method */}
       <PaymentMethodFields
         paymentMethod={paymentMethod}
         setPaymentMethod={setPaymentMethod}
@@ -342,52 +319,32 @@ const InvoicingForm = ({
         setReceivedAmount={setReceivedAmount}
       />
 
-      {extraPayments.map((p) => (
-        <div key={p.id} className="relative">
-          <PaymentMethodFields
-            paymentMethod={p.method}
-            setPaymentMethod={(method) => updatePayment(p.id, { method })}
-            receivedAmount={p.amount}
-            setReceivedAmount={(amount) => updatePayment(p.id, { amount })}
-          />
-        </div>
+      {/* Additional Payment Methods */}
+      {extraPayments.map((payment) => (
+        <PaymentMethodFields
+          key={payment.id}
+          paymentMethod={payment.method}
+          setPaymentMethod={(method) => updatePayment(payment.id, { method })}
+          receivedAmount={payment.amount}
+          setReceivedAmount={(amount) => updatePayment(payment.id, { amount })}
+        />
       ))}
 
+      {/* Add Payment */}
       <div className="mt-3 flex flex-col items-start gap-1">
         <button
           type="button"
           onClick={addPayment}
-          className="cursor-pointer text-sm italic underline"
+          className="text-sm italic underline"
         >
           Add Another payment method
         </button>
 
-        <p className="text-sm text-black">or add on A/C</p>
+        <p className="text-sm text-gray-500">or add on A/C</p>
       </div>
 
-      {/* Total Amount */}
-      <div className="mt-2 flex items-center justify-between border-t border-gray-300 pt-2">
-        <span className="text-sm font-bold text-gray-900">Total Amount</span>
-
-        <span className="text-sm font-semibold text-orange-600">
-          Rs {total.toFixed(2)}
-        </span>
-      </div>
-
-      {/* Payment Summary */}
-      <div className="mt-4 flex flex-col gap-1">
-        <p className="text-sm text-gray-800">
-          Total Amount Received: $<span>456</span>
-        </p>
-
-        <p className="text-sm text-gray-800">
-          Remaining Amount: $<span>456</span>
-        </p>
-
-        <p className="text-sm text-gray-800">
-          Due Date: <span>24/11/2016</span>
-        </p>
-      </div>
+      {/* Loading Overlay */}
+      {isProcessing && <LoadingOverlay />}
     </FormFrame>
   );
 };

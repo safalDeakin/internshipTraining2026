@@ -1,164 +1,87 @@
 import { useMemo, useState } from "react";
-import { History, X } from "lucide-react";
 import InvoicingForm from "./components/InvoicingForm";
 import InvoicingCards from "./components/InvoicingCards";
-import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
-import FilterBar from "../../shared/components/FilterBar";
 import SplitBillForm from "./components/SplitBillForm";
-
-interface InvoiceLayoutProps {
-  onTrackClick: () => void;
-}
-
-export type InvoiceType = "KOT" | "BOT" | "Reservation";
-
-export interface InvoiceItem {
-  id: number;
-  name: string;
-  quantity: number;
-  amount: number;
-}
-
-export interface InvoiceCards {
-  id: number;
-  type: InvoiceType;
-  reference: string;
-  name: string;
-  number: string;
-  waiter: string;
-  table: string;
-  time: string;
-  invoiceItems: InvoiceItem[];
-}
-
-export const invoicingCards: InvoiceCards[] = [
-  {
-    id: 1,
-    type: "KOT",
-    reference: "KOT_125",
-    name: "Ram Shrestha",
-    number: "9841234567",
-    waiter: "1",
-    table: "1",
-    time: "5:30 PM",
-    invoiceItems: [
-      { id: 1, name: "Steam MoMO", quantity: 1, amount: 350 },
-      { id: 2, name: "Kothey MoMo", quantity: 1, amount: 800 },
-      { id: 3, name: "Chicken Pizza", quantity: 1, amount: 250 },
-      { id: 4, name: "Curry", quantity: 1, amount: 300 },
-    ],
-  },
-  {
-    id: 2,
-    type: "BOT",
-    reference: "BOT_125",
-    name: "Sita Thapa",
-    number: "9801234567",
-    waiter: "2",
-    table: "2",
-    time: "5:45 PM",
-    invoiceItems: [
-      { id: 1, name: "Coke", quantity: 2, amount: 150 },
-      { id: 2, name: "Beer", quantity: 3, amount: 900 },
-    ],
-  },
-  {
-    id: 3,
-    type: "Reservation",
-    reference: "Reservation_125",
-    name: "Hari Karki",
-    number: "9811122233",
-    waiter: "1",
-    table: "5",
-    time: "6:00 PM",
-    invoiceItems: [
-      { id: 1, name: "Reservation fee", quantity: 1, amount: 1000 },
-    ],
-  },
-  {
-    id: 4,
-    type: "KOT",
-    reference: "KOT_126",
-    name: "Maya Gurung",
-    number: "9851098765",
-    waiter: "3",
-    table: "3",
-    time: "6:10 PM",
-    invoiceItems: [
-      { id: 1, name: "Chowmein", quantity: 1, amount: 150 },
-      { id: 2, name: "Momo", quantity: 2, amount: 200 },
-    ],
-  },
-  {
-    id: 5,
-    type: "BOT",
-    reference: "BOT_126",
-    name: "Ram Shrestha",
-    number: "9841234567",
-    waiter: "1",
-    table: "1",
-    time: "6:20 PM",
-    invoiceItems: [{ id: 1, name: "Lemon Soda", quantity: 2, amount: 160 }],
-  },
-];
-
-const FILTERS = ["All", "KOT", "BOT", "Reservation"] as const;
-type Filter = (typeof FILTERS)[number];
+import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
+import { X } from "lucide-react";
+import type { Invoicefilter, InvoiceLayoutProps } from "./types/InvoiceTypes";
+import { INVOICE_FILTERS, invoicingCards } from "./constants/InvoiceData";
 
 const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [activeType, setActiveType] = useState<Filter>("All");
+  const [activeType, setActiveType] = useState<Invoicefilter>("All");
   const [search, setSearch] = useState("");
   const [appliedSearch, setAppliedSearch] = useState("");
   const [staff, setStaff] = useState("All");
 
   const [showSplitBill, setShowSplitBill] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  // true while the split bill receipt is displayed -> panel shrinks to receipt width
   const [receiptOpen, setReceiptOpen] = useState(false);
 
+  // Staff filter options
   const staffOptions = useMemo(
-    () => Array.from(new Set(invoicingCards.map((c) => c.waiter))).sort(),
+    () => Array.from(new Set(invoicingCards.map((card) => card.waiter))).sort(),
     [],
   );
 
+  // Filter invoice cards
   const visibleCards = useMemo(() => {
-    const q = appliedSearch.trim().toLowerCase();
+    const query = appliedSearch.trim().toLowerCase();
 
     return invoicingCards.filter((card) => {
       const matchesType = activeType === "All" || card.type === activeType;
+
       const matchesStaff = staff === "All" || card.waiter === staff;
+
       const matchesSearch =
-        !q ||
-        card.name.toLowerCase().includes(q) ||
-        card.table.toLowerCase().includes(q);
+        !query ||
+        card.name.toLowerCase().includes(query) ||
+        card.table.toLowerCase().includes(query);
 
       return matchesType && matchesStaff && matchesSearch;
     });
   }, [activeType, staff, appliedSearch]);
 
+  // Get selected invoice cards
   const selectedCards = useMemo(
-    () => invoicingCards.filter((c) => selectedIds.includes(c.id)),
+    () => invoicingCards.filter((card) => selectedIds.includes(card.id)),
     [selectedIds],
   );
 
+  // Select or deselect invoice cards
   const toggleCard = (id: number) => {
-    const clicked = invoicingCards.find((c) => c.id === id);
-    if (!clicked) return;
+    const clickedCard = invoicingCards.find((card) => card.id === id);
 
-    setSelectedIds((prev) => {
-      if (prev.includes(id)) return prev.filter((x) => x !== id);
+    if (!clickedCard) return;
 
-      const current = invoicingCards.find((c) => c.id === prev[0]);
+    setSelectedIds((previousIds) => {
+      if (previousIds.includes(id)) {
+        return previousIds.filter((selectedId) => selectedId !== id);
+      }
 
-      if (current && current.number === clicked.number) {
-        return [...prev, id];
+      const currentCard = invoicingCards.find(
+        (card) => card.id === previousIds[0],
+      );
+
+      // Only allow selecting invoices belonging to the same customer
+      if (currentCard && currentCard.number === clickedCard.number) {
+        return [...previousIds, id];
       }
 
       return [id];
     });
   };
 
+  // Open split bill panel
+  const openSplitBill = () => {
+    setShowSplitBill(true);
+
+    requestAnimationFrame(() => {
+      setShowPanel(true);
+    });
+  };
+
+  // Close split bill panel
   const closeSplitBill = () => {
     setShowPanel(false);
 
@@ -168,6 +91,7 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
     }, 300);
   };
 
+  // Invoice card grid layout
   const gridClasses =
     selectedCards.length > 0
       ? "grid grid-cols-2 gap-3 py-3 md:grid-cols-3 2xl:grid-cols-4"
@@ -176,9 +100,15 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
   return (
     <>
       <TwoPanelLayout
-        gap="20px"
-        className="px-6"
         panelWidth="400px"
+        filters={INVOICE_FILTERS}
+        activeFilter={activeType}
+        onFilterChange={(filter) => setActiveType(filter as Invoicefilter)}
+        search={search}
+        onSearchChange={setSearch}
+        onSearch={() => setAppliedSearch(search)}
+        searchPlaceholder="Name, Table"
+        onHistoryClick={onTrackClick}
         panel={
           selectedCards.length > 0 ? (
             <InvoicingForm
@@ -186,43 +116,12 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
               onRemove={toggleCard}
               onClose={() => setSelectedIds([])}
               onGenerate={(data) => console.log("Generate receipt:", data)}
-              onSplit={() => {
-                setShowSplitBill(true);
-
-                requestAnimationFrame(() => {
-                  setShowPanel(true);
-                });
-              }}
+              onSplit={openSplitBill}
             />
           ) : null
         }
       >
-        {/* Filter bar */}
-        <div>
-          <FilterBar
-            filters={FILTERS}
-            activeFilter={activeType}
-            onFilterChange={(filter) => setActiveType(filter as Filter)}
-            search={search}
-            onSearchChange={setSearch}
-            onSearch={() => setAppliedSearch(search)}
-            searchPlaceholder="Name, Table"
-            staffOptions={staffOptions}
-            staff={staff}
-            onStaffChange={setStaff}
-          />
-
-          <button
-            type="button"
-            onClick={onTrackClick}
-            className="p-2 hover:bg-gray-100"
-            aria-label="View history"
-          >
-            <History size={20} />
-          </button>
-        </div>
-
-        {/* Cards */}
+        {/* Invoice Cards */}
         <div
           className={
             selectedCards.length > 0
@@ -259,13 +158,13 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
       {/* Split Bill Sliding Panel */}
       {showSplitBill && (
         <div className="fixed inset-0 z-[9999]">
-          {/* Background blur */}
+          {/* Background overlay */}
           <div
             onClick={closeSplitBill}
             className="absolute inset-0 bg-black/20 backdrop-blur-sm"
           />
 
-          {/* Sliding content: full width for the split form, receipt width for the receipt */}
+          {/* Sliding panel */}
           <div
             className={`absolute right-10 w-full overflow-y-auto rounded bg-white shadow-2xl transition-all duration-300 ease-in-out ${
               receiptOpen
@@ -273,7 +172,7 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
                 : "top-0 h-full max-w-6xl"
             } ${showPanel ? "translate-x-0" : "translate-x-full"}`}
           >
-            {/* The receipt has its own close button */}
+            {/* Close button - hidden when receipt is displayed */}
             {!receiptOpen && (
               <button
                 type="button"

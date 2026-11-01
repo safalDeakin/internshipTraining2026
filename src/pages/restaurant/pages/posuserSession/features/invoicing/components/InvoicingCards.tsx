@@ -1,19 +1,5 @@
 import { Clock } from "lucide-react";
-import type { InvoiceType } from "../InvoicingLayout";
-
-export interface InvoicingCardsProps {
-  type: InvoiceType;
-  reference: string;
-  name: string;
-  number: string;
-  waiter: string;
-  table: string;
-  time: string;
-  itemCount: number;
-  image?: string;
-  isSelected?: boolean;
-  onClick?: () => void;
-}
+import type { InvoiceType, InvoicingCardsProps } from "../types/InvoiceTypes";
 
 const avatarColor: Record<InvoiceType, string> = {
   KOT: "bg-cyan-600",

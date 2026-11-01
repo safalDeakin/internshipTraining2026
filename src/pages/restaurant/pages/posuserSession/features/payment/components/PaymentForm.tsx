@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { UserRound, Loader2 } from "lucide-react";
-import type { Cards } from "../PaymentLayout";
-import type { PaymentMethod } from "../../../shared/components/PaymentMethodFields";
-import { PaymentReceipt } from "../../../../../../recepits/components/PaymentReceipt";
-import FormFrame from "../../../shared/components/forms/FormFrame";
-import LoadingOverlay from "../../../shared/components/LoadingOverlay";
-import PaymentMethodFields from "../../../shared/components/PaymentMethodFields";
+import { Loader2, UserRound } from "lucide-react";
+import type { PaymentMethod } from "../../../shared/components/reuse/PaymentMethodFields";
 
-interface PaymentFormProps {
-  customer: Cards;
-  onCancel: () => void;
-}
+import FormFrame from "../../../shared/components/forms/FormFrame";
+import PaymentMethodFields from "../../../shared/components/reuse/PaymentMethodFields";
+import type { PaymentCard, PaymentFormProps } from "../types/PaymentTypes";
+import LoadingOverlay from "../../../shared/components/LoadingOverlay";
+import PaymentReceipt from "./PaymentReceipt";
 
 const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("Cash");
@@ -19,17 +15,24 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
   const [receivedAmount, setReceivedAmount] = useState(0);
 
   const total = Number(customer.payment || 0);
+  const serviceCharge = 0;
+  const vatAmount = 0;
+  const grandTotal = total + vatAmount + serviceCharge;
   const remainingAmount = 82;
+  const invoiceCount = customer.invoice?.length || 1;
+  const invoiceAmount = Math.round(total / invoiceCount);
 
   const initials = (customer.name || "")
     .trim()
     .split(/\s+/)
     .filter(Boolean)
-    .map((part) => part[0])
-    .filter((_, index, arr) => index === 0 || index === arr.length - 1)
+    .filter(
+      (_: string, index: number, arr: string[]) =>
+        index === 0 || index === arr.length - 1,
+    )
+    .map((part: any) => part[0])
     .join("")
     .toUpperCase();
-
   const handleGenerate = async () => {
     if (isSubmitting) return;
 
@@ -45,17 +48,20 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
     }
   };
 
-  // if (submitted && !isSubmitting) {
-  //   return (
-  //     <PaymentReceipt
-  //       customer={customer}
-  //       total={total}
-  //       paymentMethod={paymentMethod}
-  //       receivedAmount={receivedAmount}
-  //       onClose={onCancel}
-  //     />
-  //   );
-  // }
+  if (submitted) {
+    return (
+      <PaymentReceipt
+        customer={customer}
+        total={total}
+        paymentMethod={paymentMethod}
+        receivedAmount={receivedAmount}
+        vatAmount={vatAmount}
+        serviceCharge={serviceCharge}
+        grandTotal={grandTotal}
+        onClose={onCancel}
+      />
+    );
+  }
 
   return (
     <FormFrame
@@ -71,7 +77,7 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
             className="flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting && <Loader2 size={15} className="animate-spin" />}
-            {isSubmitting ? <LoadingOverlay /> : <>Generate</>}
+            {isSubmitting ? <LoadingOverlay /> : "Generate"}
           </button>
 
           <button
@@ -85,12 +91,11 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
         </div>
       }
     >
-      {/* Customer details */}
       <div className="mb-4 flex items-center gap-2">
         {customer.image ? (
           <img
             src={customer.image}
-            alt={customer.name}
+            alt={customer.name || "Customer"}
             className="h-9 w-9 rounded-full object-cover"
           />
         ) : (
@@ -111,39 +116,32 @@ const PaymentForm = ({ customer, onCancel }: PaymentFormProps) => {
         </p>
       </div>
 
-      {/* Invoice header */}
       <div className="mb-2 flex items-center justify-between text-xs font-medium text-gray-800">
         <span>Items</span>
         <span>Paid Amount</span>
       </div>
 
-      {/* Invoice list */}
       <div className="space-y-2">
-        {(customer.invoice || []).map((invoice) => (
+        {(customer.invoice || []).map((invoice: any) => (
           <div
             key={invoice}
             className="flex items-center justify-between gap-2 text-xs"
           >
             <span className="truncate text-gray-700">Invoice #{invoice}</span>
-            <span className="shrink-0 text-gray-700">
-              Rs {Math.round(total / (customer.invoice?.length || 1))}
-            </span>
+            <span className="shrink-0 text-gray-700">Rs {invoiceAmount}</span>
           </div>
         ))}
       </div>
 
-      {/* Total */}
       <div className="mt-3 flex items-center justify-between border-t border-gray-300 pt-2">
         <span className="text-sm font-bold text-gray-900">Total</span>
         <span className="text-sm text-orange-600">Rs {total}</span>
       </div>
 
-      {/* Remaining amount */}
       <div className="mt-5 text-xs text-gray-900">
         Remaining Amount: Rs. {remainingAmount.toFixed(2)}
       </div>
 
-      {/* Payment method */}
       <div className="mt-4">
         <PaymentMethodFields
           paymentMethod={paymentMethod}

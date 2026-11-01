@@ -1,62 +1,13 @@
 import { useState } from "react";
 import PaymentCards from "./components/PaymentCards";
-import { History } from "lucide-react";
+import PaymentToolbar from "./components/PaymentToolbar";
 import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
 import PaymentForm from "./components/PaymentForm";
+import { paymentCards } from "./constants/PaymentData";
+import type { PaymentCard, PaymentLayoutProps } from "./types/PaymentTypes";
 
-interface LayoutProps {
-  onTrackClick: () => void;
-}
-export interface Cards {
-  id?: number;
-  image?: string;
-  name?: string;
-  email?: string;
-  number?: string;
-  payment?: string;
-  invoice?: string[];
-}
-
-export const paymentCards: Cards[] = [
-  {
-    id: 1,
-    name: "Ram Sharma",
-    number: "9841234567",
-    payment: "500",
-    invoice: ["INV-001", "INV-002", "INV-003"],
-  },
-  {
-    id: 2,
-    name: "Sita Thapa",
-    number: "9801234567",
-    payment: "5000",
-    invoice: ["INV-004", "INV-005"],
-  },
-  {
-    id: 3,
-    name: "Hari Gurung",
-    number: "9860123456",
-    payment: "3533",
-    invoice: ["INV-006", "INV-007", "INV-008", "INV-009"],
-  },
-  {
-    id: 4,
-    name: "Rita Karki",
-    number: "9812345678",
-    payment: "333",
-    invoice: ["INV-010"],
-  },
-  {
-    id: 5,
-    name: "Suman Tamang",
-    number: "9851234567",
-    payment: "900",
-    invoice: ["INV-011", "INV-012", "INV-013"],
-  },
-];
-
-const PaymentLayout = ({ onTrackClick }: LayoutProps) => {
-  const [selectedItem, setSelectedItem] = useState<Cards | null>(null);
+const PaymentLayout = ({ onTrackClick }: PaymentLayoutProps) => {
+  const [selectedItem, setSelectedItem] = useState<PaymentCard | null>(null);
 
   const gridClasses = selectedItem
     ? "grid grid-cols-2 gap-3 py-3 md:grid-cols-3 2xl:grid-cols-4"
@@ -64,9 +15,8 @@ const PaymentLayout = ({ onTrackClick }: LayoutProps) => {
 
   return (
     <TwoPanelLayout
-      gap="20px"
-      className="px-6"
       panelWidth="400px"
+      header={<PaymentToolbar onHistoryClick={onTrackClick} />}
       panel={
         selectedItem ? (
           <PaymentForm
@@ -83,11 +33,6 @@ const PaymentLayout = ({ onTrackClick }: LayoutProps) => {
             : ""
         }
       >
-        <div className="mt-3">
-          <button onClick={onTrackClick} className=" px-4 py-2">
-            <History />
-          </button>
-        </div>
         <div className={gridClasses}>
           {paymentCards.map((item) => (
             <PaymentCards

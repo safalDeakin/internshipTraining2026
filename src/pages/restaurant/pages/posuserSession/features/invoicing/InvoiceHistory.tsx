@@ -1,5 +1,4 @@
-import { useMemo, useState } from "react";
-import type { ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import HistoryHeader from "../../shared/history/HistoryHeader";
 import TableView from "../../shared/history/TableView";
 import ReferenceDetailsModal from "../../shared/components/forms/ReferenceDetailsModals";
@@ -108,44 +107,65 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
   const [showSalesReceipt, setShowSalesReceipt] = useState(false);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const search = query.trim().toLowerCase();
 
     return invoices.filter(
       (invoice) =>
-        invoice.invoiceNumber.toLowerCase().includes(q) ||
-        invoice.customerName.toLowerCase().includes(q),
+        invoice.invoiceNumber.toLowerCase().includes(search) ||
+        invoice.customerName.toLowerCase().includes(search) ||
+        invoice.receiptNo.toLowerCase().includes(search),
     );
   }, [query]);
 
+  // Keep the selected invoice valid when search results change.
   const selected =
-    filtered.find((invoice) => invoice.id === selectedId) ?? null;
+    filtered.find((invoice) => invoice.id === selectedId) ??
+    filtered[0] ??
+    null;
 
   const activeReference = selected?.references.find(
-    (ref) => ref === selectedReference,
+    (reference) => reference === selectedReference,
   );
 
-  const summary = [
-    { label: "Total Invoices", value: String(filtered.length) },
-    {
-      label: "Total Amount",
-      value: `Rs ${filtered.reduce((sum, invoice) => sum + invoice.totalAmount, 0)}`,
-    },
-    {
-      label: "Received Amount",
-      value: `Rs ${filtered.reduce((sum, invoice) => sum + invoice.paidAmount, 0)}`,
-    },
-    {
-      label: "Due Amount",
-      value: `Rs ${filtered.reduce((sum, invoice) => sum + Math.max(0, invoice.totalAmount - invoice.paidAmount), 0)}`,
-    },
-    {
-      label: "Fully Paid",
-      value: String(
-        filtered.filter((invoice) => invoice.paidAmount >= invoice.totalAmount)
-          .length,
-      ),
-    },
-  ];
+  const summary = useMemo(
+    () => [
+      {
+        label: "Total Invoices",
+        value: String(filtered.length),
+      },
+      {
+        label: "Total Amount",
+        value: `Rs ${filtered.reduce(
+          (sum, invoice) => sum + invoice.totalAmount,
+          0,
+        )}`,
+      },
+      {
+        label: "Received Amount",
+        value: `Rs ${filtered.reduce(
+          (sum, invoice) => sum + invoice.paidAmount,
+          0,
+        )}`,
+      },
+      {
+        label: "Due Amount",
+        value: `Rs ${filtered.reduce(
+          (sum, invoice) =>
+            sum + Math.max(0, invoice.totalAmount - invoice.paidAmount),
+          0,
+        )}`,
+      },
+      {
+        label: "Fully Paid",
+        value: String(
+          filtered.filter(
+            (invoice) => invoice.paidAmount >= invoice.totalAmount,
+          ).length,
+        ),
+      },
+    ],
+    [filtered],
+  );
 
   const columns = [
     { key: "invoiceNumber", label: "Invoice Number" },
@@ -169,6 +189,18 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     dueAmount: `Rs ${Math.max(0, invoice.totalAmount - invoice.paidAmount)}`,
   }));
 
+  const handleSelectInvoice = (invoiceId: number) => {
+    setSelectedId(invoiceId);
+    setSelectedReference(null);
+    setShowSalesReceipt(false);
+  };
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+    setSelectedReference(null);
+    setShowSalesReceipt(false);
+  };
+
   return (
     <div className="px-4 py-4 sm:px-6">
       <HistoryHeader
@@ -179,10 +211,15 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
       {viewMode === "table" ? (
         <div className="mt-5">
-          <TableView summary={summary} columns={columns} rows={rows} />
+          {filtered.length > 0 ? (
+            <TableView summary={summary} columns={columns} rows={rows} />
+          ) : (
+            <EmptyState message="No invoices found" />
+          )}
         </div>
       ) : (
         <div className="mt-5 flex flex-col gap-6 lg:flex-row">
+          {/* Invoice List */}
           <aside className="w-full shrink-0 lg:w-64">
             <p className="mb-2 text-xs text-gray-500">
               {filtered.length} items
@@ -190,9 +227,9 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
             <input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(event) => handleSearch(event.target.value)}
               placeholder="Search invoice"
-              className="mb-3 w-full rounded border border-gray-300 px-2 py-2 text-xs outline-none focus:border-blue-400"
+              className="mb-3 w-full rounded border border-gray-300 px-3 py-2 text-xs outline-none focus:border-blue-400"
             />
 
             <ul className="space-y-1">
@@ -200,9 +237,9 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                 <li key={invoice.id}>
                   <button
                     type="button"
-                    onClick={() => setSelectedId(invoice.id)}
-                    className={`w-full rounded border px-3 py-2 text-left ${
-                      invoice.id === selectedId
+                    onClick={() => handleSelectInvoice(invoice.id)}
+                    className={`w-full rounded border px-3 py-2 text-left transition ${
+                      invoice.id === selected?.id
                         ? "border-blue-400 bg-blue-50"
                         : "border-transparent hover:bg-gray-50"
                     }`}
@@ -210,9 +247,11 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                     <p className="text-xs font-medium text-gray-800">
                       Invoice no: {invoice.invoiceNumber}
                     </p>
+
                     <p className="text-[10px] text-gray-500">
                       Customer: {invoice.customerName}
                     </p>
+
                     <p className="text-[10px] text-gray-500">
                       Date: {invoice.date}
                     </p>
@@ -228,6 +267,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
             )}
           </aside>
 
+          {/* Invoice Details */}
           <main className="min-w-0 flex-1">
             {selected ? (
               <div className="rounded border border-gray-200 bg-white px-5 py-6 sm:px-8">
@@ -242,15 +282,15 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
                 <Section title="Billing Information">
                   <Field label="Ref Number">
-                    <div className="flex gap-3">
-                      {selected.references.map((ref) => (
+                    <div className="flex flex-wrap gap-3">
+                      {selected.references.map((reference) => (
                         <button
-                          key={ref}
+                          key={reference}
                           type="button"
-                          onClick={() => setSelectedReference(ref)}
+                          onClick={() => setSelectedReference(reference)}
                           className="text-blue-600 underline hover:text-blue-800"
                         >
-                          {ref}
+                          {reference}
                         </button>
                       ))}
                     </div>
@@ -270,16 +310,18 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                     <button
                       type="button"
                       onClick={() => setShowSalesReceipt(true)}
-                      className="font-medium text-blue-600 underline hover:text-blue-800"
+                      className="text-blue-600 underline hover:text-blue-800"
                     >
                       {selected.receiptNo}
                     </button>
                   </Field>
+
                   <Field label="Payment Method">{selected.paymentMethod}</Field>
                   <Field label="Cheque Number">{selected.chequeNumber}</Field>
                   <Field label="Bank Name">{selected.bankName}</Field>
                 </Section>
 
+                {/* Items */}
                 <section className="overflow-x-auto border-t border-gray-200 py-5">
                   <table className="w-full min-w-[450px] text-sm">
                     <thead>
@@ -291,6 +333,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                         <th className="pb-3 text-right font-medium">Amount</th>
                       </tr>
                     </thead>
+
                     <tbody>
                       {selected.items.map((item, index) => (
                         <tr key={`${item.name}-${index}`}>
@@ -302,6 +345,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                     </tbody>
                   </table>
 
+                  {/* Amount Summary */}
                   <div className="mt-4 space-y-1 text-right text-sm">
                     <p>Total: Rs {selected.totalAmount}</p>
                     <p>Received: Rs {selected.paidAmount}</p>
@@ -313,14 +357,13 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                 </section>
               </div>
             ) : (
-              <p className="py-10 text-center text-sm text-gray-400">
-                Select an invoice to view its details
-              </p>
+              <EmptyState message="Select an invoice to view its details" />
             )}
           </main>
         </div>
       )}
 
+      {/* Reference Details */}
       {selected && activeReference && (
         <ReferenceDetailsModal
           invoice={selected}
@@ -329,6 +372,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
         />
       )}
 
+      {/* Sales Receipt */}
       {showSalesReceipt && selected && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
@@ -336,7 +380,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
         >
           <div
             className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded bg-white shadow-xl"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <SalesReceipt
               invoice={{
@@ -345,11 +389,14 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                 phone: selected.phone,
                 references: selected.references,
                 items: selected.items,
+                subtotal: selected.totalAmount,
+                vat: 0,
+                service: 0,
                 totalAmount: selected.totalAmount,
                 paidAmount: selected.paidAmount,
                 paymentMethod: selected.paymentMethod,
+                dueDate: "Not set",
               }}
-              onClose={() => setShowSalesReceipt(false)}
             />
           </div>
         </div>
@@ -357,5 +404,11 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     </div>
   );
 };
+
+const EmptyState = ({ message }: { message: string }) => (
+  <div className="rounded border border-gray-200 bg-white py-12 text-center text-sm text-gray-400">
+    {message}
+  </div>
+);
 
 export default InvoiceHistory;
