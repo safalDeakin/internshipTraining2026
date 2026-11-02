@@ -22,6 +22,10 @@ import type { Item } from "../domain/lostfound";
 import type { NightAuditData } from "../domain/nightAudit";
 import { nightAuditData } from "../pages/hotel/pages/nightAudit/data/nightAuditData";
 
+//KeyCard
+import type { KeyCard } from "../domain/KeyCard";
+import { initialKeyCards } from "../pages/key-card/data/Keycard.data";
+
 
 
 
@@ -112,3 +116,17 @@ const NightAudit = new Repository<NightAuditData, string>({
 export const nightAuditQueryService = new QueryService<NightAuditData, string>(NightAudit);
 export const nightAuditCmdService = new CommandService<NightAuditData, string>(NightAudit);
 
+
+//This is for KeyCard
+const KeyCardRepo = new Repository<KeyCard, string>({
+    sourceType: 'InMemoryLocal',
+    domain: 'KeyCard',
+    tenantId: 'MySpace1234',
+    getId: (entity: KeyCard) => String(entity.id),
+    initialData: initialKeyCards,
+    baseUrl: "asas",
+    eventsUrl: "events"
+})
+
+export const keyCardQueryService = new QueryService<KeyCard, string>(KeyCardRepo);
+export const keyCardCmdService = new CommandService<KeyCard, string>(KeyCardRepo);

@@ -1,3 +1,4 @@
+import ComplaintModal from './components/reservation/ComplaintModal';
 import ReservationHeader from './components/reservation/ReservationHeader';
 import ReservationInfo from './components/reservation/ReservationInfo';
 import ReservationTabs from './components/reservation/ReservationTabs';
@@ -13,6 +14,7 @@ export default function ReservationApp() {
           <ReservationHeader />
           <ReservationInfo />
           <ReservationTabs />
+          <ComplaintModal />
         </div>
       </div>
     </div>

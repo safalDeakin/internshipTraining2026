@@ -1,10 +1,11 @@
-import { Bed, Download, Printer, ChevronDown, X } from "lucide-react";
+import { Bed, Download, Printer, ChevronDown, X, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useReservationState } from "../../../../hooks/allReservation/useReservationState";
 import type { Reservation } from "../../types";
 import { mapReservationToPrintData } from "../../utils/mapReservationToPrintData";
 import PrintReservationForm from "../PrintReservationForm";
 import FinalReceipts from "../../../../../recepits/FinalReceipts";
+import { useUIState } from "../../../../hooks/allReservation/useUIState";
 
 export default function ReservationHeader() {
 
@@ -12,6 +13,8 @@ export default function ReservationHeader() {
         useState<Reservation | null>(null);
     const [showReceipt, setShowReceipt] = useState(false);
     const { selectedReservation: r } = useReservationState();
+
+    const { openAddComplaint } = useUIState();
 
     const isCancelled = r.reservationStatus === 'Cancelled';
 
@@ -107,6 +110,14 @@ export default function ReservationHeader() {
                     <Printer size={13} />
                     Print Reservation Form
                 </button>
+
+                <button
+                    onClick={openAddComplaint}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded transition-colors"
+                >
+                    <Pencil size={13} /> Add Complaint
+                </button>
+
                 <button
                     onClick={() => {
                         console.log("Export PDF clicked");

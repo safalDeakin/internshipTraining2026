@@ -1,15 +1,42 @@
-export type TabKey = 'customer' | 'folio' | 'room' | 'notes' | 'stay' | 'payments';
+export type TabKey =
+  | 'customer'
+  | 'folio'
+  | 'room'
+  | 'notes'
+  | 'stay'
+  | 'payments'
+  | 'complaint';
+
+export type ComplaintStatus = 'Open' | 'In Progress' | 'Resolved' | 'Closed';
+
+export interface Complaint {
+  id: string;
+  complaintNumber: string;
+  referenceTo: string;
+  guestReference: string;
+  expectedResolved: string;
+  reportedAt: string;
+  reportedBy: string;
+  receivedBy: string;
+  category: string;
+  type: string;
+  status: ComplaintStatus;
+  assignedDepartment: string;
+  assignedTo: string;
+  assignmentDescription: string;
+  description: string;
+  statusDescription: string;
+  attachments: string[];
+}
 
 export interface GuestInfo {
   name: string;
+  title: string
   nationality: string;
   phone: string;
   email: string;
   idType: string;
-
-  title?: string;
-  address?: string;
-  idNumber?: string;
+  address: string;
 }
 
 export interface RoomInfo {
@@ -23,14 +50,13 @@ export interface RoomInfo {
 
 export interface PaymentSummary {
   roomCharge: number;
+  paymentMethod: string
   nights: number;
   taxAndFee: number;
   discount: number;
   totalAmount: number;
   advancePaid: number;
   outstandingBalance: number;
-
-  paymentMethod?: "Cash" | "Credit" | "Bank Transfer";
 }
 
 export interface Reservation {
@@ -51,6 +77,7 @@ export interface Reservation {
   payment: PaymentSummary;
   notes: string;
   folioItems: FolioItem[];
+  complaints: Complaint[];
 }
 
 export interface FolioItem {
@@ -80,36 +107,4 @@ export interface ReservationListItem {
   time?: string;
   isSelected: boolean;
   subItems?: string[];
-}
-
-
-
-export interface PrintReservationFormData {
-  date: string;
-  reservationNo: string;
-
-  title: string;
-  fullName: string;
-  phoneNumber: string;
-  address: string;
-  nationality: string;
-  emailAddress: string;
-  idType: string;
-  idNumber: string;
-
-  arrivalDate: string;
-  departureDate: string;
-  noOfNight: number;
-  noOfAdult: number;
-  noOfChildren: number;
-
-  ratePlan: string;
-  ratePerRoom: number;
-  currency: string;
-  totalEstimateAmount: number;
-
-  paymentGuarantee: string;
-
-  agreementName: string;
-  signature: string;
 }

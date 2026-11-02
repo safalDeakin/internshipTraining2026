@@ -1,4 +1,4 @@
-import type { Reservation, FolioItem } from '../types';
+import type { Complaint, ComplaintStatus, Reservation, FolioItem } from '../types';
 import { mockReservations } from '../data/mockData';
 
 export class Repo {
@@ -50,6 +50,44 @@ export class Repo {
         const newItem: FolioItem = { ...item, id: `f-${Date.now()}` };
         this.updateReservation(reservationId, {
             folioItems: [...reservation.folioItems, newItem],
+        });
+    }
+
+    addComplaint(
+        reservationId: string,
+        complaint: Omit<Complaint, 'id' | 'complaintNumber'>
+    ) {
+        const reservation = this.getReservation(reservationId);
+        if (!reservation) return;
+
+        const sequence = reservation.complaints.length + 1;
+        const year = new Date().getFullYear();
+        const newComplaint: Complaint = {
+            ...complaint,
+            id: `complaint-${Date.now()}`,
+            complaintNumber: `CM#${reservation.reservationNumber.replace(/\D/g, '')}${sequence}-${year}`,
+        };
+
+        this.updateReservation(reservationId, {
+            complaints: [...reservation.complaints, newComplaint],
+        });
+    }
+
+    updateComplaintStatus(
+        reservationId: string,
+        complaintId: string,
+        status: ComplaintStatus,
+        statusDescription: string
+    ) {
+        const reservation = this.getReservation(reservationId);
+        if (!reservation) return;
+
+        this.updateReservation(reservationId, {
+            complaints: reservation.complaints.map((complaint) =>
+                complaint.id === complaintId
+                    ? { ...complaint, status, statusDescription }
+                    : complaint
+            ),
         });
     }
 }
