@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import HotelNav from "./HotelNav";
 import RoomsDetailRenderer from "../hotel/pages/room-status/components/RoomsDetailRenderer";
 import HousekeepingRenderer from "../houseKeeping/components/HousekeepingRenderer";
-import RoomDetailRenderer from "../hotel/pages/roomDetail/RoomDetailRenderer";
+import RoomPageRenderer from "./pages/roomMasterPage/RoomDetailRenderer";
 import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer";
 import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";
@@ -142,7 +142,7 @@ export default function HotelLayout() {
 
       case "all-rooms":
         return (
-          <RoomDetailRenderer />
+          <RoomPageRenderer />
         );
 
       case "rate-plan":

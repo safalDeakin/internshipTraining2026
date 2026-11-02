@@ -1,0 +1,257 @@
+/* Author: Safal Shrestha -> MySpace Innovation */
+
+@import "./primitive/primitive-styles.css";
+@import "./primitive/colors.css";
+@import "./primitive/typography.css";
+
+/* form with table uses 1024 --container-5xl */
+
+:root{
+
+    /* ========================================
+     Sizes and layout
+    ======================================== */
+
+    /* Page Container Layout*/
+    --container-page: var( --container-7xl);
+    --container-page-wide: var(--container-full);
+
+    /* Forms and dialogs */
+    --container-popup-small : var(--container-xs); /*320*/
+    --container-popup-medium : var(--container-m); /*448*/
+    --container-popup-large : var(--container-l); /*512 for dialogues box also */
+    --container-popup-xl : var(--container-3xl); /*768*/
+    --container-popup-wide : var(--container-5xl);/* 1024 for settings*/
+
+}
+
+:root{
+
+    /* ========================================
+     Padding and gaps
+    ======================================== */
+
+    /* Sizes
+    Small (sm) 32px Table actions, + Add Another
+    Medium (md) 40px Default forms and buttons
+    Large (lg) 48px Prominent primary actions */
+
+    --padding-layout-tight: var(--space-xs);/* 4px*/
+    --padding-layout-fit: var(--space-s);
+    --gap-layout-tight: var(--space-xs);
+    --gap-layout-fit: var(--space-s);
+
+    /* PopUp Padding*/
+    --padding-popup-comfortable:  var(--space-xl);/*24px*/
+    --padding-popup-spacious:  var(--space-2xl);/*32px*/
+
+    /* Tile Padding*/
+    --padding-tile-compact-x: var(--space-m);/*12px*/
+    --padding-tile-default-x: var(--space-l);/*16px*/
+
+    /* card padding */
+    --padding-card-compact: var(--space-m);/*12px*/
+    --padding-card-default: var(--space-l);/*16px*/
+    --padding-card-comfortable: var( --space-xl);/*24px*/
+
+    /* Button padding */
+    --padding-button-compact-x: var(--space-m);
+    --padding-button-compact-y: var(--space-xs);
+
+    --padding-button-default-x: var(--space-l);
+    --padding-button-default-y: var(--space-s);
+
+    --padding-button-prominent-x: var(--space-xl);
+    --padding-button-prominent-y: var(--space-m);
+
+    /* Form Input padding */
+    --padding-input-default-x: var(--space-m);
+    --padding-input-default-y: var(--space-s);
+
+    /* Form nested banner padding */
+    --padding-form-banner: var(--space-l);
+
+    /* Form elements Gap */
+    --gap-form-label-input: var(--space-s);
+    --gap-form-item: var(--space-l);
+    --gap-form-group: var(--space-xl);
+    --gap-form-submit-buttons: var(--space-m);
+
+    /* form nested table gaps and padding*/
+    --gap-form-table-search: var(--space-s);
+    --gap-form-table-search-tabs: var(--space-s);
+    --padding-form-table-search-tabs: var(--space-l);
+    --padding-form-table-rows-x: var(--space-l);
+    
+    /* form nested buttons padding*/
+    --padding-button-nested-x : var(--space-m);
+    --padding-button-nested-y : var(--space-s);
+
+}   
+
+
+:root {
+
+    /* ========================================
+     Colors
+    ======================================== */
+
+    /* Body Text colors */
+    --color-text-primary: var(--primitive-color-neutral-900);
+    
+    
+    /* Table column heading, Descriptive text under a heading,
+    Secondary detail, Helper text below an input */
+    --color-text-secondary: var(--primitive-color-neutral-600);
+
+    /* text-tertiary-> input place holders, Timestamps and audit metadata */
+    --color-text-tertiary: var(--primitive-color-neutral-500);
+    --color-text-disabled: var(--primitive-color-neutral-400);
+    --color-text-inverse: var(--primitive-color-neutral-0);
+
+  /* Links text colors */
+    --color-link: var(--primitive-color-brand-600);
+    --color-link-hover: var(--primitive-color-brand-700);
+    --color-link-visited: var(--primitive-color-brand-600);
+
+    /* Status Text colors*/
+    --color-status-success: var(--primitive-color-green-700);
+    --color-status-danger: var(--primitive-color-red-600);
+    --color-status-warning: var(--primitive-color-orange-700);
+    --color-status-info: var(--primitive-color-blue-700);
+
+    /*  Button */
+    --color-action-primary: var(--primitive-color-green-700); 
+    --color-action-primary-hover: var(--primitive-color-green-700);
+    --color-action-secondary: var(--primitive-color-green-700);
+    --color-action-secondary-hover: var(--primitive-color-green-700);
+    
+    /* Border and Divider Colors */
+    --color-border-default:var(--primitive-color-neutral-300); /* Table row, Inputs*/
+    --color-border-hover:var(--primitive-color-neutral-400);
+    --color-border-focus:var(--primitive-color-brand-600);
+    --color-border-disabled:var(--primitive-color-neutral-200);
+    --color-border-subtle:var(--primitive-color-neutral-200); /* divider and Table divider*/
+
+    /* Icon Color */
+    /* active navigation icons, important action icons, prominent feature icons. 
+    an important icon in the UI, regardless of whether it is selected.
+    */
+    --color-icon-primary: var(--primitive-color-green-700);
+
+    /*table actions, form field icons, navigation icons for inactive items. close icons  */
+    --color-icon-secondary: var(--primitive-color-green-700);
+
+    /* timestamps, decorative icons, low-emphasis metadata. */
+    --color-icon-tertiary: var(--primitive-color-green-700);
+    --color-icon-disabled:  var(--primitive-color-green-700);
+    
+    /* White icon on a primary button */
+    --color-icon-inverse: var(--primitive-color-green-700);
+    
+    /* Search, edit, settings */
+    --color-icon-interactive: var(--primitive-color-green-700);
+    --color-icon-interactive-hover: var(--primitive-color-green-700);
+    
+    /* Active navigation, selected tab */
+    --color-icon-selected: var(--primitive-color-green-700);
+    --color-icon-error: var(--primitive-color-green-700);
+    --color-icon-success: var(--primitive-color-green-700);
+    --color-icon-warning: var(--primitive-color-green-700);
+    --color-icon-info: var(--primitive-color-green-700);
+
+    /* Background */
+    /* Neutral palette */
+    --color-background-page: var(--primitive-color-neutral-0);
+    --color-background-primary: var(--primitive-color-neutral-0);
+    --color-background-secondary: var(--primitive-color-neutral-50);
+    --color-background-tertiary: var(--primitive-color-neutral-200);
+
+    /* Brands palette*/
+    --color-background-selected: var(--space-2xl);/* Here */
+    --color-background-brand: var(--primitive-color-brand-600);
+    --color-background-brand-subtle: var( --primitive-color-brand-100);/* Here */
+
+    /* interactive colors */
+    --color-background-hover: var(--primitive-color-neutral-100);
+
+    --color-background-error: var(--space-2xl); /* Here */
+    --color-background-success: var(--space-2xl); /* Here */
+    
+}
+
+/* 
+
+List view Search Text -> Tertiary
+List View Heading -> Primary, or active
+List view tile title -> Primary
+List view title additional info-> secondary
+List view  arrow icon -> ICon Interactive
+List view  back arrow icon -> icon Interactive
+List view No product found and additonal info Add a Product to get Started -> All text uses secondary
+List view surface Color ->  --color-background-secondary
+List container bgcolor-> --color-background-primary
+List container search box surface-> --color-background-secondary
+
+
+
+
+Icon EDit, delete, expand and collapse -> secondary
+
+
+*/
+
+:root{
+    /* ========================================
+     Texts
+    ======================================== */
+
+    --text-heading-main: var(--text-heading-h6); /* 24px-> top nav*/
+    
+    /* Heading for sidenav, List View, 
+    * page content title, form title, 
+    * popup title, Report Content Heading*/
+    --text-heading-section: var(--text-body-large-medium);
+
+    /* heading for sideNav nav groups, details page sections,
+    * popups details sections, table heading, drop down nav items , reports sections,*/
+    --text-heading-subsection:  var(--text-body-medium-medium);
+
+    /* For forms Submit button and CTA*/
+    --text-body-large:  var(--text-body-medium-bold);
+
+    /*
+        FOr nav items, main description text, 
+        card title, content title, reporting top label and values, 
+    */
+    --text-body-medium:  var(--text-body-medium-regular);
+
+  
+    /*
+        FOr secondary description or info text in main content, 
+        table cell text, tiles, form input hint texts, ref IDS,  
+        dropdown items, chips text, nested item in list tile, Error Messages
+    */
+    --text-body-small:  var(--text-body-small-regular);
+
+
+    /*
+        For form labels, settings labels, links text
+        Table cell heading, list tile title, 
+        Interactive button in pages text,
+        Nested form button (exclude forms submit and cancels buttons),
+        Form nested Section title
+        also in table cells with highlighted value
+    */
+    --text-body-label:  var(--text-body-small-medium);
+
+    
+    /*
+        FOr captions and tags, and status chips, user hints, 
+        nested section description and secondary content, 
+        list view items secondary infos,
+        dropdown groups indicator, Side msg like tutorial, 
+    */
+    --text-body-captions:  var(--text-body-xs-regular);
+    
+}

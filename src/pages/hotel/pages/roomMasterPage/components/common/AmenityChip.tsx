@@ -1,4 +1,4 @@
-import type { Amenity } from "../../types/roomDetail.types";
+import type { Amenity } from "../../model/RoomModel";
 import Icon from "./Icon";
 
 type AmenityChipProps = {

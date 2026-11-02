@@ -2,7 +2,7 @@
 import RoomSidebarHeader from "./RoomSidebarHeader";
 import RoomList from "./RoomList";
 
-import type { Product } from "../../types/roomDetail.types";
+import type { Product } from "../../model/RoomModel";
 
 type RoomSidebarProps = {
     rooms: Product[];

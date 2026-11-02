@@ -13,7 +13,7 @@ export type Room = {
     extraAmenities: string;
 };
 
-export type Product = {
+export type RoomTypes = {
     id: string;
     name: string;
     subtitle: string;
@@ -22,17 +22,16 @@ export type Product = {
     status?: string;
 };
 
-export type RoomDetailData = {
+export type RoomDetailModel = {
     name: string;
     code: string;
     description: string;
     baseOccupancy: number;
     maxOccupancy: number;
-    products: Product[];
     amenities: Amenity[];
     rooms: Room[];
     createdBy: string;
     createdAt: string;
 };
 
-export type ProductDetail = Omit<RoomDetailData, "products">;
+export type ProductDetail = Omit<RoomDetailModel, "products">;

@@ -1,9 +1,9 @@
 import type {
-    Product,
+    RoomTypes,
     ProductDetail,
-} from "../types/roomDetail.types";
+} from "../model/RoomModel";
 
-export const productOptions: Product[] = [
+export const productOptions: RoomTypes[] = [
     {
         id: "deluxe",
         name: "Deluxe Room Type",

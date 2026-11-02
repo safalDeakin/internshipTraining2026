@@ -1,7 +1,7 @@
 
 import { Search } from "lucide-react";
 
-import type { Product } from "../../types/roomDetail.types";
+import type { Product } from "../../model/RoomModel";
 import RoomListItem from "./RoomListItem";
 
 type RoomListProps = {

@@ -1,12 +1,16 @@
-import type { RoomDetailData } from "../../types/roomDetail.types";
+import type { RoomDetailData } from "../../model/RoomModel";
 import Icon from "../common/Icon";
 
 type RoomHeaderProps = {
-    data: RoomDetailData;
+    name: string,
+    description: string,
+    code: string,
+    maxOccupancy: number;
+    baseOccupancy: number;
 };
 
 export default function RoomHeader({
-    data,
+    name, description, code, maxOccupancy, baseOccupancy
 }: RoomHeaderProps) {
     return (
         <header>
@@ -17,10 +21,10 @@ export default function RoomHeader({
                         className="h-6 w-6 text-black"
                     />
 
-                    {data.name}
+                    {name}
 
                     <span className="font-normal text-[#a1a1a1]">
-                        ( {data.code} )
+                        ( {code} )
                     </span>
                 </h1>
 
@@ -30,16 +34,16 @@ export default function RoomHeader({
             </div>
 
             <p className="mt-3 max-w-197.5 text-[17px] leading-[1.45] text-[#969696]">
-                {data.description}
+                {description}
             </p>
 
             <div className="mt-7 text-[17px] leading-normal text-[#969696]">
                 <p>
-                    Base Occupancy: {data.baseOccupancy}
+                    Base Occupancy: {baseOccupancy}
                 </p>
 
                 <p>
-                    Max Occupancy: {data.maxOccupancy}
+                    Max Occupancy: {maxOccupancy}
                 </p>
             </div>
         </header>

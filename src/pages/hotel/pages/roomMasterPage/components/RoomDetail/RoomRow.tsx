@@ -1,5 +1,5 @@
 import { DoorClosed } from "lucide-react";
-import type { Room } from "../../types/roomDetail.types";
+import type { Room } from "../../model/RoomModel";
 import Icon from "../common/Icon";
 
 

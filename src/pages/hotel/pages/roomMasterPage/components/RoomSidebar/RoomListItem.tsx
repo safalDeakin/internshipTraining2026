@@ -1,38 +1,16 @@
 
-import type { Product } from "../../types/roomDetail.types";
+import type { Product } from "../../model/RoomModel";
 
 type RoomListItemProps = {
     room: Product;
-    isActive: boolean;
-    onSelect: (id: string) => void;
 };
 
 export default function RoomListItem({
     room,
-    isActive,
-    onSelect,
+
 }: RoomListItemProps) {
     return (
-        <button
-            type="button"
-            onClick={() => onSelect(room.id)}
-            className={`
-                flex
-                min-h-12
-                w-full
-                flex-col
-                justify-center
-                px-3
-                py-2
-                text-left
-                transition-colors
-                cursor-pointer
-                ${isActive
-                    ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
-                    : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
-                }
-            `}
-        >
+        <div>
             {/* Top row */}
             <div className="flex items-center justify-between gap-2">
                 <span className="truncate text-[12px] font-medium text-[#29445f]">
@@ -61,7 +39,7 @@ export default function RoomListItem({
                     {room.date}
                 </span>
             )}
-        </button>
+        </div>
     );
 }
 

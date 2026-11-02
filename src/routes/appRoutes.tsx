@@ -10,7 +10,7 @@ import Reservation from "../pages/hotel/pages/Reservation";
 import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/dropdown/Products";
+import Products from "../pages/restaurant/products/Products";
 import Offers from "../XXcomponents/Offers";
 import Pricelist from "../pages/restaurant/dropdown/Pricelist";
 import Sales from "../pages/restaurant/pages/Sales";
@@ -23,7 +23,7 @@ import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSess
 import { POSUserSessionProvider } from "../context/PosUserSessionContext";
 import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
 import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
-import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
+import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomDetailRenderer";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 
 //information needed for a navigation
@@ -129,7 +129,7 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "all-rooms",
-        element: <RoomDetailRenderer />,
+        element: <RoomPageRenderer />,
       },
       {
         path: "room",

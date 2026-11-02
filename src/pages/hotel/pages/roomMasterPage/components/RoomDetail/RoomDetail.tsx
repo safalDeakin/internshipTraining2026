@@ -1,4 +1,4 @@
-import type { RoomDetailData } from "../../types/roomDetail.types";
+import type { RoomDetailData } from "../../model/RoomModel";
 import RoomSidebar from "../RoomSidebar/RoomSidebar";
 
 import RoomHeader from "./RoomHeader";
