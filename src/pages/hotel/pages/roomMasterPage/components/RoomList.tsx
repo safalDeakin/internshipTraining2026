@@ -1,4 +1,4 @@
-import type { Room } from "../../model/RoomModel";
+import type { Room } from "../model/RoomModel";
 import RoomRow from "./RoomRow";
 
 type RoomListProps = {

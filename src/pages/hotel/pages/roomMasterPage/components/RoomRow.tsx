@@ -1,6 +1,6 @@
 import { DoorClosed } from "lucide-react";
-import type { Room } from "../../model/RoomModel";
-import Icon from "../common/Icon";
+import type { Room } from "../model/RoomModel";
+import Icon from "./Icon";
 
 
 type RoomRowProps = {

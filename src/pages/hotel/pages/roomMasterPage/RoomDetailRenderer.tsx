@@ -1,6 +1,6 @@
 import MasterDetailView from "../../../../component/MasterDetailView/MasterDetailView"
-import { DetailSection } from "./components/RoomSidebar/DetailSection";
-import RoomListItem from "./components/RoomSidebar/RoomListItem";
+import { DetailSection } from "./components/DetailSection";
+import RoomTypeItem from "./components/RoomTypeItem";
 import { Plus } from "lucide-react";
 import { useRooms } from "./provider/useRoomContext";
 import { RoomListProvider } from "./provider/RoomsProvider";
@@ -17,7 +17,7 @@ function RoomMasterDetailViewContent() {
 
     const listItemBuilder = (item: RoomTypes) => {
         return (
-            <RoomListItem room={item} />
+            <RoomTypeItem room={item} />
         );
     };
 

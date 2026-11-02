@@ -1,7 +1,7 @@
 import type {
     RoomTypes,
     ProductDetail,
-} from "../model/RoomModel";
+} from "../../model/RoomModel";
 
 export const productOptions: RoomTypes[] = [
     {

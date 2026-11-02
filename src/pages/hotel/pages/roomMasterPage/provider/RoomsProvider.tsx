@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 import {
     productDetails,
     productOptions,
-} from "../data/roomDetailData";
+} from "./data/roomDetailData";
 import type { RoomTypes } from "../model/RoomModel";
 
 

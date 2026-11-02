@@ -1,14 +1,14 @@
 
-import type { Product } from "../../model/RoomModel";
+import type { RoomTypes } from "../model/RoomModel";
 
-type RoomListItemProps = {
-    room: Product;
+type RoomTypeItemProps = {
+    room: RoomTypes;
 };
 
-export default function RoomListItem({
+export default function RoomTypeItem({
     room,
 
-}: RoomListItemProps) {
+}: RoomTypeItemProps) {
     return (
         <div>
             {/* Top row */}

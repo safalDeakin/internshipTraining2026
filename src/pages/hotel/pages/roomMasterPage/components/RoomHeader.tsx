@@ -1,5 +1,4 @@
-import type { RoomDetailData } from "../../model/RoomModel";
-import Icon from "../common/Icon";
+import Icon from "./Icon";
 
 type RoomHeaderProps = {
     name: string,

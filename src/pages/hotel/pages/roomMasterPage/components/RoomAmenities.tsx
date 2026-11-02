@@ -1,6 +1,6 @@
-import type { Amenity } from "../../model/RoomModel";
-import AmenityChip from "../common/AmenityChip";
-import Icon from "../common/Icon";
+import type { Amenity } from "../model/RoomModel";
+import AmenityChip from "./AmenityChip";
+import Icon from "./Icon";
 
 type RoomAmenitiesProps = {
     amenities: Amenity[];
