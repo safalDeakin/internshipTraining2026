@@ -1,85 +1,16 @@
 import { useMemo, useState, type ReactNode } from "react";
 import HistoryHeader from "../../shared/history/HistoryHeader";
 import TableView from "../../shared/history/TableView";
-import ReferenceDetailsModal from "../../shared/components/forms/ReferenceDetailsModals";
 import SalesReceipt from "./components/SalesReceipt";
-
-interface Invoice {
-  id: number;
-  invoiceNumber: string;
-  date: string;
-  customerName: string;
-  phone: string;
-  address: string;
-  references: string[];
-  serviceDate: string;
-  receiptNo: string;
-  paymentMethod: string;
-  chequeNumber: string;
-  bankName: string;
-  totalAmount: number;
-  paidAmount: number;
-  items: {
-    name: string;
-    quantity: number;
-    amount: number;
-  }[];
-}
-
-interface InvoiceHistoryProps {
-  onBack: () => void;
-}
-
-const invoices: Invoice[] = [
-  {
-    id: 1,
-    invoiceNumber: "INV_555",
-    date: "2024/12/13",
-    customerName: "Ram Shrestha",
-    phone: "9876543210",
-    address: "Pokhara",
-    references: ["KOT#125", "BOT#125"],
-    serviceDate: "2025-02-02",
-    receiptNo: "R_555",
-    paymentMethod: "Cheque",
-    chequeNumber: "#1234",
-    bankName: "NIC Asia",
-    totalAmount: 1500,
-    paidAmount: 1000,
-    items: [
-      { name: "Chicken Momo", quantity: 2, amount: 800 },
-      { name: "Coke", quantity: 2, amount: 200 },
-      { name: "Fried Rice", quantity: 1, amount: 500 },
-    ],
-  },
-  {
-    id: 2,
-    invoiceNumber: "INV_554",
-    date: "2024/12/12",
-    customerName: "Sita Thapa",
-    phone: "9801234567",
-    address: "Kathmandu",
-    references: ["KOT#126"],
-    serviceDate: "2024-12-12",
-    receiptNo: "R_554",
-    paymentMethod: "Cash",
-    chequeNumber: "-",
-    bankName: "-",
-    totalAmount: 2000,
-    paidAmount: 2000,
-    items: [
-      { name: "Veg Momo", quantity: 4, amount: 1200 },
-      { name: "Juice", quantity: 2, amount: 800 },
-    ],
-  },
-];
+import ReferenceDetailsModal from "../../../../popup/ReferenceDetailsModals";
+import type { InvoiceHistoryProps } from "./types/InvoiceTypes";
+import { invoices } from "./constants/InvoiceData";
 
 const Field = ({ label, children }: { label: string; children: ReactNode }) => (
   <p className="text-sm text-gray-500">
     {label}: <span className="font-medium text-gray-900">{children}</span>
   </p>
 );
-
 const Section = ({
   title,
   children,
@@ -94,7 +25,6 @@ const Section = ({
 );
 
 type ViewMode = "grid" | "table";
-
 const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
   const [selectedId, setSelectedId] = useState<number | null>(
     invoices[0]?.id ?? null,
@@ -320,41 +250,6 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                   <Field label="Cheque Number">{selected.chequeNumber}</Field>
                   <Field label="Bank Name">{selected.bankName}</Field>
                 </Section>
-
-                {/* Items */}
-                <section className="overflow-x-auto border-t border-gray-200 py-5">
-                  <table className="w-full min-w-[450px] text-sm">
-                    <thead>
-                      <tr className="text-left text-gray-600">
-                        <th className="pb-3 font-medium">Items</th>
-                        <th className="pb-3 text-right font-medium">
-                          Quantity
-                        </th>
-                        <th className="pb-3 text-right font-medium">Amount</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {selected.items.map((item, index) => (
-                        <tr key={`${item.name}-${index}`}>
-                          <td className="py-2">{item.name}</td>
-                          <td className="py-2 text-right">{item.quantity}</td>
-                          <td className="py-2 text-right">Rs {item.amount}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                  {/* Amount Summary */}
-                  <div className="mt-4 space-y-1 text-right text-sm">
-                    <p>Total: Rs {selected.totalAmount}</p>
-                    <p>Received: Rs {selected.paidAmount}</p>
-                    <p className="font-semibold">
-                      Due: Rs{" "}
-                      {Math.max(0, selected.totalAmount - selected.paidAmount)}
-                    </p>
-                  </div>
-                </section>
               </div>
             ) : (
               <EmptyState message="Select an invoice to view its details" />

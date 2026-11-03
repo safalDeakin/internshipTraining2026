@@ -1,17 +1,13 @@
 import { useState } from "react";
-import InvoicingCards from "../invoicing/components/InvoicingCards";
 import TableView from "../../shared/history/TableView";
-import HistoryModal from "../../shared/history/HistoryModal";
 import HistoryHeader from "../../shared/history/HistoryHeader";
-import type { InvoiceType } from "../invoicing/types/InvoiceTypes";
-
-interface ReusableDropdownProps {
-  label?: string;
-  placeholder: string;
-  options: string[];
-  value: string;
-  onChange: (value: string) => void;
-}
+import OrderCardGrid from "./components/OrderCardGrid";
+import type {
+  OrderCardData,
+  OrderHistoryProps,
+  ReusableDropdownProps,
+} from "./types/OrderingTypes";
+import { historyItems } from "./constant/OrderData";
 
 // Reusable dropdown
 export const ReusableDropdown = ({
@@ -37,64 +33,6 @@ export const ReusableDropdown = ({
   );
 };
 
-// History data
-const historyItems: {
-  type: InvoiceType;
-  reference: string;
-  name: string;
-  number: string;
-  waiter: string;
-  table: string;
-  time: string;
-  itemCount: number;
-}[] = [
-  {
-    type: "KOT",
-    reference: "INV-001",
-    name: "Ram Sharma",
-    number: "9800000001",
-    waiter: "01",
-    table: "1",
-    time: "10:30 AM",
-    itemCount: 3,
-  },
-  {
-    type: "BOT",
-    reference: "INV-002",
-    name: "Shyam Thapa",
-    number: "9800000002",
-    waiter: "02",
-    table: "2",
-    time: "11:15 AM",
-    itemCount: 2,
-  },
-  {
-    type: "Reservation",
-    reference: "INV-003",
-    name: "Hari Karki",
-    number: "9800000003",
-    waiter: "01",
-    table: "3",
-    time: "12:00 PM",
-    itemCount: 5,
-  },
-  {
-    type: "KOT",
-    reference: "INV-004",
-    name: "Sita Rai",
-    number: "9800000004",
-    waiter: "03",
-    table: "4",
-    time: "01:30 PM",
-    itemCount: 4,
-  },
-];
-
-interface OrderHistoryProps {
-  // Called when the back arrow is clicked (parent switches back to ordering)
-  onBack: () => void;
-}
-
 const OrderHistory = ({ onBack }: OrderHistoryProps) => {
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -109,10 +47,6 @@ const OrderHistory = ({ onBack }: OrderHistoryProps) => {
     orderId: "",
   });
 
-  const [selectedHistory, setSelectedHistory] = useState<
-    (typeof historyItems)[number] | null
-  >(null);
-
   // Filter history when Go is clicked
   const filteredItems = historyItems.filter((item) => {
     return (
@@ -125,6 +59,20 @@ const OrderHistory = ({ onBack }: OrderHistoryProps) => {
       (!appliedFilters.orderId || item.table === appliedFilters.orderId)
     );
   });
+
+  // Map history items to the shape OrderCardGrid expects
+  const orderCards: OrderCardData[] = filteredItems.map((item, index) => ({
+    id: index + 1,
+    type: item.type,
+    reference: item.reference,
+    phone: item.number,
+    waiter: `Waiter No ${item.waiter}`,
+    customerName: item.name,
+    table: `Table No:${item.table}`,
+    time: item.time,
+    invoiceItems: item.invoiceItems,
+  }));
+
   const summary = [
     { label: "Total Invoices", value: "8" },
     { label: "Total Amount", value: "Rs 120000" },
@@ -161,6 +109,7 @@ const OrderHistory = ({ onBack }: OrderHistoryProps) => {
     subTotal: "Rs 800",
     totalAmount: "Rs 832.35",
   }));
+
   return (
     <div className="flex w-full min-w-0 flex-col gap-5">
       {/* Top bar: Back arrow and view toggle */}
@@ -223,27 +172,15 @@ const OrderHistory = ({ onBack }: OrderHistoryProps) => {
             No history found.
           </p>
         ) : viewMode === "grid" ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredItems.map((item) => (
-              <InvoicingCards
-                key={item.reference}
-                {...item}
-                onClick={() => setSelectedHistory(item)}
-              />
-            ))}
-          </div>
+          // Clicking Cancel on a card opens KOTCancelForm inside OrderCardGrid
+          <OrderCardGrid
+            orders={orderCards}
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          />
         ) : (
           <TableView summary={summary} columns={columns} rows={rows} />
         )}
       </main>
-
-      {/* History details modal */}
-      {selectedHistory && (
-        <HistoryModal
-          item={selectedHistory}
-          onClose={() => setSelectedHistory(null)}
-        />
-      )}
     </div>
   );
 };

@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import { ChevronDown, Printer, Trash2 } from "lucide-react";
 
-import SplitBillReceipt from "./SplitBillReceipt";
-import ReusableButton from "../../../shared/components/reuse/ReusableButton";
-import PhoneInput from "../../../shared/components/reuse/PhoneInput";
-import LoadingOverlay from "../../../shared/components/LoadingOverlay";
+import ReusableButton from "../../../../shared/components/reuse/ReusableButton";
+import PhoneInput from "../../../../shared/components/reuse/PhoneInput";
+import LoadingOverlay from "../../../../shared/components/LoadingOverlay";
 import type {
   BillItem,
   ReceiptBill,
   SplitBillFormProps,
-} from "../types/InvoiceTypes";
+} from "../../types/InvoiceTypes";
+import SplitBillReceipt from "./SplitBillReceipt";
+import KOTCancelForm from "../../../../shared/components/cancelprocess/KOTCancelForm";
 
 const formatDate = (date: Date) => {
   const dd = String(date.getDate()).padStart(2, "0");
@@ -27,7 +28,7 @@ const SplitBillForm = ({
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptBills, setReceiptBills] = useState<ReceiptBill[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
-
+  const [showKOTCancel, setShowKOTCancel] = useState(false);
   // Initially, all items are assigned to Bill 1.
   const [items, setItems] = useState<BillItem[]>(() =>
     cards.flatMap((card) =>
@@ -148,7 +149,11 @@ const SplitBillForm = ({
       <SplitBillReceipt bills={receiptBills} onClose={handleCloseReceipt} />
     );
   }
-
+  if (showKOTCancel) {
+    return (
+      <KOTCancelForm cards={cards} onClose={() => setShowKOTCancel(false)} />
+    );
+  }
   return (
     <>
       {/* Custom form - maximum width 6xl */}
@@ -259,7 +264,7 @@ const SplitBillForm = ({
                   variant="outline"
                   className="w-full"
                   disabled={isGenerating}
-                  onClick={onClose}
+                  onClick={() => setShowKOTCancel(true)}
                 />
               </div>
             </div>

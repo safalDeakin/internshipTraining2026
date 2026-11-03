@@ -11,8 +11,7 @@ import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
 import Products from "../pages/restaurant/dropdown/Products";
-import Offers from "../XXcomponents/Offers";
-import Pricelist from "../pages/restaurant/dropdown/Pricelist";
+import Pricelist from "../pages/restaurant/dropdown/Pricelist/Pricelist";
 import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
@@ -22,6 +21,8 @@ import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
 import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
+import Offer from "../pages/restaurant/dropdown/offer/Offer";
+import OffersDetails from "../pages/restaurant/dropdown/offer/OffersDetails";
 
 //information needed for a navigation
 export type AppNav = {
@@ -90,7 +91,17 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "offer",
-        element: <Offers />,
+        element: <Offer />,
+        children: [
+          {
+            index: true,
+            element: <OffersDetails />,
+          },
+          {
+            path: ":id",
+            element: <OffersDetails />,
+          },
+        ],
       },
       {
         path: "session",

@@ -68,17 +68,33 @@ export interface FormFrameProps {
 export interface ReceiptFrameProps {
   hotelName: string;
   address: string;
-  phone: string;
+  phone?: string;
   children: ReactNode;
   onPrint?: () => void;
   onDownloadPDF?: () => void;
 }
 
-// export const INVOICE_FILTERS = [
-//   "All",
-//   "KOT",
-//   "BOT",
-//   "Reservation",
-// ] as const;
+//Cancel process
+export interface KOTCard {
+  id: number;
+  reference: string;
+  invoiceItems: {
+    id: number;
+    name: string;
+    quantity: number;
+    amount: number;
+  }[];
+}
 
-// export type InvoiceFilter = (typeof INVOICE_FILTERS)[number];
+export interface KOTItem {
+  id: string;
+  name: string;
+  qty: number;
+  amount: number;
+  reference: string;
+}
+
+export interface KOTCancelFormProps {
+  cards: KOTCard[];
+  onClose: () => void;
+}

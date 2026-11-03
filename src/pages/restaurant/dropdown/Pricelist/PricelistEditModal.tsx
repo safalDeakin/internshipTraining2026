@@ -1,5 +1,5 @@
 import { ArrowRight, ChevronDown, Plus, Search, X } from "lucide-react";
-import MsTable from "../../component/table/components/MsTable";
+import MsTable from "../../../../component/table/components/MsTable";
 const editColumns = [
   {
     key: "name",

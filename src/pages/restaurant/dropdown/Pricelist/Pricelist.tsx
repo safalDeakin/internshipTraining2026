@@ -1,11 +1,11 @@
 //author:shrajja
-import "../../../component/table/styles/tableConent.css";
+import "../../../../component/table/styles/tableConent.css";
 import { useState } from "react";
-import Sidebar from "../../../component/ListView/Listview";
-import SidebarHeader from "../../../component/ListView/ListViewHeader";
-import SidebarList from "../../../component/ListView/ListViewList";
-import SearchInput from "../../../component/ListView/SearchInput";
-import MsTable from "../../../component/table/components/MsTable";
+import Sidebar from "../../../../component/ListView/Listview";
+import SidebarHeader from "../../../../component/ListView/ListViewHeader";
+import SidebarList from "../../../../component/ListView/ListViewList";
+import SearchInput from "../../../../component/ListView/SearchInput";
+import MsTable from "../../../../component/table/components/MsTable";
 import {
   ArrowDownToLine,
   ArrowRight,
@@ -14,7 +14,7 @@ import {
   TextAlignJustify,
   Trash,
 } from "lucide-react";
-import PricelistEditModal from "../../test/PricelistEditModal";
+import PricelistEditModal from "./PricelistEditModal";
 
 const sidebarItems = [
   {

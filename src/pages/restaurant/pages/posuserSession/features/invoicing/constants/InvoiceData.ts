@@ -1,4 +1,4 @@
-import type { InvoiceCards } from "../types/InvoiceTypes";
+import type { Invoice, InvoiceCards } from "../types/InvoiceTypes";
 
 export const invoicingCards: InvoiceCards[] = [
   {
@@ -72,3 +72,48 @@ export const invoicingCards: InvoiceCards[] = [
 ];
 
 export const INVOICE_FILTERS: string[] = ["All", "KOT", "BOT", "Reservation"];
+
+//history
+export const invoices: Invoice[] = [
+  {
+    id: 1,
+    invoiceNumber: "INV_555",
+    date: "2024/12/13",
+    customerName: "Ram Shrestha",
+    phone: "9876543210",
+    address: "Pokhara",
+    references: ["KOT#125", "BOT#125"],
+    serviceDate: "2025-02-02",
+    receiptNo: "R_555",
+    paymentMethod: "Cheque",
+    chequeNumber: "#1234",
+    bankName: "NIC Asia",
+    totalAmount: 1500,
+    paidAmount: 1000,
+    items: [
+      { name: "Chicken Momo", quantity: 2, amount: 800 },
+      { name: "Coke", quantity: 2, amount: 200 },
+      { name: "Fried Rice", quantity: 1, amount: 500 },
+    ],
+  },
+  {
+    id: 2,
+    invoiceNumber: "INV_554",
+    date: "2024/12/12",
+    customerName: "Sita Thapa",
+    phone: "9801234567",
+    address: "Kathmandu",
+    references: ["KOT#126"],
+    serviceDate: "2024-12-12",
+    receiptNo: "R_554",
+    paymentMethod: "Cash",
+    chequeNumber: "-",
+    bankName: "-",
+    totalAmount: 2000,
+    paidAmount: 2000,
+    items: [
+      { name: "Veg Momo", quantity: 4, amount: 1200 },
+      { name: "Juice", quantity: 2, amount: 800 },
+    ],
+  },
+];

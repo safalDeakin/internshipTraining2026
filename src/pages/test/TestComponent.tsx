@@ -1,10 +1,8 @@
-
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
-
-
-
+import PettyCash from "./pettycash/PettyCash";
+import RefundSidebar from "./refund/Refund";
 
 const TestComponent = () => {
   return (
@@ -15,11 +13,11 @@ const TestComponent = () => {
      <PackageRenderer />
      <RoomsDetailRenderer/> */}
 
-      <LostAndFoundRenderer />
+      {/* <LostAndFoundRenderer /> */}
       {/* <FinalReceipts /> */}
-
+      <RefundSidebar />
+      <PettyCash />
     </>
-
   );
 };
 

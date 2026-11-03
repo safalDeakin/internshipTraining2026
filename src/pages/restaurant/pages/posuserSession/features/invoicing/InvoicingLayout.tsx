@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import InvoicingForm from "./components/InvoicingForm";
 import InvoicingCards from "./components/InvoicingCards";
-import SplitBillForm from "./components/SplitBillForm";
+import SplitBillForm from "./components/splitbillprocess/SplitBillForm";
 import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
 import { X } from "lucide-react";
 import type { Invoicefilter, InvoiceLayoutProps } from "./types/InvoiceTypes";

@@ -51,3 +51,31 @@ export interface PaymentReceiptProps {
   onClose: () => void;
   onDownloadPDF?: () => void;
 }
+
+//history
+export interface PaymentHistoryProps {
+  onBack: () => void;
+}
+export interface InvoiceRow {
+  invoiceNumber: string;
+  invoiceDate: string;
+  dueAmount: string;
+  paidAmount: string;
+}
+
+export interface Receipt {
+  id: number;
+  receiptNo: string;
+  type: string;
+  date: string;
+  listDate: string;
+  customerName: string;
+  phone: string;
+  address: string;
+  invoices: string[];
+  chequeNumber: string;
+  bankName: string;
+  note: string;
+  active?: boolean;
+  invoiceRows: InvoiceRow[];
+}

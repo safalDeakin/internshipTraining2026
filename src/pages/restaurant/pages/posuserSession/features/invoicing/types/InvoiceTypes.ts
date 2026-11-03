@@ -150,3 +150,30 @@ export interface SplitBillReceiptProps {
   bills: SplitBill[];
   onClose: () => void;
 }
+
+//history
+export interface Invoice {
+  id: number;
+  invoiceNumber: string;
+  date: string;
+  customerName: string;
+  phone: string;
+  address: string;
+  references: string[];
+  serviceDate: string;
+  receiptNo: string;
+  paymentMethod: string;
+  chequeNumber: string;
+  bankName: string;
+  totalAmount: number;
+  paidAmount: number;
+  items: {
+    name: string;
+    quantity: number;
+    amount: number;
+  }[];
+}
+
+export interface InvoiceHistoryProps {
+  onBack: () => void;
+}

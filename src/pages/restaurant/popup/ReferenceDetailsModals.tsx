@@ -1,5 +1,4 @@
-import { Printer, Download } from "lucide-react";
-import FormFrame from "../forms/FormFrame";
+import ReceiptFrame from "../pages/posuserSession/shared/components/forms/ReceiptFrame";
 
 interface ReferenceInvoice {
   customerName: string;
@@ -26,125 +25,98 @@ const ReferenceDetailsModal = ({
 }: ReferenceDetailsModalProps) => {
   const isKOT = reference.startsWith("KOT");
 
-  const subtotal = invoice.items.reduce(
-    (total, item) => total + item.amount,
-    0,
-  );
-
-  const today = invoice.serviceDate;
-
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full  max-w-lg">
-        <FormFrame
-          title=""
-          onClose={onClose}
-          className="max-h-[90vh] "
-          footer={
-            <div className="flex flex-col gap-3 print:hidden">
-              <button
-                type="button"
-                onClick={handlePrint}
-                className="flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-center text-xs font-semibold text-white hover:bg-orange-600"
-              >
-                <Printer size={14} />
-                Print Invoice
-              </button>
-
-              <button
-                type="button"
-                onClick={handlePrint}
-                className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-center text-xs font-semibold text-gray-700 hover:bg-gray-50"
-              >
-                <Download size={14} />
-                Download PDF
-              </button>
-            </div>
-          }
-        >
-          <div
-            id="reference-print-area"
-            className="mx-auto w-full max-w-md space-y-3 text-xs"
+      <div className="w-full max-w-lg">
+        <div className="relative max-h-[90vh] overflow-hidden rounded-xl bg-white">
+          {/* Close button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-3 top-3 z-10 text-gray-500 hover:text-gray-800 print:hidden"
           >
-            {/* Restaurant Information */}
-            <div className="text-center">
-              <p className="font-semibold text-xl">{reference}</p>
-            </div>
+            ✕
+          </button>
 
-            {/* Reference and Date */}
-            <div className="flex justify-between pb-3">
-              <div className="text-left flex">
+          <ReceiptFrame
+            hotelName={reference}
+            address=""
+            phone={invoice.phone}
+            onPrint={() => window.print()}
+          >
+            <div
+              id="reference-print-area"
+              className="mx-auto w-full max-w-md space-y-4 text-xs"
+            >
+              {/* Date */}
+              <div>
                 <p className="text-gray-500">
                   Date:{" "}
-                  <span className="font-medium text-gray-900">{today}</span>
+                  <span className="font-medium text-gray-900">
+                    {invoice.serviceDate}
+                  </span>
                 </p>
               </div>
-            </div>
 
-            {/* Customer Information */}
+              {/* Customer Information */}
+              <div className="space-y-1">
+                <p className="text-gray-500">
+                  Customer Name:{" "}
+                  <span className="font-semibold text-gray-800">
+                    {invoice.customerName}
+                  </span>
+                </p>
 
-            <div>
-              <p className="text-gray-500">
-                Customer Name :{" "}
-                <span className="font-semibold text-gray-800">
-                  {invoice.customerName}
-                </span>
-              </p>
-              <p className="text-gray-500">
-                Reference Number:{" "}
-                <span className="font-semibold text-gray-800">{reference}</span>
-              </p>
-              <p className="text-gray-500">
-                Phone Number:{" "}
-                <span className="font-semibold text-gray-800">
-                  {invoice.phone}
-                </span>
-              </p>
-            </div>
+                <p className="text-gray-500">
+                  Reference Number:{" "}
+                  <span className="font-semibold text-gray-800">
+                    {reference}
+                  </span>
+                </p>
 
-            <div></div>
+                <p className="text-gray-500">
+                  Phone Number:{" "}
+                  <span className="font-semibold text-gray-800">
+                    {invoice.phone}
+                  </span>
+                </p>
+              </div>
 
-            {/* Items Table */}
-
-            <div className="overflow-x-auto">
-              <table className="w-full border-b border-gray-300 text-left">
-                <thead>
-                  <tr className=" font-semibold text-gray-900">
-                    <th className="p-2">S.No.</th>
-                    <th className="p-2">Particulars</th>
-                    <th className="p-2 text-right">Quantity</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {invoice.items.map((item, index) => (
-                    <tr
-                      key={`${item.name}-${index}`}
-                      className="border-b border-gray-100"
-                    >
-                      <td className="p-2">{index + 1}</td>
-                      <td className="p-2">{item.name}</td>
-                      <td className="p-2 text-right">{item.quantity}</td>
+              {/* Items Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="font-semibold text-gray-900">
+                      <th className="p-2">S.No.</th>
+                      <th className="p-2">Particulars</th>
+                      <th className="p-2 text-right">Quantity</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
 
-            {/* Staff Name below table */}
-            <div className="mt-3 flex justify-start">
-              <p className="text-gray-500">Staff Name :</p>
-              <p className="font-semibold text-gray-800">
-                {invoice.staffName || "XYZ"}
-              </p>
+                  <tbody>
+                    {invoice.items.map((item, index) => (
+                      <tr key={`${item.name}-${index}`}>
+                        <td className="p-2">{index + 1}</td>
+                        <td className="p-2">{item.name}</td>
+                        <td className="p-2 text-right">{item.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Staff Name */}
+              <div className="flex gap-2 pt-3">
+                <p className="text-gray-500">Staff Name:</p>
+                <p className="font-semibold text-gray-800">
+                  {invoice.staffName || "XYZ"}
+                </p>
+              </div>
+
+              <p className="pt-2 text-center font-medium">Thank You!</p>
             </div>
-            <p className="pt-2 text-center font-medium">Thank You!</p>
-          </div>
-        </FormFrame>
+          </ReceiptFrame>
+        </div>
       </div>
     </div>
   );
