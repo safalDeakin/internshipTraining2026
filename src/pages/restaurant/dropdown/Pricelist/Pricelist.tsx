@@ -1,11 +1,16 @@
-//author:shrajja
+// author: shrajja
+
 import "../../../../component/table/styles/tableConent.css";
+
 import { useState } from "react";
+
 import Sidebar from "../../../../component/ListView/Listview";
 import SidebarHeader from "../../../../component/ListView/ListViewHeader";
 import SidebarList from "../../../../component/ListView/ListViewList";
 import SearchInput from "../../../../component/ListView/SearchInput";
+
 import MsTable from "../../../../component/table/components/MsTable";
+
 import {
   ArrowDownToLine,
   ArrowRight,
@@ -14,22 +19,10 @@ import {
   TextAlignJustify,
   Trash,
 } from "lucide-react";
-import PricelistEditModal from "./PricelistEditModal";
 
-const sidebarItems = [
-  {
-    id: "winter-special",
-    label: "2024-Winter Special",
-  },
-  {
-    id: "summer-special",
-    label: "2024-Summer Special",
-  },
-  {
-    id: "festival-special",
-    label: "Festival Special",
-  },
-];
+import PricelistEditModal from "./PricelistEditModal";
+import usePricelist from "./context/usePricelist";
+
 const columns = [
   {
     key: "name",
@@ -78,6 +71,7 @@ const columns = [
     priority: 5,
   },
 ];
+
 const items = [
   {
     id: 1,
@@ -89,7 +83,7 @@ const items = [
   },
   {
     id: 2,
-    name: "Pizza  Margherita",
+    name: "Pizza Margherita",
     variant: "Small",
     code: "#AF7899",
     type: "Food",
@@ -97,7 +91,7 @@ const items = [
   },
   {
     id: 3,
-    name: "Pizza  Pepperoni",
+    name: "Pizza Pepperoni",
     variant: "Small",
     code: "#AF7899",
     type: "Food",
@@ -105,7 +99,7 @@ const items = [
   },
   {
     id: 4,
-    name: "Momo  Buff",
+    name: "Momo Buff",
     variant: "Fry / Half",
     code: "#AF7899",
     type: "Food",
@@ -114,11 +108,18 @@ const items = [
 ];
 
 const Pricelist = () => {
+  const { filteredPricelists, loading, search, setSearch } = usePricelist();
+
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
-  const [search, setSearch] = useState("");
+  const [selectedId, setSelectedId] = useState<string>("");
+
   const [itemSearch, setItemSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+  const selectedPricelist = filteredPricelists.find(
+    (item) => item.id === selectedId,
+  );
+
   const handleToggleItem = (id: number) => {
     setSelectedItems((current) =>
       current.includes(id)
@@ -126,6 +127,7 @@ const Pricelist = () => {
         : [...current, id],
     );
   };
+
   return (
     <section className="grid h-full min-h-0 w-full grid-cols-[280px_minmax(0,1fr)]">
       {/* Sidebar */}
@@ -140,123 +142,136 @@ const Pricelist = () => {
             className="mb-3 mt-3"
           />
 
-          <SidebarList
-            items={sidebarItems}
-            selectedId={selectedId}
-            getId={(item) => item.id}
-            onSelect={(item) => setSelectedId(item.id)}
-            renderItem={(item) => <span>{item.label}</span>}
-          />
+          {loading ? (
+            <p className="p-4 text-sm text-gray-500">Loading pricelists...</p>
+          ) : (
+            <SidebarList
+              items={filteredPricelists}
+              selectedId={selectedId}
+              getId={(item) => item.id}
+              onSelect={(item) => setSelectedId(item.id)}
+              renderItem={(item) => <span>{item.name}</span>}
+            />
+          )}
         </Sidebar>
       </aside>
 
-      {/* Main content */}
+      {/* Main Content */}
       <main className="min-w-0 overflow-auto px-3 py-3">
-        {/* Header / Actions */}
-        <div className="flex flex-wrap items-center gap-3  p-4 bg-gray-100">
-          {/* Pricelist information */}
-          <div className="flex min-w-0 flex-1 items-center gap-5">
-            <p className="flex min-w-0 items-center gap-2 text-sm font-medium text-gray-800">
-              <TextAlignJustify className="h-4 w-4 shrink-0" />
+        {selectedPricelist ? (
+          <>
+            {/* Header / Actions */}
+            <div className="flex flex-wrap items-center gap-3 bg-gray-100 p-4">
+              <div className="flex min-w-0 flex-1 items-center gap-5">
+                <p className="flex min-w-0 items-center gap-2 text-sm font-medium text-gray-800">
+                  <TextAlignJustify className="h-4 w-4 shrink-0" />
 
-              <span className="truncate">2024-Winter Special</span>
-            </p>
+                  <span className="truncate">{selectedPricelist.name}</span>
+                </p>
 
-            <div className="flex shrink-0 items-center">
-              <span className="rounded-full bg-[#D9B26A] px-3 py-1 text-[11px] font-semibold text-white">
-                Tax I
-              </span>
+                <div className="flex shrink-0 items-center">
+                  <span className="rounded-full bg-[#D9B26A] px-3 py-1 text-[11px] font-semibold text-white">
+                    Tax I
+                  </span>
 
-              <span className="-ml-2 rounded-full bg-[#1E8C86] px-3 py-1 text-[11px] font-semibold text-white">
-                Active
-              </span>
+                  <span className="-ml-2 rounded-full bg-[#1E8C86] px-3 py-1 text-[11px] font-semibold text-white">
+                    Active
+                  </span>
+                </div>
+              </div>
+
+              <div className="hidden h-7 w-px bg-gray-300 lg:block" />
+
+              {/* Actions */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
+                >
+                  <ArrowDownToLine className="h-4 w-4" />
+                  Export CSV
+                </button>
+
+                <button
+                  type="button"
+                  className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
+                >
+                  <Printer className="h-4 w-4" />
+                  Print PDF
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsEditOpen(true)}
+                  className="flex items-center gap-2 rounded-lg bg-blue-950 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-blue-900"
+                >
+                  <Pencil className="h-4 w-4" />
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-red-700"
+                >
+                  <Trash className="h-4 w-4" />
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Divider */}
-          <div className="hidden h-7 w-px bg-gray-300 lg:block" />
+            {/* Pricelist Details */}
+            <div className="mt-3 p-5">
+              <div className="mb-5">
+                <h2 className="mb-1 font-bold text-gray-900">Description</h2>
 
-          {/* Actions */}
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
-            >
-              <ArrowDownToLine className="h-4 w-4" />
-              Export CSV
-            </button>
+                <p className="max-w-5xl leading-6 text-gray-600">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Cupiditate qui deserunt minus, quod sint tempore quis eaque
+                  amet similique ab rem non libero recusandae.
+                </p>
+              </div>
 
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
-            >
-              <Printer className="h-4 w-4" />
-              Print PDF
-            </button>
+              <div>
+                <h2 className="mb-2 font-bold text-gray-900">
+                  Effective Dates
+                </h2>
 
-            <button
-              type="button"
-              onClick={() => setIsEditOpen(true)}
-              className="flex items-center gap-2 rounded-lg bg-blue-950 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-blue-900"
-            >
-              <Pencil className="h-4 w-4" />
-              Edit
-            </button>
+                <div className="flex items-center gap-3 text-gray-700">
+                  <span className="px-3 py-1.5">2082/01/12</span>
 
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-red-700"
-            >
-              <Trash className="h-4 w-4" />
-              Delete
-            </button>
-          </div>
-        </div>
+                  <ArrowRight className="h-4 w-4 text-gray-400" />
 
-        {/* Pricelist details */}
-        <div className="mt-3  p-5">
-          {/* Description */}
-          <div className="mb-5">
-            <h2 className="mb-1 font-bold text-gray-900">Description</h2>
-
-            <p className="max-w-5xl leading-6 text-gray-600">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Cupiditate qui deserunt minus, quod sint tempore quis eaque amet
-              similique ab rem non libero recusandae, sit est iusto iste
-              consectetur quos?
-            </p>
-          </div>
-
-          {/* Effective dates */}
-          <div>
-            <h2 className="mb-2 font-bold text-gray-900">Effective Dates</h2>
-
-            <div className="flex items-center gap-3 text-gray-700">
-              <span className=" px-3 py-1.5">2082/01/12</span>
-
-              <ArrowRight className="h-4 w-4 text-gray-400" />
-
-              <span className="px-3 py-1.5">2083/02/22</span>
+                  <span className="px-3 py-1.5">2083/02/22</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Table */}
-        <div className="mt-3 min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <MsTable
-            columns={columns}
-            data={items}
-            selectedItems={selectedItems}
-            onToggleItem={handleToggleItem}
-            showSearchBar={true}
-            searchType="All"
-            onSearchTypeChange={() => {}}
-            onChange={setItemSearch}
-          />
-        </div>
+            {/* Table */}
+            <div className="mt-3 min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
+              <MsTable
+                columns={columns}
+                data={items}
+                selectedItems={selectedItems}
+                onToggleItem={handleToggleItem}
+                showSearchBar={true}
+                searchType="All"
+                onSearchTypeChange={() => {}}
+                onChange={setItemSearch}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="flex h-full min-h-[300px] items-center justify-center text-sm text-gray-500">
+            {loading
+              ? "Loading pricelists..."
+              : filteredPricelists.length === 0
+                ? "No pricelists found."
+                : "Select a pricelist to view its details."}
+          </div>
+        )}
       </main>
 
-      {/* Edit modal */}
+      {/* Edit Modal */}
       {isEditOpen && (
         <PricelistEditModal onClose={() => setIsEditOpen(false)} />
       )}

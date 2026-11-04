@@ -116,11 +116,7 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
         {/* Other tabs */}
         {activeTab === "dashboard" && <div className="p-6">Dashboard</div>}
 
-        {activeTab === "reservation" && <div className="p-6">Reservation</div>}
-
         {activeTab === "return" && <div className="p-6">Return</div>}
-
-        {activeTab === "stock" && <div className="p-6">Stock</div>}
       </main>
     </div>
   );

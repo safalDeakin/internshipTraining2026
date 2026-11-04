@@ -1,5 +1,5 @@
 import { ArrowRight, Plus } from "lucide-react";
-import { useOffer } from "../../../../hooks/useOffer";
+import { useOffer } from "../context/useOffer";
 
 const ListHeader = () => {
   const { addOffer } = useOffer();

@@ -2,6 +2,7 @@ import {
   CalendarCheck,
   ClipboardList,
   LayoutDashboard,
+  Radio,
   Receipt,
   Undo2,
   Wallet,
@@ -28,11 +29,10 @@ export const tabs: {
   label: string;
   icon: LucideIcon;
 }[] = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { id: "liveorder", label: "Live Order", icon: Radio },
   { id: "invoicing", label: "Invoicing", icon: Receipt },
   { id: "payments", label: "Payments", icon: Wallet },
   { id: "ordering", label: "Ordering", icon: ClipboardList },
-  { id: "reservation", label: "Reservation", icon: CalendarCheck },
+
   { id: "return", label: "Return", icon: Undo2 },
-  { id: "stock", label: "Stock", icon: Warehouse },
 ];

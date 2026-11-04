@@ -96,7 +96,8 @@ const RestaurantNavbar = ({
               }`}
             />
           </button>
-
+          {/* dropdown */}
+          {/* Dropdown */}
           {isRestaurantOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 flex w-full flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
               <p className="text-sm text-gray-900">Menu</p>
@@ -112,7 +113,10 @@ const RestaurantNavbar = ({
                     `/restaurant/${item.path}`,
                     organization,
                   )}
-                  onClick={() => closeBar?.()}
+                  onClick={() => {
+                    setIsRestaurantOpen(false);
+                    closeBar?.();
+                  }}
                   className={getLinkClass}
                 >
                   {item.label}
@@ -121,6 +125,7 @@ const RestaurantNavbar = ({
 
               <div className="border-t border-gray-200 pt-3">
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
+
                 {[
                   { label: "Sales Setting", path: "products" },
                   { label: "Staffs and Access", path: "price" },
@@ -132,7 +137,10 @@ const RestaurantNavbar = ({
                       `/restaurant/${item.path}`,
                       organization,
                     )}
-                    onClick={() => closeBar?.()}
+                    onClick={() => {
+                      setIsRestaurantOpen(false);
+                      closeBar?.();
+                    }}
                     className={getLinkClass}
                   >
                     {item.label}

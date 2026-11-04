@@ -50,28 +50,14 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
 
   // Select or deselect invoice cards
   const toggleCard = (id: number) => {
-    const clickedCard = invoicingCards.find((card) => card.id === id);
-
-    if (!clickedCard) return;
-
     setSelectedIds((previousIds) => {
       if (previousIds.includes(id)) {
         return previousIds.filter((selectedId) => selectedId !== id);
       }
 
-      const currentCard = invoicingCards.find(
-        (card) => card.id === previousIds[0],
-      );
-
-      // Only allow selecting invoices belonging to the same customer
-      if (currentCard && currentCard.number === clickedCard.number) {
-        return [...previousIds, id];
-      }
-
-      return [id];
+      return [...previousIds, id];
     });
   };
-
   // Open split bill panel
   const openSplitBill = () => {
     setShowSplitBill(true);

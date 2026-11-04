@@ -1,71 +1,12 @@
-// author: shrajja
-
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Edit, Trash2, Minus, Box, Plus } from "lucide-react";
 
-import Sidebar from "../../../component/ListView/Listview";
-import SidebarHeader from "../../../component/ListView/ListViewHeader";
-import SidebarList from "../../../component/ListView/ListViewList";
-import SearchInput from "../../../component/ListView/SearchInput";
+import Sidebar from "../../../../component/ListView/Listview";
+import SidebarHeader from "../../../../component/ListView/ListViewHeader";
+import SidebarList from "../../../../component/ListView/ListViewList";
+import SearchInput from "../../../../component/ListView/SearchInput";
 
-const sidebarItems = [
-  { id: "1", label: "Pizza" },
-  { id: "2", label: "Pizzaz" },
-];
-
-type ProductItem = {
-  id: string;
-  name: string;
-  sku: string;
-  description: string;
-  calories: string;
-  image: string;
-};
-
-type ProductGroup = {
-  id: string;
-  name: string;
-  code: string;
-  status: "Active" | "Inactive";
-  items: ProductItem[];
-  attributes: string[][];
-  tags: string[];
-};
-
-const productGroups: Record<string, ProductGroup> = {
-  "1": {
-    id: "1",
-    name: "Pizza",
-    code: "PZ1212QW",
-    status: "Active",
-
-    items: [
-      {
-        id: "i1",
-        name: "Margerita",
-        sku: "PZ1212QW",
-        description: "Made with Cheese, Pizza Sauce, Oregano, Rosemarry",
-        calories: "2840Kcal",
-        image: "https://placehold.co/80x80?text=Pizza",
-      },
-      {
-        id: "i2",
-        name: "Paperoni",
-        sku: "PZ1212QW",
-        description: "Made with Cheese, Pizza Sauce, Oregano, Rosemarry",
-        calories: "2840Kcal",
-        image: "https://placehold.co/80x80?text=Pizza",
-      },
-    ],
-
-    attributes: [
-      ["Small", "Large", "Family"],
-      ["Thin Crust", "Thick Crust", "Cheesy"],
-    ],
-
-    tags: ["Italian", "Cheesy", "Famous"],
-  },
-};
+import { useProduct } from "./context/useProduct";
 
 const getVariants = (attributes: string[][]) => {
   if (!attributes.length) return [];
@@ -78,19 +19,30 @@ const getVariants = (attributes: string[][]) => {
 };
 
 const Products = () => {
-  const [selectedId, setSelectedId] = useState("1");
-  const [search, setSearch] = useState("");
+  const {
+    data,
+    filteredProducts,
+    search,
+    setSearch,
+    selectedProductId,
+    setSelectedProductId,
+    loading,
+  } = useProduct();
 
-  const filteredItems = sidebarItems.filter((item) =>
-    item.label.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const product = productGroups[selectedId];
+  const product = data.find((item) => item.id === selectedProductId);
 
   const variants = useMemo(
     () => (product ? getVariants(product.attributes) : []),
     [product],
   );
+
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center text-sm text-gray-500">
+        Loading products...
+      </div>
+    );
+  }
 
   return (
     <section className="grid h-full w-full grid-cols-[280px_1fr]">
@@ -107,11 +59,11 @@ const Products = () => {
           />
 
           <SidebarList
-            items={filteredItems}
-            selectedId={selectedId}
+            items={filteredProducts}
+            selectedId={selectedProductId}
             getId={(item) => item.id}
-            onSelect={(item) => setSelectedId(item.id)}
-            renderItem={(item) => <span>{item.label}</span>}
+            onSelect={(item) => setSelectedProductId(item.id)}
+            renderItem={(item) => <span>{item.name}</span>}
           />
         </Sidebar>
       </aside>
@@ -167,8 +119,9 @@ const Products = () => {
                   </span>
                 </h2>
 
-                <button className="text-sm font-medium text-blue-600 hover:underline flex items-center">
-                  <Plus className="w-3 h-3" /> Add Products
+                <button className="flex items-center text-sm font-medium text-blue-600 hover:underline">
+                  <Plus className="h-3 w-3" />
+                  Add Products
                 </button>
               </div>
 

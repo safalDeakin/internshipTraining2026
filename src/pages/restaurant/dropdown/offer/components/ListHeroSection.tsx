@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useOffer } from "../../../../hooks/useOffer";
-import { useAuth } from "../../../../utils/secureclient/useAuth";
-import type { Offer } from "../../../../store/OfferState";
-import Sidebar from "../../../../component/ListView/Listview";
-import SearchInput from "../../../../component/ListView/SearchInput";
-import SidebarList from "../../../../component/ListView/ListViewList";
+import { useAuth } from "../../../../../utils/secureclient/useAuth";
+import Sidebar from "../../../../../component/ListView/Listview";
+import SearchInput from "../../../../../component/ListView/SearchInput";
+import SidebarList from "../../../../../component/ListView/ListViewList";
+import type { Offer } from "../data/initialOfferData";
+import { useOffer } from "../context/useOffer";
 
 const ListHeroSection = () => {
   const { setSearch, filteredOffers } = useOffer();

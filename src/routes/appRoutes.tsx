@@ -10,7 +10,7 @@ import Reservation from "../pages/hotel/pages/Reservation";
 import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/dropdown/Products";
+import Products from "../pages/restaurant/dropdown/products/Products";
 import Pricelist from "../pages/restaurant/dropdown/Pricelist/Pricelist";
 import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
@@ -21,8 +21,11 @@ import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
 import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
-import Offer from "../pages/restaurant/dropdown/offer/Offer";
-import OffersDetails from "../pages/restaurant/dropdown/offer/OffersDetails";
+import Offer from "../pages/restaurant/dropdown/offer/components/Offer";
+import OffersDetails from "../pages/restaurant/dropdown/offer/components/OffersDetails";
+import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
+import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
+import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -87,11 +90,11 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "price",
-        element: <Pricelist />,
+        element: <PricelistRenderer />,
       },
       {
         path: "offer",
-        element: <Offer />,
+        element: <OfferRenderer />,
         children: [
           {
             index: true,
@@ -110,7 +113,7 @@ export const appRoutes: AppRoute[] = [
 
       {
         path: "products",
-        element: <Products />,
+        element: <ProductRenderer />,
       },
       // {
       //   path: "history",

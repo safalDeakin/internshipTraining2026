@@ -7,88 +7,154 @@ import CommandService from "./service/CommandService";
 import type { HotelPackage } from "../domain/hotel-package";
 import { packages } from "../pages/hotel-packages/data/packages";
 
-
 //HouseKeeping
 import type { Room } from "../domain/houseKeeping";
-import { rooms } from "../pages/houseKeeping/data/data"
-
+import { rooms } from "../pages/houseKeeping/data/data";
 
 //LostAndFound
 import { initialLostAndFoundItems } from "../pages/lost-found/data/data";
 import type { Item } from "../domain/lostfound";
-
-
-
+import {
+  initialOfferData,
+  type Offer,
+} from "../pages/restaurant/dropdown/offer/data/initialOfferData";
+import {
+  initialProductData,
+  type ProductGroup,
+} from "../pages/restaurant/dropdown/products/data/initialProductData";
+import {
+  initialPricelistData,
+  type Pricelist,
+} from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
 
 const repo = new Repository<Guest, string>({
-    sourceType: 'InMemoryLocal',
-    domain: 'Reservation',
-    tenantId: 'MySpace1234',
-    getId: (entity: Guest) => entity.id,
-    initialData: [
-        {
-            id: "12345",
-            name: "New Name",
-            email: "new EMail"
-        }
-        ,
-        {
-            id: "09876",
-            name: "Hello 09876 Name",
-            email: "09876 is your EMail"
-        }
-    ],
-    baseUrl: "asas",
-    eventsUrl: "events"
-})
+  sourceType: "InMemoryLocal",
+  domain: "Reservation",
+  tenantId: "MySpace1234",
+  getId: (entity: Guest) => entity.id,
+  initialData: [
+    {
+      id: "12345",
+      name: "New Name",
+      email: "new EMail",
+    },
+    {
+      id: "09876",
+      name: "Hello 09876 Name",
+      email: "09876 is your EMail",
+    },
+  ],
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
 
 export const guestQueryService = new QueryService<Guest, string>(repo);
 export const guestCmdService = new CommandService<Guest, string>(repo);
 
-
 //This is for HotelPackage
 const PackageRepo = new Repository<HotelPackage, string>({
-    sourceType: 'InMemoryLocal',
-    domain: 'Package',
-    tenantId: 'MySpace1234',
-    getId: (entity: HotelPackage) => entity.id,
-    initialData: packages,
-    baseUrl: "asas",
-    eventsUrl: "events"
-})
+  sourceType: "InMemoryLocal",
+  domain: "Package",
+  tenantId: "MySpace1234",
+  getId: (entity: HotelPackage) => entity.id,
+  initialData: packages,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
 
-export const packageQueryService = new QueryService<HotelPackage, string>(PackageRepo);
-export const packageCmdService = new CommandService<HotelPackage, string>(PackageRepo);
+export const packageQueryService = new QueryService<HotelPackage, string>(
+  PackageRepo,
+);
+export const packageCmdService = new CommandService<HotelPackage, string>(
+  PackageRepo,
+);
 
-
-
-//This is for HouseKeeping and Maintenance 
+//This is for HouseKeeping and Maintenance
 const HouseKeeping = new Repository<Room, string>({
-    sourceType: 'InMemoryLocal',
-    domain: 'HandM',
-    tenantId: 'MySpace1234',
-    getId: (entity: Room) => String(entity.id),
-    initialData: rooms,
-    baseUrl: "asas",
-    eventsUrl: "events"
-})
+  sourceType: "InMemoryLocal",
+  domain: "HandM",
+  tenantId: "MySpace1234",
+  getId: (entity: Room) => String(entity.id),
+  initialData: rooms,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
 
-export const HouseKeepingQueryService = new QueryService<Room, string>(HouseKeeping);
-export const HouseKeepingCmdService = new CommandService<Room, string>(HouseKeeping);
-
-
+export const HouseKeepingQueryService = new QueryService<Room, string>(
+  HouseKeeping,
+);
+export const HouseKeepingCmdService = new CommandService<Room, string>(
+  HouseKeeping,
+);
 
 //This is for Lost and Found
 const LostandFound = new Repository<Item, string>({
-    sourceType: 'InMemoryLocal',
-    domain: 'LostandFound',
-    tenantId: 'MySpace1234',
-    getId: (entity: Item) => String(entity.id),
-    initialData: initialLostAndFoundItems,
-    baseUrl: "asas",
-    eventsUrl: "events"
-})
+  sourceType: "InMemoryLocal",
+  domain: "LostandFound",
+  tenantId: "MySpace1234",
+  getId: (entity: Item) => String(entity.id),
+  initialData: initialLostAndFoundItems,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
 
-export const LostandFoundQueryService = new QueryService<Item, string>(LostandFound);
-export const LostandFoundCmdService = new CommandService<Item, string>(LostandFound);
+export const LostandFoundQueryService = new QueryService<Item, string>(
+  LostandFound,
+);
+export const LostandFoundCmdService = new CommandService<Item, string>(
+  LostandFound,
+);
 
+// Offer Repository -----------1st---------
+const OfferRepo = new Repository<Offer, string>({
+  sourceType: "InMemoryLocal",
+  domain: "Offer",
+  tenantId: "MySpace1234",
+  getId: (entity: Offer) => String(entity.id),
+  initialData: initialOfferData,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+export const OfferQueryService = new QueryService<Offer, string>(OfferRepo);
+export const OfferCmdService = new CommandService<Offer, string>(OfferRepo);
+
+// Products
+const ProductRepo = new Repository<ProductGroup, string>({
+  sourceType: "InMemoryLocal",
+  domain: "Product",
+  tenantId: "MySpace1234",
+  getId: (entity: ProductGroup) => entity.id,
+  initialData: initialProductData,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+export const ProductQueryService = new QueryService<ProductGroup, string>(
+  ProductRepo,
+);
+
+export const ProductCmdService = new CommandService<ProductGroup, string>(
+  ProductRepo,
+);
+
+// Pricelist Repository
+const PricelistRepo = new Repository<Pricelist, string>({
+  sourceType: "InMemoryLocal",
+  domain: "Product",
+  tenantId: "MySpace1234",
+  getId: (entity: Pricelist) => entity.id,
+  initialData: initialPricelistData,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+// Query Service
+export const PricelistQueryService = new QueryService<Pricelist, string>(
+  PricelistRepo,
+);
+
+// Command Service
+export const PricelistCmdService = new CommandService<Pricelist, string>(
+  PricelistRepo,
+);

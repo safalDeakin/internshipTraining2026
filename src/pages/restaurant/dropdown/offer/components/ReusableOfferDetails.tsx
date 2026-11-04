@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
 import { Clock, Download, FileText, SquarePen } from "lucide-react";
-import type { InfoRow, OfferDetailsProps, Stat } from "../types/DropdownTypes";
+import type {
+  InfoRow,
+  OfferDetailsProps,
+  Stat,
+} from "../../types/DropdownTypes";
 
-/* ---------- Small reusable pieces ---------- */
+/* Small reusable pieces  */
 
 const HeaderButton = ({
   icon,
