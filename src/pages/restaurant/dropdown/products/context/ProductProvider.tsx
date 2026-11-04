@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { ProductContext } from "./ProductContext";
-import { useSubscription } from "../../../../../application/useSubscription";
 import type { ProductGroup } from "../data/initialProductData";
+import { useSubscription } from "../../../../../application/useSubscription";
 import { ProductQueryService } from "../../../../../application/services";
 
 interface ProductProviderProps {

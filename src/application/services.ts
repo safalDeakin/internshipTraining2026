@@ -18,14 +18,15 @@ import {
   initialOfferData,
   type Offer,
 } from "../pages/restaurant/dropdown/offer/data/initialOfferData";
-import {
-  initialProductData,
-  type ProductGroup,
-} from "../pages/restaurant/dropdown/products/data/initialProductData";
+
 import {
   initialPricelistData,
   type Pricelist,
 } from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
+import {
+  initialProductData,
+  type ProductGroup,
+} from "../pages/restaurant/dropdown/products/data/initialProductData";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",

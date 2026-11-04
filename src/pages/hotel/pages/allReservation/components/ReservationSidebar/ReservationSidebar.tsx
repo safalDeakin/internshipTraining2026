@@ -39,7 +39,7 @@ export default function ReservationSidebar() {
       {/* Reservation Sidebar */}
       <div className="m-2 min-h-screen w-80 bg-white px-3.75 pb-3.75 pt-5">
         <SidebarHeader
-          title="All Reservations"
+          title="All Reservation"
           onAdd={handleAddReservation}
         />
 

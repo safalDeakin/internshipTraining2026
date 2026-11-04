@@ -1,0 +1,32 @@
+@import "../../lib/design-system/semantics.css";
+
+.title{
+    font: var( --text-heading-section);
+    color:green
+}
+
+.surface{
+
+}
+
+.buttons{
+
+}
+
+.icon{
+
+}
+.searchbox{
+
+}
+
+.listarea{
+
+}
+
+.listitem{
+
+}
+.emptylistitem{
+
+}

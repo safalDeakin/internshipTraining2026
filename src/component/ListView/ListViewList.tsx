@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-
+import './style.css';
 interface SidebarListProps<T> {
     items: T[];
     selectedId?: string;

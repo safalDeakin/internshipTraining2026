@@ -127,7 +127,7 @@ const RestaurantNavbar = ({
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
 
                 {[
-                  { label: "Sales Setting", path: "products" },
+                  { label: "Sales Setting", path: "setting" },
                   { label: "Staffs and Access", path: "price" },
                   { label: "Device Setup", path: "offer" },
                 ].map((item) => (

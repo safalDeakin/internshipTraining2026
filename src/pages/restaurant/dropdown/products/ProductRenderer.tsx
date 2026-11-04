@@ -1,5 +1,5 @@
+import Products from "./components/Products";
 import ProductProvider from "./context/ProductProvider";
-import Products from "./Products";
 
 const ProductRenderer = () => {
   return (

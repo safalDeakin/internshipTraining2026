@@ -1,22 +1,41 @@
 // author: shrajja
-import { Outlet } from "react-router-dom";
-import ListHeroSection from "./ListHeroSection";
+
+import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+
+import { useOffer } from "../context/useOffer";
+import type { Offer } from "../data/initialOfferData";
+
 import ListHeader from "./ListHeader";
+import OffersDetails from "./OffersDetails";
 
 const Offer = () => {
-  return (
-    <div className="grid min-h-[calc(100vh-100px)] grid-cols-1 gap-4 md:grid-cols-[300px_minmax(0,1fr)]">
-      {/* LEFT SIDE: OFFER LIST */}
-      <aside className="min-w-0  bg-white rounded-xl pt-5 flex flex-col gap-5">
-        <ListHeader />
-        <ListHeroSection />
-      </aside>
+  const { filteredOffers, loading, search, setSearch } = useOffer();
 
-      {/* RIGHT SIDE: OFFER DETAILS */}
-      <main className="min-w-0 rounded-lg border border-[#e1e7ed] bg-white p-4">
-        <Outlet />
-      </main>
-    </div>
+  if (loading) {
+    return <div className="p-5 text-sm text-gray-500">Loading offers...</div>;
+  }
+
+  return (
+    <MasterDetailView<Offer, number>
+      title="Offers"
+      items={filteredOffers}
+      searchQuery={search}
+      onSearchChange={setSearch}
+      getId={(item) => item.id}
+      listItemBuilder={(item) => <span>{item.name}</span>}
+      detailContentBuilder={(selectedId) => {
+        const selectedOffer = filteredOffers.find(
+          (item) => item.id === selectedId,
+        );
+
+        if (!selectedOffer) {
+          return <p className="p-5 text-sm text-gray-500">Offer not found.</p>;
+        }
+
+        return <OffersDetails offer={selectedOffer} />;
+      }}
+      headerChildren={null}
+    />
   );
 };
 

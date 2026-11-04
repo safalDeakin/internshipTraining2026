@@ -1,6 +1,6 @@
 export interface InfoRow {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export interface Stat {

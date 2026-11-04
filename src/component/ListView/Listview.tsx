@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-
+import './style.css';
 interface SidebarProps {
   children: ReactNode;
   className?: string;
