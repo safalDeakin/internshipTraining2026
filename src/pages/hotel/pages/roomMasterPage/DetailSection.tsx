@@ -1,7 +1,7 @@
-import type { RoomDetailModel } from "../model/RoomModel";
-import RoomAmenities from "./RoomAmenities";
-import RoomHeader from "./RoomHeader";
-import RoomList from "./RoomList";
+import type { RoomDetailModel } from "./model/RoomModel";
+import RoomAmenities from "./components/RoomAmenities";
+import RoomHeader from "./components/RoomHeader";
+import RoomList from "./components/RoomList";
 
 type DetailSectionProps = {
     data: RoomDetailModel;

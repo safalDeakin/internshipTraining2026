@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 
 import {
     productDetails,
-    productOptions,
+    productType,
 } from "./data/roomDetailData";
 import type { RoomTypes } from "../model/RoomModel";
 
@@ -29,10 +29,10 @@ export function RoomListProvider({
         const query = searchQuery.trim().toLowerCase();
 
         if (!query) {
-            return productOptions;
+            return productType;
         }
 
-        return productOptions.filter((product) =>
+        return productType.filter((product) =>
             [
                 product.name,
                 product.subtitle,

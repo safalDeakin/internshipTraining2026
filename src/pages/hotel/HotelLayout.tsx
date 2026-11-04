@@ -8,10 +8,11 @@ import RoomsDetailRenderer from "../hotel/pages/room-status/components/RoomsDeta
 import HousekeepingRenderer from "../houseKeeping/components/HousekeepingRenderer";
 import RoomPageRenderer from "./pages/roomMasterPage/RoomDetailRenderer";
 import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer";
-import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
+// import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";
 import SettingRenderer from "../popupsetting/components/SettingRenderer";
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
+import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -225,17 +226,17 @@ export default function HotelLayout() {
 
       case "arrivals":
         return (
-          <FinalAllReservationPage />
+          <ReservationPageRenderer />
         );
 
       case "in-house":
         return (
-          <FinalAllReservationPage />
+          <ReservationPageRenderer />
         );
 
       case "overdue":
         return (
-          <FinalAllReservationPage />
+          <ReservationPageRenderer />
         );
 
       /*
@@ -258,7 +259,7 @@ export default function HotelLayout() {
 
       case "all-reservation":
         return (
-          <FinalAllReservationPage />
+          <ReservationPageRenderer />
         );
 
       case "reservation-calendar":

@@ -3,7 +3,7 @@ import type {
     ProductDetail,
 } from "../../model/RoomModel";
 
-export const productOptions: RoomTypes[] = [
+export const productType: RoomTypes[] = [
     {
         id: "deluxe",
         name: "Deluxe Room Type",

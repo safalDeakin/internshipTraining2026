@@ -1,14 +1,14 @@
 import MasterDetailView from "../../../../component/MasterDetailView/MasterDetailView"
-import { DetailSection } from "./components/DetailSection";
+import { DetailSection } from "./DetailSection";
 import RoomTypeItem from "./components/RoomTypeItem";
 import { Plus } from "lucide-react";
-import { useRooms } from "./provider/useRoomContext";
+import { useRoomsMasterDetail } from "./provider/useRoomContext";
 import { RoomListProvider } from "./provider/RoomsProvider";
 import type { RoomTypes } from "./model/RoomModel";
 
 
-function RoomMasterDetailViewContent() {
-    const roomsData = useRooms();
+function RoomMasterDetailView() {
+    const roomsData = useRoomsMasterDetail();
 
     const detailContentBuilder = (selectId: string) => {
         const data = roomsData.getRoomDetails(selectId);
@@ -17,7 +17,7 @@ function RoomMasterDetailViewContent() {
 
     const listItemBuilder = (item: RoomTypes) => {
         return (
-            <RoomTypeItem room={item} />
+            <RoomTypeItem data={item} />
         );
     };
 
@@ -49,8 +49,7 @@ function RoomMasterDetailViewContent() {
 export default function RoomPageRenderer() {
     return (
         <RoomListProvider>
-            <RoomMasterDetailViewContent />
+            <RoomMasterDetailView />
         </RoomListProvider>
     );
 }
-
