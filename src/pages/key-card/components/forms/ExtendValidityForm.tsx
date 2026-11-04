@@ -5,6 +5,7 @@ import {
     FormField,
     FormGrid,
     FormSection,
+    SelectInput,
     TextInput,
 } from './FormControls'
 import { FormModal } from './FormModal'
@@ -20,34 +21,36 @@ export function ExtendValidityForm() {
                 closeForm()
             }}
         >
-            <FormSection title="Key Card Detail">
+            <FormSection title="Key Information">
                 <FormGrid>
-                    <FormField label="Key/Card No" required>
+                    <FormField label="Current Validity" required>
                         <TextInput defaultValue={selectedCard.cardNumber} required />
-                    </FormField>
-                    <FormField label="Guest Name" required>
-                        <TextInput defaultValue={selectedCard.currentHolder} required />
-                    </FormField>
-                    <FormField label="Room No" required>
-                        <TextInput defaultValue={selectedCard.currentRoom} required />
-                    </FormField>
-                    <FormField label="Current Duration">
-                        <TextInput defaultValue={selectedCard.duration} />
                     </FormField>
                 </FormGrid>
             </FormSection>
 
-            <FormSection title="Valid Date" divided>
-                <FormGrid>
-                    <FormField label="Valid From" required>
+            <FormSection title="Extension Detail" divided>
+                <FormField label="Extension Until">
+                    <div className="grid grid-cols-[1fr_0.85fr] gap-4">
                         <DateInput />
-                    </FormField>
-                    <FormField label="Valid To" required>
-                        <DateInput />
-                    </FormField>
-                </FormGrid>
+                        <TextInput type="time" />
+                    </div>
+                </FormField>
+
                 <div className="mt-3">
-                    <FormField label="Remark">
+                    <FormField label="Reason">
+                        <SelectInput defaultValue="">
+                            <option value="" disabled>
+                                Select
+                            </option>
+                            <option>Expired</option>
+                            <option>Lost</option>
+                        </SelectInput>
+                    </FormField>
+                </div>
+
+                <div className="mt-3">
+                    <FormField label="Additional Note">
                         <TextInput placeholder="Enter Note" />
                     </FormField>
                 </div>

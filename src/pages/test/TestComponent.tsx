@@ -1,12 +1,13 @@
 
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
-import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
-import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
-import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
-import { RepoKeyCardProvider } from "../key-card/context/KeyCardProvider";
-import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
-import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
+// import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
+// import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
+// import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
+// import { RepoKeyCardProvider } from "../key-card/context/KeyCardProvider";
+// import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
+// import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
+import PosOvervewRenderer from "../pos-overviewPage/PosOvervewRenderer";
 
 
 
@@ -28,9 +29,13 @@ const TestComponent = () => {
       {/* <OverviewPage /> */}
       {/* <RoomDetailRenderer /> */}
 
-      <RepoKeyCardProvider>
+      {/* <RepoKeyCardProvider>
         <KeyCardPage />
-      </RepoKeyCardProvider>
+      </RepoKeyCardProvider> */}
+
+      <PosOvervewRenderer />
+
+
     </>
 
   );

@@ -25,6 +25,8 @@ import { nightAuditData } from "../pages/hotel/pages/nightAudit/data/nightAuditD
 //KeyCard
 import type { KeyCard } from "../domain/KeyCard";
 import { initialKeyCards } from "../pages/key-card/data/Keycard.data";
+import type { POSOverview } from "../domain/pos.overview";
+import { initialPOSOverview } from "../pages/pos-overviewPage/data/pos.overview.data";
 
 
 
@@ -130,3 +132,19 @@ const KeyCardRepo = new Repository<KeyCard, string>({
 
 export const keyCardQueryService = new QueryService<KeyCard, string>(KeyCardRepo);
 export const keyCardCmdService = new CommandService<KeyCard, string>(KeyCardRepo);
+
+
+
+//This is for POS Overview
+const POSOverviewRepo = new Repository<POSOverview, string>({
+    sourceType: 'InMemoryLocal',
+    domain: 'POSOverview',
+    tenantId: 'MySpace1234',
+    getId: (entity: POSOverview) => String(entity.id),
+    initialData: initialPOSOverview,
+    baseUrl: "asas",
+    eventsUrl: "events"
+})
+
+export const posOverviewQueryService = new QueryService<POSOverview, string>(POSOverviewRepo);
+export const posOverviewCmdService = new CommandService<POSOverview, string>(POSOverviewRepo);

@@ -1,12 +1,11 @@
 
-import { Download, Menu, Printer, SwatchBook } from 'lucide-react'
+import { Download, Printer, SwatchBook } from 'lucide-react'
 import { useRepoKeyCardHook } from '../../context/KeyCardProvider'
 
 export function KeyCardHeader() {
-    const { selectedCard, setSidebarOpen } = useRepoKeyCardHook()
+    const { selectedCard } = useRepoKeyCardHook()
 
     const exportCsv = () => {
-        // Check whether a card is selected
         if (!selectedCard) return
 
         const rows = [
@@ -48,13 +47,6 @@ export function KeyCardHeader() {
         <header className="flex min-h-15.5 flex-col items-stretch justify-between gap-2 border-b border-[#eceeef] bg-white px-3 py-2 sm:flex-row sm:items-center sm:gap-3 sm:px-4.5">
 
             <div className="flex min-w-0 items-center gap-1.5">
-                <button
-                    aria-label="Open card list"
-                    className="shrink-0 text-[#47545b] md:hidden"
-                    onClick={() => setSidebarOpen(true)}
-                >
-                    <Menu size={19} />
-                </button>
 
                 <SwatchBook size={17} className="shrink-0 text-[#42515a]" />
 
