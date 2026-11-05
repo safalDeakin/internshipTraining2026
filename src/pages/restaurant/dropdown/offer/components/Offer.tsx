@@ -5,7 +5,6 @@ import MasterDetailView from "../../../../../component/MasterDetailView/MasterDe
 import { useOffer } from "../context/useOffer";
 import type { Offer } from "../data/initialOfferData";
 
-import ListHeader from "./ListHeader";
 import OffersDetails from "./OffersDetails";
 
 const Offer = () => {

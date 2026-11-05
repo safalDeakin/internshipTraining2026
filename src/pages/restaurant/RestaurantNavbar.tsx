@@ -7,15 +7,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
+import ShellSetting from "./dropdown/setting/ShellSetting";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
   openSessionMode?: () => void;
+  onOpenSetting?: (setting: string) => void;
 }
 
 const RestaurantNavbar = ({
   closeBar,
   openSessionMode,
+  onOpenSetting,
 }: RestaurantNavbarProps) => {
   const { organization } = useAuth();
   const { sessions } = usePOSUserSession();
@@ -24,7 +27,6 @@ const RestaurantNavbar = ({
   const [overviewOpen, setOverviewOpen] = useState(false);
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
   const [sessionInactive, setSessionInactive] = useState(false);
-
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 rounded-lg px-2 py-2 ${
       isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
@@ -127,24 +129,22 @@ const RestaurantNavbar = ({
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
 
                 {[
-                  { label: "Sales Setting", path: "setting" },
-                  { label: "Staffs and Access", path: "price" },
-                  { label: "Device Setup", path: "offer" },
+                  { label: "Sales Setting", id: "sales" },
+                  { label: "Staffs and Access", id: "staffs" },
+                  { label: "Device Setup", id: "devices" },
                 ].map((item) => (
-                  <NavLink
-                    key={item.label}
-                    to={getOrganizationPath(
-                      `/restaurant/${item.path}`,
-                      organization,
-                    )}
+                  <button
+                    key={item.id}
+                    type="button"
                     onClick={() => {
                       setIsRestaurantOpen(false);
+                      onOpenSetting?.(item.id);
                       closeBar?.();
                     }}
-                    className={getLinkClass}
+                    className={getLinkClass({ isActive: false })}
                   >
                     {item.label}
-                  </NavLink>
+                  </button>
                 ))}
               </div>
             </div>

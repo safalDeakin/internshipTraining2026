@@ -6,13 +6,14 @@ import SessionModeModal from "./popup/SessionModeModal";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
 import { useAuth } from "../../utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
-import type { POSSessionMode } from "../../types/POSUserSession";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
+import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
+import ShellSetting from "./dropdown/setting/ShellSetting";
 
 const RestaurantLayout = () => {
   const [isSessionOpen, setIsSessionOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
-
+  const [activeSetting, setActiveSetting] = useState<string | null>(null);
   const navigate = useNavigate();
   const { organization } = useAuth();
   const { sessions, addSession, updateSession } = usePOSUserSession();
@@ -94,12 +95,18 @@ const RestaurantLayout = () => {
     <>
       <ResponsiveLayout
         sidebar={(closeBar) => (
-          <RestaurantNav closeBar={closeBar} openSessionMode={handlePlay} />
+          <RestaurantNav
+            closeBar={closeBar}
+            openSessionMode={handlePlay}
+            onOpenSetting={setActiveSetting}
+          />
         )}
       >
         <Outlet />
       </ResponsiveLayout>
-
+      {activeSetting === "sales" && (
+        <ShellSetting onClose={() => setActiveSetting(null)} />
+      )}
       {isSessionOpen && (
         <POSUserSession onExit={() => setIsSessionOpen(false)} />
       )}

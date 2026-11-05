@@ -24,6 +24,7 @@ import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import ShellSetting from "../pages/restaurant/dropdown/setting/ShellSetting";
+import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 
 //information needed for a navigation
 export type AppNav = {
@@ -87,6 +88,10 @@ export const appRoutes: AppRoute[] = [
         element: <Sales />,
       },
       {
+        path: "cash",
+        element: <CashSummary />,
+      },
+      {
         path: "price",
         element: <PricelistRenderer />,
       },
@@ -97,24 +102,10 @@ export const appRoutes: AppRoute[] = [
       {
         path: "offer",
         element: <OfferRenderer />,
-        // children: [
-        //   {
-        //     index: true,
-        //     element: <OffersDetails />,
-        //   },
-        //   {
-        //     path: ":id",
-        //     element: <OffersDetails />,
-        //   },
-        // ],
       },
       {
         path: "session",
         element: <POSUserSession />,
-      },
-      {
-        path: "setting",
-        element: <ShellSetting />,
       },
     ],
   },

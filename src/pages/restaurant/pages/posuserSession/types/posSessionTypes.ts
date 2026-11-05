@@ -8,9 +8,23 @@ export type POSSessionMode =
   | "Service and Technical Check";
 
 // 2://Sessionmodal props
+// export interface SessionModeModalProps {
+//   onClose: () => void;
+//   onSelect?: (mode: POSSessionMode) => void;
+//   onEndSession?: () => void;
+//   onPause?: () => void;
+//   isSessionActive?: boolean;
+//   staffName: string;
+//   terminal: string;
+//   date: string;
+//   activeSessionStartTime?: string;
+// }
 export interface SessionModeModalProps {
   onClose: () => void;
-  onSelect?: (mode: POSSessionMode) => void;
+  onSelect?: (
+    mode: POSSessionMode,
+    data: { openingCash: number; notes: string },
+  ) => void;
   onEndSession?: () => void;
   onPause?: () => void;
   isSessionActive?: boolean;
@@ -33,6 +47,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 //POSUser session first
 export interface POSUserSessionProps {
   onExit?: () => void;
+  sessionMode: POSSessionMode;
 }
 
 //properties that layout accepts

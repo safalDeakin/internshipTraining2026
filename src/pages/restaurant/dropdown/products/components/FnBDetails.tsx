@@ -1,12 +1,97 @@
+// author: shrajja
+
+import { useState } from "react";
 import { Edit, Trash2, Minus, Box, Plus } from "lucide-react";
+
 import type { ProductGroup } from "../data/initialProductData";
+import type { ProductFormData } from "./modal/ProductFormModal";
+import ProductFormModal from "./modal/ProductFormModal";
 
 interface FnBDetailsProps {
   product: ProductGroup | null;
   variants: string[];
 }
 
+type ProductItem = ProductGroup["items"][number];
+
+type ModalType = "add" | "edit-item" | "edit-group" | null;
+
 const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
+  const [modalType, setModalType] = useState<ModalType>(null);
+  const [editingItem, setEditingItem] = useState<ProductItem | null>(null);
+
+  // Open modal to add a new item
+  const handleAddProduct = () => {
+    setEditingItem(null);
+    setModalType("add");
+  };
+
+  // Open modal to edit an individual item
+  const handleEditProduct = (item: ProductItem) => {
+    setEditingItem(item);
+    setModalType("edit-item");
+  };
+
+  // Open modal to edit the product group name
+  const handleEditGroupName = () => {
+    setEditingItem(null);
+    setModalType("edit-group");
+  };
+
+  // Close modal
+  const handleCloseModal = () => {
+    setModalType(null);
+    setEditingItem(null);
+  };
+
+  // Handle form submission
+  const handleConfirmProduct = (data: ProductFormData) => {
+    if (modalType === "edit-group" && product) {
+      console.log("Updating product group:", product.id, data);
+    } else if (modalType === "edit-item" && editingItem) {
+      console.log("Updating product item:", editingItem.id, data);
+    } else if (modalType === "add") {
+      console.log("Adding new product:", data);
+    }
+
+    handleCloseModal();
+  };
+
+  // Modal title
+  const getModalTitle = () => {
+    switch (modalType) {
+      case "add":
+        return "Register New Items (F&B)";
+      case "edit-item":
+        return "Edit Items Details (F&B)";
+      case "edit-group":
+        return "Edit Product Group";
+      default:
+        return "";
+    }
+  };
+
+  // Modal initial data
+  const getInitialData = (): ProductFormData | undefined => {
+    if (modalType === "edit-group" && product) {
+      return {
+        name: product.name,
+        description: "",
+        recommendedAddons: [],
+      };
+    }
+
+    if (modalType === "edit-item" && editingItem) {
+      return {
+        name: editingItem.name,
+        description: editingItem.description,
+        recommendedAddons: [],
+      };
+    }
+
+    return undefined;
+  };
+
   return (
     <main className="min-w-0 overflow-y-auto px-2">
       {!product ? (
@@ -36,12 +121,21 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
             </div>
 
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700">
+              {/* Edit Product Group Name */}
+              <button
+                type="button"
+                onClick={handleEditGroupName}
+                aria-label={`Edit ${product.name}`}
+                className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
+              >
                 <Edit className="h-3.5 w-3.5" />
                 Edit Name
               </button>
 
-              <button className="flex items-center gap-1.5 rounded bg-red-400 px-3 py-1.5 text-sm text-white hover:bg-red-500">
+              <button
+                type="button"
+                className="flex items-center gap-1.5 rounded bg-red-400 px-3 py-1.5 text-sm text-white hover:bg-red-500"
+              >
                 <Trash2 className="h-3.5 w-3.5" />
                 Delete
               </button>
@@ -56,8 +150,13 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
                 <span className="text-green-600">({product.items.length})</span>
               </h2>
 
-              <button className="text-sm font-medium text-blue-600 hover:underline flex items-center">
-                <Plus className="w-3 h-3" /> Add Products
+              <button
+                type="button"
+                onClick={handleAddProduct}
+                className="flex items-center text-sm font-medium text-blue-600 hover:underline"
+              >
+                <Plus className="h-3 w-3" />
+                Add Products
               </button>
             </div>
 
@@ -94,14 +193,19 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
                   </div>
 
                   <div className="flex items-center gap-2 text-blue-600">
+                    {/* Edit individual item */}
                     <button
+                      type="button"
+                      onClick={() => handleEditProduct(item)}
                       aria-label={`Edit ${item.name}`}
                       className="rounded p-1 hover:bg-blue-50"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
 
+                    {/* Remove individual item */}
                     <button
+                      type="button"
                       aria-label={`Remove ${item.name}`}
                       className="rounded p-1 hover:bg-blue-50"
                     >
@@ -125,6 +229,7 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
               </h3>
 
               <button
+                type="button"
                 aria-label="Edit attributes"
                 className="rounded p-1 text-blue-600 hover:bg-blue-50"
               >
@@ -179,7 +284,10 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-medium text-gray-800">Search Tags</h2>
 
-              <button className="text-sm font-medium text-blue-600 hover:underline">
+              <button
+                type="button"
+                className="text-sm font-medium text-blue-600 hover:underline"
+              >
                 Edit Tags
               </button>
             </div>
@@ -196,6 +304,17 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
             </div>
           </section>
         </div>
+      )}
+
+      {/* Reusable Add / Edit Modal */}
+      {modalType && product && (
+        <ProductFormModal
+          key={`${modalType}-${editingItem?.id ?? product.id}`}
+          title={getModalTitle()}
+          initialData={getInitialData()}
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmProduct}
+        />
       )}
     </main>
   );

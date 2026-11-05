@@ -8,10 +8,8 @@ import SettingsModal, {
 import {
   BadgeDollarSign,
   BatteryCharging,
-  CalendarRange,
   HandCoins,
   HardDrive,
-  Pen,
   Percent,
   Smartphone,
   Trash,
@@ -91,21 +89,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
     Kitchen: "bros",
     Bar: "bros",
   });
-  const [form, setForm] = useState<BillingForm>({
-    pricelist: "march-2024-123",
-    mode: "inclusive",
-    tax: "vat13",
-    rounding: "up",
-  });
 
-  const handleChange =
-    (key: keyof BillingForm) =>
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setForm((prev) => ({
-        ...prev,
-        [key]: event.target.value,
-      }));
-    };
   const handleChargeStatus = (id: number) => {
     setCharges((prev) =>
       prev.map((item) =>
@@ -132,11 +116,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Active Pricelist:"
               hint="Billing Service will reference the above mentioned price-lists to generate invoices."
             >
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">March 2024 - #123</option>
               </select>
             </SettingsField>
@@ -145,11 +125,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Pricing Mode:"
               hint="Default taxes are applied to local sales transactions."
             >
-              <select
-                className=""
-                value={form.mode}
-                onChange={handleChange("mode")}
-              >
+              <select className="w-full">
                 <option value="inclusive">Tax Inclusive</option>
                 <option value="exclusive">Tax Exclusive</option>
               </select>
@@ -159,11 +135,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Default Tax:"
               hint="Default taxes are applied to local sales transactions."
             >
-              <select
-                className="w-full"
-                value={form.tax}
-                onChange={handleChange("tax")}
-              >
+              <select className="w-full">
                 <option value="vat13">VAT 13%</option>
               </select>
             </SettingsField>
@@ -172,22 +144,19 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Tax Rounding Method:"
               hint="How tax is calculated and rounded in invoices."
             >
-              <select
-                className="w-full"
-                value={form.rounding}
-                onChange={handleChange("rounding")}
-              >
+              <select className="w-full">
                 <option value="up">Round Up</option>
                 <option value="down">Round Down</option>
                 <option value="nearest">Round Nearest</option>
               </select>
             </SettingsField>
+
             <SettingsField
               label="Additional Charges:"
               hint="Register additional charges below in the master table."
             >
               <table className="w-full min-w-[600px] text-sm text-left overflow-x-auto">
-                <thead className="bg-gray-100 text-gray-700">
+                <thead className="">
                   <tr>
                     <th className="px-4 py-3 font-semibold">Charge Name</th>
                     <th className="px-4 py-3 font-semibold">Charge Code</th>
@@ -228,6 +197,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                 </tbody>
               </table>
             </SettingsField>
+
             <SettingsField
               label="Split Billing:"
               hint="Allow dividing a single transaction among multiple customers"
@@ -283,11 +253,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Return Time Limit:"
               hint="Set number of days to allow returns from invoice date"
             >
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">1 Days</option>
               </select>
             </SettingsField>
@@ -323,11 +289,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Cash Refund Limits:"
               hint="Refund for Amount more than mentioned above will need managers access"
             >
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">Allowed</option>
               </select>
             </SettingsField>
@@ -406,20 +368,12 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
             </div>
 
             <SettingsField label="Payment Due Duration:">
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">1 Days</option>
               </select>
             </SettingsField>
             <SettingsField label="Minimun Payment Required:">
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">25%</option>
               </select>
             </SettingsField>
@@ -587,7 +541,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
         <>
           <SettingsSection title="Tax  Master">
             <table className="w-full min-w-[600px] text-sm text-left overflow-x-auto">
-              <thead className="bg-gray-100 text-gray-700">
+              <thead className="">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Tax Name</th>
                   <th className="px-4 py-3 font-semibold">Tax Code</th>
@@ -617,14 +571,12 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                     <td className="px-4 py-3 flex gap-1">
                       <input
                         type="checkbox"
-                        checked={charge.status}
-                        onChange={() => handleChargeStatus(charge.id)}
                         className="h-4 w-4 cursor-pointer accent-blue-600"
                       />
                       <span>{charge.chargeType}</span>
                     </td>
                     <td>
-                      <Trash />
+                      <Trash className="w-4 h-4" />
                     </td>
                   </tr>
                 ))}
@@ -636,11 +588,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Default Tax:"
               hint=" Default tax are applied to local sales transactions"
             >
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">VAt 13</option>
               </select>
             </SettingsField>
@@ -648,11 +596,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
               label="Tax Rounding Method:"
               hint="How tax is calculated and rounded invoice"
             >
-              <select
-                className="flex justify-between"
-                value={form.pricelist}
-                onChange={handleChange("pricelist")}
-              >
+              <select className="w-full">
                 <option value="march-2024-123">Round Up</option>
               </select>
             </SettingsField>
