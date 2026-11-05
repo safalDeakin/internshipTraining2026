@@ -71,7 +71,7 @@ export interface PaymentSummary {
 
 export interface PrintReservationFormData {
     date: string;
-    reservationNo: string;
+    reservationNumber: string;
 
     title: string;
     fullName: string;

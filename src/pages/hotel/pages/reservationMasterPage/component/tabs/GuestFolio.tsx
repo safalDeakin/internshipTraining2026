@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react';
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
-import { useAllReservationContext } from '../../../context/AllReservationContext';
+import { useReservationState } from '../../../../hooks/allReservation/useReservationState';
+import { useAllReservationContext } from '../../../allReservation/context/AllReservationContext';
 import type { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from 'react';
 
 export default function GuestFolio() {

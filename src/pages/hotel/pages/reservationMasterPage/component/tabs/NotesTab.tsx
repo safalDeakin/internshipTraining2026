@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
-import { useAllReservationContext } from '../../../context/AllReservationContext';
+import { useReservationState } from '../../../../hooks/allReservation/useReservationState';
+import { useAllReservationContext } from '../../../allReservation/context/AllReservationContext';
 
 export default function NotesTab() {
     const { selectedReservation: r } = useReservationState();
