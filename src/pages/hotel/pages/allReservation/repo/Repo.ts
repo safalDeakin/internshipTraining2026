@@ -47,6 +47,7 @@ export class Repo {
     addFolioItem(reservationId: string, item: Omit<FolioItem, 'id'>) {
         const reservation = this.getReservation(reservationId);
         if (!reservation) return;
+
         const newItem: FolioItem = { ...item, id: `f-${Date.now()}` };
         this.updateReservation(reservationId, {
             folioItems: [...reservation.folioItems, newItem],

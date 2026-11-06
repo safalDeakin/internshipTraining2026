@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { ReservationListContext } from "./ReservationContext";
+import { ReservationListContext } from "./ReservationListContext";
 
-export const useReservationContext = () => {
+export const useReservationList = () => {
     const context = useContext(ReservationListContext);
     if (!context) {
         throw new Error("must use inside provider");

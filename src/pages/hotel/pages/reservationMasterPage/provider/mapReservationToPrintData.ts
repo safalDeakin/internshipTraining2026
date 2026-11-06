@@ -4,7 +4,7 @@ export function mapReservationToPrintData(
     reservation: ReservationDetailModel
 ): PrintReservationFormData {
     const [arrivalDate = "", departureDate = ""] =
-        reservation.bookingDate.split(" - ");
+        reservation.info.bookingDate.split(" - ");
 
     const combinedId = reservation.guest.idType;
     const separatorIndex = combinedId.indexOf("-");
@@ -25,7 +25,7 @@ export function mapReservationToPrintData(
 
     return {
         date: new Date().toLocaleDateString("en-GB"),
-        reservationNumber: reservation.reservationCode,
+        reservationNumber: reservation.info.reservationCode,
 
         title: reservation.guest.title ?? "",
         fullName: reservation.guest.name,
@@ -39,10 +39,10 @@ export function mapReservationToPrintData(
         arrivalDate,
         departureDate,
         noOfNight: nights,
-        noOfAdult: reservation.adults,
-        noOfChildren: reservation.kids,
+        noOfAdult: reservation.info.adults,
+        noOfChildren: reservation.info.kids,
 
-        ratePlan: reservation.ratePlan,
+        ratePlan: reservation.info.ratePlan,
         ratePerRoom: nights > 0
             ? reservation.payment.roomCharge / nights
             : 0,

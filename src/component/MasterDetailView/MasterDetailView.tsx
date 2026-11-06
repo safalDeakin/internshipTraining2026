@@ -26,7 +26,7 @@ export default function MasterDetailView<T extends object, ID>({
     headerChildren
 }: MasterDetailsProps<T, ID>) {
     const [selectedId, setSelectedId] =
-        useState<ID>();
+        useState<ID>(getId(items[0]));
 
     return (
         <div className="flex min-h-screen bg-[#f6f6f6] text-[#4a4a4a]">
@@ -75,6 +75,7 @@ export function ListSection<T extends object, ID>({ title, items, searchQuery,
     getId: (item: T) => ID;
 
 }) {
+
     return (
 
         <aside className="m-2 w-80 min-h-screen bg-white px-3.75 pb-3.75 pt-5">

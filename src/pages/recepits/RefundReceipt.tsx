@@ -1,7 +1,7 @@
-import type { RefundData, TableColumn } from '../types/receipts'
-import { DocumentHeader } from './DocumentHeader'
-import { InfoCard } from './InfoCard'
-import { ReceiptTable } from './ReceiptTable'
+import type { RefundData, TableColumn } from './types/receipts'
+import { DocumentHeader } from './components/DocumentHeader'
+import { InfoCard } from './components/InfoCard'
+import { ReceiptTable } from './components/ReceiptTable'
 
 const columns: TableColumn[] = [
     { key: 'no', label: 'S.No.' },

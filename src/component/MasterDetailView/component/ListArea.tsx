@@ -34,9 +34,10 @@ export default function ListArea<T extends object, ID>({
                 text-left
                 transition-colors
                 cursor-pointer
-                ${getId(item) === selectedId}? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
-                                                : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
-                                            }`}
+                
+                ${getId(item) === selectedId ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
+                            : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
+                        }`}
                 >
                     {itemBuilder(item)}
                 </button>
