@@ -6,6 +6,7 @@ import PdfPreviewWrapper from "../../../../../utils/printer/PreviewWrapper";
 import { Invoice } from "../../../../recepits/Invoice";
 import { useReservationDetail } from "../provider/detailProvider/useReservationDetail";
 import Toolbar from "../../../../../component/Toolbar/Toolbar";
+import Button from "../../../../../component/Button/button";
 
 
 export default function ReservationToolbar() {
@@ -33,22 +34,22 @@ export default function ReservationToolbar() {
             }
             center={
                 <>
-                    <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
+                    <Button variant="danger" size="md"
                         onClick={() => {
                             console.log("Request Room Service clicked");
                         }}
                     >
                         <Edit className="h-3.5 w-3.5" />
                         Room Service
-                    </button>
+                    </Button>
 
                     <PdfPreviewWrapper documentName="ReservationForm"
                         openInNewTab={false}
                         content={<Invoice data={reservation.getInvoice()} />}>
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700">
+                        <Button >
                             <Edit className="h-3.5 w-3.5" />
                             Invoice
-                        </button>
+                        </Button>
                     </PdfPreviewWrapper>
 
                     {/* FinalReceipts Popup */}
@@ -76,21 +77,20 @@ export default function ReservationToolbar() {
                                     reservation.getReservationPdfForm()}
                             />
                         }>
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700">
+                        <Button >
                             <Printer size={13} />
                             Print
-                        </button>
+                        </Button>
                     </PdfPreviewWrapper>
-                    <button
-                        disabled={isCancelled}
-                        className="flex items-center gap-1.5 rounded bg-red-400 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
+                    <Button
+                        variant={isCancelled ? "ghost" : "danger"}
                         onClick={() => {
                             console.log("Cancel Reservation clicked");
                         }}
                     >
                         <Edit className="h-3.5 w-3.5" />
                         Cancel
-                    </button>
+                    </Button>
                 </>
             }
         />
