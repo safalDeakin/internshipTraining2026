@@ -18,6 +18,7 @@ export default function ReservationList() {
         resetTab();
     };
 
+
     return (
         <div className="min-h-svh shrink-0 rounded border border-[#e1e7ed] bg-white p-2">
             <div className="p-2">
@@ -65,10 +66,11 @@ export default function ReservationList() {
                                     }
                                 `}
                             >
+
                                 {/* Top row */}
                                 <div className="flex items-center justify-between gap-2">
                                     <span className="truncate text-[12px] font-medium text-[#29445f]">
-                                        {r.guest.name}
+                                        {r.guestName}
                                     </span>
 
                                     {r.checkInTime && (
@@ -87,9 +89,10 @@ export default function ReservationList() {
                                     <span>•</span>
 
                                     <span>
-                                        Room {r.room.number}
+                                        Room {r.roomNumber}
                                     </span>
                                 </div>
+
                             </button>
                         );
                     })}
@@ -99,3 +102,4 @@ export default function ReservationList() {
         </div>
     );
 }
+

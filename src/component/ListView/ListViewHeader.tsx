@@ -1,4 +1,5 @@
 import { ArrowRight, Plus } from "lucide-react";
+import './style.css';
 
 interface SidebarHeaderProps {
     title: string;
@@ -20,7 +21,11 @@ export default function SidebarHeader({
                     strokeWidth={2}
                 />
 
-                <span className="text-[16px] font-medium text-[#0066B3]">
+                {/* <span className="text-[16px] font-medium text-[#0066B3]">
+                    {title}
+                </span> */}
+
+                <span className="title">
                     {title}
                 </span>
             </div>

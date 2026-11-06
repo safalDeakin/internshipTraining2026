@@ -2,17 +2,17 @@ import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import RestaurantNav from "./RestaurantNavbar";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
-import SessionModeModal from "./popup/SessionModeModal";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
 import { useAuth } from "../../utils/secureclient/useAuth";
-import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
-import type { POSSessionMode } from "../../types/POSUserSession";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
+import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
+import ShellSetting from "./modal/settings/ShellSetting";
+import SessionModeModal from "./modal/pos/SessionModeModal";
 
 const RestaurantLayout = () => {
   const [isSessionOpen, setIsSessionOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
-
+  const [activeSetting, setActiveSetting] = useState<string | null>(null);
   const navigate = useNavigate();
   const { organization } = useAuth();
   const { sessions, addSession, updateSession } = usePOSUserSession();
@@ -39,9 +39,7 @@ const RestaurantLayout = () => {
   };
 
   const handleSelectMode = (mode: POSSessionMode) => {
-    if (!user || organizationId == null) {
-      return;
-    }
+    if (!user || organizationId == null) return;
 
     const now = new Date();
 
@@ -49,7 +47,7 @@ const RestaurantLayout = () => {
       id: Date.now(),
       staffId: user.id,
       staffName: user.name,
-      terminal: "Main Counter", // Replace with the selected terminal.
+      terminal: "Main Counter",
       date: now.toISOString().slice(0, 10),
       mode,
       organizationId,
@@ -59,10 +57,12 @@ const RestaurantLayout = () => {
       isVerified: false,
     });
 
+    // Close only the modal.
     setIsModeOpen(false);
     setIsSessionOpen(false);
 
-    navigate(getOrganizationPath("/restaurant/session", organization));
+    // Do not navigate here.
+    // The page should already be open from the Play click.
   };
 
   const handleEndSession = () => {
@@ -94,12 +94,18 @@ const RestaurantLayout = () => {
     <>
       <ResponsiveLayout
         sidebar={(closeBar) => (
-          <RestaurantNav closeBar={closeBar} openSessionMode={handlePlay} />
+          <RestaurantNav
+            closeBar={closeBar}
+            openSessionMode={handlePlay}
+            onOpenSetting={setActiveSetting}
+          />
         )}
       >
         <Outlet />
       </ResponsiveLayout>
-
+      {activeSetting === "sales" && (
+        <ShellSetting onClose={() => setActiveSetting(null)} />
+      )}
       {isSessionOpen && (
         <POSUserSession onExit={() => setIsSessionOpen(false)} />
       )}

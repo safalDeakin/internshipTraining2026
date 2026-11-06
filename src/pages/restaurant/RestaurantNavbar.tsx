@@ -1,21 +1,24 @@
 // author: shrajja
 
 import { ChevronDown, UtensilsCrossed, Play, ListCheck } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { useAuth } from "../../utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
+import ShellSetting from "./modal/settings/ShellSetting";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
   openSessionMode?: () => void;
+  onOpenSetting?: (setting: string) => void;
 }
 
 const RestaurantNavbar = ({
   closeBar,
   openSessionMode,
+  onOpenSetting,
 }: RestaurantNavbarProps) => {
   const { organization } = useAuth();
   const { sessions } = usePOSUserSession();
@@ -24,7 +27,6 @@ const RestaurantNavbar = ({
   const [overviewOpen, setOverviewOpen] = useState(false);
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
   const [sessionInactive, setSessionInactive] = useState(false);
-
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 rounded-lg px-2 py-2 ${
       isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
@@ -53,15 +55,16 @@ const RestaurantNavbar = ({
     }
   }, [activeSessions.length]);
 
+  const navigate = useNavigate();
+
   const handlePlayClick = () => {
     if (activeSessions.length > 0) {
-      // Play clicked while a session is already active -> gray
       setSessionInactive(true);
     } else {
-      // Starting a fresh session -> green
       setSessionInactive(false);
     }
 
+    navigate(getOrganizationPath("/restaurant/session", organization));
     openSessionMode?.();
   };
 
@@ -95,7 +98,8 @@ const RestaurantNavbar = ({
               }`}
             />
           </button>
-
+          {/* dropdown */}
+          {/* Dropdown */}
           {isRestaurantOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 flex w-full flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
               <p className="text-sm text-gray-900">Menu</p>
@@ -111,7 +115,10 @@ const RestaurantNavbar = ({
                     `/restaurant/${item.path}`,
                     organization,
                   )}
-                  onClick={() => closeBar?.()}
+                  onClick={() => {
+                    setIsRestaurantOpen(false);
+                    closeBar?.();
+                  }}
                   className={getLinkClass}
                 >
                   {item.label}
@@ -120,22 +127,24 @@ const RestaurantNavbar = ({
 
               <div className="border-t border-gray-200 pt-3">
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
+
                 {[
-                  { label: "Sales Setting", path: "products" },
-                  { label: "Staffs and Access", path: "price" },
-                  { label: "Device Setup", path: "offer" },
+                  { label: "Sales Setting", id: "sales" },
+                  { label: "Staffs and Access", id: "staffs" },
+                  { label: "Device Setup", id: "devices" },
                 ].map((item) => (
-                  <NavLink
-                    key={item.label}
-                    to={getOrganizationPath(
-                      `/restaurant/${item.path}`,
-                      organization,
-                    )}
-                    onClick={() => closeBar?.()}
-                    className={getLinkClass}
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setIsRestaurantOpen(false);
+                      onOpenSetting?.(item.id);
+                      closeBar?.();
+                    }}
+                    className={getLinkClass({ isActive: false })}
                   >
                     {item.label}
-                  </NavLink>
+                  </button>
                 ))}
               </div>
             </div>

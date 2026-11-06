@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-
+import './style.css';
 type ListViewItemProps = {
     children: ReactNode;
     active?: boolean;

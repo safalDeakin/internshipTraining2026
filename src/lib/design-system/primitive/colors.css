@@ -1,0 +1,113 @@
+
+/* primitives colors scales from colors palette*/
+:root{
+       /* ========================================
+        Neutral Colors
+    ======================================== */
+
+    --primitive-color-neutral-0: #FFFFFF;
+    --primitive-color-neutral-50: #F9FAFA;
+    --primitive-color-neutral-100: #F1F3F4;
+    --primitive-color-neutral-200: #E1E5E8;
+    --primitive-color-neutral-300: #C8CED3;
+    --primitive-color-neutral-400: #A0A8B0;
+    --primitive-color-neutral-500: #7A838C;
+    --primitive-color-neutral-600: #5D6670;
+    --primitive-color-neutral-700: #414951;
+    --primitive-color-neutral-800: #292F35;
+    --primitive-color-neutral-900: #171B1F;
+    --primitive-color-neutral-1000: #000000;
+    
+    /* ========================================
+        Brand Colors
+    ======================================== */
+
+    --primitive-color-brand-50s: #F2F5F9;
+    --primitive-color-brand-100: #D9E2ED;
+    --primitive-color-brand-200: #B3C5DB;
+    --primitive-color-brand-300: #8DA8C9;
+    --primitive-color-brand-400: #678BB7;
+    --primitive-color-brand-500: #416EA5;
+    --primitive-color-brand-600: #153359;
+    --primitive-color-brand-700: #112A49;
+    --primitive-color-brand-800: #0D2039;
+    --primitive-color-brand-900: #091629;
+ 
+
+    /* ========================================
+     Gold Colors
+     ======================================== */
+
+    --primitive-color-gold-50: #FBF8EB;
+    --primitive-color-gold-100: #F4EAC5;
+    --primitive-color-gold-200: #E9D68B;
+    --primitive-color-gold-300: #DEC251;
+    --primitive-color-gold-400: #D3AE17;
+    --primitive-color-gold-500: #C9A836;
+    --primitive-color-gold-600: #A78A2D;
+    --primitive-color-gold-700: #856D24;
+    --primitive-color-gold-800: #63511B;
+    --primitive-color-gold-900: #423612;
+
+    /* ========================================
+        Green Colors
+    ======================================== */
+
+    --primitive-color-green-50: #EDFAF0;
+    --primitive-color-green-100: #D0F2D8;
+    --primitive-color-green-200: #A1E5B1;
+    --primitive-color-green-300: #72D88A;
+    --primitive-color-green-400: #43CB63;
+    --primitive-color-green-500: #36C95E;
+    --primitive-color-green-600: #2AA34B;
+    --primitive-color-green-700: #207B39;
+    --primitive-color-green-800: #165427;
+    --primitive-color-green-900: #0C2D15;
+
+
+    /* ========================================
+        Red Colors
+    ======================================== */
+
+    --primitive-color-red-50: #FDF1F1;
+    --primitive-color-red-100: #F9DADA;
+    --primitive-color-red-200: #F2B5B5;
+    --primitive-color-red-300: #EB9090;
+    --primitive-color-red-400: #E46B6B;
+    --primitive-color-red-500: #DC4545;
+    --primitive-color-red-600: #B83434;
+    --primitive-color-red-700: #8E2828;
+    --primitive-color-red-800: #641C1C;
+    --primitive-color-red-900: #3A1010;
+
+    /* ========================================
+        Blue Colors
+    ======================================== */
+
+    --primitive-color-blue-50: #EFF6FF;
+    --primitive-color-blue-100: #D9E9FF;
+    --primitive-color-blue-200: #B3D3FF;
+    --primitive-color-blue-300: #8DBDFF;
+    --primitive-color-blue-400: #67A7FF;
+    --primitive-color-blue-500: #418FFF;
+    --primitive-color-blue-600: #2672DB;
+    --primitive-color-blue-700: #1D56A5;
+    --primitive-color-blue-800: #143A70;
+    --primitive-color-blue-900: #0B1E3B;
+
+    /* ========================================
+     Orange Colors
+     ======================================== */
+
+    --primitive-color-orange-50: #FFF6EB;
+    --primitive-color-orange-100: #FFE7CC;
+    --primitive-color-orange-200: #FFD099;
+    --primitive-color-orange-300: #FFB866;
+    --primitive-color-orange-400: #FFA033;
+    --primitive-color-orange-500: #F28C28;
+    --primitive-color-orange-600: #C96D17;
+    --primitive-color-orange-700: #995212;
+    --primitive-color-orange-800: #69380C;
+    --primitive-color-orange-900: #391E06;
+
+}
