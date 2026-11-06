@@ -53,7 +53,6 @@ function ReservationMasterDetailView() {
     const detailContentBuilder = (selectId: string) => {
         return (
             <ReservationDetailProvider id={selectId}>
-
                 <div className="flex flex-col flex-1 min-h-0">
                     <ReservationToolbar />
                     <ReservationSummaryInfo />
