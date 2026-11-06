@@ -1,10 +1,10 @@
-import Offer from "./components/Offer";
+import OfferLayout from "./components/OfferLayout";
 import OfferProvider from "./context/OfferProvider";
 
 const OfferRenderer = () => {
   return (
     <OfferProvider>
-      <Offer />
+      <OfferLayout />
     </OfferProvider>
   );
 };

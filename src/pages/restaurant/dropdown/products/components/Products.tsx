@@ -3,8 +3,8 @@
 import FnBDetails from "./FnBDetails";
 import { useProduct } from "../context/useProduct";
 
-import type { ProductGroup } from "../data/initialProductData";
 import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+import type { ProductType } from "../../types/DropdownTypes";
 
 const getVariants = (attributes: string[][]) => {
   if (!attributes.length) return [];
@@ -32,7 +32,7 @@ const Products = () => {
   }
 
   return (
-    <MasterDetailView<ProductGroup, string>
+    <MasterDetailView<ProductType, string>
       title="Products"
       items={filteredProducts}
       searchQuery={search}

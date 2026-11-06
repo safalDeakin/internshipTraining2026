@@ -1,4 +1,4 @@
-import ReceiptFrame from "../pages/posuserSession/shared/components/forms/ReceiptFrame";
+import ReceiptFrame from "../../pages/posuserSession/shared/components/forms/ReceiptFrame";
 
 interface ReferenceInvoice {
   customerName: string;

@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import type { Pricelist } from "../data/initialPricelistData";
+import type { PricelistType } from "../../types/DropdownTypes";
 
 export interface PricelistContextType {
-  data: Pricelist[];
-  filteredPricelists: Pricelist[];
+  data: PricelistType[];
+  filteredPricelists: PricelistType[];
   loading: boolean;
   search: string;
   setSearch: (search: string) => void;

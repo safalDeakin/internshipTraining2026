@@ -47,7 +47,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 //POSUser session first
 export interface POSUserSessionProps {
   onExit?: () => void;
-  sessionMode: POSSessionMode;
+  sessionMode?: POSSessionMode;
 }
 
 //properties that layout accepts

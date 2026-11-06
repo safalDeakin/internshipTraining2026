@@ -1,7 +1,7 @@
 // author: shrajja
 
 import { useState } from "react";
-import ReusableButton from "../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
 
 interface StartingSessionModalProps {
   staffName: string;
@@ -18,17 +18,18 @@ const StartingSessionModal = ({
   onCancel,
   onConfirm,
 }: StartingSessionModalProps) => {
-  const [openingCash, setOpeningCash] = useState("");
-  const [notes, setNotes] = useState("");
+  const [openingCash, setOpeningCash] = useState("7000");
+  const [notes, setNotes] = useState("hhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
   const cash = Number(openingCash);
 
+  //prevent empty input
   const isValidCash =
     openingCash.trim() !== "" && Number.isFinite(cash) && cash >= 0;
-
+  //executes when confirm button clicked
   const handleConfirm = () => {
     if (!isValidCash) return;
-
+    //Send data to the parent
     onConfirm({
       openingCash: cash,
       notes: notes.trim(),

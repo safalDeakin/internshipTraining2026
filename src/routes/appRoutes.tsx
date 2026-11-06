@@ -23,7 +23,7 @@ import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomDetailRend
 import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/ReservationMasterRenderer";
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
-import ShellSetting from "../pages/restaurant/dropdown/setting/ShellSetting";
+import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 
 //information needed for a navigation

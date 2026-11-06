@@ -2,7 +2,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import HistoryHeader from "../../shared/history/HistoryHeader";
 import TableView from "../../shared/history/TableView";
 import SalesReceipt from "./components/SalesReceipt";
-import ReferenceDetailsModal from "../../../../popup/ReferenceDetailsModals";
+import ReferenceDetailsModal from "../../../../modal/pos/ReferenceDetailsModals";
 import type { InvoiceHistoryProps } from "./types/InvoiceTypes";
 import { invoices } from "./constants/InvoiceData";
 

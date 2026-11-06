@@ -12,9 +12,9 @@ interface OfferProviderProps {
 }
 
 const OfferProvider = ({ children }: OfferProviderProps) => {
+  //Reads or retrieves data.
   const { data, loading } = useSubscription<Offer, string>(OfferQueryService);
-  console.log("Offer data:", data);
-  console.log("Offer loading:", loading);
+
   const [search, setSearch] = useState("");
 
   const filteredOffers = useMemo(() => {
@@ -25,12 +25,11 @@ const OfferProvider = ({ children }: OfferProviderProps) => {
 
   const addOffer = async (name: string): Promise<boolean> => {
     if (!name.trim()) return false;
-
     const newOffer: Offer = {
       id: Date.now(),
       name: name.trim(),
     };
-
+    //Changes or creates data.
     return OfferCmdService.create(newOffer);
   };
 

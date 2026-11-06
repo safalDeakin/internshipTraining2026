@@ -3,10 +3,11 @@
 import "../../../../../component/table/styles/tableConent.css";
 import PricelistDetails from "./PricelistDetails";
 import usePricelist from "../context/usePricelist";
-import type { Pricelist as PricelistType } from "../data/initialPricelistData";
 import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+import type { PricelistType } from "../../types/DropdownTypes";
 
 const Pricelist = () => {
+  //data from context
   const { filteredPricelists, loading, search, setSearch } = usePricelist();
 
   if (loading) {
@@ -21,8 +22,11 @@ const Pricelist = () => {
       items={filteredPricelists}
       searchQuery={search}
       onSearchChange={setSearch}
+      //Get the ID of each pricelist
       getId={(item) => item.id}
+      //Display each pricelist in the list
       listItemBuilder={(item) => <span>{item.name}</span>}
+      //details of that pricelist appear on the right side.
       detailContentBuilder={(selectedId) => {
         const selectedPricelist = filteredPricelists.find(
           (item) => item.id === selectedId,

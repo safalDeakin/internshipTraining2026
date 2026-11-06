@@ -3,40 +3,20 @@
 import type { ReactNode } from "react";
 import { Clock, Download, FileText, SquarePen } from "lucide-react";
 
-import type { InfoRow, Stat } from "../../types/DropdownTypes";
-import type { Offer } from "../data/initialOfferData";
-
-// Header Button
-const HeaderButton = ({
-  icon,
-  label,
-  onClick,
-}: {
-  icon: ReactNode;
-  label: string;
-  onClick?: () => void;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm hover:bg-gray-50"
-  >
-    {icon}
-    {label}
-  </button>
-);
+import type { InfoRow, OfferType, Stat } from "../../types/DropdownTypes";
+import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
 
 // Section Title
 const SectionTitle = ({ children }: { children: ReactNode }) => (
-  <h3 className="mb-3 text-sm font-semibold text-gray-900">{children}</h3>
+  <h3 className="mb-3 font-semibold ">{children}</h3>
 );
 
 // Information List
 const InfoList = ({ rows }: { rows: InfoRow[] }) => (
-  <div className="space-y-3 text-sm">
+  <div className="space-y-3 ">
     {rows.map((row) => (
       <p key={row.label} className="text-gray-600">
-        {row.label}: <span className="text-gray-900">{row.value}</span>
+        {row.label}: <span className="text-black">{row.value}</span>
       </p>
     ))}
   </div>
@@ -44,7 +24,7 @@ const InfoList = ({ rows }: { rows: InfoRow[] }) => (
 
 // Statistics Column
 const StatColumn = ({ stats }: { stats: Stat[] }) => (
-  <div className="flex-1 space-y-3 text-sm">
+  <div className="flex-1 space-y-3 ">
     {stats.map((stat) => (
       <div key={stat.label} className="flex items-center justify-between gap-3">
         <span className="text-gray-500">{stat.label}</span>
@@ -56,7 +36,7 @@ const StatColumn = ({ stats }: { stats: Stat[] }) => (
 
 // Offer Details Page
 interface OffersDetailsProps {
-  offer: Offer;
+  offer: OfferType;
 }
 
 const OffersDetails = ({ offer }: OffersDetailsProps) => {
@@ -64,29 +44,38 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
     <div className="w-full bg-gray-50 p-4 md:p-6">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-sm font-semibold text-gray-900">
+        <h1 className="font-semibold ">
           {offer.name}{" "}
           <span className="font-normal text-gray-500">({offer.code})</span>
         </h1>
 
         <div className="flex flex-wrap gap-2 text-sm">
-          <HeaderButton
+          <ReusableButton
+            variant="outline"
+            size="sm"
             icon={<Download size={13} />}
-            label="Export CSV"
             onClick={() => console.log("Export CSV")}
-          />
+          >
+            Export CSV
+          </ReusableButton>
 
-          <HeaderButton
+          <ReusableButton
+            variant="outline"
+            size="sm"
             icon={<FileText size={13} />}
-            label="Download PDF"
             onClick={() => console.log("Download PDF")}
-          />
+          >
+            Download PDF
+          </ReusableButton>
 
-          <HeaderButton
+          <ReusableButton
+            variant="outline"
+            size="sm"
             icon={<SquarePen size={13} />}
-            label="Edit Item Settings"
             onClick={() => console.log("Edit item settings")}
-          />
+          >
+            Edit Item Settings
+          </ReusableButton>
         </div>
       </div>
 
@@ -95,24 +84,24 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
         <SectionTitle>Offer Information</SectionTitle>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <InfoList rows={offer.leftInfo} />
-          <InfoList rows={offer.rightInfo} />
+          <InfoList rows={offer.leftInfo ?? []} />
+          <InfoList rows={offer.rightInfo ?? []} />
         </div>
       </section>
 
       {/* Overview */}
       <section className="mt-6">
-        <h2 className="mb-3 text-xs font-semibold text-gray-900">Overview</h2>
+        <h2 className="mb-3 font-semibold">Overview</h2>
 
         <div className="grid grid-cols-1 gap-6 rounded-lg border border-gray-200 bg-white p-5 md:grid-cols-2">
           {/* POS Shifts */}
           <div>
-            <p className="mb-3 border-b border-gray-100 text-sm text-gray-800">
+            <p className="mb-3 border-b border-gray-100 text-sm font-bold">
               POS Shifts
             </p>
 
             <div className="flex gap-6">
-              {offer.posShifts.map((column, index) => (
+              {offer.posShifts?.map((column: any, index: any) => (
                 <StatColumn key={index} stats={column} />
               ))}
             </div>
@@ -120,12 +109,12 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
 
           {/* Sales */}
           <div className="md:pl-6">
-            <p className="mb-3 border-b border-gray-100 text-sm text-gray-800">
+            <p className="mb-3 border-b border-gray-100 text-sm font-bold">
               Sales
             </p>
 
             <div className="flex gap-6">
-              {offer.sales.map((column, index) => (
+              {offer.sales?.map((column: any, index: any) => (
                 <StatColumn key={index} stats={column} />
               ))}
             </div>
@@ -135,12 +124,10 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
 
       {/* Shortcut Actions */}
       <section className="mt-6">
-        <h2 className="mb-3 text-xs font-semibold text-gray-900">
-          Shortcuts Actions
-        </h2>
+        <h2 className="mb-3  font-semibold">Shortcuts Actions</h2>
 
         <div className="relative grid grid-cols-2 gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:grid-cols-4">
-          {offer.shortcuts.map((shortcut) => (
+          {offer.shortcuts?.map((shortcut: any) => (
             <button
               key={shortcut.label}
               type="button"
@@ -163,7 +150,7 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
       <section className="mt-6 rounded-lg border border-gray-200 bg-white p-5">
         <SectionTitle>Usage Limit</SectionTitle>
 
-        <InfoList rows={offer.usageLimits} />
+        <InfoList rows={offer.usageLimits ?? []} />
       </section>
     </div>
   );

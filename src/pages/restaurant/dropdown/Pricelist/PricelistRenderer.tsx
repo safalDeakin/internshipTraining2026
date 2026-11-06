@@ -1,5 +1,5 @@
 import PricelistProvider from "./context/PricelistProvider";
-import Pricelist from "./components/Pricelist";
+import Pricelist from "./components/PricelistLayout";
 
 const PricelistRenderer = () => {
   return (

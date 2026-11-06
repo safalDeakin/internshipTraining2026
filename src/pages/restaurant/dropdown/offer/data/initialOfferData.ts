@@ -1,28 +1,7 @@
+import type { OfferType } from "../../types/DropdownTypes";
+
 // author: shrajja
-
-import type { InfoRow, Stat } from "../../types/DropdownTypes";
-
-export type OfferInfo = {
-  label: string;
-  value: string | number;
-};
-
-export type Offer = {
-  id: number;
-  name: string;
-  code: string;
-  leftInfo: InfoRow[];
-  rightInfo: InfoRow[];
-  posShifts: Stat[][];
-  sales: Stat[][];
-  shortcuts: {
-    label: string;
-    color: string;
-  }[];
-  usageLimits: InfoRow[];
-};
-
-export const initialOfferData: Offer[] = [
+export const initialOfferData: OfferType[] = [
   // 1. New Year Special
   {
     id: 1,

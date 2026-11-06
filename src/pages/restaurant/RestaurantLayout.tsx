@@ -2,13 +2,12 @@ import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import RestaurantNav from "./RestaurantNavbar";
 import ResponsiveLayout from "../../component/ResponsiveLayout";
-import SessionModeModal from "./popup/SessionModeModal";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
 import { useAuth } from "../../utils/secureclient/useAuth";
-import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
 import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
-import ShellSetting from "./dropdown/setting/ShellSetting";
+import ShellSetting from "./modal/settings/ShellSetting";
+import SessionModeModal from "./modal/pos/SessionModeModal";
 
 const RestaurantLayout = () => {
   const [isSessionOpen, setIsSessionOpen] = useState(false);

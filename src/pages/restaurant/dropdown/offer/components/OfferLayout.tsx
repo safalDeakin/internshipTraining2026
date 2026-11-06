@@ -1,13 +1,12 @@
 // author: shrajja
 
 import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
-
+import type { OfferType } from "../../types/DropdownTypes";
 import { useOffer } from "../context/useOffer";
-import type { Offer } from "../data/initialOfferData";
-
 import OffersDetails from "./OffersDetails";
 
-const Offer = () => {
+const OfferLayout = () => {
+  //data from context
   const { filteredOffers, loading, search, setSearch } = useOffer();
 
   if (loading) {
@@ -15,13 +14,16 @@ const Offer = () => {
   }
 
   return (
-    <MasterDetailView<Offer, number>
+    <MasterDetailView<OfferType, number>
       title="Offers"
       items={filteredOffers}
       searchQuery={search}
       onSearchChange={setSearch}
+      //Get the ID of each offer
       getId={(item) => item.id}
+      //Display each offer in the list
       listItemBuilder={(item) => <span>{item.name}</span>}
+      //details of that offer appear on the right side.
       detailContentBuilder={(selectedId) => {
         const selectedOffer = filteredOffers.find(
           (item) => item.id === selectedId,
@@ -33,9 +35,10 @@ const Offer = () => {
 
         return <OffersDetails offer={selectedOffer} />;
       }}
+      //header of master details view
       headerChildren={null}
     />
   );
 };
 
-export default Offer;
+export default OfferLayout;

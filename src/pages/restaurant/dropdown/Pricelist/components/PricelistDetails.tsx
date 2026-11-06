@@ -12,12 +12,13 @@ import {
 } from "lucide-react";
 
 import MsTable from "../../../../../component/table/components/MsTable";
-import PricelistEditModal from "./PricelistEditModal";
+import PricelistEditModal from "../../../modal/dropdown/PricelistEditModal";
 
-import type { Pricelist } from "../data/initialPricelistData";
+import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import type { PricelistType } from "../../types/DropdownTypes";
 
 interface PricelistDetailsProps {
-  pricelist: Pricelist;
+  pricelist: PricelistType;
 }
 
 const columns = [
@@ -69,7 +70,9 @@ const columns = [
 ];
 
 const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
+  //for edit modal
   const [isEditOpen, setIsEditOpen] = useState(false);
+
   const [itemSearch, setItemSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
@@ -110,38 +113,35 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
 
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
+          <ReusableButton
+            variant="outline"
+            size="sm"
+            icon={<ArrowDownToLine size={16} />}
           >
-            <ArrowDownToLine className="h-4 w-4" />
             Export CSV
-          </button>
+          </ReusableButton>
 
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition hover:bg-gray-50"
+          <ReusableButton
+            variant="outline"
+            size="sm"
+            icon={<Printer size={16} />}
           >
-            <Printer className="h-4 w-4" />
             Print PDF
-          </button>
+          </ReusableButton>
 
-          <button
-            type="button"
+          <ReusableButton
+            variant="primary"
+            size="sm"
+            icon={<Pencil size={16} />}
             onClick={() => setIsEditOpen(true)}
-            className="flex items-center gap-2 rounded-lg bg-blue-950 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-blue-900"
+            className=""
           >
-            <Pencil className="h-4 w-4" />
             Edit
-          </button>
+          </ReusableButton>
 
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm text-white shadow-sm transition hover:bg-red-700"
-          >
-            <Trash className="h-4 w-4" />
+          <ReusableButton variant="danger" size="sm" icon={<Trash size={16} />}>
             Delete
-          </button>
+          </ReusableButton>
         </div>
       </div>
 
@@ -172,7 +172,7 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
       <div className="mt-3 min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
         <MsTable
           columns={columns}
-          data={pricelist.items}
+          data={pricelist.items ?? []}
           selectedItems={selectedItems}
           onToggleItem={handleToggleItem}
           showSearchBar={true}
@@ -184,7 +184,10 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
 
       {/* Edit Modal */}
       {isEditOpen && (
-        <PricelistEditModal onClose={() => setIsEditOpen(false)} />
+        <PricelistEditModal
+          onClose={() => setIsEditOpen(false)}
+          items={pricelist.items ?? []}
+        />
       )}
     </>
   );

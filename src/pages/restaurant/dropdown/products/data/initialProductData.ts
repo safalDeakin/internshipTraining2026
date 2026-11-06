@@ -1,23 +1,6 @@
-export type ProductItem = {
-  id: string;
-  name: string;
-  sku: string;
-  description: string;
-  calories: string;
-  image: string;
-};
+import type { ProductType } from "../../types/DropdownTypes";
 
-export type ProductGroup = {
-  id: string;
-  name: string;
-  code: string;
-  status: "Active" | "Inactive";
-  items: ProductItem[];
-  attributes: string[][];
-  tags: string[];
-};
-
-export const initialProductData: ProductGroup[] = [
+export const initialProductData: ProductType[] = [
   {
     id: "1",
     name: "Pizza",

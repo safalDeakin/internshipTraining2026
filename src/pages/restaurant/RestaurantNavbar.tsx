@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
-import ShellSetting from "./dropdown/setting/ShellSetting";
+import ShellSetting from "./modal/settings/ShellSetting";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;

@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { Edit, Trash2, Minus, Box, Plus } from "lucide-react";
 
-import type { ProductGroup } from "../data/initialProductData";
-import type { ProductFormData } from "./modal/ProductFormModal";
-import ProductFormModal from "./modal/ProductFormModal";
+import type { ProductFormData } from "../../../modal/dropdown/ProductFormModal";
+import ProductFormModal from "../../../modal/dropdown/ProductFormModal";
+import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import type { ProductType } from "../../types/DropdownTypes";
 
 interface FnBDetailsProps {
-  product: ProductGroup | null;
+  product: ProductType | null;
   variants: string[];
 }
 
-type ProductItem = ProductGroup["items"][number];
+type ProductItem = ProductType["items"][number];
 
 type ModalType = "add" | "edit-item" | "edit-group" | null;
 
@@ -122,23 +123,25 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
 
             <div className="flex items-center gap-3">
               {/* Edit Product Group Name */}
-              <button
+              <ReusableButton
                 type="button"
+                variant="secondary"
+                size="sm"
                 onClick={handleEditGroupName}
-                aria-label={`Edit ${product.name}`}
-                className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
+                icon={<Edit className="h-3.5 w-3.5" />}
               >
-                <Edit className="h-3.5 w-3.5" />
                 Edit Name
-              </button>
+              </ReusableButton>
 
-              <button
+              {/* Delete Product Group */}
+              <ReusableButton
                 type="button"
-                className="flex items-center gap-1.5 rounded bg-red-400 px-3 py-1.5 text-sm text-white hover:bg-red-500"
+                variant="danger"
+                size="sm"
+                icon={<Trash2 className="h-3.5 w-3.5" />}
               >
-                <Trash2 className="h-3.5 w-3.5" />
                 Delete
-              </button>
+              </ReusableButton>
             </div>
           </div>
 

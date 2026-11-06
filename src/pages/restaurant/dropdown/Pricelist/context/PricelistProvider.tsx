@@ -7,16 +7,15 @@ import {
   PricelistQueryService,
 } from "../../../../../application/services";
 
-import type { Pricelist } from "../data/initialPricelistData";
-
 import { PricelistContext } from "./PricelistContext";
+import type { PricelistType } from "../../types/DropdownTypes";
 
 interface PricelistProviderProps {
   children: ReactNode;
 }
 
 const PricelistProvider = ({ children }: PricelistProviderProps) => {
-  const { data, loading } = useSubscription<Pricelist, string>(
+  const { data, loading } = useSubscription<PricelistType, string>(
     PricelistQueryService,
   );
 
@@ -31,7 +30,7 @@ const PricelistProvider = ({ children }: PricelistProviderProps) => {
   const addPricelist = async (name: string): Promise<boolean> => {
     if (!name.trim()) return false;
 
-    const newPricelist: Pricelist = {
+    const newPricelist: PricelistType = {
       id: crypto.randomUUID(),
       name: name.trim(),
     };

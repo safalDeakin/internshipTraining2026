@@ -1,24 +1,6 @@
-export type PricelistItem = {
-  id: number;
-  name: string;
-  variant: string;
-  code: string;
-  type: string;
-  price: string;
-};
+import type { PricelistType } from "../../types/DropdownTypes";
 
-export type Pricelist = {
-  id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  tax: string;
-  status: "Active" | "Inactive";
-  items: PricelistItem[];
-};
-
-export const initialPricelistData: Pricelist[] = [
+export const initialPricelistData: PricelistType[] = [
   {
     id: "1",
     name: "2024-Winter Special",

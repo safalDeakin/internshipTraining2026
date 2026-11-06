@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import type { ProductGroup } from "../data/initialProductData";
+import type { ProductType } from "../../types/DropdownTypes";
 
 export interface ProductContextType {
-  data: ProductGroup[];
-  filteredProducts: ProductGroup[];
+  data: ProductType[];
+  filteredProducts: ProductType[];
   loading: boolean;
   search: string;
   setSearch: (value: string) => void;

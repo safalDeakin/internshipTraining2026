@@ -1,15 +1,15 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { ProductContext } from "./ProductContext";
-import type { ProductGroup } from "../data/initialProductData";
 import { useSubscription } from "../../../../../application/useSubscription";
 import { ProductQueryService } from "../../../../../application/services";
+import type { ProductType } from "../../types/DropdownTypes";
 
 interface ProductProviderProps {
   children: ReactNode;
 }
 
 const ProductProvider = ({ children }: ProductProviderProps) => {
-  const { data, loading } = useSubscription<ProductGroup, string>(
+  const { data, loading } = useSubscription<ProductType, string>(
     ProductQueryService,
   );
 

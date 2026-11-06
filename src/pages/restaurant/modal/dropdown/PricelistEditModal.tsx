@@ -1,5 +1,8 @@
 import { ArrowRight, ChevronDown, Plus, Search, X } from "lucide-react";
-import MsTable from "../../../../../component/table/components/MsTable";
+import MsTable from "../../../../component/table/components/MsTable";
+import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import type { PricelistType } from "../../dropdown/types/DropdownTypes";
+
 const editColumns = [
   {
     key: "name",
@@ -75,41 +78,12 @@ const editColumns = [
     ),
   },
 ];
-const items = [
-  {
-    id: 1,
-    name: "Pizza Margherita",
-    variant: "Small",
-    code: "AF7899",
-    type: "Food",
-    price: "Rs. 200",
-  },
-  {
-    id: 2,
-    name: "Pizza  Margherita",
-    variant: "Small",
-    code: "AF7899",
-    type: "Food",
-    price: "Rs. 200",
-  },
-  {
-    id: 3,
-    name: "Pizza  Pepperoni",
-    variant: "Small",
-    code: "AF7899",
-    type: "Food",
-    price: "Rs. 200",
-  },
-  {
-    id: 4,
-    name: "Momo  Buff",
-    variant: "Fry / Half",
-    code: "AF7899",
-    type: "Food",
-    price: "Rs. 200",
-  },
-];
-const PricelistEditModal = ({ onClose }: { onClose: () => void }) => {
+
+interface PricelistEditModalProps {
+  onClose: () => void;
+  items: NonNullable<PricelistType["items"]>;
+}
+const PricelistEditModal = ({ onClose, items }: PricelistEditModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       {/* Modal */}
@@ -137,13 +111,9 @@ const PricelistEditModal = ({ onClose }: { onClose: () => void }) => {
           </div>
 
           {/* Add item */}
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-100"
-          >
-            <Plus className="h-4 w-4" />
+          <ReusableButton variant="outline" size="sm" icon={<Plus size={16} />}>
             Add Item
-          </button>
+          </ReusableButton>
         </div>
 
         {/* Table */}
@@ -155,20 +125,17 @@ const PricelistEditModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* Footer */}
         <div className="flex items-center justify-between gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
-          >
+          <ReusableButton variant="outline" size="md" onClick={onClose}>
             Cancel
-          </button>
+          </ReusableButton>
 
-          <button
-            type="button"
-            className="rounded-lg bg-orange-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-900"
+          <ReusableButton
+            variant="primary"
+            size="md"
+            className="bg-orange-500 hover:bg-orange-600"
           >
             Save
-          </button>
+          </ReusableButton>
         </div>
       </div>
     </div>

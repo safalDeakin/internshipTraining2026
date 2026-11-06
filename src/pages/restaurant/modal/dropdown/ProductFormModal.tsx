@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
-import ReusableButton from "../../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
 
 export interface ProductFormData {
   name: string;
