@@ -17,6 +17,8 @@ export const mockReservations: Reservation[] = [
         guest: {
             name: 'Nia Shrestha',
             nationality: 'Nepali',
+            title: '----',
+            address: "----",
             phone: '98989898989',
             email: 'niashrestha@gmail.com',
             idType: 'Citizenship- 137-12-12221',
@@ -31,6 +33,7 @@ export const mockReservations: Reservation[] = [
         },
         payment: {
             roomCharge: 7000,
+            paymentMethod: "card",
             nights: 2,
             taxAndFee: 2200,
             discount: 0,
@@ -44,6 +47,28 @@ export const mockReservations: Reservation[] = [
             { id: 'f2', date: '2083/01/02', description: 'Room Charge - Deluxe Room', charge: 3500, credit: 0 },
             { id: 'f3', date: '2083/01/01', description: 'Tax & Service Fee', charge: 2200, credit: 0 },
             { id: 'f4', date: '2083/01/01', description: 'Advance Payment', charge: 0, credit: 5000 },
+        ],
+        complaints: [
+            {
+                id: 'complaint-1',
+                complaintNumber: 'CM#12122-2026',
+                referenceTo: 'Room',
+                guestReference: 'Please Fix As Soon As Possible.',
+                expectedResolved: '12:45 PM',
+                reportedAt: '2083/01/01 · 10:10 AM',
+                reportedBy: 'Front Desk',
+                receivedBy: 'Ram Shrestha',
+                category: 'Maintenance',
+                type: 'Air Conditioning',
+                status: 'In Progress',
+                assignedDepartment: 'Maintenance',
+                assignedTo: 'Ram Shrestha',
+                assignmentDescription: 'Inspect and repair the room air conditioning unit.',
+                description:
+                    'The guest reported that the air conditioner is not cooling the room properly. Maintenance has been notified and requested to inspect the unit as soon as possible.',
+                statusDescription: 'Maintenance team has started inspecting the air conditioning unit.',
+                attachments: ['air-conditioner-01.jpg', 'air-conditioner-02.jpg'],
+            },
         ],
     },
     {
@@ -62,6 +87,8 @@ export const mockReservations: Reservation[] = [
         guest: {
             name: 'Prabin Asdasdadd',
             nationality: 'Nepali',
+            title: '----',
+            address: "----",
             phone: '98000000000',
             email: 'prabin@example.com',
             idType: 'Passport- AB-1234567',
@@ -77,6 +104,7 @@ export const mockReservations: Reservation[] = [
         payment: {
             roomCharge: 5000,
             nights: 2,
+            paymentMethod: "card",
             taxAndFee: 1500,
             discount: 500,
             totalAmount: 6000,
@@ -91,6 +119,7 @@ export const mockReservations: Reservation[] = [
             { id: 'f4', date: '2083/01/05', description: 'Winter Special Discount', charge: 0, credit: 500 },
             { id: 'f5', date: '2083/01/05', description: 'Advance Payment', charge: 0, credit: 2000 },
         ],
+        complaints: [],
     },
     {
         id: 'winter-special-1',
@@ -108,6 +137,8 @@ export const mockReservations: Reservation[] = [
         guest: {
             name: 'Anita Sharma',
             nationality: 'Indian',
+            title: '----',
+            address: "----",
             phone: '+91 9876543210',
             email: 'anita.sharma@email.com',
             idType: 'Passport- P-1234567',
@@ -124,6 +155,7 @@ export const mockReservations: Reservation[] = [
             roomCharge: 25000,
             nights: 5,
             taxAndFee: 7500,
+            paymentMethod: "card",
             discount: 2500,
             totalAmount: 30000,
             advancePaid: 15000,
@@ -136,6 +168,7 @@ export const mockReservations: Reservation[] = [
             { id: 'f3', date: '2083/01/10', description: 'Winter Special Discount', charge: 0, credit: 2500 },
             { id: 'f4', date: '2083/01/10', description: 'Advance Payment', charge: 0, credit: 15000 },
         ],
+        complaints: [],
     },
     {
         id: 'winter-special-2',
@@ -153,6 +186,8 @@ export const mockReservations: Reservation[] = [
         guest: {
             name: 'Rajesh Kumar',
             nationality: 'Indian',
+            title: '----',
+            address: "----",
             phone: '+91 8765432109',
             email: 'rajesh.kumar@email.com',
             idType: 'Aadhar- 1234-5678-9012',
@@ -169,6 +204,7 @@ export const mockReservations: Reservation[] = [
             roomCharge: 8000,
             nights: 2,
             taxAndFee: 2400,
+            paymentMethod: "cash",
             discount: 0,
             totalAmount: 10400,
             advancePaid: 5000,
@@ -181,5 +217,6 @@ export const mockReservations: Reservation[] = [
             { id: 'f3', date: '2083/01/12', description: 'Tax & Service Fee', charge: 2400, credit: 0 },
             { id: 'f4', date: '2083/01/12', description: 'Advance Payment', charge: 0, credit: 5000 },
         ],
+        complaints: [],
     },
 ];

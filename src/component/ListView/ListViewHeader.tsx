@@ -3,13 +3,13 @@ import './style.css';
 
 interface SidebarHeaderProps {
     title: string;
-    onAdd?: () => void;
+    onClick?: () => void;
     showAddButton?: boolean;
 }
 
 export default function SidebarHeader({
     title,
-    onAdd,
+    onClick,
     showAddButton = true,
 }: SidebarHeaderProps) {
     return (
@@ -34,7 +34,7 @@ export default function SidebarHeader({
             {showAddButton && (
                 <button
                     type="button"
-                    onClick={onAdd}
+                    onClick={onClick}
                     className="
                         flex
                         h-8

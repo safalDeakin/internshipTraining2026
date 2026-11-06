@@ -3,6 +3,10 @@ import type { TabKey } from '../types';
 type Snapshot = {
   activeTab: TabKey;
   activeSidebarItem: string;
+  complaintModal:
+  | { mode: 'add'; complaintId: null }
+  | { mode: 'update'; complaintId: string }
+  | null;
 };
 
 export class UIStateHolder {
@@ -10,6 +14,7 @@ export class UIStateHolder {
   private snapshot: Snapshot = {
     activeTab: 'customer',
     activeSidebarItem: 'all-reservations',
+    complaintModal: null,
   };
 
   getSnapshot = (): Snapshot => this.snapshot;
@@ -35,5 +40,26 @@ export class UIStateHolder {
 
   resetTab() {
     this.setActiveTab('customer');
+  }
+
+  openAddComplaint() {
+    this.snapshot = {
+      ...this.snapshot,
+      complaintModal: { mode: 'add', complaintId: null },
+    };
+    this.notify();
+  }
+
+  openUpdateComplaint(complaintId: string) {
+    this.snapshot = {
+      ...this.snapshot,
+      complaintModal: { mode: 'update', complaintId },
+    };
+    this.notify();
+  }
+
+  closeComplaintModal() {
+    this.snapshot = { ...this.snapshot, complaintModal: null };
+    this.notify();
   }
 }

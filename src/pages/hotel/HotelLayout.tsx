@@ -12,6 +12,7 @@ import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer"
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";
 import SettingRenderer from "../popupsetting/components/SettingRenderer";
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
+import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
 
 /*
@@ -200,9 +201,8 @@ export default function HotelLayout() {
         );
 
       case "night-audit":
-        // Replace with your real NightAudit component.
         return (
-          <DemoComponent title="Night Audit" />
+          <NightAuditRenderer />
         );
 
 

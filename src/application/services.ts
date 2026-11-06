@@ -19,9 +19,22 @@ import {
   type Offer,
 } from "../pages/restaurant/dropdown/offer/data/initialOfferData";
 
+
+//Night Audit
+import type { NightAuditData } from "../domain/nightAudit";
+import { nightAuditData } from "../pages/hotel/pages/nightAudit/data/nightAuditData";
+
+//KeyCard
+import type { KeyCard } from "../domain/KeyCard";
+import { initialKeyCards } from "../pages/key-card/data/Keycard.data";
+import type { POSOverview } from "../domain/pos.overview";
+import { initialPOSOverview } from "../pages/pos-overviewPage/data/pos.overview.data";
+
+
+
 import {
   initialPricelistData,
-  type Pricelist,
+  type PricelistType,
 } from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
 import {
   initialProductData,
@@ -106,6 +119,51 @@ export const LostandFoundCmdService = new CommandService<Item, string>(
   LostandFound,
 );
 
+
+//This is for Night audit
+const NightAudit = new Repository<NightAuditData, string>({
+  sourceType: 'InMemoryLocal',
+  domain: 'LostandFound',
+  tenantId: 'MySpace1234',
+  getId: (entity: NightAuditData) => String(entity.id),
+  initialData: [nightAuditData],
+  baseUrl: "asas",
+  eventsUrl: "events"
+})
+
+export const nightAuditQueryService = new QueryService<NightAuditData, string>(NightAudit);
+export const nightAuditCmdService = new CommandService<NightAuditData, string>(NightAudit);
+
+
+//This is for KeyCard
+const KeyCardRepo = new Repository<KeyCard, string>({
+  sourceType: 'InMemoryLocal',
+  domain: 'KeyCard',
+  tenantId: 'MySpace1234',
+  getId: (entity: KeyCard) => String(entity.id),
+  initialData: initialKeyCards,
+  baseUrl: "asas",
+  eventsUrl: "events"
+})
+
+export const keyCardQueryService = new QueryService<KeyCard, string>(KeyCardRepo);
+export const keyCardCmdService = new CommandService<KeyCard, string>(KeyCardRepo);
+
+
+
+//This is for POS Overview
+const POSOverviewRepo = new Repository<POSOverview, string>({
+  sourceType: 'InMemoryLocal',
+  domain: 'POSOverview',
+  tenantId: 'MySpace1234',
+  getId: (entity: POSOverview) => String(entity.id),
+  initialData: initialPOSOverview,
+  baseUrl: "asas",
+  eventsUrl: "events"
+})
+
+export const posOverviewQueryService = new QueryService<POSOverview, string>(POSOverviewRepo);
+export const posOverviewCmdService = new CommandService<POSOverview, string>(POSOverviewRepo);
 // Offer Repository -----------1st---------
 const OfferRepo = new Repository<Offer, string>({
   sourceType: "InMemoryLocal",

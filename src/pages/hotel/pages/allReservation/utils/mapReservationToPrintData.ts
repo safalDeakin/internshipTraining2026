@@ -1,22 +1,22 @@
-import type { Reservation, PrintReservationFormData } from "../types";
+import type { Reservation } from "../types";
 
 export function mapReservationToPrintData(
     reservation: Reservation
-): PrintReservationFormData {
+) {
     const [arrivalDate = "", departureDate = ""] =
         reservation.bookingDate.split(" - ");
 
     const combinedId = reservation.guest.idType;
     const separatorIndex = combinedId.indexOf("-");
 
-    const idType = reservation.guest.idNumber
+    const idType = reservation.guest.idType
         ? combinedId
         : separatorIndex !== -1
             ? combinedId.slice(0, separatorIndex).trim()
             : combinedId;
 
     const idNumber =
-        reservation.guest.idNumber ??
+        reservation.guest.idType ??
         (separatorIndex !== -1
             ? combinedId.slice(separatorIndex + 1).trim()
             : "");

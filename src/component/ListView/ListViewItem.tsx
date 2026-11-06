@@ -1,39 +1,53 @@
-import type { ReactNode } from "react";
+
 import './style.css';
 type ListViewItemProps = {
-    children: ReactNode;
-    active?: boolean;
-    onClick?: () => void;
+    title: string;
+    subtitle?: string;
+    status?: string;
+    dateRange?: string;
+    isActive?: boolean;
 };
 
 export default function ListViewItem({
-    children,
-    active = false,
-    onClick,
+    title,
+    subtitle,
+    status,
+    dateRange,
+    isActive,
 }: ListViewItemProps) {
 
     return (
-        <button
-            type="button"
-            onClick={onClick}
-            className={`
-                flex
-                min-h-12
-                w-full
-                flex-col
-                justify-center
-                px-3
-                py-2
-                text-left
-                transition-colors
-                cursor-pointer
-                ${active
-                    ? "rounded-[5px] border border-[#2779e6] bg-[#f5f9ff]"
-                    : "border-0 border-b border-[#e5e9ed] bg-white hover:bg-[#f7faff]"
-                }
-            `}
-        >
-            {children}
-        </button>
+        <>
+            <div className="flex w-full flex-col justify-center gap-1 py-2">
+
+                {/* Title */}
+                <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-[#29445f]">
+                        {title}
+                    </span>
+
+                    {status && (
+                        <span className="text-xs text-gray-500">
+                            {status}
+                        </span>
+                    )}
+                </div>
+
+                {/* Subtitle */}
+                {subtitle && (
+                    <span className="text-xs text-gray-500">
+                        {subtitle}
+                    </span>
+                )}
+
+                {/* Date */}
+                {dateRange && (
+                    <span className="text-xs text-gray-400">
+                        {dateRange}
+                    </span>
+                )}
+
+            </div>
+        </>
     );
 }

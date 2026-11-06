@@ -1,17 +1,33 @@
-import { Bed, Download, Printer, ChevronDown, X } from "lucide-react";
+import { Bed, Download, Printer, ChevronDown, X, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useReservationState } from "../../../../hooks/allReservation/useReservationState";
 import type { Reservation } from "../../types";
 import { mapReservationToPrintData } from "../../utils/mapReservationToPrintData";
 import PrintReservationForm from "../PrintReservationForm";
 import FinalReceipts from "../../../../../recepits/FinalReceipts";
+import { useUIState } from "../../../../hooks/allReservation/useUIState";
+
+import RequestRoomService from "../forms/RequestRoomService";
+import ChangeRoomModal from "../forms/ChangeRoomModal";
+import CancelReservationModal from "../forms/CancelReservationModal";
+import RegisterService from "../forms/RegisterService";
+import AddChargeModal from "../forms/AddChargeModal";
 
 export default function ReservationHeader() {
 
     const [reservationToPrint, setReservationToPrint] =
         useState<Reservation | null>(null);
     const [showReceipt, setShowReceipt] = useState(false);
+
+    const [showRoomService, setShowRoomService] = useState(false);
+    const [showChangeRoom, setShowChangeRoom] = useState(false);
+    const [showCancelReservation, setShowCancelReservation] = useState(false);
+    const [showRegisterService, setShowRegisterService] = useState(false);
+    const [showAddCharge, setShowAddCharge] = useState(false);
+
     const { selectedReservation: r } = useReservationState();
+
+    const { openAddComplaint } = useUIState();
 
     const isCancelled = r.reservationStatus === 'Cancelled';
 
@@ -27,7 +43,7 @@ export default function ReservationHeader() {
             <div className="flex items-center gap-2">
                 <button
                     onClick={() => {
-                        console.log("Request Room Service clicked");
+                        setShowRoomService(true);
                     }}
                     className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded transition-colors"
                 >
@@ -69,17 +85,13 @@ export default function ReservationHeader() {
                 )}
 
                 <button
-                    onClick={() => {
-                        console.log("Change Room clicked");
-                    }}
+                    onClick={() => setShowChangeRoom(true)}
                     className="flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded transition-colors"
                 >
                     Change Room <ChevronDown size={12} />
                 </button>
                 <button
-                    onClick={() => {
-                        console.log("Cancel Reservation clicked");
-                    }}
+                    onClick={() => setShowCancelReservation(true)}
                     disabled={isCancelled}
                     className={`px-3 py-2 text-xs font-medium rounded transition-colors ${isCancelled
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -87,6 +99,25 @@ export default function ReservationHeader() {
                         }`}
                 >
                     Cancel Reservation
+                </button>
+                <button
+                    onClick={() => setShowRegisterService(true)}
+                    className={`px-3 py-2 text-xs font-medium rounded transition-colors ${isCancelled
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        }`}
+                >
+                    Register Service
+                </button>
+
+                <button
+                    onClick={() => setShowAddCharge(true)}
+                    className={`px-3 py-2 text-xs font-medium rounded transition-colors ${isCancelled
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        }`}
+                >
+                    Add Charge
                 </button>
                 <div className="h-5 w-px bg-gray-200" />
                 <button
@@ -107,6 +138,14 @@ export default function ReservationHeader() {
                     <Printer size={13} />
                     Print Reservation Form
                 </button>
+
+                <button
+                    onClick={openAddComplaint}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded transition-colors"
+                >
+                    <Pencil size={13} /> Add Complaint
+                </button>
+
                 <button
                     onClick={() => {
                         console.log("Export PDF clicked");
@@ -123,6 +162,37 @@ export default function ReservationHeader() {
                         onClose={() => setReservationToPrint(null)}
                     />
                 </div>
+            )}
+
+
+            {showRoomService && (
+                <RequestRoomService
+                    onClose={() => setShowRoomService(false)}
+                />
+            )}
+            {showChangeRoom && (
+                <ChangeRoomModal
+                    reservation={r}
+                    onClose={() => setShowChangeRoom(false)}
+                />
+            )}
+            {showCancelReservation && (
+                <CancelReservationModal
+                    reservationNumber={r.reservationNumber}
+                    onClose={() => setShowCancelReservation(false)}
+                />
+            )}
+
+            {showRegisterService && (
+                <RegisterService
+                    onClose={() => setShowRegisterService(false)}
+                />
+            )}
+
+            {showAddCharge && (
+                <AddChargeModal
+                    onClose={() => setShowAddCharge(false)}
+                />
             )}
         </div>
 
