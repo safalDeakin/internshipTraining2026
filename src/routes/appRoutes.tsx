@@ -10,21 +10,21 @@ import Reservation from "../pages/hotel/pages/Reservation";
 import Rooms from "../pages/hotel/pages/Rooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/dropdown/Products";
-import Offers from "../XXcomponents/Offers";
-import Pricelist from "../pages/restaurant/dropdown/Pricelist";
-import Sales from "../pages/restaurant/pages/Sales";
+import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
-import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
+// import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
-import { POSUserSessionProvider } from "../context/PosUserSessionContext";
-import ViewHistory from "../pages/restaurant/pages/posuserSession/components/ViewHistory";
-import PaymentHistory from "../pages/restaurant/pages/posuserSession/components/payment/PaymentHistory";
-import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
+import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
+import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomDetailRenderer";
+import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/ReservationMasterRenderer";
+import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
+import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
+import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
+import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 
 //information needed for a navigation
 export type AppNav = {
@@ -88,29 +88,24 @@ export const appRoutes: AppRoute[] = [
         element: <Sales />,
       },
       {
+        path: "cash",
+        element: <CashSummary />,
+      },
+      {
         path: "price",
-        element: <Pricelist />,
+        element: <PricelistRenderer />,
+      },
+      {
+        path: "products",
+        element: <ProductRenderer />,
       },
       {
         path: "offer",
-        element: <Offers />,
+        element: <OfferRenderer />,
       },
       {
         path: "session",
         element: <POSUserSession />,
-      },
-
-      {
-        path: "products",
-        element: <Products />,
-      },
-      {
-        path: "track",
-        element: <ViewHistory />,
-      },
-      {
-        path: "history",
-        element: <PaymentHistory />,
       },
     ],
   },
@@ -129,7 +124,7 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "all-rooms",
-        element: <RoomDetailRenderer />,
+        element: <RoomPageRenderer />,
       },
       {
         path: "room",
@@ -145,7 +140,7 @@ export const appRoutes: AppRoute[] = [
           },
           {
             path: "all-reservation",
-            element: <FinalAllReservationPage />,
+            element: <ReservationPageRenderer />,
           },
           {
             path: "reservation-calendar",

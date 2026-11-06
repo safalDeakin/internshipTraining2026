@@ -1,0 +1,40 @@
+/* Author: Safal Shrestha -> MySpace Innovation */
+@import "./primitive-styles.css";
+
+:root {
+    /* Text body large */
+    --text-body-large-regular: var(--font-weight-regular) var(--font-size-l)/var(--line-height-l) var(--font-family-inter);
+    --text-body-large-medium: var(--font-weight-medium) var(--font-size-l)/var(--line-height-l) var(--font-family-inter);
+    --text-body-large-semibold: var(--font-weight-semibold) var(--font-size-l)/var(--line-height-l) var(--font-family-inter);
+    --text-body-large-bold: var(--font-weight-bold) var(--font-size-l)/var(--line-height-l) var(--font-family-inter);
+
+    /* Text body medium */
+    --text-body-medium-regular: var(--font-weight-regular) var(--font-size-m)/var(--line-height-m) var(--font-family-inter);
+    --text-body-medium-medium: var(--font-weight-medium) var(--font-size-m)/var(--line-height-m) var(--font-family-inter);
+    --text-body-medium-semibold: var(--font-weight-semibold) var(--font-size-m)/var(--line-height-m) var(--font-family-inter);
+    --text-body-medium-bold: var(--font-weight-bold) var(--font-size-m)/var(--line-height-m) var(--font-family-inter);
+
+    /* Text body small */
+    --text-body-small-regular: var(--font-weight-regular) var(--font-size-s)/var(--line-height-s) var(--font-family-inter);
+    --text-body-small-medium: var(--font-weight-medium) var(--font-size-s)/var(--line-height-s) var(--font-family-inter);
+    --text-body-small-semibold: var(--font-weight-semibold) var(--font-size-s)/var(--line-height-s) var(--font-family-inter);
+
+    /* Text body xs */
+    --text-body-xs-regular: var(--font-weight-regular) var(--font-size-xs)/var(--line-height-xs) var(--font-family-inter);
+    --text-body-xs-medium: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs) var(--font-family-inter);
+    --text-body-xs-semibold: var(--font-weight-semibold) var(--font-size-xs)/var(--line-height-xs) var(--font-family-inter);
+    
+    /* Text heading xs */
+    --text-heading-h7: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-xl) var(--font-family-inter);
+    --text-heading-h6: var(--font-weight-semibold) var(--font-size-2xl)/var(--line-height-2xl) var(--font-family-inter);
+    --text-heading-h5: var(--font-weight-semibold) var(--font-size-3xl)/var(--line-height-3xl) var(--font-family-inter);
+    --text-heading-h4: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-4xl) var(--font-family-inter);
+    --text-heading-h3: var(--font-weight-bold) var(--font-size-5xl)/var(--line-height-5xl) var(--font-family-inter);
+    --text-heading-h2: var(--font-weight-bold) var(--font-size-6xl)/var(--line-height-6xl) var(--font-family-inter);
+    --text-heading-h1: var(--font-weight-bold) var(--font-size-7xl)/var(--line-height-7xl) var(--font-family-inter);
+    
+}
+
+
+
+

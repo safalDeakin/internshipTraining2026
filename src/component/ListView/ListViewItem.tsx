@@ -1,3 +1,5 @@
+
+import './style.css';
 type ListViewItemProps = {
     title: string;
     subtitle?: string;

@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
+import './style.css';
 interface SidebarListProps<T> {
     items: T[];
     selectedId?: string;
@@ -19,7 +20,7 @@ export default function SidebarList<T>({
     renderItem,
 }: SidebarListProps<T>) {
 
-    const [search,setSearch] = useState("")
+    const [search, setSearch] = useState("")
     return (
         <div className="min-h-svh shrink-0 rounded border border-[#e1e7ed] bg-white p-2">
             <div className="p-2">

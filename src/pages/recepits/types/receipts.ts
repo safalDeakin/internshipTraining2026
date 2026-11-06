@@ -1,35 +1,38 @@
+import type { Cards } from "../../restaurant/pages/posuserSession/features/payment/PaymentLayout";
+
 export type InfoItem = {
-    label: string
-    value: string
-}
+  label: string;
+  value: string;
+};
 
 export type TableColumn = {
-    key: string
-    label: string
-    align?: 'left' | 'center' | 'right'
-}
+  key: string;
+  label: string;
+  align?: "left" | "center" | "right";
+};
 
-export type TableRow = Record<string, string>
+export type TableRow = Record<string, string>;
 
 export type InvoiceData = {
-    invoiceNumber: string
-    date: string
-    guest: InfoItem[]
-    reservation: InfoItem[]
-    rows: TableRow[]
-}
+  invoiceNumber: string;
+  date: string;
+  guest: InfoItem[];
+  reservation: InfoItem[];
+  rows: TableRow[];
+};
 
 export type PaymentData = {
-    receiptNumber: string
-    date: string
-    guest: InfoItem[]
-    invoice: InfoItem[]
-    rows: TableRow[]
-}
+  customer?: Cards;
+  receiptNumber: string;
+  date: string;
+  guest: InfoItem[];
+  invoice: InfoItem[];
+  rows: TableRow[];
+};
 
 export type RefundData = {
-    receiptNumber: string
-    date: string
-    guest: InfoItem[]
-    rows: TableRow[]
-}
+  receiptNumber: string;
+  date: string;
+  guest: InfoItem[];
+  rows: TableRow[];
+};

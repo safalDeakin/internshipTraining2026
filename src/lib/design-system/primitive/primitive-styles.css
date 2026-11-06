@@ -1,0 +1,189 @@
+/* Author: Safal Shrestha -> MySpace Innovation */
+
+
+/* primitives spacing scales */
+/* all in 4px scales*/
+:root {
+    /* ========================================
+    Spacing scale
+    ======================================== */
+
+    /* Spacing  */
+    --space-none: 0px;
+    --space-2xs: 2px;
+    --space-xs: 4px;
+    --space-s: 8px;
+    --space-m: 12px;
+    --space-l: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 40px;
+    --space-4xl: 48px;
+    --space-5xl: 56px;
+    --space-6xl: 64px;
+    --space-7xl: 72px;
+    --space-8xl: 80px;
+
+    /* ========================================
+     Negative Spacing
+    ======================================== */
+
+    --space-neg-s: -8px;
+    --space-neg-m: -12px;
+    --space-neg-l: -16px;
+}
+
+:root {
+    /* ========================================
+     Border Radius
+     ======================================== */
+
+    --radius-none: 0px;
+    --radius-xs: 4px;
+    --radius-s: 8px;
+    --radius-m: 12px;
+    --radius-l: 16px;
+
+    /* ========================================
+     Special Shapes
+    ======================================== */
+
+    --radius-circle: 50%;
+    --radius-pill: 999px;
+
+    /* ========================================
+     Border Width
+    ======================================== */
+    --width-xs: 1;
+    --width-s: 1.5;
+    --width-m: 2;
+    --width-l: 4;
+    --width-xl: 8;
+
+}
+
+:root {
+    /* ========================================
+     Background Opacity
+    ======================================== */
+    /* Border radius  */
+
+    --opacity-1: 8;
+    --opacity-2: 4;
+    --opacity-3: 2;
+    --opacity-4: 1.5;
+    --opacity-5: 1;
+    --opacity-6: 1;
+    --opacity-7: 1;
+    --opacity-8: 1 --font-size-sm: 14px;
+}
+
+/* Font primitive styles — 4px Grid */
+:root {
+
+    /* ========================================
+     Font Family
+    ======================================== */
+    --font-family-inter: "Inter", sans-serif;
+    --font-family-merriweather: "Merriweather", serif;
+    --font-family-rubik: "Rubik", sans-serif;
+    --font-family-manrope: "Manrope", sans-serif;
+
+
+    /* ========================================
+    Text Size - from px to rem
+    ======================================== */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-s: 0.875rem; /* 14px */
+    --font-size-m: 1rem;     /* 16px */
+    --font-size-l: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem; /* 20px */
+    --font-size-2xl: 1.5rem; /* 24px */    
+    --font-size-3xl: 1.75rem; /* 28px */    
+    --font-size-4xl: 2rem;   /* 32px */    
+    --font-size-5xl: 2.5rem; /* 40px */    
+    --font-size-6xl: 3rem;   /* 48px */
+    --font-size-7xl: 3.75rem; /* 60px */
+
+   /* ========================================
+     Text Line Height
+     ======================================== */
+    --line-height-xs: 16px;
+    --line-height-s: 20px;
+    --line-height-m: 24px;
+    --line-height-l: 24px;
+    --line-height-xl: 28px;
+    --line-height-2xl: 32px;
+    --line-height-3xl: 36px;
+    --line-height-4xl: 40px;
+    --line-height-5xl: 48px;
+    --line-height-6xl: 57.6px; 
+    --line-height-7xl: 72px; 
+
+    /* ========================================
+     Font Weights
+    ======================================== */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+}
+
+/* Layout, container and Breakpoint - 3 platform*/
+:root {
+    /* ========================================
+     Layout Breakpoints
+     ======================================== */
+    --breakpoint-s: 640px;
+    --breakpoint-m: 768px;
+    --breakpoint-l: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+
+    /* ========================================
+     Container sizes
+    ======================================== */
+    --container-xs: 20rem;      /* 320px */
+    --container-s: 24rem;      /* 384px */
+    --container-m: 28rem;      /* 448px */
+    --container-l: 32rem;      /* 512px */
+    --container-xl: 36rem;      /* 576px */
+    --container-2xl: 42rem;     /* 672px */
+    --container-3xl: 48rem;     /* 768px */
+    --container-4xl: 56rem;     /* 896px */
+    --container-5xl: 64rem;     /* 1024px */
+    --container-6xl: 72rem;     /* 1152px */
+    --container-7xl: 80rem;     /* 1280px */
+    --container-full: 100%;
+
+    /* ========================================
+     Z-Index
+    ======================================== */
+    --z-index-base: 0;
+    --z-index-dropdown: 1000;
+    --z-index-sticky: 1100;
+    --z-index-overlay: 1200;
+    --z-index-modal: 1300;
+    --z-index-popover: 1400;
+    --z-index-tooltip: 1500;
+}
+
+/* Animation Motion and Duration */
+:root {
+
+    /* ========================================
+     Animation duration
+    ======================================== */
+    --duration-fast: 150ms;
+    --duration-normal: 200ms;
+    --duration-slow: 300ms;
+
+    /* ========================================
+     Animation motions
+    ======================================== */
+    --easing-linear: linear;
+    --easing-standard: ease-in-out;
+    --easing-enter: ease-out;
+    --easing-exit: ease-in;
+}
+

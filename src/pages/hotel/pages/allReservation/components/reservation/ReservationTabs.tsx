@@ -41,9 +41,15 @@ export default function ReservationTabs() {
                         <button
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
+<<<<<<< HEAD
                             className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors -mb-px ${activeTab === tab.key
                                     ? 'border-blue-500 text-blue-700 bg-blue-50 rounded-t'
                                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+=======
+                            className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors -mb-px ${selectedTab === tab.key
+                                ? 'border-blue-500 text-blue-700 bg-blue-50 rounded-t'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+>>>>>>> dev
                                 }`}
                         >
                             {tab.label}

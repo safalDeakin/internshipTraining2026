@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import {
     productDetails,
     productOptions,
-} from "../../pages/roomDetail/data/roomDetailData";
+} from "../../pages/roomMasterPage/data/roomDetailData";
 
 export function useRoomDetail() {
     const [searchQuery, setSearchQuery] = useState("");

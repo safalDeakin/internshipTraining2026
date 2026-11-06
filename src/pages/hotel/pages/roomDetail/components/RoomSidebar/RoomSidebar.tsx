@@ -1,11 +1,11 @@
 
 import RoomSidebarHeader from "./RoomSidebarHeader";
-import RoomList from "./RoomList";
 
-import type { Product } from "../../types/roomDetail.types";
 import { useState } from "react";
 import type { RoomTypeFormData } from "../forms/AddRoomForm";
 import AddRoomForm from "../forms/AddRoomForm";
+import type { Product } from "../../../../../../core/domain/product";
+import RoomList from "../../../roomMasterPage/components/RoomList";
 
 type RoomSidebarProps = {
     rooms: Product[];
