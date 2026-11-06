@@ -7,7 +7,8 @@
 // import { RepoKeyCardProvider } from "../key-card/context/KeyCardProvider";
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
-import PosOvervewRenderer from "../pos-overviewPage/PosOvervewRenderer";
+import { RoomServiceTask } from "../ready-to-implement/RoomServiceTask";
+import { RoomServiceTaskCompletionSheet } from "../ready-to-implement/RoomServiceTaskCompletionSheet";
 
 
 
@@ -33,8 +34,12 @@ const TestComponent = () => {
         <KeyCardPage />
       </RepoKeyCardProvider> */}
 
-      <PosOvervewRenderer />
+      {/* <PosOvervewRenderer /> */}
+      {/* <GuestCheckoutRenderer /> */}
 
+      {/* <PickupRequestForm /> */}
+      <RoomServiceTask />
+      <RoomServiceTaskCompletionSheet />
 
     </>
 

@@ -3,6 +3,9 @@ import RoomSidebarHeader from "./RoomSidebarHeader";
 import RoomList from "./RoomList";
 
 import type { Product } from "../../types/roomDetail.types";
+import { useState } from "react";
+import type { RoomTypeFormData } from "../forms/AddRoomForm";
+import AddRoomForm from "../forms/AddRoomForm";
 
 type RoomSidebarProps = {
     rooms: Product[];
@@ -19,12 +22,22 @@ export default function RoomSidebar({
     selectedRoomId,
     onSearchChange,
     onSelectRoom,
-    onAddRoom,
 }: RoomSidebarProps) {
+
+    const [showAddPopup, setShowAddPopup] = useState(false);
+
+    const handleSave = (data: RoomTypeFormData) => {
+        console.log("New Room Type:", data);
+
+        // Later connect this to your Room Type Command Service.
+
+        setShowAddPopup(false);
+    };
+
     return (
         <aside className="m-2 w-80 min-h-screen bg-white px-3.75 pb-3.75 pt-5">
             <RoomSidebarHeader
-                onAdd={onAddRoom}
+                onClick={() => setShowAddPopup(true)}
             />
 
             <div className="h-6" />
@@ -36,6 +49,13 @@ export default function RoomSidebar({
                 onSearchChange={onSearchChange}
                 onSelectRoom={onSelectRoom}
             />
+
+            {showAddPopup && (
+                <AddRoomForm
+                    onClose={() => setShowAddPopup(false)}
+                    onSave={handleSave}
+                />
+            )}
         </aside>
     );
 }

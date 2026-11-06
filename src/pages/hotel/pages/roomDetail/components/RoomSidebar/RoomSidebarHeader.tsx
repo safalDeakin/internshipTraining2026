@@ -2,11 +2,11 @@
 import { ArrowRight, Plus } from "lucide-react";
 
 type RoomSidebarHeaderProps = {
-    onAdd?: () => void;
+    onClick?: () => void;
 };
 
 export default function RoomSidebarHeader({
-    onAdd,
+    onClick,
 }: RoomSidebarHeaderProps) {
     return (
         <div className="flex h-6 items-center justify-between">
@@ -26,7 +26,7 @@ export default function RoomSidebarHeader({
             {/* Right Side */}
             <button
                 type="button"
-                onClick={onAdd}
+                onClick={onClick}
                 className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-[#f3f7fb]"
                 aria-label="Add room type"
             >
