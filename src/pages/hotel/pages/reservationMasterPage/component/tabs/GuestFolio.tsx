@@ -1,35 +1,26 @@
 import { Plus } from 'lucide-react';
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
-import { useAllReservationContext } from '../../../context/AllReservationContext';
 import type { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from 'react';
+import { useReservationDetail } from '../../provider/detailProvider/useReservationDetail';
 
 export default function GuestFolio() {
-    const { selectedReservation: r } = useReservationState();
-    const { repo } = useAllReservationContext();
+    const r = useReservationDetail();
 
     const totalCharges = r.folioItems.reduce((sum: any, i: { charge: any; }) => sum + i.charge, 0);
     const totalCredits = r.folioItems.reduce((sum: any, i: { credit: any; }) => sum + i.credit, 0);
     const balance = totalCharges - totalCredits;
-
-    const handleAddCharge = () => {
-        const desc = prompt('Charge description:');
-        const amt = prompt('Amount:');
-        if (desc && amt && !isNaN(Number(amt))) {
-            repo.addFolioItem(r.id, {
-                date: new Date().toLocaleDateString(),
-                description: desc,
-                charge: Number(amt),
-                credit: 0,
-            });
-        }
-    };
 
     return (
         <div className="py-4 px-2">
             <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-gray-800">Guest Folio</h3>
                 <button
-                    onClick={handleAddCharge}
+                    onClick={() => {
+                        const desc = prompt('Charge description:');
+                        const amount = prompt('Amount:');
+                        if (desc && amount && !isNaN(Number(amount))) {
+                            r.addCharge(desc, Number(amount))
+                        }
+                    }}
                     className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 border border-blue-300 px-2 py-1 rounded transition-colors"
                 >
                     <Plus size={12} /> Add Charge

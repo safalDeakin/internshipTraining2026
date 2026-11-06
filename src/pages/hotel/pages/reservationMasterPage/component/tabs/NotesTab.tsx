@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
-import { useAllReservationContext } from '../../../context/AllReservationContext';
+import { useReservationDetail } from '../../provider/detailProvider/useReservationDetail';
 
 export default function NotesTab() {
-    const { selectedReservation: r } = useReservationState();
-    const { repo } = useAllReservationContext();
+    const r = useReservationDetail();
     const [value, setValue] = useState(r.notes);
     const [saved, setSaved] = useState(false);
 
@@ -15,18 +13,17 @@ export default function NotesTab() {
         setSaved(false);
     }, [r.id, r.notes]);
 
-    const handleSave = () => {
-        repo.updateNotes(r.id, value);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
-    };
 
     return (
         <div className="py-4 px-2">
             <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-gray-800">Notes</h3>
                 <button
-                    onClick={handleSave}
+                    onClick={() => {
+                        r.addNotes(r.id, value)
+                        setSaved(true);
+                        setTimeout(() => setSaved(false), 2000);
+                    }}
                     className="flex items-center gap-1.5 text-xs text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded transition-colors"
                 >
                     <Save size={12} />

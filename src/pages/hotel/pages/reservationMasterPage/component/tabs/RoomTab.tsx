@@ -1,4 +1,4 @@
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
+import { useReservationDetail } from '../../provider/detailProvider/useReservationDetail';
 
 function InfoRow({ label, value }: { label: string; value: string }) {
     return (
@@ -10,7 +10,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 export default function RoomTab() {
-    const { selectedReservation: r } = useReservationState();
+    const r = useReservationDetail();
 
     return (
         <div className="py-4 px-2">

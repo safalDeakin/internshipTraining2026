@@ -1,10 +1,8 @@
 // import { CreditCard } from 'lucide-react';
-import { useReservationState } from '../../../../../hooks/allReservation/useReservationState';
+import { useReservationDetail } from '../../provider/detailProvider/useReservationDetail';
 
 export default function PaymentsTab() {
-    const { selectedReservation: r } = useReservationState();
-    // const p = r.payment;
-
+    const r = useReservationDetail();
     return (
         <>
             {/* <div className="py-4 px-2">

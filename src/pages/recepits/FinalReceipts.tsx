@@ -1,6 +1,6 @@
-import { Invoice } from './components/Invoice'
-import { PaymentReceipt } from './components/PaymentReceipt'
-import { RefundReceipt } from './components/RefundReceipt'
+import { Invoice } from './Invoice'
+import { PaymentReceipt } from './PaymentReceipt'
+import { RefundReceipt } from './RefundReceipt'
 import { useReceiptData } from './hooks/useReceiptData'
 import "./styles/styles.css"
 
@@ -15,3 +15,5 @@ export default function FinalReceipts() {
         </main>
     )
 }
+
+

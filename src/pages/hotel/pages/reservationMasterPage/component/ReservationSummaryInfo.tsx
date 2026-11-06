@@ -1,3 +1,4 @@
+import { useReservationDetail } from "../provider/detailProvider/useReservationDetail";
 
 
 function Field({ label, value }: { label: string; value: string }) {
@@ -9,42 +10,23 @@ function Field({ label, value }: { label: string; value: string }) {
     );
 }
 
-type ReservationSummaryProps = {
-    reservationCode: string,
-    bookingDate: string,
-    reservationStatus: string,
-    source: string,
-    ratePlan: string,
-    adults: number,
-    kids: number,
-    expectedArrival: string
-};
 
-
-export function ReservationSummaryInfo({
-    reservationCode,
-    bookingDate,
-    reservationStatus,
-    source,
-    ratePlan,
-    adults,
-    kids,
-    expectedArrival }: ReservationSummaryProps) {
-
+export function ReservationSummaryInfo() {
+    const { info } = useReservationDetail();
     return (
         <div className="px-4 py-3 border-b border-gray-200 bg-white shrink-0">
             <div className="grid grid-cols-1 gap-x-8">
                 <div>
-                    <Field label="Reservation Number" value={reservationCode} />
-                    <Field label="Booking Date" value={bookingDate} />
-                    <Field label="Reservation Status" value={reservationStatus} />
-                    <Field label="Source" value={source} />
+                    <Field label="Reservation Number" value={info.reservationCode} />
+                    <Field label="Booking Date" value={info.bookingDate} />
+                    <Field label="Reservation Status" value={info.status} />
+                    <Field label="Source" value={info.source} />
                 </div>
                 <div>
-                    <Field label="Rate Plan" value={ratePlan} />
-                    <Field label="Adult" value={String(adults)} />
-                    <Field label="Children" value={String(kids)} />
-                    <Field label="Expected Arrival Time" value={expectedArrival} />
+                    <Field label="Rate Plan" value={info.ratePlan} />
+                    <Field label="Adult" value={String(info.adults)} />
+                    <Field label="Children" value={String(info.kids)} />
+                    <Field label="Expected Arrival Time" value={info.expectedArrival} />
                 </div>
             </div>
         </div>

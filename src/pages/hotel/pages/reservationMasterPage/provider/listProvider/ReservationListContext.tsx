@@ -1,6 +1,6 @@
 
 import { createContext } from "react";
-import type { ReservationDetailModel, ReservationListModel } from "../model/reservationmodel";
+import type { ReservationListModel } from "../../model/ReservationModel";
 
 export type ReservationListContextType = {
     items: ReservationListModel[],
@@ -8,8 +8,10 @@ export type ReservationListContextType = {
     searchQuery: string,
     setSearchQuery: (val: string) => void,
     getId: (id: ReservationListModel) => string
-    getReservationDetails: (id: string) => ReservationDetailModel
 };
 
 export const ReservationListContext =
     createContext<ReservationListContextType | null>(null);
+
+
+

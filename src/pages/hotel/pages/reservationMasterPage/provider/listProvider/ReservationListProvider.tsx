@@ -1,10 +1,9 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { ReservationListContext } from "./ReservationContext";
-import type { ReservationListModel } from "../model/ReservationModel";
+import { ReservationListContext } from "./ReservationListContext";
+import type { ReservationListModel } from "../../model/ReservationModel";
 import {
-    reservationDetails,
     reservationLists
-} from "./data/ReservationData";
+} from "../data/ReservationData";
 
 type ReservationListProviderProps = {
     children: ReactNode;
@@ -32,11 +31,6 @@ export default function ReservationListProvider({ children }: ReservationListPro
         );
     }, [searchQuery]);
 
-    const getReservationDetail = (code: string) => {
-        return reservationDetails.filter((item) =>
-            item.reservationCode.toLowerCase().includes(code.toLowerCase())
-        );
-    }
 
     return (
         <ReservationListContext.Provider value={{
@@ -49,9 +43,6 @@ export default function ReservationListProvider({ children }: ReservationListPro
             getId: (item: ReservationListModel) => {
                 return item.reservationCode;
             },
-            getReservationDetails: (code: string) => {
-                return getReservationDetail(code)[0];
-            }
         }}>
             {children}
         </ReservationListContext.Provider>

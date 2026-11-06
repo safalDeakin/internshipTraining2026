@@ -10,8 +10,20 @@ export type ReservationListModel = {
 
 
 export type ReservationDetailModel = {
-    reservationCode: string,
     id: string,
+    info: ReservationInfo,
+    guest: GuestInfo;
+    room: RoomInfo;
+    payment: PaymentSummary;
+    notes: string;
+    checkInTime: string;
+    folioItems: FolioItem[];
+};
+
+
+export type ReservationInfo = {
+    id: string,
+    reservationCode: string,
     bookingDate: string,
     status: string,
     //  'confirmed'|'active' | 'pending' | 'checked-out'
@@ -21,13 +33,7 @@ export type ReservationDetailModel = {
     kids: number,
     expectedArrival: string,
     roomNumber: string,
-    guest: GuestInfo;
-    room: RoomInfo;
-    payment: PaymentSummary;
-    notes: string;
-    checkInTime: string;
-    folioItems: FolioItem[];
-};
+}
 
 export interface FolioItem {
     id: string;
@@ -71,7 +77,7 @@ export interface PaymentSummary {
 
 export interface PrintReservationFormData {
     date: string;
-    reservationNo: string;
+    reservationNumber: string;
 
     title: string;
     fullName: string;

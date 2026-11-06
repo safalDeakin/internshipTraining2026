@@ -1,0 +1,185 @@
+
+/* PDF Overlay */
+.pdf-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* PDF Popup */
+.pdf-modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 1100px;
+    height: 90vh;
+
+    overflow: hidden;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* PDF Viewer */
+.pdf-viewer {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    background: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .pdf-overlay {
+        padding: 8px;
+    }
+
+    .pdf-modal {
+        height: 95vh;
+        border-radius: 6px;
+    }
+}
+
+
+.pdf-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-close-button:hover {
+    background: #e5e7eb;
+}
+
+
+.pdf-loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(5px);
+}
+
+.pdf-loading-card {
+    padding: 28px 40px;
+    border-radius: 12px;
+    background: white;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-loading-card p {
+    margin: 12px 0 4px;
+    font-weight: 600;
+}
+
+.pdf-loading-card span {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.pdf-spinner {
+    width: 36px;
+    height: 36px;
+    margin: auto;
+
+    border: 4px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+
+    animation: pdf-spin 0.8s linear infinite;
+}
+
+@keyframes pdf-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pdf-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+    color: #333;
+    font-size: 22px;
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-close-button:hover {
+    background: #e5e7eb;
+}
+
+.pdf-print-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 794px;
+    min-height: 100px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: -1;
+    background: #ffffff;
+}
+
+.print-content {
+    display: none; /* Hides the template from the normal UI view */
+}
