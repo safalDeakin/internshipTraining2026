@@ -1,6 +1,5 @@
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
-<<<<<<< HEAD
 // import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
 // import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
 // import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
@@ -12,11 +11,9 @@ import { RoomServiceTaskCompletionSheet } from "../ready-to-implement/RoomServic
 
 
 
-=======
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import PettyCash from "./pettycash/PettyCash";
 import RefundSidebar from "./refund/Refund";
->>>>>>> dev
 
 const TestComponent = () => {
   return (
@@ -29,7 +26,6 @@ const TestComponent = () => {
 
       {/* <LostAndFoundRenderer /> */}
       {/* <FinalReceipts /> */}
-<<<<<<< HEAD
 
       {/* <NightAuditOverview /> */}
       {/* <NightAuditRenderer /> */}
@@ -47,10 +43,8 @@ const TestComponent = () => {
       <RoomServiceTask />
       <RoomServiceTaskCompletionSheet />
 
-=======
       <RefundSidebar />
       <PettyCash />
->>>>>>> dev
     </>
   );
 };

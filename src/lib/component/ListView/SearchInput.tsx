@@ -2,6 +2,7 @@
 import { Search } from "lucide-react";
 import './style.css';
 
+
 interface SearchInputProps {
     value: string;
     handleChange: (value: string) => void;

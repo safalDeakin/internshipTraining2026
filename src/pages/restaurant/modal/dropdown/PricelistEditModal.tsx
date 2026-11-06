@@ -1,5 +1,5 @@
-import { ArrowRight, ChevronDown, Plus, Search, X } from "lucide-react";
-import MsTable from "../../../../component/table/components/MsTable";
+import { ChevronDown, Plus, Search, } from "lucide-react";
+import MsTable from "../../../../lib/component/table/components/MsTable";
 import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
 import type { PricelistType } from "../../dropdown/types/DropdownTypes";
 

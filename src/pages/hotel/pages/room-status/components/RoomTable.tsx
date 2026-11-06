@@ -1,4 +1,4 @@
-import { DataTable, type DataTableColumn, type DataTableRowId } from "../../../../../component/table/DataTable/DataTable";
+import { DataTable, type DataTableColumn, type DataTableRowId } from "../../../../../lib/component/table/DataTable/DataTable";
 import type { Room } from "../model/roomStatusTypes";
 
 interface RoomTableProps {

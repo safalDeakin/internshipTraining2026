@@ -2,12 +2,11 @@
 import { Edit, Download, Printer, Bed } from "lucide-react";
 import PrintReservationForm from "./ReservationForm";
 
-import PdfPreviewWrapper from "../../../../../utils/printer/PreviewWrapper";
+import PdfPreviewWrapper from "../../../../../lib/utils/printer/PreviewWrapper";
 import { Invoice } from "../../../../recepits/Invoice";
 import { useReservationDetail } from "../provider/detailProvider/useReservationDetail";
-import Toolbar from "../../../../../component/Toolbar/Toolbar";
-import Button from "../../../../../component/Button/Button";
-import { useRef } from "react";
+import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
+import Button from "../../../../../lib/component/Button/Button";
 
 
 export default function ReservationToolbar() {
@@ -15,7 +14,6 @@ export default function ReservationToolbar() {
     const info = reservation.info;
 
     const isCancelled = info.status === 'Cancelled';
-    const invoiceRef = useRef<HTMLDivElement>(null);
     return (
         <Toolbar
             left={
@@ -53,16 +51,6 @@ export default function ReservationToolbar() {
                         <Button >
                             <Edit className="h-3.5 w-3.5" />
                             Invoice
-                        </Button>
-                    </PdfPreviewWrapper>
-
-                    <PdfPreviewWrapper documentName="ReservationForm"
-                        openInNewTab={false}
-                        contentRef={invoiceRef}
-                    >
-                        <Button >
-                            <Edit className="h-3.5 w-3.5" />
-                            Invoice from ref
                         </Button>
                     </PdfPreviewWrapper>
                     {/* FinalReceipts Popup */}

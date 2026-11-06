@@ -1,9 +1,8 @@
 // author: shrajja
 
-import "../../../../../component/table/styles/tableConent.css";
 import PricelistDetails from "./PricelistDetails";
 import usePricelist from "../context/usePricelist";
-import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import type { PricelistType } from "../../types/DropdownTypes";
 
 const Pricelist = () => {

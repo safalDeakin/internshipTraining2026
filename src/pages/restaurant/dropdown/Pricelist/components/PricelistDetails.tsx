@@ -11,7 +11,7 @@ import {
   Trash,
 } from "lucide-react";
 
-import MsTable from "../../../../../component/table/components/MsTable";
+import MsTable from "../../../../../lib/component/table/components/MsTable";
 import PricelistEditModal from "../../../modal/dropdown/PricelistEditModal";
 
 import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
@@ -100,9 +100,8 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
             </span>
 
             <span
-              className={`-ml-2 rounded-full px-3 py-1 text-[11px] font-semibold text-white ${
-                pricelist.status === "Active" ? "bg-[#1E8C86]" : "bg-gray-400"
-              }`}
+              className={`-ml-2 rounded-full px-3 py-1 text-[11px] font-semibold text-white ${pricelist.status === "Active" ? "bg-[#1E8C86]" : "bg-gray-400"
+                }`}
             >
               {pricelist.status}
             </span>
@@ -177,7 +176,7 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
           onToggleItem={handleToggleItem}
           showSearchBar={true}
           searchType="All"
-          onSearchTypeChange={() => {}}
+          onSearchTypeChange={() => { }}
           onChange={setItemSearch}
         />
       </div>

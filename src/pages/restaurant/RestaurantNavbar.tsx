@@ -4,8 +4,8 @@ import { ChevronDown, UtensilsCrossed, Play, ListCheck } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { useAuth } from "../../utils/secureclient/useAuth";
-import { getOrganizationPath } from "../../utils/secureclient/services/models/orgPath";
+import { useAuth } from "../../lib/utils/secureclient/useAuth";
+import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
 import ShellSetting from "./modal/settings/ShellSetting";
 
@@ -28,8 +28,7 @@ const RestaurantNavbar = ({
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
   const [sessionInactive, setSessionInactive] = useState(false);
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2 rounded-lg px-2 py-2 ${
-      isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
+    `flex items-center gap-2 rounded-lg px-2 py-2 ${isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
     }`;
 
   const todayLabel = new Intl.DateTimeFormat("en-US", {
@@ -77,8 +76,7 @@ const RestaurantNavbar = ({
             to={getOrganizationPath("/restaurant", organization)}
             onClick={closeBar}
             className={({ isActive }) =>
-              `flex items-center gap-2 font-bold ${
-                isActive ? "text-blue-600" : ""
+              `flex items-center gap-2 font-bold ${isActive ? "text-blue-600" : ""
               }`
             }
           >
@@ -93,9 +91,8 @@ const RestaurantNavbar = ({
             aria-label="Toggle restaurant menu"
           >
             <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform ${
-                isRestaurantOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+              className={`h-5 w-5 text-gray-500 transition-transform ${isRestaurantOpen ? "rotate-180 text-blue-500" : ""
+                }`}
             />
           </button>
           {/* dropdown */}
@@ -169,9 +166,8 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${
-              overviewOpen ? "rotate-180 text-blue-500" : ""
-            }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${overviewOpen ? "rotate-180 text-blue-500" : ""
+              }`}
           />
           <span className="font-medium">Overview</span>
         </button>
@@ -207,9 +203,8 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${
-              posSessionsOpen ? "rotate-180 text-blue-500" : ""
-            }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${posSessionsOpen ? "rotate-180 text-blue-500" : ""
+              }`}
           />
           <span className="font-medium">POS Sessions</span>
         </button>
@@ -240,9 +235,8 @@ const RestaurantNavbar = ({
                       <span>{session.staffName}</span>
 
                       <span
-                        className={`ml-auto h-2.5 w-2.5 rounded-full ${
-                          session.isPaused ? "bg-gray-400" : "bg-green-500"
-                        }`}
+                        className={`ml-auto h-2.5 w-2.5 rounded-full ${session.isPaused ? "bg-gray-400" : "bg-green-500"
+                          }`}
                         title={
                           session.isPaused ? "Session Paused" : "Session Active"
                         }

@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import HotelNav from "./HotelNav";
 import RoomsDetailRenderer from "../hotel/pages/room-status/components/RoomsDetailRenderer";
 import HousekeepingRenderer from "../houseKeeping/components/HousekeepingRenderer";
-import RoomPageRenderer from "./pages/roomMasterPage/RoomDetailRenderer";
+import RoomPageRenderer from "./pages/roomMasterPage/RoomPageRenderer";
 import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer";
 // import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";

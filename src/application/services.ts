@@ -1,4 +1,4 @@
-import { Repository } from "../utils/repo/Repository";
+import { Repository } from "../lib/utils/repo/Repository";
 import { type Guest } from "../domain/GuestModel";
 import QueryService from "./service/QueryService";
 import CommandService from "./service/CommandService";

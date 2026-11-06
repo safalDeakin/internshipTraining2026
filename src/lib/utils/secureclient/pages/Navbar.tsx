@@ -6,7 +6,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { useAuth } from "../useAuth";
 // import { useOrganization } from "../context/XXXOrganizationContext";
 import NavigationSecurity from "../services/utils/NavigationSecurity";
-import type { AppRoute } from "../../../routes/appRoutes";
+import type { AppRoute } from "../../../../routes/appRoutes";
 
 interface NavbarProps {
   routes: AppRoute[];

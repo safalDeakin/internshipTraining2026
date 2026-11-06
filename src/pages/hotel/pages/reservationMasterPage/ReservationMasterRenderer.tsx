@@ -1,4 +1,4 @@
-import MasterDetailView from "../../../../component/MasterDetailView/MasterDetailView"
+import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView"
 import { Plus } from "lucide-react";
 import { useReservationList } from "./provider/listProvider/useReservationList";
 import type { ReservationListModel } from "./model/ReservationModel";
@@ -14,7 +14,7 @@ import RoomTab from './component/tabs/RoomTab';
 import NotesTab from './component/tabs/NotesTab';
 import StayTab from './component/tabs/StayTab';
 import PaymentsTab from './component/tabs/PaymentsTab';
-import TabView from "../../../../component/Tabview/TabView";
+import TabView from "../../../../lib/component/Tabview/TabView";
 
 
 const tabComponents: { label: string, content: React.ComponentType }[] = [

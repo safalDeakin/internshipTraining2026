@@ -1,13 +1,13 @@
 //author:shrajja
 //central route + navigation configuration
 import type { ReactNode } from "react";
-import type { Resources } from "../utils/secureclient/services/models/permission";
-import Dashboard from "../component/Dashboard";
+import type { Resources } from "../lib/utils/secureclient/services/models/permission";
+import Dashboard from "../lib/component/Dashboard";
 import TestComponent from "../pages/test/TestComponent";
 import Activity from "../pages/activity-log/Activity";
 import Hoteldetails from "../pages/hotel/pages/Hoteldetails";
 import Reservation from "../pages/hotel/pages/Reservation";
-import Rooms from "../pages/hotel/pages/Rooms";
+// import Rooms from "../pages/hotel/pages/XXRooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
 import Sales from "../pages/restaurant/pages/overview/Sales";
@@ -19,7 +19,7 @@ import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
 import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
-import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomDetailRenderer";
+import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRenderer";
 import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/ReservationMasterRenderer";
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
@@ -126,10 +126,10 @@ export const appRoutes: AppRoute[] = [
         path: "all-rooms",
         element: <RoomPageRenderer />,
       },
-      {
-        path: "room",
-        element: <Rooms />,
-      },
+      // {
+      //   path: "room",
+      //   element: <Rooms />,
+      // },
       {
         path: "reservation",
         element: <Reservation />,

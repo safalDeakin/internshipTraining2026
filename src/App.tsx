@@ -1,7 +1,7 @@
 import { POSUserSessionProvider } from "./context/PosUserSessionContext";
 import { appRoutes } from "./routes/appRoutes";
-import SecureAppClient from "./utils/secureclient/SecureAppClient";
-import { permissions } from "./utils/secureclient/services/models/viewpermission";
+import SecureAppClient from "./lib/utils/secureclient/SecureAppClient";
+import { permissions } from "./lib/utils/secureclient/services/models/viewpermission";
 // import { useMemo } from "react";
 // import { Repo } from "./repo/Repo";
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import RestaurantNav from "./RestaurantNavbar";
-import ResponsiveLayout from "../../component/ResponsiveLayout";
+import ResponsiveLayout from "../../lib/component/ResponsiveLayout";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
-import { useAuth } from "../../utils/secureclient/useAuth";
+import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { usePOSUserSession } from "../../hooks/usePOSUserSession";
 import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
 import ShellSetting from "./modal/settings/ShellSetting";

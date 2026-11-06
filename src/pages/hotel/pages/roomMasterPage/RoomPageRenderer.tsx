@@ -1,4 +1,4 @@
-import MasterDetailView from "../../../../component/MasterDetailView/MasterDetailView"
+import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView"
 import { DetailSection } from "./DetailSection";
 import RoomTypeItem from "./components/RoomTypeItem";
 import { Plus } from "lucide-react";

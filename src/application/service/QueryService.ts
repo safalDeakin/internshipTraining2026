@@ -1,8 +1,8 @@
-import { type DataChangeListener } from "../../utils/repo/models/DataSource";
-import { Repository } from "../../utils/repo/Repository";
+import { type DataChangeListener } from "../../lib/utils/repo/models/DataSource";
+import { Repository } from "../../lib/utils/repo/Repository";
 //Responsible for reading data (Get, Subscribe).
 class QueryService<T extends object, ID> {
-  constructor(private readonly source: Repository<T, ID>) {}
+  constructor(private readonly source: Repository<T, ID>) { }
 
   async getByID(entityId: ID): Promise<T | null> {
     return this.source.getById(entityId);

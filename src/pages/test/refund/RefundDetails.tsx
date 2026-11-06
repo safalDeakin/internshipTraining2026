@@ -1,8 +1,8 @@
 // author: shrajja
 import { useEffect, useState } from "react";
-import { ChevronDown, Download, FileText, RotateCcw, X } from "lucide-react";
+import { ChevronDown, Download, FileText, RotateCcw } from "lucide-react";
 import ReusableButton from "../../restaurant/pages/posuserSession/shared/components/reuse/ReusableButton";
-import MsTable from "../../../component/table/components/MsTable";
+import MsTable from "../../../lib/component/table/components/MsTable";
 import RefundReceiptModal from "./RefundReceiptModal";
 import type { RefundItem, RefundReceiptData } from "./types/RefundTypes";
 import { initialItems } from "./constant/RefundData";
@@ -320,11 +320,10 @@ const RefundDetails = () => {
         <button
           type="button"
           onClick={() => setActiveTab("invoice")}
-          className={`border-b-2 pb-3 text-sm font-medium transition-colors ${
-            activeTab === "invoice"
-              ? "border-[#005395] text-[#005395]"
-              : "border-transparent text-gray-500 hover:text-gray-800"
-          }`}
+          className={`border-b-2 pb-3 text-sm font-medium transition-colors ${activeTab === "invoice"
+            ? "border-[#005395] text-[#005395]"
+            : "border-transparent text-gray-500 hover:text-gray-800"
+            }`}
         >
           Invoice
         </button>
@@ -332,11 +331,10 @@ const RefundDetails = () => {
         <button
           type="button"
           onClick={() => setActiveTab("summary")}
-          className={`border-b-2 pb-3 text-sm font-medium transition-colors ${
-            activeTab === "summary"
-              ? "border-[#005395] text-[#005395]"
-              : "border-transparent text-gray-500 hover:text-gray-800"
-          }`}
+          className={`border-b-2 pb-3 text-sm font-medium transition-colors ${activeTab === "summary"
+            ? "border-[#005395] text-[#005395]"
+            : "border-transparent text-gray-500 hover:text-gray-800"
+            }`}
         >
           Refund Summary
         </button>
@@ -406,7 +404,7 @@ const RefundDetails = () => {
                 onToggleItem={handleToggleItem}
                 showSearchBar={true}
                 searchType="All"
-                onSearchTypeChange={() => {}}
+                onSearchTypeChange={() => { }}
                 onChange={setItemSearch}
               />
             </div>

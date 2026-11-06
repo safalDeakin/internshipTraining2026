@@ -1,14 +1,14 @@
 //author:Shrajja
 import { useState } from "react";
-import { useAuth } from "../../../utils/secureclient/useAuth";
-import AccessControl from "../../../utils/secureclient/services/utils/AccessControl";
+import { useAuth } from "../../../lib/utils/secureclient/useAuth";
+import AccessControl from "../../../lib/utils/secureclient/services/utils/AccessControl";
 
 import { rooms } from "../../../data/rooms";
 import {
   ACTIONS,
   RESOURCES,
   type Action,
-} from "../../../utils/secureclient/services/models/permission";
+} from "../../../lib/utils/secureclient/services/models/permission";
 import { X } from "lucide-react";
 
 type RoomType = {
@@ -158,6 +158,7 @@ const Rooms = () => {
             >
               <div>
                 <label>Room Number</label>
+
                 <input
                   value={roomForm.roomNumber}
                   name="roomNumber"

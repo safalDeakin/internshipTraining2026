@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { type DataChangeListener } from "../utils/repo/models/DataSource";
+import { type DataChangeListener } from "../lib/utils/repo/models/DataSource";
 
 //Connects your React components to the data and automatically updates the UI when data changes.
 export interface QueryService<T, ID> {

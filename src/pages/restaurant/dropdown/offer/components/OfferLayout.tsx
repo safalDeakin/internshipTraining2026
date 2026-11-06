@@ -1,6 +1,6 @@
 // author: shrajja
 
-import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import type { OfferType } from "../../types/DropdownTypes";
 import { useOffer } from "../context/useOffer";
 import OffersDetails from "./OffersDetails";

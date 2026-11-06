@@ -3,7 +3,7 @@
 import FnBDetails from "./FnBDetails";
 import { useProduct } from "../context/useProduct";
 
-import MasterDetailView from "../../../../../component/MasterDetailView/MasterDetailView";
+import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import type { ProductType } from "../../types/DropdownTypes";
 
 const getVariants = (attributes: string[][]) => {

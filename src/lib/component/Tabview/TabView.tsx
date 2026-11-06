@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { AppProvider } from "../../context/AppContext";
-
 
 export type TabsProps = {
     tabs: { label: string, content: React.ComponentType }[]
@@ -30,9 +28,7 @@ export default function TabView({ tabs }: TabsProps) {
             </div>
 
             <div className="flex-1 overflow-y-auto px-2">
-                <AppProvider>
-                    {ActiveComponent && <ActiveComponent />}
-                </AppProvider>
+                {ActiveComponent && <ActiveComponent />}
             </div>
         </div>
     );

@@ -7,7 +7,7 @@ import type { Action, Resources } from "./services/models/permission";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
-import type { AppRoute } from "../../routes/appRoutes";
+import type { AppRoute } from "../../../routes/appRoutes";
 import RootRedirect from "./pages/RouteRedirect";
 
 interface SecureConfig {
