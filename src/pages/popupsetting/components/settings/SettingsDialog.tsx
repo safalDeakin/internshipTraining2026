@@ -48,6 +48,7 @@ export default function SettingsDialog({
     if (!shouldRender) {
         return null;
     }
+
     return createPortal(
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-[#eee8e8] p-[13px_10px_16px]"
@@ -59,21 +60,21 @@ export default function SettingsDialog({
             <section
                 aria-labelledby="settings-title"
                 aria-modal="true"
-                className={` 
-                flex 
-                max-h-[calc(100dvh-29px)] 
-                w-full 
-                max-w-178.5 
-                origin-center 
-                flex-col 
-                overflow-hidden 
-                rounded-[9px] 
-                bg-[#fbfcfc] 
-                shadow-[0_1px_4px_rgba(49,60,70,0.03)] 
+                className={`
+                flex
+                max-h-[calc(100dvh-29px)]
+                w-full
+                max-w-178.5
+                origin-center
+                flex-col
+                overflow-hidden
+                rounded-[9px]
+                bg-[#fbfcfc]
+                shadow-[0_1px_4px_rgba(49,60,70,0.03)]
                 ${isClosing
                         ? "animate-[settingsDialogOut_200ms_ease-in_forwards]"
                         : "animate-[settingsDialogIn_300ms_cubic-bezier(0.16,1,0.3,1)_forwards]"
-                    } 
+                    }
                 `}
                 role="dialog" >
                 <SettingsHeader
@@ -92,4 +93,7 @@ export default function SettingsDialog({
                 </div>
             </section>
         </div>, document.body);
+
+
+
 }
