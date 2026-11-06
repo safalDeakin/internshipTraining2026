@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { usePdf } from "./service/usePdf";
 import "./style.css";
@@ -7,7 +7,7 @@ import "./style.css";
 interface PdfPreviewWrapperProps {
     children: ReactNode;
     content?: ReactNode | null;
-    contentRef?: RefObject<HTMLDivElement> | null;
+    contentRef?: RefObject<HTMLDivElement | null> | null;
     documentName: string;
     openInNewTab?: boolean; // Controls whether it opens in a new tab or modal popup
     className?: string;

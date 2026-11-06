@@ -6,7 +6,8 @@ import PdfPreviewWrapper from "../../../../../utils/printer/PreviewWrapper";
 import { Invoice } from "../../../../recepits/Invoice";
 import { useReservationDetail } from "../provider/detailProvider/useReservationDetail";
 import Toolbar from "../../../../../component/Toolbar/Toolbar";
-import Button from "../../../../../component/Button/button";
+import Button from "../../../../../component/Button/Button";
+import { useRef } from "react";
 
 
 export default function ReservationToolbar() {
@@ -14,7 +15,7 @@ export default function ReservationToolbar() {
     const info = reservation.info;
 
     const isCancelled = info.status === 'Cancelled';
-
+    const invoiceRef = useRef<HTMLDivElement>(null);
     return (
         <Toolbar
             left={
@@ -45,13 +46,25 @@ export default function ReservationToolbar() {
 
                     <PdfPreviewWrapper documentName="ReservationForm"
                         openInNewTab={false}
-                        content={<Invoice data={reservation.getInvoice()} />}>
+                        content={
+                            <Invoice data={reservation.getInvoice()} />
+                        }
+                    >
                         <Button >
                             <Edit className="h-3.5 w-3.5" />
                             Invoice
                         </Button>
                     </PdfPreviewWrapper>
 
+                    <PdfPreviewWrapper documentName="ReservationForm"
+                        openInNewTab={false}
+                        contentRef={invoiceRef}
+                    >
+                        <Button >
+                            <Edit className="h-3.5 w-3.5" />
+                            Invoice from ref
+                        </Button>
+                    </PdfPreviewWrapper>
                     {/* FinalReceipts Popup */}
                     <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
                         onClick={() => {
