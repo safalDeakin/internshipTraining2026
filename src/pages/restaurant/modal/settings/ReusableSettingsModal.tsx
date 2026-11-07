@@ -1,5 +1,5 @@
-import { ArrowLeft, X } from "lucide-react";
-import React, { useState } from "react";
+import { X } from "lucide-react";
+import React from "react";
 
 export interface SettingsNavItem {
   id: string;
@@ -70,12 +70,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const variantStyles = navItemStyles[navVariant];
 
   return (
-    <div className="fixed inset-y-0 right-25 top-13  z-[100] w-full max-w-5xl overflow-y-auto bg-white shadow-2xl rounded-lg">
-      <div className="mx-auto flex min-h-[700px] w-full max-w-[1060px] flex-col rounded-xl bg-white px-4 pb-4 sm:px-6">
+    <div className="relative flex h-full max-h-[85vh] w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl">
+      <div className="flex min-h-0 w-full flex-1 flex-col px-4 pb-4 sm:px-6">
         {/* Header */}
         <header className="flex shrink-0 items-center justify-between border-b border-gray-200 px-2 pb-4 pt-5">
-          <div className="">
-            <h2 className="m-0 ">{title}</h2>
+          <div>
+            <h2 className="m-0">{title}</h2>
           </div>
 
           <button
@@ -89,7 +89,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         </header>
 
         {/* Body */}
-        <div className="flex min-h-0 flex-1 flex-col gap-4 pt-4 md:flex-row">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden pt-4 md:flex-row">
           {/* Sidebar */}
           <aside
             className={`flex w-full shrink-0 flex-col justify-between md:w-[220px] ${navContainer[navVariant]}`}
@@ -136,7 +136,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           </aside>
 
           {/* Content */}
-          <main className="min-h-[400px] min-w-0 flex-1 overflow-y-auto rounded-md bg-white px-4 py-4 sm:px-6">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto rounded-md bg-white px-4 py-4 sm:px-6">
             {children}
           </main>
         </div>
@@ -147,7 +147,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
 export default SettingsModal;
 
-//right main title
+// Right-side main title
 export const SettingsSection: React.FC<SettingsSectionProps> = ({
   title,
   children,
@@ -163,7 +163,7 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
   );
 };
 
-// content ,label, option hint
+// Content, label, and optional hint
 export const SettingsField: React.FC<SettingsFieldProps> = ({
   label,
   hint,
@@ -173,7 +173,7 @@ export const SettingsField: React.FC<SettingsFieldProps> = ({
     <div className="mb-[18px]">
       <label className="mb-2 block text-[15px] font-medium">{label}</label>
 
-      <div className="rounded-lg p-2 border border-gray-200 w-auto ">
+      <div className="w-auto rounded-lg border border-gray-200 p-2">
         {children}
       </div>
 

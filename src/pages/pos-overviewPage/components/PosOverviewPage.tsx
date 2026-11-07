@@ -1,40 +1,49 @@
+import { useOutletContext } from "react-router-dom";
+
 import { CashVariancePanel } from "./CashVariancePanel";
 import { CollectionSummary } from "./CollectionSummary";
 import { TodaySummary } from "./TodaySummary";
 
 import { usePosOverviewHook } from "../provider/usePosOverview";
+import { usePOSUserSession } from "../../restaurant/pages/posuserSession/context/usePOSUserSession";
+
+interface RestaurantOutletContext {
+  openSessionMode: () => void;
+}
 
 const PosOverviewPage = () => {
-    const { overview } = usePosOverviewHook();
+  const { openSessionMode } = useOutletContext<RestaurantOutletContext>();
 
-    if (!overview) {
-        return (
-            <div className="p-4 text-center text-gray-500">
-                No POS Overview Data found
-            </div>
-        );
-    }
+  const { overviews } = usePosOverviewHook();
+  const { selectedDate, selectedStaffName } = usePOSUserSession();
 
-    const {
-        chartData,
-        heatmap,
-    } = overview;
+  const overview = overviews?.[0];
 
+  if (!overview) {
     return (
-        <main className="min-h-screen bg-[#eef1f3] p-2 text-[#263442] sm:p-4">
-            <div className="mx-auto flex max-w-350 flex-col divide-y divide-[#dce3e9] overflow-hidden rounded-sm border border-[#dce3e9] bg-white shadow-[0_2px_12px_rgba(40,58,74,0.08)]">
-
-                <TodaySummary data={overview} />
-
-                <CashVariancePanel
-                    chartData={chartData}
-                    heatmap={heatmap}
-                />
-                <CollectionSummary data={overview} />
-
-            </div>
-        </main>
+      <div className="p-4 text-center text-gray-500">
+        No POS Overview Data found.
+      </div>
     );
+  }
+
+  return (
+    <main className="space-y-5">
+      <TodaySummary
+        data={overview}
+        selectedDate={selectedDate}
+        staffName={selectedStaffName ?? undefined}
+        onOpenSessionMode={openSessionMode}
+      />
+
+      <CashVariancePanel
+        chartData={overview.chartData}
+        heatmap={overview.heatmap}
+      />
+
+      <CollectionSummary data={overview} />
+    </main>
+  );
 };
 
 export default PosOverviewPage;

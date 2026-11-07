@@ -1,14 +1,15 @@
 import { createContext } from "react";
 import type { POSOverview } from "../../../domain/pos.overview";
 
-
 export type RepoPosOverviewContextType = {
-    overview: POSOverview | null;
-    create: (data: POSOverview) => Promise<boolean | DOMException>
-    remove: (id: string) => Promise<boolean | DOMException>
+  overviews: POSOverview[] | null;
+
+  create: (data: POSOverview) => Promise<boolean>;
+  remove: (id: string) => Promise<boolean>;
 };
 
+const PosOverviewContext = createContext<RepoPosOverviewContextType | null>(
+  null,
+);
 
-//createContext allowed to share data with many compo
-const PosOverviewContext = createContext<RepoPosOverviewContextType | null>(null);
 export default PosOverviewContext;

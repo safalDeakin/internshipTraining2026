@@ -17,6 +17,7 @@ import ClosingSessionModal from "./modal/pos/ClosingSessionModal";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
 import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
 import ReusableButton from "./pages/posuserSession/shared/components/reuse/ReusableButton";
+import DialogContainer from "../../lib/component/DialogueBox/DialogContainer";
 
 const RestaurantLayout = () => {
   const [isSessionOpen, setIsSessionOpen] = useState(false);
@@ -179,12 +180,21 @@ const RestaurantLayout = () => {
           />
         )}
       >
-        <Outlet />
+        <Outlet context={{ openSessionMode: handlePlay }} />
       </ResponsiveLayout>
 
       {/* SETTINGS */}
       {activeSetting === "sales" && (
-        <ShellSetting onClose={() => setActiveSetting(null)} />
+        <DialogContainer
+          dialog={{
+            content: <ShellSetting onClose={() => setActiveSetting(null)} />,
+            width: "1100px",
+            showCloseButton: false,
+            closeOnEscape: true,
+            closeOnBackdrop: true,
+          }}
+          onClose={() => setActiveSetting(null)}
+        />
       )}
 
       {/* POS SHELL */}
