@@ -51,7 +51,7 @@ export default function DialogProvider({ children }: Props) {
 
                 setDialog({
                     content: options.content,
-                    width: options.width ?? 448,
+                    width: options.width ?? -1,
                     showCloseButton: options.showCloseButton ?? true,
                     closeOnBackdrop: options.closeOnBackdrop ?? true,
                     closeOnEscape: options.closeOnEscape ?? true,

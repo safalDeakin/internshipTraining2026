@@ -41,7 +41,9 @@ export default function DialogContainer({
             }
             }>
             <div
-                className="dialog-container" role="dialog" aria-modal="true" style={{ width: dialog.width }}>
+                className="dialog-container" role="dialog" aria-modal="true"
+                style={{ width: (dialog.width === -1 ? undefined : dialog.width) }}
+            >
 
                 {
                     dialog.showCloseButton && (
