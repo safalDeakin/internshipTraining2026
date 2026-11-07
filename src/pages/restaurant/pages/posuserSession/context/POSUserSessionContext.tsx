@@ -5,11 +5,18 @@ import {
   useState,
   type ReactNode,
 } from "react";
+
 import type { POSSession } from "../types/posSessionTypes";
 
-// Context methods
 interface POSUserSessionContextType {
   sessions: POSSession[];
+
+  // Selected POS Overview information
+  selectedDate: string | null;
+  selectedStaffName: string | null;
+
+  setSelectedDate: (date: string | null) => void;
+  setSelectedStaffName: (name: string | null) => void;
 
   // Session creation and update
   addSession: (session: POSSession) => void;
@@ -24,9 +31,7 @@ interface POSUserSessionContextType {
 
   // Session lifecycle
   pauseSession: (id: string) => void;
-
   resumeSession: (id: string) => void;
-
   endSession: (id: string, closingCash: number, closingNotes?: string) => void;
 }
 
@@ -42,6 +47,12 @@ export const POSUserSessionProvider = ({
   children,
 }: POSUserSessionProviderProps) => {
   const [sessions, setSessions] = useState<POSSession[]>([]);
+
+  // Selected date and staff for POS Overview
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedStaffName, setSelectedStaffName] = useState<string | null>(
+    null,
+  );
 
   // 1. Add a new session
   const addSession = useCallback((session: POSSession) => {
@@ -161,7 +172,6 @@ export const POSUserSessionProvider = ({
             return session;
           }
 
-          // Include any final paused duration
           const additionalPausedDuration =
             session.status === "paused" && session.pausedAt
               ? Math.max(
@@ -190,6 +200,12 @@ export const POSUserSessionProvider = ({
   const value = useMemo(
     () => ({
       sessions,
+
+      selectedDate,
+      selectedStaffName,
+      setSelectedDate,
+      setSelectedStaffName,
+
       addSession,
       updateSession,
       getActiveSession,
@@ -201,6 +217,8 @@ export const POSUserSessionProvider = ({
     }),
     [
       sessions,
+      selectedDate,
+      selectedStaffName,
       addSession,
       updateSession,
       getActiveSession,

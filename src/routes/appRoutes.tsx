@@ -23,9 +23,7 @@ import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRender
 import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/ReservationMasterRenderer";
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
-import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
-import { POSUserSessionProvider } from "../pages/restaurant/pages/posuserSession/context/POSUserSessionContext";
 import PosOvervewRenderer from "../pages/pos-overviewPage/PosOvervewRenderer";
 
 //information needed for a navigation
@@ -70,11 +68,7 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "restaurant",
-    element: (
-      // <POSUserSessionProvider>
-      <RestaurantLayout />
-      // </POSUserSessionProvider>
-    ),
+    element: <RestaurantLayout />,
     nav: {
       label: "Restaurant Session",
       group: "Manage",

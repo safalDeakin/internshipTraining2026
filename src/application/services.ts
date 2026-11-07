@@ -14,11 +14,7 @@ import { rooms } from "../pages/houseKeeping/data/data";
 //LostAndFound
 import { initialLostAndFoundItems } from "../pages/lost-found/data/data";
 import type { Item } from "../domain/lostfound";
-import {
-  initialOfferData,
-  type Offer,
-} from "../pages/restaurant/dropdown/offer/data/initialOfferData";
-
+import { initialOfferData } from "../pages/restaurant/dropdown/offer/data/initialOfferData";
 
 //Night Audit
 import type { NightAuditData } from "../domain/nightAudit";
@@ -30,16 +26,13 @@ import { initialKeyCards } from "../pages/key-card/data/Keycard.data";
 import type { POSOverview } from "../domain/pos.overview";
 import { initialPOSOverview } from "../pages/pos-overviewPage/data/pos.overview.data";
 
-
-
-import {
-  initialPricelistData,
-  type PricelistType,
-} from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
-import {
-  initialProductData,
-  type ProductGroup,
-} from "../pages/restaurant/dropdown/products/data/initialProductData";
+import { initialPricelistData } from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
+import { initialProductData } from "../pages/restaurant/dropdown/products/data/initialProductData";
+import type {
+  OfferType,
+  PricelistType,
+  ProductType,
+} from "../pages/restaurant/dropdown/types/DropdownTypes";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -119,101 +112,109 @@ export const LostandFoundCmdService = new CommandService<Item, string>(
   LostandFound,
 );
 
-
 //This is for Night audit
 const NightAudit = new Repository<NightAuditData, string>({
-  sourceType: 'InMemoryLocal',
-  domain: 'LostandFound',
-  tenantId: 'MySpace1234',
+  sourceType: "InMemoryLocal",
+  domain: "LostandFound",
+  tenantId: "MySpace1234",
   getId: (entity: NightAuditData) => String(entity.id),
   initialData: [nightAuditData],
   baseUrl: "asas",
-  eventsUrl: "events"
-})
+  eventsUrl: "events",
+});
 
-export const nightAuditQueryService = new QueryService<NightAuditData, string>(NightAudit);
-export const nightAuditCmdService = new CommandService<NightAuditData, string>(NightAudit);
-
+export const nightAuditQueryService = new QueryService<NightAuditData, string>(
+  NightAudit,
+);
+export const nightAuditCmdService = new CommandService<NightAuditData, string>(
+  NightAudit,
+);
 
 //This is for KeyCard
 const KeyCardRepo = new Repository<KeyCard, string>({
-  sourceType: 'InMemoryLocal',
-  domain: 'KeyCard',
-  tenantId: 'MySpace1234',
+  sourceType: "InMemoryLocal",
+  domain: "KeyCard",
+  tenantId: "MySpace1234",
   getId: (entity: KeyCard) => String(entity.id),
   initialData: initialKeyCards,
   baseUrl: "asas",
-  eventsUrl: "events"
-})
+  eventsUrl: "events",
+});
 
-export const keyCardQueryService = new QueryService<KeyCard, string>(KeyCardRepo);
-export const keyCardCmdService = new CommandService<KeyCard, string>(KeyCardRepo);
-
-
+export const keyCardQueryService = new QueryService<KeyCard, string>(
+  KeyCardRepo,
+);
+export const keyCardCmdService = new CommandService<KeyCard, string>(
+  KeyCardRepo,
+);
 
 //This is for POS Overview
 const POSOverviewRepo = new Repository<POSOverview, string>({
-  sourceType: 'InMemoryLocal',
-  domain: 'POSOverview',
-  tenantId: 'MySpace1234',
+  sourceType: "InMemoryLocal",
+  domain: "POSOverview",
+  tenantId: "MySpace1234",
   getId: (entity: POSOverview) => String(entity.id),
   initialData: initialPOSOverview,
   baseUrl: "asas",
-  eventsUrl: "events"
-})
+  eventsUrl: "events",
+});
 
-export const posOverviewQueryService = new QueryService<POSOverview, string>(POSOverviewRepo);
-export const posOverviewCmdService = new CommandService<POSOverview, string>(POSOverviewRepo);
+export const posOverviewQueryService = new QueryService<POSOverview, string>(
+  POSOverviewRepo,
+);
+export const posOverviewCmdService = new CommandService<POSOverview, string>(
+  POSOverviewRepo,
+);
 // Offer Repository -----------1st---------
-const OfferRepo = new Repository<Offer, string>({
+const OfferRepo = new Repository<OfferType, string>({
   sourceType: "InMemoryLocal",
   domain: "Offer",
   tenantId: "MySpace1234",
-  getId: (entity: Offer) => String(entity.id),
+  getId: (entity: OfferType) => String(entity.id),
   initialData: initialOfferData,
   baseUrl: "asas",
   eventsUrl: "events",
 });
 
-export const OfferQueryService = new QueryService<Offer, string>(OfferRepo);
-export const OfferCmdService = new CommandService<Offer, string>(OfferRepo);
+export const OfferQueryService = new QueryService<OfferType, string>(OfferRepo);
+export const OfferCmdService = new CommandService<OfferType, string>(OfferRepo);
 
 // Products
-const ProductRepo = new Repository<ProductGroup, string>({
+const ProductRepo = new Repository<ProductType, string>({
   sourceType: "InMemoryLocal",
   domain: "Product",
   tenantId: "MySpace1234",
-  getId: (entity: ProductGroup) => entity.id,
+  getId: (entity: ProductType) => entity.id,
   initialData: initialProductData,
   baseUrl: "asas",
   eventsUrl: "events",
 });
 
-export const ProductQueryService = new QueryService<ProductGroup, string>(
+export const ProductQueryService = new QueryService<ProductType, string>(
   ProductRepo,
 );
 
-export const ProductCmdService = new CommandService<ProductGroup, string>(
+export const ProductCmdService = new CommandService<ProductType, string>(
   ProductRepo,
 );
 
 // Pricelist Repository
-const PricelistRepo = new Repository<Pricelist, string>({
+const PricelistRepo = new Repository<PricelistType, string>({
   sourceType: "InMemoryLocal",
   domain: "Product",
   tenantId: "MySpace1234",
-  getId: (entity: Pricelist) => entity.id,
+  getId: (entity: PricelistType) => entity.id,
   initialData: initialPricelistData,
   baseUrl: "asas",
   eventsUrl: "events",
 });
 
 // Query Service
-export const PricelistQueryService = new QueryService<Pricelist, string>(
+export const PricelistQueryService = new QueryService<PricelistType, string>(
   PricelistRepo,
 );
 
 // Command Service
-export const PricelistCmdService = new CommandService<Pricelist, string>(
+export const PricelistCmdService = new CommandService<PricelistType, string>(
   PricelistRepo,
 );
