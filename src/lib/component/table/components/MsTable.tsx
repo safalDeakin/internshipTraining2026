@@ -9,7 +9,7 @@ import TableHeader from "./Table/TableHeader";
 import TableRow from "./Table/TableRow";
 import SkeletonRows from "../Loading/SkeletonRows";
 import type { MsTableProps } from "../types/types";
-
+import "../styles/tableConent.css";
 const MsTable = (props: MsTableProps) => {
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,9 +52,9 @@ const MsTable = (props: MsTableProps) => {
   }, [hiddenColumns.length]);
 
   // Safe callback functions
-  const handleSearchTypeChange = props.onSearchTypeChange ?? (() => { });
+  const handleSearchTypeChange = props.onSearchTypeChange ?? (() => {});
 
-  const handleSearchChange = props.onChange ?? (() => { });
+  const handleSearchChange = props.onChange ?? (() => {});
 
   // return (
   //   // <div
