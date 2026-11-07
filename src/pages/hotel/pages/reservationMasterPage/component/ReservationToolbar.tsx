@@ -56,6 +56,7 @@ export default function ReservationToolbar() {
                             Room Service
                         </Button>
 
+
                         <PdfPreviewWrapper documentName="ReservationForm"
                             openInNewTab={false}
                             content={
@@ -67,6 +68,8 @@ export default function ReservationToolbar() {
                                 Invoice
                             </Button>
                         </PdfPreviewWrapper>
+
+
                         {/* FinalReceipts Popup */}
                         <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
                             onClick={() => setShowChangeRoom(true)
@@ -117,7 +120,8 @@ export default function ReservationToolbar() {
                         </PdfPreviewWrapper>
                         <Button
                             variant={isCancelled ? "ghost" : "danger"}
-                            onClick={() => setShowCancelReservation(true)
+                            onClick={() =>
+                                setShowCancelReservation(true)
 
                             }
                         >
