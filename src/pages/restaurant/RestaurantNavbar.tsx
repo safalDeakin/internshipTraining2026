@@ -1,19 +1,12 @@
 // author: shrajja
 
 import { ChevronDown, UtensilsCrossed, Play, ListCheck } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
-import { usePOSUserSession } from "../../hooks/usePOSUserSession";
-import ShellSetting from "./modal/settings/ShellSetting";
-
-interface RestaurantNavbarProps {
-  closeBar?: () => void;
-  openSessionMode?: () => void;
-  onOpenSetting?: (setting: string) => void;
-}
+import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
 
 const RestaurantNavbar = ({
   closeBar,
@@ -21,14 +14,15 @@ const RestaurantNavbar = ({
   onOpenSetting,
 }: RestaurantNavbarProps) => {
   const { organization } = useAuth();
-  const { sessions } = usePOSUserSession();
+  const { getLatestSession } = usePOSUserSession();
 
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
   const [overviewOpen, setOverviewOpen] = useState(false);
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
-  const [sessionInactive, setSessionInactive] = useState(false);
+
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2 rounded-lg px-2 py-2 ${isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
+    `flex items-center gap-2 rounded-lg px-2 py-2 ${
+      isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
     }`;
 
   const todayLabel = new Intl.DateTimeFormat("en-US", {
@@ -38,33 +32,35 @@ const RestaurantNavbar = ({
     month: "short",
   }).format(new Date());
 
-  // Show all active sessions for this organization.
-  // Do not filter by session date.
-  const activeSessions = sessions.filter(
-    (session) =>
-      session.endTime == null &&
-      String(session.organizationId) === String(organization?.id),
-  );
+  const latestSession =
+    organization?.id != null ? getLatestSession(organization.id) : undefined;
 
-  // When there is no active session (ended or not started yet),
-  // reset the gray flag so the next session starts green.
-  useEffect(() => {
-    if (activeSessions.length === 0) {
-      setSessionInactive(false);
-    }
-  }, [activeSessions.length]);
+  const sessionStatus = latestSession?.status;
 
-  const navigate = useNavigate();
+  const statusConfig = {
+    active: {
+      label: "Active",
+      color: "bg-green-500",
+      textColor: "text-green-600",
+    },
+    paused: {
+      label: "Paused",
+      color: "bg-orange-500",
+      textColor: "text-orange-600",
+    },
+    ended: {
+      label: "Ended",
+      color: "bg-gray-400",
+      textColor: "text-gray-500",
+    },
+  };
 
+  const currentStatus = sessionStatus ? statusConfig[sessionStatus] : undefined;
+
+  // RestaurantLayout handles whether to start, continue, or resume.
   const handlePlayClick = () => {
-    if (activeSessions.length > 0) {
-      setSessionInactive(true);
-    } else {
-      setSessionInactive(false);
-    }
-
-    navigate(getOrganizationPath("/restaurant/session", organization));
     openSessionMode?.();
+    closeBar?.();
   };
 
   return (
@@ -76,7 +72,8 @@ const RestaurantNavbar = ({
             to={getOrganizationPath("/restaurant", organization)}
             onClick={closeBar}
             className={({ isActive }) =>
-              `flex items-center gap-2 font-bold ${isActive ? "text-blue-600" : ""
+              `flex items-center gap-2 font-bold ${
+                isActive ? "text-blue-600" : ""
               }`
             }
           >
@@ -91,12 +88,12 @@ const RestaurantNavbar = ({
             aria-label="Toggle restaurant menu"
           >
             <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform ${isRestaurantOpen ? "rotate-180 text-blue-500" : ""
-                }`}
+              className={`h-5 w-5 text-gray-500 transition-transform ${
+                isRestaurantOpen ? "rotate-180 text-blue-500" : ""
+              }`}
             />
           </button>
-          {/* dropdown */}
-          {/* Dropdown */}
+
           {isRestaurantOpen && (
             <div className="absolute left-0 top-full z-50 mt-1 flex w-full flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
               <p className="text-sm text-gray-900">Menu</p>
@@ -148,11 +145,19 @@ const RestaurantNavbar = ({
           )}
         </div>
 
+        {/* Start / Continue POS */}
         <button
           type="button"
-          className="rounded-lg border border-gray-200 p-2"
+          className="rounded-lg border border-gray-200 p-2 transition hover:bg-blue-50"
           onClick={handlePlayClick}
-          aria-label="Open session mode"
+          aria-label="Open POS session"
+          title={
+            sessionStatus === "active"
+              ? "Continue POS session"
+              : sessionStatus === "paused"
+                ? "Resume POS session"
+                : "Start POS session"
+          }
         >
           <Play className="h-3 w-3 text-blue-700" />
         </button>
@@ -166,8 +171,9 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${overviewOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${
+              overviewOpen ? "rotate-180 text-blue-500" : ""
+            }`}
           />
           <span className="font-medium">Overview</span>
         </button>
@@ -203,52 +209,60 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${posSessionsOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${
+              posSessionsOpen ? "rotate-180 text-blue-500" : ""
+            }`}
           />
           <span className="font-medium">POS Sessions</span>
         </button>
 
         {posSessionsOpen && (
           <div className="mt-1 flex flex-col gap-2 pl-5">
-            {activeSessions.length > 0 ? (
-              <>
-                {/* Today's date */}
-                <div className="flex items-center gap-2 rounded-lg border border-blue-500 bg-blue-50 py-2 px-2 text-blue-600">
-                  <ChevronDown className="h-4 w-4" />
-                  <span>{todayLabel}</span>
-                </div>
+            <NavLink
+              to={getOrganizationPath("/restaurant/pos-overview", organization)}
+              onClick={closeBar}
+              className={({ isActive }) =>
+                `flex items-center gap-2 rounded-lg border px-2 py-2 ${
+                  isActive
+                    ? "border-blue-500 bg-blue-50 text-blue-600"
+                    : "border-gray-200 hover:bg-blue-50"
+                }`
+              }
+            >
+              <ChevronDown className="h-4 w-4" />
+              <span>{todayLabel}</span>
+            </NavLink>
 
-                {/* Active users nested under today's date */}
-                <div className="ml-3 flex flex-col gap-2 border-b border-gray-200 pb-2">
-                  {activeSessions.map((session) => (
-                    <NavLink
-                      key={session.id}
-                      to={getOrganizationPath(
-                        `/restaurant/pos-session/${session.id}`,
-                        organization,
-                      )}
-                      onClick={closeBar}
-                      className={getLinkClass}
-                    >
-                      <ListCheck className="h-4 w-4" />
-                      <span>{session.staffName}</span>
+            {latestSession && (
+              <div className="ml-3 flex flex-col gap-2 border-b border-gray-200 pb-2">
+                <NavLink
+                  to={getOrganizationPath(
+                    "/restaurant/pos-overview",
+                    organization,
+                  )}
+                  onClick={closeBar}
+                  className={getLinkClass({ isActive: false })}
+                >
+                  <ListCheck className="h-4 w-4" />
 
+                  <span className="min-w-0 flex-1 truncate text-left">
+                    {latestSession.staffName}
+                  </span>
+
+                  {currentStatus && (
+                    <span className="flex items-center gap-2">
                       <span
-                        className={`ml-auto h-2.5 w-2.5 rounded-full ${session.isPaused ? "bg-gray-400" : "bg-green-500"
-                          }`}
-                        title={
-                          session.isPaused ? "Session Paused" : "Session Active"
-                        }
+                        className={`h-2.5 w-2.5 shrink-0 rounded-full ${currentStatus.color}`}
+                        title={`Session ${currentStatus.label}`}
                       />
-                    </NavLink>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <p className="px-2 py-2 text-sm text-gray-500">
-                No active sessions today
-              </p>
+
+                      {/* <span className={`text-xs ${currentStatus.textColor}`}>
+                        {currentStatus.label}
+                      </span> */}
+                    </span>
+                  )}
+                </NavLink>
+              </div>
             )}
           </div>
         )}
@@ -256,5 +270,11 @@ const RestaurantNavbar = ({
     </nav>
   );
 };
+
+interface RestaurantNavbarProps {
+  closeBar?: () => void;
+  openSessionMode?: () => void;
+  onOpenSetting?: (setting: string) => void;
+}
 
 export default RestaurantNavbar;

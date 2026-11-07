@@ -27,6 +27,7 @@ const Card: React.FC<{
   </section>
 );
 
+//week day month
 function SegmentedControl<T extends string>({
   options,
   value,
@@ -63,6 +64,7 @@ interface Column<T> {
   render: (row: T) => React.ReactNode;
 }
 
+//table
 function DataTable<T>({
   columns,
   rows,
@@ -113,13 +115,14 @@ function DataTable<T>({
   );
 }
 
+//label:value
 const ReconRow: React.FC<{ label: string; value: number }> = ({
   label,
   value,
 }) => (
   <div className="flex justify-between py-1 text-xs text-gray-700">
     <span>{label}</span>
-    <span className={value < 0 ? "text-red-600" : ""}>
+    <span className={value < 0 ? "text-red-700" : ""}>
       {value < 0
         ? `(${formatCurrency(Math.abs(value))})`
         : formatCurrency(value)}
@@ -245,10 +248,13 @@ const txColumns: Column<Transaction>[] = [
 const CashSummary = () => {
   const [range, setRange] = useState<Range>("Today");
 
+  //Calculating total sales
   const total = paymentBreakdown.reduce((s, p) => s + p.value, 0);
+
   const r = reconciliation;
   const expectedCash =
     r.openingCash + r.cashSales + r.cashRefunds + r.cashExpenses + r.cashDrops;
+  //cash diffenrece
   const difference = r.actualCounted - expectedCash;
 
   return (
@@ -296,7 +302,7 @@ const CashSummary = () => {
           tone="border-green-100 bg-green-50"
           iconBg="bg-emerald-500"
           color="#22a06b"
-          trend={[2, 3, 3, 4, 4, 6]}
+          trend={[2, 3, 3, 4, 4]}
         />
         <StatCard
           label="Card Payment"
@@ -306,7 +312,7 @@ const CashSummary = () => {
           tone="border-purple-100 bg-purple-50"
           iconBg="bg-violet-500"
           color="#8b5cf6"
-          trend={[2, 2, 4, 3, 5, 7]}
+          trend={[2, 2, 6, 3, 5, 7]}
         />
         <StatCard
           label="Digital Payment"
