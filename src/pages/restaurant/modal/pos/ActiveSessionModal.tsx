@@ -80,11 +80,11 @@ const ActiveSessionModal = ({
 
         {/* Actions */}
         <div className="mt-6 flex flex-col gap-3">
-          <ReusableButton
+          {/* <ReusableButton
             title="Continue"
             onClick={onContinue}
             variant="primary"
-          />
+          /> */}
 
           <ReusableButton
             title="Pause Session"

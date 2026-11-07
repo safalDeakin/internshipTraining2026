@@ -5,7 +5,7 @@ import usePricelist from "../context/usePricelist";
 import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import type { PricelistType } from "../../types/DropdownTypes";
 
-const Pricelist = () => {
+const PricelistLayout = () => {
   //data from context
   const { filteredPricelists, loading, search, setSearch } = usePricelist();
 
@@ -44,4 +44,4 @@ const Pricelist = () => {
   );
 };
 
-export default Pricelist;
+export default PricelistLayout;
