@@ -37,7 +37,12 @@ export const StatCard: React.FC<StatCardProps> = ({
           change >= 0 ? "text-green-600" : "text-red-600"
         }`}
       >
-        {change >= 0 ? <ArrowUp /> : <ArrowDown />} {Math.abs(change)}%
+        {change >= 0 ? (
+          <ArrowUp className="w-4 h-4" />
+        ) : (
+          <ArrowDown className="w-4 h-4" />
+        )}{" "}
+        {Math.abs(change)}%
       </p>
     </div>
     <Sparkline values={trend} color={color} />

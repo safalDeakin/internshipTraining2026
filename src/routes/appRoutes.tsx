@@ -25,6 +25,8 @@ import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistR
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
+import { POSUserSessionProvider } from "../pages/restaurant/pages/posuserSession/context/POSUserSessionContext";
+import PosOvervewRenderer from "../pages/pos-overviewPage/PosOvervewRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -104,6 +106,10 @@ export const appRoutes: AppRoute[] = [
         element: <OfferRenderer />,
       },
       {
+        path: "pos-overview",
+        element: <PosOvervewRenderer />,
+      },
+      {
         path: "session",
         element: <POSUserSession />,
       },
@@ -126,10 +132,7 @@ export const appRoutes: AppRoute[] = [
         path: "all-rooms",
         element: <RoomPageRenderer />,
       },
-      // {
-      //   path: "room",
-      //   element: <Rooms />,
-      // },
+
       {
         path: "reservation",
         element: <Reservation />,

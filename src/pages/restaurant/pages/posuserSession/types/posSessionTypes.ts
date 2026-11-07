@@ -1,40 +1,73 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-//1: allowed session modes
+// 1. Allowed session modes
 export type POSSessionMode =
   | "Standard"
   | "Over The Air"
   | "Manager Mode"
   | "Service and Technical Check";
 
-// 2://Sessionmodal props
-// export interface SessionModeModalProps {
-//   onClose: () => void;
-//   onSelect?: (mode: POSSessionMode) => void;
-//   onEndSession?: () => void;
-//   onPause?: () => void;
-//   isSessionActive?: boolean;
-//   staffName: string;
-//   terminal: string;
-//   date: string;
-//   activeSessionStartTime?: string;
-// }
+// 2. Session lifecycle status
+export type POSSessionStatus = "active" | "paused" | "ended";
+
+// 3. POS Session data
+export interface POSSession {
+  id: string;
+  staffId: string;
+  staffName: string;
+  terminal: string;
+  date: string;
+  mode: POSSessionMode;
+  organizationId: string | number;
+
+  // Session timing
+  startTime: string;
+  endTime: string | null;
+  pausedAt?: string | null;
+
+  // Session status
+  status: POSSessionStatus;
+
+  // Cash details
+  openingCash: number;
+  closingCash?: number;
+
+  // Notes
+  openingNotes?: string;
+  closingNotes?: string;
+  // Total time spent paused (milliseconds)
+  totalPausedDurationMs?: number;
+
+  // Verification
+  isApproved: boolean;
+  isVerified: boolean;
+}
+
+// 4. Session modal props
 export interface SessionModeModalProps {
   onClose: () => void;
+
   onSelect?: (
     mode: POSSessionMode,
-    data: { openingCash: number; notes: string },
+    data: {
+      openingCash: number;
+      notes: string;
+    },
   ) => void;
+
   onEndSession?: () => void;
   onPause?: () => void;
+
   isSessionActive?: boolean;
+  showActiveSessionOnly?: boolean;
+
   staffName: string;
   terminal: string;
   date: string;
   activeSessionStartTime?: string;
 }
 
-//4://Differt buttonprops
+// 5. Different button props
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   title?: string;
   loading?: boolean;
@@ -42,15 +75,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
   icon?: ReactNode;
 }
-//----------------------------------------------------------------------------------------------------------
 
-//POSUser session first
+// 6. POS User Session props
 export interface POSUserSessionProps {
   onExit?: () => void;
   sessionMode?: POSSessionMode;
 }
 
-//properties that layout accepts
+// 7. Two Panel Layout props
 export interface TwoPanelLayoutProps {
   children: ReactNode;
   panel?: ReactNode;
@@ -70,7 +102,7 @@ export interface TwoPanelLayoutProps {
   onHistoryClick?: () => void;
 }
 
-//formframe
+// 8. Form Frame props
 export interface FormFrameProps {
   title: string;
   description?: string;
@@ -79,7 +111,8 @@ export interface FormFrameProps {
   onClose?: () => void;
   className?: string;
 }
-//receipt
+
+// 9. Receipt Frame props
 export interface ReceiptFrameProps {
   hotelName: string;
   address: string;
@@ -89,7 +122,7 @@ export interface ReceiptFrameProps {
   onDownloadPDF?: () => void;
 }
 
-//Cancel process
+// 10. KOT Cancel types
 export interface KOTCard {
   id: number;
   reference: string;
