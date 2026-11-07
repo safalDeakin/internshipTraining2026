@@ -1,0 +1,274 @@
+@import 'tailwindcss';
+
+@layer base {
+    html {
+        background: #f2f2f2;
+    }
+
+    body {
+        margin: 0;
+        color: #111;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
+
+.document-list {
+    display: grid;
+    gap: 32px;
+    justify-content: center;
+    padding: 8px 0 36px;
+}
+
+.a4-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 13mm 7mm;
+    overflow: hidden;
+    background: #fff;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.hotel-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+h2 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.document-number {
+    display: flex;
+    flex-direction: column;
+    margin: 7px 10px 23px;
+}
+
+.two-column-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin: 0 9px 12px;
+}
+
+.info-card {
+    min-height: 104px;
+    padding: 8px 4px;
+    border: 1px solid #ececec;
+    border-radius: 7px;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 142px 1fr;
+    line-height: 1.55;
+}
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.receipt-table th,
+.receipt-table td {
+    padding: 8px 9px;
+    border-bottom: 1px solid #ddd;
+    font-weight: 400;
+}
+
+.receipt-table th {
+    border-top: 1px solid #ddd;
+}
+
+.receipt-table td:last-child {
+    font-weight: 700;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.totals>div,
+.table-total {
+    display: flex;
+    justify-content: space-between;
+    min-height: 38px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #bbb;
+}
+
+.totals>div:nth-child(2) {
+    min-height: 49px;
+    align-items: end;
+    border-bottom: 0;
+}
+
+.totals>div:nth-child(3) {
+    min-height: 34px;
+}
+
+.totals .grand-total {
+    align-items: center;
+    min-height: 48px;
+    font-size: 14px;
+}
+
+.payment-summary {
+    margin: 11px 10px;
+    font-size: 16px;
+}
+
+.payment-summary h2 {
+    font-size: 15px;
+}
+
+.payment-summary p {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    margin: 8px 0;
+}
+
+.red {
+    color: #e85151;
+}
+
+.receipt-heading {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3px;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.receipt-heading h2 {
+    font-size: 16px;
+}
+
+.receipt-info {
+    gap: 12px;
+    margin: 0 3px;
+}
+
+.table-section {
+    margin-top: 17px;
+}
+
+.table-section h2 {
+    margin: 0 28px 18px;
+}
+
+.table-total {
+    min-height: auto;
+    padding: 5px 8px;
+    font-size: 16px;
+}
+
+.receipt-notes {
+    margin: 28px;
+    font-size: 13px;
+}
+
+.receipt-notes div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 38px;
+}
+
+.receipt-notes b,
+.refund-notes b {
+    color: #aaa;
+}
+
+.receipt-notes p {
+    margin: 0 0 40px;
+}
+
+.refund-heading {
+    margin: 0 4px 5px;
+    font-size: 16px;
+}
+
+.refund-heading p {
+    margin: 0 0 10px;
+}
+
+.refund-heading h2 {
+    font-size: 16px;
+}
+
+.refund-table {
+    margin-top: 31px;
+}
+
+.refund-table h2 {
+    margin: 0 0 7px;
+}
+
+.refund-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 12px;
+}
+
+.refund-notes div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.refund-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    margin: 19px 31px 0;
+}
+
+@media (max-width: 820px) {
+    .document-list {
+        display: block;
+        width: 210mm;
+        transform: scale(calc(100vw / 794));
+        transform-origin: top left;
+    }
+
+    .a4-page {
+        margin-bottom: 32px;
+    }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html {
+        background: white;
+    }
+
+    .document-list {
+        display: block;
+        padding: 0;
+    }
+
+    .a4-page {
+        break-after: page;
+    }
+}

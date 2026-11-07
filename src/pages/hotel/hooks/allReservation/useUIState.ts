@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
-import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
-import type { TabKey } from '../../pages/allReservation/types/index';
+import type { TabKey } from '../../pages/XXXallReservation/types';
+import { useAllReservationContext } from '../../pages/XXXallReservation/context/AllReservationContext';
 
 export function useUIState() {
     const { uiState } = useAllReservationContext();
@@ -15,5 +15,9 @@ export function useUIState() {
         setActiveTab: (tab: TabKey) => uiState.setActiveTab(tab),
         setActiveSidebarItem: (item: string) => uiState.setActiveSidebarItem(item),
         resetTab: () => uiState.resetTab(),
+        openAddComplaint: () => uiState.openAddComplaint(),
+        openUpdateComplaint: (complaintId: string) =>
+            uiState.openUpdateComplaint(complaintId),
+        closeComplaintModal: () => uiState.closeComplaintModal(),
     };
 }

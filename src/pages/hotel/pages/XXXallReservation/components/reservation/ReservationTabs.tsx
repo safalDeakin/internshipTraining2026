@@ -1,0 +1,66 @@
+
+import type { TabKey } from '../../types';
+import CustomerDetails from './tabs/CustomerDetails';
+import GuestFolio from './tabs/GuestFolio';
+import RoomTab from './tabs/RoomTab';
+import NotesTab from './tabs/NotesTab';
+import StayTab from './tabs/StayTab';
+import PaymentsTab from './tabs/PaymentsTab';
+import ComplaintTab from './tabs/ComplaintTab';
+import { useUIState } from '../../../../hooks/allReservation/useUIState';
+
+const tabs: { key: TabKey; label: string }[] = [
+    { key: 'customer', label: 'Customer Details' },
+    { key: 'folio', label: 'Guest Folio' },
+    { key: 'room', label: 'Room' },
+    { key: 'notes', label: 'Notes' },
+    { key: 'stay', label: 'Stay' },
+    { key: 'payments', label: 'Payments' },
+    { key: 'complaint', label: 'Complaint' },
+];
+
+const tabComponents: Record<TabKey, React.ComponentType> = {
+    customer: CustomerDetails,
+    folio: GuestFolio,
+    room: RoomTab,
+    notes: NotesTab,
+    stay: StayTab,
+    payments: PaymentsTab,
+    complaint: ComplaintTab,
+};
+
+export default function ReservationTabs() {
+    const { activeTab, setActiveTab } = useUIState();
+    const ActiveComponent = tabComponents[activeTab as TabKey];
+
+    return (
+        <div className="flex flex-col flex-1 min-h-0">
+            <div className="border-b border-gray-200 bg-white px-4 shrink-0">
+                <div className="flex">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+<<<<<<< HEAD
+                            className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors -mb-px ${activeTab === tab.key
+                                    ? 'border-blue-500 text-blue-700 bg-blue-50 rounded-t'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+=======
+                            className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors -mb-px ${selectedTab === tab.key
+                                ? 'border-blue-500 text-blue-700 bg-blue-50 rounded-t'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+>>>>>>> dev
+                                }`}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-2">
+                <ActiveComponent />
+            </div>
+        </div>
+    );
+}

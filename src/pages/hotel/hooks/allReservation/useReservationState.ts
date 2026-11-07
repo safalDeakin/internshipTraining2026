@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
+import { useAllReservationContext } from '../../pages/XXXallReservation/context/AllReservationContext';
 
 export function useReservationState() {
   const { reservationState } = useAllReservationContext();

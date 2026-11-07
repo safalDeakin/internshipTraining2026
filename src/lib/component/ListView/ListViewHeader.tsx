@@ -1,0 +1,62 @@
+import { ArrowRight, Plus } from "lucide-react";
+import './style.css';
+
+interface SidebarHeaderProps {
+    title: string;
+    onClick?: () => void;
+    showAddButton?: boolean;
+}
+
+export default function SidebarHeader({
+    title,
+    onClick,
+    showAddButton = true,
+}: SidebarHeaderProps) {
+    return (
+        <div className="flex h-6 items-center justify-between p-2">
+            {/* Left Side */}
+            <div className="flex items-center gap-3 text-xl font-medium text-[#0066b3]">
+                <ArrowRight
+                    size={22}
+                    strokeWidth={2}
+                />
+
+                {/* <span className="text-[16px] font-medium text-[#0066B3]">
+                    {title}
+                </span> */}
+
+                <span className="title">
+                    {title}
+                </span>
+            </div>
+
+            {/* Right Side Add Button */}
+            {showAddButton && (
+                <button
+                    type="button"
+                    onClick={onClick}
+                    className="
+                        flex
+                        h-8
+                        w-8
+                        cursor-pointer
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        border-gray-300
+                        bg-white
+                        hover:bg-[#f3f7fb]
+                    "
+                >
+                    <Plus
+                        size={20}
+                        strokeWidth={2}
+                        className="text-[#0066B3]"
+                    />
+                </button>
+            )}
+        </div>
+    );
+}
+

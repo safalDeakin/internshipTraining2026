@@ -1,25 +1,30 @@
 //author:shrajja
 //central route + navigation configuration
 import type { ReactNode } from "react";
-import type { Resources } from "../utils/secureclient/services/models/permission";
-import Dashboard from "../component/Dashboard";
+import type { Resources } from "../lib/utils/secureclient/services/models/permission";
+import Dashboard from "../lib/component/Dashboard";
 import TestComponent from "../pages/test/TestComponent";
 import Activity from "../pages/activity-log/Activity";
 import Hoteldetails from "../pages/hotel/pages/Hoteldetails";
 import Reservation from "../pages/hotel/pages/Reservation";
-import Rooms from "../pages/hotel/pages/Rooms";
+// import Rooms from "../pages/hotel/pages/XXRooms";
 import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
-import Products from "../pages/restaurant/pages/Products";
-import Offer from "../pages/restaurant/pages/Offer";
-import Pricelist from "../pages/restaurant/pages/Pricelist";
-import Sales from "../pages/restaurant/pages/Sales";
-import ResDash from "../pages/restaurant/ResDash";
+import Sales from "../pages/restaurant/pages/overview/Sales";
+import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
 import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
-import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
+// import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
-import RoomDetailRenderer from "../pages/hotel/pages/roomDetail/RoomDetailRenderer";
+import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
+import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
+import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
+import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRenderer";
+import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/ReservationMasterRenderer";
+import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
+import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
+import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
+import PosOvervewRenderer from "../pages/pos-overviewPage/PosOvervewRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -72,23 +77,35 @@ export const appRoutes: AppRoute[] = [
     children: [
       {
         index: true,
-        element: <ResDash />,
+        element: <RestaurantDashboard />,
       },
       {
         path: "sales",
         element: <Sales />,
       },
       {
-        path: "price",
-        element: <Pricelist />,
+        path: "cash",
+        element: <CashSummary />,
       },
       {
-        path: "offer",
-        element: <Offer />,
+        path: "price",
+        element: <PricelistRenderer />,
       },
       {
         path: "products",
-        element: <Products />,
+        element: <ProductRenderer />,
+      },
+      {
+        path: "offer",
+        element: <OfferRenderer />,
+      },
+      {
+        path: "pos-overview",
+        element: <PosOvervewRenderer />,
+      },
+      {
+        path: "session",
+        element: <POSUserSession />,
       },
     ],
   },
@@ -107,12 +124,9 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "all-rooms",
-        element: <RoomDetailRenderer />,
+        element: <RoomPageRenderer />,
       },
-      {
-        path: "room",
-        element: <Rooms />,
-      },
+
       {
         path: "reservation",
         element: <Reservation />,
@@ -123,7 +137,7 @@ export const appRoutes: AppRoute[] = [
           },
           {
             path: "all-reservation",
-            element: <FinalAllReservationPage />,
+            element: <ReservationPageRenderer />,
           },
           {
             path: "reservation-calendar",
@@ -133,6 +147,12 @@ export const appRoutes: AppRoute[] = [
       },
     ],
   },
+
+  {
+    path: "print-reservation-form",
+    element: <PrintBlankReservationForm />,
+  },
+
   {
     path: "reservation-report",
     element: <Report />,

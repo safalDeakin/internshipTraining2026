@@ -1,4 +1,4 @@
-import { useAllReservationContext } from '../../pages/allReservation/context/AllReservationContext';
+import { useAllReservationContext } from '../../pages/XXXallReservation/context/AllReservationContext';
 import { useReservationState } from './useReservationState';
 
 export function useReservationActions() {

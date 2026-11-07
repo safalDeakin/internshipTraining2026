@@ -1,25 +1,20 @@
+import { type DataChangeListener } from "../../lib/utils/repo/models/DataSource";
+import { Repository } from "../../lib/utils/repo/Repository";
+//Responsible for reading data (Get, Subscribe).
+class QueryService<T extends object, ID> {
+  constructor(private readonly source: Repository<T, ID>) { }
 
-import { DataChangeListener } from "../../infra/models/DataSource";
-import { Repository } from "../../infra/Repository";
+  async getByID(entityId: ID): Promise<T | null> {
+    return this.source.getById(entityId);
+  }
 
-class QueryService<T extends Object, ID> {
+  async getAll(): Promise<T[]> {
+    return this.source.getAll();
+  }
 
-    constructor(private readonly source: Repository<T, ID>) { };
-
-    async getByID(entityId: ID): Promise<T | null> {
-        return this.source.getById(entityId);
-    }
-
-    async getAll(): Promise<T[]> {
-        return this.source.getAll();
-    }
-
-    async subscribe(
-        listener: DataChangeListener<T, ID>
-    ): Promise<() => void> {
-        return this.source.subscribe(listener);
-    }
-
+  async subscribe(listener: DataChangeListener<T, ID>): Promise<() => void> {
+    return this.source.subscribe(listener);
+  }
 }
 
 export default QueryService;
