@@ -1,5 +1,5 @@
 import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView"
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useReservationList } from "./provider/listProvider/useReservationList";
 import type { ReservationListModel } from "./model/ReservationModel";
 import ReservationListProvider from "./provider/listProvider/ReservationListProvider";
@@ -15,6 +15,8 @@ import NotesTab from './component/tabs/NotesTab';
 import StayTab from './component/tabs/StayTab';
 import PaymentsTab from './component/tabs/PaymentsTab';
 import TabView from "../../../../lib/component/Tabview/TabView";
+import { useState } from "react";
+import HotelReservation from "../hotelReservation/HotelReservation";
 
 
 const tabComponents: { label: string, content: React.ComponentType }[] = [
@@ -49,6 +51,8 @@ const tabComponents: { label: string, content: React.ComponentType }[] = [
 
 function ReservationMasterDetailView() {
     const reservationListContext = useReservationList();
+
+    const [openMakeReservation, setOpenMakeReservation] = useState(false)
 
     const detailContentBuilder = (selectId: string) => {
         return (
@@ -99,7 +103,7 @@ function ReservationMasterDetailView() {
     const actionButton = <button
         type="button"
         className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-[#f3f7fb]"
-        onClick={() => { }}
+        onClick={() => setOpenMakeReservation(true)}
         aria-label="Add reservation"
     >
         <Plus
@@ -109,16 +113,30 @@ function ReservationMasterDetailView() {
         />
     </button>;
 
-    return <MasterDetailView
-        onSearchChange={reservationListContext.setSearchQuery}
-        searchQuery={reservationListContext.searchQuery}
-        items={reservationListContext.items}
-        detailContentBuilder={detailContentBuilder}
-        listItemBuilder={listItemBuilder}
-        getId={reservationListContext.getId}
-        title={reservationListContext.title}
-        headerChildren={actionButton}
-    />;
+    return (
+        <>
+            <MasterDetailView
+                onSearchChange={reservationListContext.setSearchQuery}
+                searchQuery={reservationListContext.searchQuery}
+                items={reservationListContext.items}
+                detailContentBuilder={detailContentBuilder}
+                listItemBuilder={listItemBuilder}
+                getId={reservationListContext.getId}
+                title={reservationListContext.title}
+                headerChildren={actionButton}
+            />
+
+            {openMakeReservation && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+                    <div className="relative max-h-[95vh] w-full max-w-7xl overflow-y-auto rounded-xl bg-white shadow-2xl">
+                        <HotelReservation
+                            onClose={() => setOpenMakeReservation(false)}
+                        />
+                    </div>
+                </div>
+            )}
+        </>
+    )
 }
 
 export default function ReservationPageRenderer() {

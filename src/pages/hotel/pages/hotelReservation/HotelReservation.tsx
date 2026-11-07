@@ -6,15 +6,30 @@ import { PaymentInformation } from './components/PaymentInformation'
 import { useReservationFlow } from '../../hooks/hotelReservation/useReservationFlow'
 import "./styles/index.css"
 
-export default function HotelReservation() {
+type HotelReservationProps = {
+    onClose?: () => void
+}
+
+export default function HotelReservation({
+    onClose,
+}: HotelReservationProps) {
     const flow = useReservationFlow()
 
     return (
-        <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-8 sm:py-10 lg:px-14">
+        <main className="bg-slate-50 px-4 py-6 text-slate-950 sm:px-8 sm:py-10 lg:px-14">
             <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div className="p-5 sm:p-8 lg:p-10">
-                    <ReservationHeader onClose={flow.reset} />
-                    <ReservationStepper currentStep={flow.currentStep} onStepChange={flow.goToStep} />
+                    <ReservationHeader
+                        onClose={() => {
+                            flow.reset()
+                            onClose?.()
+                        }}
+                    />
+
+                    <ReservationStepper
+                        currentStep={flow.currentStep}
+                        onStepChange={flow.goToStep}
+                    />
 
                     {flow.screen === 'rooms' && (
                         <RoomSelection
@@ -23,6 +38,7 @@ export default function HotelReservation() {
                             onNext={flow.next}
                         />
                     )}
+
                     {flow.screen === 'guest' && (
                         <GuestInformation
                             data={flow.guestDetails}
@@ -31,6 +47,7 @@ export default function HotelReservation() {
                             onNext={flow.next}
                         />
                     )}
+
                     {flow.screen === 'payment' && (
                         <PaymentInformation
                             data={flow.paymentDetails}
@@ -39,16 +56,25 @@ export default function HotelReservation() {
                             onSubmit={flow.complete}
                         />
                     )}
+
                     {flow.screen === 'complete' && (
                         <section className="mx-auto max-w-xl py-24 text-center">
                             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
                                 Reservation confirmed
                             </p>
-                            <p className="mt-3 text-2xl font-bold sm:text-3xl">Your stay is booked.</p>
+
+                            <p className="mt-3 text-2xl font-bold sm:text-3xl">
+                                Your stay is booked.
+                            </p>
+
                             <p className="mt-3 text-sm text-slate-500 sm:text-base">
                                 A confirmation has been prepared.
                             </p>
-                            <button className="primary-button mt-8" onClick={flow.reset}>
+
+                            <button
+                                className="primary-button mt-8"
+                                onClick={flow.reset}
+                            >
                                 Make another reservation
                             </button>
                         </section>
