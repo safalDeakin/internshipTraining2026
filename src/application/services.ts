@@ -41,6 +41,11 @@ import {
   type ProductGroup,
 } from "../pages/restaurant/dropdown/products/data/initialProductData";
 
+//PMS/Guest-Request
+import type { GuestRequest } from "../domain/GuestRequest";
+import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
+
+
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
   domain: "Reservation",
@@ -217,3 +222,20 @@ export const PricelistQueryService = new QueryService<Pricelist, string>(
 export const PricelistCmdService = new CommandService<Pricelist, string>(
   PricelistRepo,
 );
+
+
+
+
+//This is for Guest Request
+const GuestRequestRepo = new Repository<GuestRequest, string>({
+  sourceType: 'InMemoryLocal',
+  domain: 'GuestRequest',
+  tenantId: 'MySpace1234',
+  getId: (entity: GuestRequest) => String(entity.id),
+  initialData: guestRequests,
+  baseUrl: "asas",
+  eventsUrl: "events"
+})
+
+export const guestRequestQueryService = new QueryService<GuestRequest, string>(GuestRequestRepo);
+export const guestRequestCmdService = new CommandService<GuestRequest, string>(GuestRequestRepo);
