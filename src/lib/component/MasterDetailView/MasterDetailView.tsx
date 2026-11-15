@@ -2,7 +2,7 @@ import { ListHeader } from "./component/Header";
 import { SearchBox } from "./component/SearchBox";
 import ListArea from "./component/ListArea";
 import { DetailSectionContainer } from "./component/DetailSectionContainer";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 type MasterDetailsProps<T extends object, ID> = {
     items: T[],
@@ -25,8 +25,15 @@ export default function MasterDetailView<T extends object, ID>({
     title,
     headerChildren
 }: MasterDetailsProps<T, ID>) {
-    const [selectedId, setSelectedId] =
-        useState<ID>(getId(items[0]));
+    const [selectedId, setSelectedId] = useState<ID | undefined>(
+        items.length > 0 ? getId(items[0]) : undefined
+    );
+
+    useEffect(() => {
+        if (selectedId === undefined && items.length > 0) {
+            setSelectedId(getId(items[0]));
+        }
+    }, [items, selectedId, getId]);
 
     return (
         <div className="flex min-h-screen bg-[#f6f6f6] text-[#4a4a4a]">

@@ -14,6 +14,7 @@ import SettingRenderer from "../popupsetting/components/SettingRenderer";
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
+import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -219,9 +220,8 @@ export default function HotelLayout() {
       */
 
       case "guest-request":
-        // Replace with your real GuestRequest component.
         return (
-          <DemoComponent title="Guest Request" />
+          <GuestRequestPageRenderer />
         );
 
       case "arrivals":
