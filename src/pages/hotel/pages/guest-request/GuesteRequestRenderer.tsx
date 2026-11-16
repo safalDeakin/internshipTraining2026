@@ -4,16 +4,14 @@ import { RequestDetails } from "./components/RequestDetails";
 import type { GuestRequest } from "../../../../domain/GuestRequest";
 import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView";
 import { RepoGuestRequestProvider } from "./provider/GuestRequestProvider";
-import { RequestHeader } from "./components/RequestHeader";
-import { useState } from "react";
 
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
+import GuestRequestToolbar from "./components/GuestRequestToolbar";
 
 function GuestRequestMasterDetailView() {
     const guestRequestContext = useGuestRequestHook();
     const { showDialog } = useDialogBox();
 
-    const [showDummyModal, setShowDummyModal] = useState(false);
 
     const detailContentBuilder = (selectedId: string) => {
         const request = guestRequestContext.data.find(
@@ -30,10 +28,11 @@ function GuestRequestMasterDetailView() {
 
         return (
             <>
-                <RequestHeader
+                <GuestRequestToolbar
                     request={request}
                     posted={false}
                 />
+                <div className="p-1"></div>
                 <RequestDetails
                     request={request}
                 />
@@ -46,11 +45,11 @@ function GuestRequestMasterDetailView() {
     ) => {
         return (
             <div className="flex items-center gap-2">
-                <span className="text-[9px] font-medium text-slate-600">
+                <span className="text-[12px] font-medium text-slate-600">
                     {item.reservation}
                 </span>
 
-                <span className="truncate text-[9px] text-slate-600">
+                <span className="truncate text-[12px] text-slate-600">
                     {item.title}
                 </span>
             </div>

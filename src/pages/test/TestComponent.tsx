@@ -15,7 +15,8 @@ import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import PettyCash from "./pettycash/PettyCash";
 import RefundSidebar from "./refund/Refund";
 import GuestRequestPageRenderer from "../hotel/pages/guest-request/GuesteRequestRenderer";
-import PackageRenderer from "../hotel/pages/hotel-packages/components/PackageRenderer";
+import GuestCheckoutRenderer from "../guest-checkout/GuestCheckoutRenderer";
+// import PackageRenderer from "../hotel/pages/hotel-packages/components/PackageRenderer";
 
 const TestComponent = () => {
   return (
@@ -48,7 +49,8 @@ const TestComponent = () => {
       <RefundSidebar />
       <PettyCash /> */}
       {/* <GuestRequestPageRenderer /> */}
-      < PackageRenderer />
+      {/* < PackageRenderer /> */}
+      <GuestCheckoutRenderer />
 
     </>
   );
