@@ -1,5 +1,5 @@
-import { ReactNode, useCallback, useRef, useState } from "react";
-import DrawerContext, { DrawerOptions } from "./DrawerContext";
+import { type ReactNode, useCallback, useRef, useState } from "react";
+import DrawerContext, { type DrawerOptions } from "./DrawerContext";
 import { createPortal } from "react-dom";
 import DrawerContainer from "./DrawerContainer";
 

@@ -1,15 +1,21 @@
 
-import { useRepoPackageHook } from "../../context/RepoPackageProvider";
 import { DetailList } from "../DetailList";
 import SectionHeading from "../SectionHeading";
 import RoomDetail from "./RoomDetail";
 import MenuDetail from "./MenuDetail";
 import AddOnDetail from "./AddOnDetail";
+import type { HotelPackage } from "../../../../../../domain/hotel-package";
 
-export default function Overview() {
-    const { selectedPackage } = useRepoPackageHook();
+interface OverviewProps {
+    packageData: HotelPackage
 
-    if (!selectedPackage) return null;
+}
+
+export default function Overview({
+    packageData
+}: OverviewProps) {
+
+    if (!packageData) return null;
 
     return (
         <div className="space-y-8">
@@ -19,10 +25,10 @@ export default function Overview() {
                 <div className="grid gap-6 text-xs md:grid-cols-2 md:gap-12">
                     <dl className="space-y-2">
                         {[
-                            ["Package Name", selectedPackage.name],
-                            ["Package Code", selectedPackage.code],
-                            ["Category", selectedPackage.category],
-                            ["Package Type", selectedPackage.packageType],
+                            ["Package Name", packageData.name],
+                            ["Package Code", packageData.code],
+                            ["Category", packageData.category],
+                            ["Package Type", packageData.packageType],
                         ].map(([label, value]) => (
                             <div
                                 className="grid grid-cols-[110px_minmax(0,1fr)] gap-3"
@@ -36,20 +42,21 @@ export default function Overview() {
                         <div className="grid grid-cols-1 gap-1 pt-1 sm:grid-cols-[110px_minmax(0,1fr)] sm:gap-3">
                             <dt className="text-[#696965]">Description</dt>
                             <dd className="max-w-xl leading-relaxed">
-                                {selectedPackage.description}
+                                {packageData.description}
                             </dd>
                         </div>
                     </dl>
 
-                    <DetailList items={selectedPackage.bookingDetails} />
+                    <DetailList items={packageData.bookingDetails} />
                 </div>
             </section>
 
-            <RoomDetail compact />
+            <RoomDetail packageData={packageData} compact />
+
 
             <div className="grid gap-7 xl:grid-cols-2">
-                <MenuDetail compact />
-                <AddOnDetail compact />
+                <MenuDetail packageData={packageData} compact />
+                <AddOnDetail packageData={packageData} compact />
             </div>
         </div>
     );

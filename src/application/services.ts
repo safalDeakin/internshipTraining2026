@@ -5,7 +5,7 @@ import CommandService from "./service/CommandService";
 
 //Hotel-Package
 import type { HotelPackage } from "../domain/hotel-package";
-import { packages } from "../pages/hotel-packages/data/packages";
+import { packages } from "../pages/hotel/pages/hotel-packages/data/packages";
 
 //HouseKeeping
 import type { Room } from "../domain/houseKeeping";

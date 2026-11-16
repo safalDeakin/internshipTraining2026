@@ -1,17 +1,19 @@
 
-import { useRepoPackageHook } from "../../context/RepoPackageProvider";
+import type { HotelPackage } from "../../../../../../domain/hotel-package";
 import SectionHeading from "../SectionHeading";
 
 interface MenuDetailProps {
+    packageData: HotelPackage
+
     compact?: boolean;
 }
 
 export default function MenuDetail({
+    packageData,
     compact = false,
 }: MenuDetailProps) {
-    const { selectedPackage } = useRepoPackageHook();
 
-    if (!selectedPackage) return null;
+    if (!packageData) return null;
 
     return (
         <section>
@@ -31,7 +33,7 @@ export default function MenuDetail({
                     </thead>
 
                     <tbody>
-                        {selectedPackage.menu.map((item) => (
+                        {packageData.menu.map((item) => (
                             <tr
                                 className="border-t border-[#eeeeeb]"
                                 key={item.mealType}
