@@ -292,14 +292,14 @@ export default function HotelLayout() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen  bg-white" style={{ padding: '4px', gap: '4px' }}>
       {/* SIDEBAR */}
       <aside className="w-64 shrink-0">
         <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="min-w-0 flex-1 overflow-x-auto bg-gray-50 p-4">
+      <main className="min-w-0 flex-1 overflow-x-auto">
         <DialogProvider>
           <DrawerProvider>
             {renderContent()}

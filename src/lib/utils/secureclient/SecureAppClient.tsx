@@ -33,7 +33,8 @@ interface SecureAppClientProps {
 const OrganizationLayout = ({ routes }: { routes: AppRoute[] }) => {
   return (
     <>
-      <Navbar routes={routes} /> <Outlet />{" "}
+      <Navbar routes={routes} />
+      <Outlet />{" "}
     </>
   );
 };
