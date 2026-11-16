@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
-
+import './style.css';
 
 export function ListHeader({
     title, children

@@ -43,7 +43,9 @@ const Navbar = ({ routes }: NavbarProps) => {
   //this groupedroutes return in object
 
   return (
-    <div className="w-full flex flex-col gap-4 bg-white shadow-sm p-3">
+    <div className="w-full flex flex-col gap-4 shadow-sm p-3"
+      style={{ backgroundColor: 'rgba(249, 250, 250, 1)' }}
+    >
       <ul className="flex justify-between items-center">
         {/* Organization / Dashboard */}
         <NavLink to="." className="font-bold">
