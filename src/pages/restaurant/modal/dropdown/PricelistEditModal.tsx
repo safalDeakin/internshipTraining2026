@@ -3,7 +3,6 @@ import { ChevronDown, Plus, Search } from "lucide-react";
 import MsTable from "../../../../lib/component/table/components/MsTable";
 import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
 import type { PricelistType } from "../../dropdown/types/DropdownTypes";
-import DialogContainer from "../../../../lib/component/DialogueBox/DialogContainer";
 
 const editColumns = [
   {
@@ -19,7 +18,6 @@ const editColumns = [
           className="h-4 w-4"
           onClick={(event) => event.stopPropagation()}
         />
-
         <span className="flex items-center gap-1 text-blue-500">
           {item.name}
           {item.sub}
@@ -80,18 +78,10 @@ interface PricelistEditModalProps {
 }
 
 const PricelistEditModal = ({ onClose, items }: PricelistEditModalProps) => {
-  const modalContent = (
+  return (
     <div className="flex max-h-[85vh] w-full flex-col overflow-hidden rounded-xl bg-white">
-      {/* Header */}
-      <div className="shrink-0 px-6 py-4 text-center">
-        <h1 className="text-xl font-semibold text-gray-900">
-          Update Pricelists
-        </h1>
-      </div>
-
       {/* Toolbar */}
       <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 px-6 py-4">
-        {/* Search */}
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
 
@@ -104,7 +94,6 @@ const PricelistEditModal = ({ onClose, items }: PricelistEditModalProps) => {
           <ChevronDown className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
         </div>
 
-        {/* Add item */}
         <ReusableButton variant="outline" size="sm" icon={<Plus size={16} />}>
           Add Item
         </ReusableButton>
@@ -132,19 +121,6 @@ const PricelistEditModal = ({ onClose, items }: PricelistEditModalProps) => {
         </ReusableButton>
       </div>
     </div>
-  );
-
-  return (
-    <DialogContainer
-      dialog={{
-        content: modalContent,
-        width: "1100px",
-        showCloseButton: false,
-        closeOnEscape: true,
-        closeOnBackdrop: true,
-      }}
-      onClose={onClose}
-    />
   );
 };
 
