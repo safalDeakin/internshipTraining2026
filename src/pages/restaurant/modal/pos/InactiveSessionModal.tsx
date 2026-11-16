@@ -1,7 +1,12 @@
+// author: shrajja
+
 import { useState } from "react";
+
 import { sessionModes } from "../../pages/posuserSession/constants/posSessionAlldata";
 import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
+
 import type { POSSessionMode } from "../../pages/posuserSession/types/posSessionTypes";
+
 import StartingSessionModal from "./StartingSessionModal";
 
 interface InactiveSessionModalProps {
@@ -9,9 +14,13 @@ interface InactiveSessionModalProps {
   terminal: string;
   date: string;
   onClose: () => void;
+
   onSelect: (
     mode: POSSessionMode,
-    data: { openingCash: number; notes: string },
+    data: {
+      openingCash: number;
+      notes: string;
+    },
   ) => void;
 }
 
@@ -24,7 +33,7 @@ const InactiveSessionModal = ({
 }: InactiveSessionModalProps) => {
   const [pickedMode, setPickedMode] = useState<POSSessionMode | null>(null);
 
-  // Step 2: Opening cash form.
+  // Step 2: Show opening cash form.
   if (pickedMode) {
     return (
       <StartingSessionModal
@@ -37,9 +46,9 @@ const InactiveSessionModal = ({
     );
   }
 
-  // Step 1: Session mode selection.
+  // Step 1: Show session mode selection.
   return (
-    <div className="relative w-full rounded-2xl bg-white p-6">
+    <div className="relative w-full rounded-2xl bg-white p-6 ">
       {/* Session details */}
       <div className="space-y-4">
         <div>

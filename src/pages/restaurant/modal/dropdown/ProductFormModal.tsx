@@ -103,22 +103,24 @@ const ProductFormModal = ({
 
       {/* Recommended Add-ons */}
       <div className="mb-6">
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex flex-col ">
           <label className="text-sm font-medium text-gray-700">
             Recommended Add-ons
           </label>
 
-          <button
+          <ReusableButton
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handleAddAddon}
-            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="w-50 mt-2"
           >
             <Plus size={15} />
             Add
-          </button>
+          </ReusableButton>
         </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           {recommendedAddons.map((addon, index) => (
             <div key={index} className="flex items-center gap-2">
               <input
@@ -142,7 +144,7 @@ const ProductFormModal = ({
               </button>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Footer */}

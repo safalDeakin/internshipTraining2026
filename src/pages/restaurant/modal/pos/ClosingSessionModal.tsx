@@ -19,8 +19,8 @@ const ClosingSessionModal = ({
   onCancel,
   onConfirm,
 }: ClosingSessionModalProps) => {
-  const [closingCash, setClosingCash] = useState("");
-  const [notes, setNotes] = useState("");
+  const [closingCash, setClosingCash] = useState("8888888");
+  const [notes, setNotes] = useState("jjjjjjjjjjjj");
 
   const cash = Number(closingCash);
 

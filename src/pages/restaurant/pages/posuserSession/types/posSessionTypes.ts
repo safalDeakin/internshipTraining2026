@@ -77,8 +77,17 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 // 6. POS User Session props
+
 export interface POSUserSessionProps {
   onExit?: () => void;
+
+  onStartSession?: (
+    mode: POSSessionMode,
+    data: { openingCash: number; notes: string },
+  ) => void;
+
+  onCancelStart?: () => void;
+
   sessionMode?: POSSessionMode;
 }
 

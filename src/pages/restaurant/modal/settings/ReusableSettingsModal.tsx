@@ -69,7 +69,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const variantStyles = navItemStyles[navVariant];
 
   return (
-    <div className=" flex h-full max-h-screen w-full flex-col overflow-hidden bg-white shadow-2xl">
+    <div className=" flex h-full max-h-screen w-full flex-col">
       <div className="flex min-h-0 w-full flex-1 flex-col px-4 pb-4 sm:px-6">
         {/* Header */}
         <header className="flex shrink-0 items-center justify-between border-b border-gray-200 px-2 pb-4 pt-5">
