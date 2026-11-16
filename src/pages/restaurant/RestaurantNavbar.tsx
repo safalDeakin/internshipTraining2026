@@ -54,7 +54,7 @@ const RestaurantNavbar = ({
     }).format(parsedDate);
   };
 
-  // Get only the latest session of each staff member
+  // Get only the latest session of each staff member.
   const organizationSessions = useMemo(() => {
     if (organization?.id == null) return [];
 
@@ -66,7 +66,6 @@ const RestaurantNavbar = ({
 
     filteredSessions.forEach((session) => {
       const staffKey = String(session.staffId);
-
       const existingSession = latestSessionsByStaff.get(staffKey);
 
       if (
@@ -80,6 +79,7 @@ const RestaurantNavbar = ({
 
     return Array.from(latestSessionsByStaff.values());
   }, [sessions, organization?.id]);
+
   // Group sessions by date.
   const groupedSessions = useMemo(() => {
     const groups = organizationSessions.reduce<Record<string, POSSession[]>>(
@@ -134,6 +134,13 @@ const RestaurantNavbar = ({
   // Open or continue POS session.
   const handlePlayClick = () => {
     openSessionMode?.();
+    closeBar?.();
+  };
+
+  // Handle other configuration settings.
+  const handleOtherSetting = (setting: string) => {
+    setIsRestaurantOpen(false);
+    onOpenSetting?.(setting);
     closeBar?.();
   };
 
@@ -215,19 +222,30 @@ const RestaurantNavbar = ({
               <div className="border-t border-gray-200 pt-3">
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
 
+                {/* Sales Setting opens as a normal route. */}
+                <NavLink
+                  to={getOrganizationPath(
+                    "/restaurant/sales-settings",
+                    organization,
+                  )}
+                  onClick={() => {
+                    setIsRestaurantOpen(false);
+                    closeBar?.();
+                  }}
+                  className={getLinkClass}
+                >
+                  Sales Setting
+                </NavLink>
+
+                {/* Other settings use the existing callback. */}
                 {[
-                  { label: "Sales Setting", id: "sales" },
                   { label: "Staffs and Access", id: "staffs" },
                   { label: "Device Setup", id: "devices" },
                 ].map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => {
-                      setIsRestaurantOpen(false);
-                      onOpenSetting?.(item.id);
-                      closeBar?.();
-                    }}
+                    onClick={() => handleOtherSetting(item.id)}
                     className={getLinkClass({ isActive: false })}
                   >
                     {item.label}

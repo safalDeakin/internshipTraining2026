@@ -25,6 +25,8 @@ import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistR
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 import PosOvervewRenderer from "../pages/pos-overviewPage/PosOvervewRenderer";
+import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
+import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
 
 //information needed for a navigation
 export type AppNav = {
@@ -106,6 +108,10 @@ export const appRoutes: AppRoute[] = [
       {
         path: "session",
         element: <POSUserSession />,
+      },
+      {
+        path: "sales-settings",
+        element: <ShellSetting />,
       },
     ],
   },

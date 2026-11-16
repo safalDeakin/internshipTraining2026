@@ -5,6 +5,7 @@ import SettingsModal, {
   SettingsSection,
   type SettingsNavItem,
 } from "./ReusableSettingsModal";
+
 import {
   BadgeDollarSign,
   BatteryCharging,
@@ -17,14 +18,7 @@ import {
 } from "lucide-react";
 
 interface BillingSettingsProps {
-  onClose: () => void;
-}
-
-interface BillingForm {
-  pricelist: string;
-  mode: "inclusive" | "exclusive";
-  tax: string;
-  rounding: "up" | "down" | "nearest";
+  onClose?: () => void;
 }
 
 const NAV: SettingsNavItem[] = [
@@ -35,6 +29,7 @@ const NAV: SettingsNavItem[] = [
   { id: "devices", label: "Devices", icon: <HardDrive /> },
   { id: "taxes", label: "Taxes", icon: <Percent /> },
 ];
+
 const devices = [
   { id: 1, name: "Kitchen" },
   { id: 2, name: "Bar" },
@@ -48,6 +43,7 @@ interface ChargeItem {
   chargeType: "Auto" | "Manual";
   status: boolean;
 }
+
 const registeredDevices = [
   {
     id: 1,
@@ -64,6 +60,7 @@ const registeredDevices = [
     active: false,
   },
 ];
+
 const initialCharges: ChargeItem[] = [
   {
     id: 1,
@@ -82,9 +79,12 @@ const initialCharges: ChargeItem[] = [
     status: false,
   },
 ];
+
 const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
   const [active, setActive] = useState<string>("billing");
+
   const [charges, setCharges] = useState<ChargeItem[]>(initialCharges);
+
   const [selectedDevices, setSelectedDevices] = useState({
     Kitchen: "bros",
     Bar: "bros",
@@ -97,66 +97,67 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
       ),
     );
   };
+
   return (
     <SettingsModal
-      title="Shell-Settings"
+      title=" Sales Setting"
       navItems={NAV}
       activeId={active}
       onNavChange={setActive}
-      onClose={onClose}
       navVariant="filled"
       learnMore={{
         href: "",
       }}
     >
+      {/* BILLING */}
       {active === "billing" && (
-        <>
-          <SettingsSection title="Pricing">
-            <SettingsField
-              label="Active Pricelist:"
-              hint="Billing Service will reference the above mentioned price-lists to generate invoices."
-            >
-              <select className="w-full">
-                <option value="march-2024-123">March 2024 - #123</option>
-              </select>
-            </SettingsField>
+        <SettingsSection title="Pricing">
+          <SettingsField
+            label="Active Pricelist:"
+            hint="Billing Service will reference the above mentioned price-lists to generate invoices."
+          >
+            <select className="w-full">
+              <option value="march-2024-123">March 2024 - #123</option>
+            </select>
+          </SettingsField>
 
-            <SettingsField
-              label="Pricing Mode:"
-              hint="Default taxes are applied to local sales transactions."
-            >
-              <select className="w-full">
-                <option value="inclusive">Tax Inclusive</option>
-                <option value="exclusive">Tax Exclusive</option>
-              </select>
-            </SettingsField>
+          <SettingsField
+            label="Pricing Mode:"
+            hint="Default taxes are applied to local sales transactions."
+          >
+            <select className="w-full">
+              <option value="inclusive">Tax Inclusive</option>
+              <option value="exclusive">Tax Exclusive</option>
+            </select>
+          </SettingsField>
 
-            <SettingsField
-              label="Default Tax:"
-              hint="Default taxes are applied to local sales transactions."
-            >
-              <select className="w-full">
-                <option value="vat13">VAT 13%</option>
-              </select>
-            </SettingsField>
+          <SettingsField
+            label="Default Tax:"
+            hint="Default taxes are applied to local sales transactions."
+          >
+            <select className="w-full">
+              <option value="vat13">VAT 13%</option>
+            </select>
+          </SettingsField>
 
-            <SettingsField
-              label="Tax Rounding Method:"
-              hint="How tax is calculated and rounded in invoices."
-            >
-              <select className="w-full">
-                <option value="up">Round Up</option>
-                <option value="down">Round Down</option>
-                <option value="nearest">Round Nearest</option>
-              </select>
-            </SettingsField>
+          <SettingsField
+            label="Tax Rounding Method:"
+            hint="How tax is calculated and rounded in invoices."
+          >
+            <select className="w-full">
+              <option value="up">Round Up</option>
+              <option value="down">Round Down</option>
+              <option value="nearest">Round Nearest</option>
+            </select>
+          </SettingsField>
 
-            <SettingsField
-              label="Additional Charges:"
-              hint="Register additional charges below in the master table."
-            >
-              <table className="w-full min-w-[600px] text-sm text-left overflow-x-auto">
-                <thead className="">
+          <SettingsField
+            label="Additional Charges:"
+            hint="Register additional charges below in the master table."
+          >
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[600px] text-sm text-left">
+                <thead>
                   <tr>
                     <th className="px-4 py-3 font-semibold">Charge Name</th>
                     <th className="px-4 py-3 font-semibold">Charge Code</th>
@@ -170,67 +171,65 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                   {charges.map((charge) => (
                     <tr key={charge.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3">{charge.chargeName}</td>
-
                       <td className="px-4 py-3 text-gray-600">
                         {charge.chargeCode}
                       </td>
-
                       <td className="px-4 py-3">{charge.rate}</td>
-
                       <td className="px-4 py-3">
-                        <span className="px-4 py-3 text-gray-600">
-                          Percentage
-                        </span>
+                        <span className="text-gray-600">Percentage</span>
                       </td>
-
-                      <td className="px-4 py-3 flex gap-1">
-                        <input
-                          type="checkbox"
-                          checked={charge.status}
-                          onChange={() => handleChargeStatus(charge.id)}
-                          className="h-4 w-4 cursor-pointer accent-blue-600"
-                        />
-                        <span>{charge.chargeType}</span>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-1">
+                          <input
+                            type="checkbox"
+                            checked={charge.status}
+                            onChange={() => handleChargeStatus(charge.id)}
+                            className="h-4 w-4 cursor-pointer accent-blue-600"
+                          />
+                          <span>{charge.chargeType}</span>
+                        </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </SettingsField>
+            </div>
+          </SettingsField>
 
-            <SettingsField
-              label="Split Billing:"
-              hint="Allow dividing a single transaction among multiple customers"
-            >
-              <div className="flex gap-2 items-center">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 cursor-pointer accent-blue-600"
-                />
-                <span>Allow Split Billing</span>
-              </div>
-            </SettingsField>
-          </SettingsSection>
-        </>
+          <SettingsField
+            label="Split Billing:"
+            hint="Allow dividing a single transaction among multiple customers"
+          >
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="h-4 w-4 cursor-pointer accent-blue-600"
+              />
+              <span>Allow Split Billing</span>
+            </div>
+          </SettingsField>
+        </SettingsSection>
       )}
 
+      {/* DISCOUNTS */}
       {active === "discounts" && (
         <SettingsSection title="Discount Settings">
           <div className="flex flex-col gap-4">
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 cursor-pointer accent-blue-600"
                 />
                 <span>Allow Manual Discounts Override</span>
-              </div>{" "}
+              </div>
               <p className="mt-2 text-sm italic text-gray-400">
                 Requires High Level Access to Apply
               </p>
             </div>
+
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 cursor-pointer accent-blue-600"
@@ -246,260 +245,188 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
         </SettingsSection>
       )}
 
+      {/* RETURNS */}
       {active === "returns" && (
-        <>
-          <SettingsSection title="Returns and Refund">
-            <SettingsField
-              label="Return Time Limit:"
-              hint="Set number of days to allow returns from invoice date"
-            >
-              <select className="w-full">
-                <option value="march-2024-123">1 Days</option>
-              </select>
-            </SettingsField>
-            <SettingsField label="Partial Refund Support:">
-              <div className="flex flex-col gap-4">
-                <div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 cursor-pointer accent-blue-600"
-                    />
-                    <span>Allow Partial Amount</span>
-                  </div>{" "}
-                  <p className="mt-2 text-sm italic text-gray-400">
-                    Select to allow refund partial amount of invoice date.
-                  </p>
+        <SettingsSection title="Returns and Refund">
+          <SettingsField
+            label="Return Time Limit:"
+            hint="Set number of days to allow returns from invoice date"
+          >
+            <select className="w-full">
+              <option value="1">1 Days</option>
+            </select>
+          </SettingsField>
+
+          <SettingsField label="Partial Refund Support:">
+            <div className="flex flex-col gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 cursor-pointer accent-blue-600"
+                  />
+                  <span>Allow Partial Amount</span>
                 </div>
-                <div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 cursor-pointer accent-blue-600"
-                    />
-                    <span>Allow Partial Items </span>
-                  </div>
-                  <p className="mt-2 text-sm italic text-gray-400">
-                    Select to return item for partial items.
-                  </p>
-                </div>
+                <p className="mt-2 text-sm italic text-gray-400">
+                  Select to allow refund partial amount of invoice date.
+                </p>
               </div>
-            </SettingsField>
-            <SettingsField
-              label="Cash Refund Limits:"
-              hint="Refund for Amount more than mentioned above will need managers access"
-            >
-              <select className="w-full">
-                <option value="march-2024-123">Allowed</option>
-              </select>
-            </SettingsField>
-          </SettingsSection>
-        </>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 cursor-pointer accent-blue-600"
+                  />
+                  <span>Allow Partial Items</span>
+                </div>
+                <p className="mt-2 text-sm italic text-gray-400">
+                  Select to return item for partial items.
+                </p>
+              </div>
+            </div>
+          </SettingsField>
+
+          <SettingsField
+            label="Cash Refund Limits:"
+            hint="Refund for Amount more than mentioned above will need managers access"
+          >
+            <select className="w-full">
+              <option value="allowed">Allowed</option>
+            </select>
+          </SettingsField>
+        </SettingsSection>
       )}
 
+      {/* PAYMENTS */}
       {active === "payments" && (
         <SettingsSection title="Payments and Credits">
           <SettingsField label="">
             <div className="flex flex-col gap-4">
-              <div>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 cursor-pointer accent-blue-600"
-                  />
-                  <span>EFTPOS</span>
-                </div>{" "}
-                <p className="mt-2 text-sm italic text-gray-400">
-                  Automatically apply Service Charges when generating invoices
-                </p>
-              </div>
-              <div>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 cursor-pointer accent-blue-600"
-                  />
-                  <span>Mobile Banking </span>
+              {["EFTPOS", "Mobile Banking", "Cheque"].map((method) => (
+                <div key={method}>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 cursor-pointer accent-blue-600"
+                    />
+                    <span>{method}</span>
+                  </div>
+                  <p className="mt-2 text-sm italic text-gray-400">
+                    Automatically apply Service Charges when generating invoices
+                  </p>
                 </div>
-                <p className="mt-2 text-sm italic text-gray-400">
-                  Automatically apply Service Charges when generating invoices
-                </p>
-              </div>
-              <div>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 cursor-pointer accent-blue-600"
-                  />
-                  <span>Cheque </span>
-                </div>
-                <p className="mt-2 text-sm italic text-gray-400">
-                  Automatically apply Service Charges when generating invoices
-                </p>
-              </div>
+              ))}
             </div>
           </SettingsField>
+
           <SettingsField label="Payment Options:">
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 cursor-pointer accent-blue-600"
                 />
-                <span>Allow Split Payments </span>
+                <span>Allow Split Payments</span>
               </div>
               <p className="mt-2 text-sm italic text-gray-400">
-                Allow dividing a single transcatio into multiple customers
+                Allow dividing a single transaction into multiple customers
               </p>
             </div>
           </SettingsField>
+
           <SettingsField label="Credits:">
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 cursor-pointer accent-blue-600"
                 />
-                <span>Allow Credits Sales </span>
+                <span>Allow Credits Sales</span>
               </div>
               <p className="mt-2 text-sm italic text-gray-400">
-                Allow dividing a single transcatio into multiple customers
+                Allow dividing a single transaction into multiple customers
               </p>
             </div>
-
-            <SettingsField label="Payment Due Duration:">
-              <select className="w-full">
-                <option value="march-2024-123">1 Days</option>
-              </select>
-            </SettingsField>
-            <SettingsField label="Minimun Payment Required:">
-              <select className="w-full">
-                <option value="march-2024-123">25%</option>
-              </select>
-            </SettingsField>
           </SettingsField>
-          <SettingsField label="Cash and Chnages ">
+
+          <SettingsField label="Payment Due Duration:">
+            <select className="w-full">
+              <option value="1">1 Days</option>
+            </select>
+          </SettingsField>
+
+          <SettingsField label="Minimum Payment Required:">
+            <select className="w-full">
+              <option value="25">25%</option>
+            </select>
+          </SettingsField>
+
+          <SettingsField label="Cash and Changes:">
             <div>
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   className="h-4 w-4 cursor-pointer accent-blue-600"
                 />
-                <span>Auto Calculate Changes and Record Cash -in </span>
+                <span>Auto Calculate Changes and Record Cash -in</span>
               </div>
               <p className="mt-2 text-sm italic text-gray-400">
-                Allow dividing a single transcatio into multiple customers
+                Allow dividing a single transaction into multiple customers
               </p>
             </div>
           </SettingsField>
         </SettingsSection>
       )}
 
+      {/* DEVICES */}
       {active === "devices" && (
         <SettingsSection title="Devices">
-          <SettingsField label="KOT/BOT Printer">
-            <div className="w-full ">
-              {devices.map((device) => (
-                <div
-                  key={device.id}
-                  className="flex items-center justify-between gap-4 py-3"
-                >
-                  <span className="">{device.name}</span>
-
-                  <select
-                    value={
-                      selectedDevices[
-                        device.name as keyof typeof selectedDevices
-                      ]
-                    }
-                    onChange={(e) =>
-                      setSelectedDevices((prev) => ({
-                        ...prev,
-                        [device.name]: e.target.value,
-                      }))
-                    }
-                    className="w-60 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          {["KOT/BOT Printer", "Invoice Printer", "Scanners"].map((label) => (
+            <SettingsField key={label} label={label}>
+              <div className="w-full">
+                {devices.map((device) => (
+                  <div
+                    key={device.id}
+                    className="flex items-center justify-between gap-4 py-3"
                   >
-                    <option value="bros">Bros Thermal: 1234.56.1</option>
-                    <option value="default">Default Printer</option>
-                  </select>
-                </div>
-              ))}
-            </div>
-          </SettingsField>
-          <SettingsField label="Invoice Printer">
-            <div className="w-full ">
-              {devices.map((device) => (
-                <div
-                  key={device.id}
-                  className="flex items-center justify-between gap-4 py-3"
-                >
-                  <span className="">{device.name}</span>
+                    <span>{device.name}</span>
 
-                  <select
-                    value={
-                      selectedDevices[
-                        device.name as keyof typeof selectedDevices
-                      ]
-                    }
-                    onChange={(e) =>
-                      setSelectedDevices((prev) => ({
-                        ...prev,
-                        [device.name]: e.target.value,
-                      }))
-                    }
-                    className="w-60 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="bros">Bros Thermal: 1234.56.1</option>
-                    <option value="default">Default Printer</option>
-                  </select>
-                </div>
-              ))}
-            </div>
-          </SettingsField>
-          <SettingsField label="Scanners ">
-            <div className="w-full ">
-              {devices.map((device) => (
-                <div
-                  key={device.id}
-                  className="flex items-center justify-between gap-4 py-3"
-                >
-                  <span className="">{device.name}</span>
+                    <select
+                      value={
+                        selectedDevices[
+                          device.name as keyof typeof selectedDevices
+                        ]
+                      }
+                      onChange={(e) =>
+                        setSelectedDevices((prev) => ({
+                          ...prev,
+                          [device.name]: e.target.value,
+                        }))
+                      }
+                      className="w-60 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    >
+                      <option value="bros">Bros Thermal: 1234.56.1</option>
+                      <option value="default">Default Printer</option>
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </SettingsField>
+          ))}
 
-                  <select
-                    value={
-                      selectedDevices[
-                        device.name as keyof typeof selectedDevices
-                      ]
-                    }
-                    onChange={(e) =>
-                      setSelectedDevices((prev) => ({
-                        ...prev,
-                        [device.name]: e.target.value,
-                      }))
-                    }
-                    className="w-60 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="bros">Bros Thermal: 1234.56.1</option>
-                    <option value="default">Default Printer</option>
-                  </select>
-                </div>
-              ))}
-            </div>
-          </SettingsField>
           <SettingsField label="Registered Mobile Device">
             <div className="w-full">
-              {/* Device List */}
               <div className="w-full divide-y divide-gray-100 border-y border-gray-100">
                 {registeredDevices.map((device) => (
                   <div
                     key={device.id}
-                    className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1fr_auto] items-center gap-3 px-2 py-3 hover:bg-gray-50 transition"
+                    className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1fr_auto] items-center gap-3 px-2 py-3 transition hover:bg-gray-50"
                   >
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex min-w-0 items-center gap-2">
                       <Smartphone
                         size={16}
-                        className="text-gray-500 shrink-0"
+                        className="shrink-0 text-gray-500"
                       />
 
                       <span className="text-sm text-gray-700">
@@ -507,24 +434,24 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                       </span>
 
                       {device.active && (
-                        <span className="flex items-center gap-1 text-xs text-green-600 shrink-0">
+                        <span className="flex shrink-0 items-center gap-1 text-xs text-green-600">
                           <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
                           Active
                         </span>
                       )}
                     </div>
 
-                    <span className="text-sm text-gray-500 truncate">
+                    <span className="truncate text-sm text-gray-500">
                       {device.user}
                     </span>
 
-                    <span className="text-sm text-gray-500 truncate">
+                    <span className="truncate text-sm text-gray-500">
                       {device.info}
                     </span>
 
                     <button
                       type="button"
-                      className="text-gray-400 hover:text-red-500 transition"
+                      className="text-gray-400 transition hover:text-red-500"
                       title="Remove device"
                     >
                       <Trash size={15} />
@@ -537,90 +464,99 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
         </SettingsSection>
       )}
 
+      {/* TAXES */}
       {active === "taxes" && (
         <>
-          <SettingsSection title="Tax  Master">
-            <table className="w-full min-w-[600px] text-sm text-left overflow-x-auto">
-              <thead className="">
-                <tr>
-                  <th className="px-4 py-3 font-semibold">Tax Name</th>
-                  <th className="px-4 py-3 font-semibold">Tax Code</th>
-                  <th className="px-4 py-3 font-semibold">Tax Rate</th>
-                  <th className="px-4 py-3 font-semibold">Tax Type</th>
-                  <th className="px-4 py-3 font-semibold">Status</th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-gray-200">
-                {charges.map((charge) => (
-                  <tr key={charge.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">{charge.chargeName}</td>
-
-                    <td className="px-4 py-3 text-gray-600">
-                      {charge.chargeCode}
-                    </td>
-
-                    <td className="px-4 py-3">{charge.rate}</td>
-
-                    <td className="px-4 py-3">
-                      <span className="px-4 py-3 text-gray-600">
-                        Percentage
-                      </span>
-                    </td>
-
-                    <td className="px-4 py-3 flex gap-1">
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4 cursor-pointer accent-blue-600"
-                      />
-                      <span>{charge.chargeType}</span>
-                    </td>
-                    <td>
-                      <Trash className="w-4 h-4" />
-                    </td>
+          <SettingsSection title="Tax Master">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[600px] text-left text-sm">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Tax Name</th>
+                    <th className="px-4 py-3 font-semibold">Tax Code</th>
+                    <th className="px-4 py-3 font-semibold">Tax Rate</th>
+                    <th className="px-4 py-3 font-semibold">Tax Type</th>
+                    <th className="px-4 py-3 font-semibold">Status</th>
+                    <th className="px-4 py-3 font-semibold">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody className="divide-y divide-gray-200">
+                  {charges.map((charge) => (
+                    <tr key={charge.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">{charge.chargeName}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {charge.chargeCode}
+                      </td>
+                      <td className="px-4 py-3">{charge.rate}</td>
+                      <td className="px-4 py-3">
+                        <span className="text-gray-600">Percentage</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <input
+                          type="checkbox"
+                          checked={charge.status}
+                          onChange={() => handleChargeStatus(charge.id)}
+                          className="h-4 w-4 cursor-pointer accent-blue-600"
+                        />
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          className="text-gray-400 transition hover:text-red-500"
+                          title="Delete tax"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </SettingsSection>
+
           <SettingsSection title="Sales Tax">
             <SettingsField
               label="Default Tax:"
-              hint=" Default tax are applied to local sales transactions"
+              hint="Default tax are applied to local sales transactions"
             >
               <select className="w-full">
-                <option value="march-2024-123">VAt 13</option>
+                <option value="vat13">VAT 13</option>
               </select>
             </SettingsField>
+
             <SettingsField
               label="Tax Rounding Method:"
               hint="How tax is calculated and rounded invoice"
             >
               <select className="w-full">
-                <option value="march-2024-123">Round Up</option>
+                <option value="up">Round Up</option>
               </select>
             </SettingsField>
+
             <SettingsField label="">
               <div className="flex flex-col gap-4">
                 <div>
-                  <div className="flex gap-2 items-center">
+                  <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
                       className="h-4 w-4 cursor-pointer accent-blue-600"
                     />
-                    <span>Allow Manual Tax Ovveride</span>
-                  </div>{" "}
+                    <span>Allow Manual Tax Override</span>
+                  </div>
                   <p className="mt-2 text-sm italic text-gray-400">
-                    Allow Manual Tax Ovveride for taxes.
+                    Allow Manual Tax Override for taxes.
                   </p>
                 </div>
+
                 <div>
-                  <div className="flex gap-2 items-center">
+                  <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
                       className="h-4 w-4 cursor-pointer accent-blue-600"
                     />
-                    <span>Display full Tax Breakdown </span>
+                    <span>Display full Tax Breakdown</span>
                   </div>
                   <p className="mt-2 text-sm italic text-gray-400">
                     Display tax for each line items in receipt.
