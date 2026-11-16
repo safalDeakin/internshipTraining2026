@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import type { DialogState } from "./Model";
 import './style.css';
+import type { DialogState } from "./DialogContext";
 
 type DialogContainerProps = {
     dialog: DialogState;
@@ -15,7 +15,7 @@ export default function DialogContainer({
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (
-                event.key === "Escape" &&
+                event.key === "Escape" && dialog &&
                 dialog.closeOnEscape
             ) {
                 onClose();
@@ -32,28 +32,48 @@ export default function DialogContainer({
         };
     }, [dialog.closeOnEscape, onClose]);
 
+
     return (
-        <div className="dialog-overlay"
+        <div
+            className="dialog-overlay"
             onMouseDown={(event) => {
                 if (dialog.closeOnBackdrop && event.target === event.currentTarget) {
                     onClose();
                 }
             }
             }>
+
             <div
-                className="dialog-container" role="dialog" aria-modal="true"
-                style={{ width: (dialog.width === -1 ? undefined : dialog.width) }}
+                className="dialog-container"
+                role="dialog" aria-modal="true"
+                style={{
+                    width: (dialog.width === -1 ? undefined : dialog.width),
+
+                }}
             >
 
                 {
-                    dialog.showCloseButton && (
-                        <button className="dialog-close" onClick={() => onClose()}
-                            aria-label="Close dialog">
-                            ×
-                        </button>
+                    dialog.showHeader && (
+                        <div
+                            className="dialog-header"
+                        >
+                            <span>{dialog.title}</span>
+                            <button
+                                className="dialog-close"
+                                onClick={() => onClose()}
+                                aria-label="Close dialog">
+                                X
+                            </button>
+                        </div>
+
                     )}
+                {
+                    dialog.showHeader && (
+                        <hr style={{ margin: 0 }}></hr>
+                    )
+                }
                 {dialog.content}
             </div>
-        </div>
+        </div >
     );
 }

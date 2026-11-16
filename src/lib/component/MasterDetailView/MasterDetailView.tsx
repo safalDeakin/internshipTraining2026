@@ -3,6 +3,7 @@ import { SearchBox } from "./component/SearchBox";
 import ListArea from "./component/ListArea";
 import { DetailSectionContainer } from "./component/DetailSectionContainer";
 import { useEffect, useState, type ReactNode } from "react";
+import './component/style.css';
 
 type MasterDetailsProps<T extends object, ID> = {
     items: T[],

@@ -7,13 +7,8 @@ import {
 
 import { createPortal } from "react-dom";
 
-import { DialogContext } from "./DialogContext";
+import { DialogContext, type DialogOptions, type DialogState } from "./DialogContext";
 import DialogContainer from "./DialogContainer";
-
-import type {
-    DialogOptions,
-    DialogState,
-} from "./Model";
 
 type Props = {
     children: ReactNode;
@@ -50,9 +45,10 @@ export default function DialogProvider({ children }: Props) {
                 ) => void;
 
                 setDialog({
+                    title: options.title,
                     content: options.content,
                     width: options.width ?? -1,
-                    showCloseButton: options.showCloseButton ?? true,
+                    showHeader: options.showHeader ?? true,
                     closeOnBackdrop: options.closeOnBackdrop ?? true,
                     closeOnEscape: options.closeOnEscape ?? true,
                 });
