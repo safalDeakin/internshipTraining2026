@@ -14,6 +14,10 @@ import SettingRenderer from "../popupsetting/components/SettingRenderer";
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
+import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRenderer";
+import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
+import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
+import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +97,7 @@ type ViewKey =
   | "night-audit"
   | "lost-found"
   | "guest-request"
+  | "hotel-package"
   | "arrivals"
   | "in-house"
   | "overdue"
@@ -219,11 +224,15 @@ export default function HotelLayout() {
       */
 
       case "guest-request":
-        // Replace with your real GuestRequest component.
         return (
-          <DemoComponent title="Guest Request" />
+          <GuestRequestPageRenderer />
         );
 
+
+      case "hotel-package":
+        return (
+          <PackageRenderer />
+        );
       case "arrivals":
         return (
           <ReservationPageRenderer />
@@ -283,15 +292,20 @@ export default function HotelLayout() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen  bg-white" style={{ padding: '4px', gap: '4px' }}>
       {/* SIDEBAR */}
       <aside className="w-64 shrink-0">
         <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="min-w-0 flex-1 overflow-x-auto bg-gray-50 p-4">
-        {renderContent()}
+      <main className="min-w-0 flex-1 overflow-x-auto">
+        <DialogProvider>
+          <DrawerProvider>
+            {renderContent()}
+          </DrawerProvider>
+        </DialogProvider>
+
       </main>
     </div>
   );

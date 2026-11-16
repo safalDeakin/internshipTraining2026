@@ -5,7 +5,7 @@ import CommandService from "./service/CommandService";
 
 //Hotel-Package
 import type { HotelPackage } from "../domain/hotel-package";
-import { packages } from "../pages/hotel-packages/data/packages";
+import { packages } from "../pages/hotel/pages/hotel-packages/data/packages";
 
 //HouseKeeping
 import type { Room } from "../domain/houseKeeping";
@@ -33,6 +33,11 @@ import type {
   PricelistType,
   ProductType,
 } from "../pages/restaurant/dropdown/types/DropdownTypes";
+
+//PMS/Guest-Request
+import type { GuestRequest } from "../domain/GuestRequest";
+import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
+
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -218,3 +223,20 @@ export const PricelistQueryService = new QueryService<PricelistType, string>(
 export const PricelistCmdService = new CommandService<PricelistType, string>(
   PricelistRepo,
 );
+
+
+
+
+//This is for Guest Request
+const GuestRequestRepo = new Repository<GuestRequest, string>({
+  sourceType: 'InMemoryLocal',
+  domain: 'GuestRequest',
+  tenantId: 'MySpace1234',
+  getId: (entity: GuestRequest) => String(entity.id),
+  initialData: guestRequests,
+  baseUrl: "asas",
+  eventsUrl: "events"
+})
+
+export const guestRequestQueryService = new QueryService<GuestRequest, string>(GuestRequestRepo);
+export const guestRequestCmdService = new CommandService<GuestRequest, string>(GuestRequestRepo);

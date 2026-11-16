@@ -20,16 +20,16 @@ import ClosingSessionModal from "../../modal/pos/ClosingSessionModal";
 
 import { useAuth } from "../../../../lib/utils/secureclient/useAuth";
 import { usePOSUserSession } from "./context/usePOSUserSession";
+import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 
 const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const [shown, setShown] = useState(false);
   const [activeTab, setActiveTab] = useState("ordering");
-  const [showSessionStatus, setShowSessionStatus] = useState(false);
-  const [showClosingSession, setShowClosingSession] = useState(false);
 
   const navigate = useNavigate();
-
   const { organization } = useAuth();
+
+  const { showDialog, closeDialog } = useDialogBox();
 
   const { getActiveSession, pauseSession, endSession } = usePOSUserSession();
 
@@ -44,7 +44,7 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Navigate back to the restaurant page.
+  // Navigate back to restaurant page.
   const exitToRestaurant = () => {
     onExit?.();
 
@@ -55,14 +55,35 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
     }
   };
 
-  // Back arrow: show session options.
-  const handleExit = () => {
-    setShowSessionStatus(true);
+  // Continue: close dialog and remain in POS.
+  const handleContinue = () => {
+    closeDialog();
   };
 
-  // Continue: close the modal and remain in POS.
-  const handleContinue = () => {
-    setShowSessionStatus(false);
+  // Show active session dialog.
+  const handleExit = () => {
+    if (!activeSession) return;
+
+    showDialog({
+      title: "Active Session",
+      showHeader: true,
+      closeOnEscape: true,
+      closeOnBackdrop: true,
+      content: (
+        <ActiveSessionModal
+          staffName={activeSession.staffName}
+          terminal={activeSession.terminal}
+          date={activeSession.date}
+          activeSessionStartTime={new Date(
+            activeSession.startTime,
+          ).toLocaleTimeString()}
+          // onClose={handleContinue}
+          onContinue={handleContinue}
+          onPause={handlePauseSession}
+          onEndSession={handleEndSession}
+        />
+      ),
+    });
   };
 
   // Pause the current session.
@@ -71,26 +92,41 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
 
     pauseSession(activeSession.id);
 
-    setShowSessionStatus(false);
-    setShowClosingSession(false);
+    closeDialog();
 
-    // Hide POS without ending the session.
     exitToRestaurant();
   };
 
-  // Open closing cash form.
+  // Show closing session dialog.
   const handleEndSession = () => {
-    setShowSessionStatus(false);
-    setShowClosingSession(true);
+    if (!activeSession) return;
+
+    closeDialog();
+
+    showDialog({
+      title: "Close POS Session",
+      showHeader: true,
+      closeOnEscape: true,
+      closeOnBackdrop: true,
+      content: (
+        <ClosingSessionModal
+          staffName={activeSession.staffName}
+          terminal={activeSession.terminal}
+          date={activeSession.date}
+          onCancel={handleCancelClosing}
+          onConfirm={handleConfirmClosing}
+        />
+      ),
+    });
   };
 
-  // Cancel closing: return to the session options.
+  // Cancel closing: return to active session dialog.
   const handleCancelClosing = () => {
-    setShowClosingSession(false);
-    setShowSessionStatus(true);
+    closeDialog();
+    handleExit();
   };
 
-  // Confirm closing: permanently end the session.
+  // Confirm closing session.
   const handleConfirmClosing = (data: {
     closingCash: number;
     notes: string;
@@ -99,8 +135,7 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
 
     endSession(activeSession.id, data.closingCash, data.notes);
 
-    setShowClosingSession(false);
-    setShowSessionStatus(false);
+    closeDialog();
 
     exitToRestaurant();
   };
@@ -122,115 +157,84 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
     return activeTab === id;
   };
 
-  // Avoid rendering the shell if the active session is unavailable.
+  // Avoid rendering the shell if active session is unavailable.
   if (!activeSession) {
     return null;
   }
 
   return (
-    <>
-      <div
-        className={`fixed inset-x-0 bottom-0 top-13 z-[9000] flex flex-col bg-white transition-transform duration-300 ease-out ${
-          shown ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Navigation */}
-        <nav className="flex items-center gap-2 bg-gray-100 px-4 py-3">
-          <button
-            type="button"
-            onClick={handleExit}
-            className="rounded-lg p-2 hover:bg-gray-200"
-            aria-label="View active session options"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
+    <div
+      className={`fixed inset-x-0 bottom-0 top-13 z-[9000] flex flex-col bg-white transition-transform duration-300 ease-out ${
+        shown ? "translate-x-0" : "translate-x-full"
+      }`}
+    >
+      {/* Navigation */}
+      <nav className="flex items-center gap-2 bg-gray-100 px-4 py-3">
+        <button
+          type="button"
+          onClick={handleExit}
+          className="rounded-lg p-2 hover:bg-gray-200"
+          aria-label="View active session options"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
 
-          <div className="flex flex-1 items-center justify-around overflow-x-auto">
-            {tabs.map(({ id, label, icon: Icon }) => {
-              const isActive = isTabActive(id);
+        <div className="flex flex-1 items-center justify-around overflow-x-auto">
+          {tabs.map(({ id, label, icon: Icon }) => {
+            const isActive = isTabActive(id);
 
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setActiveTab(id)}
-                  className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
-                    isActive
-                      ? "text-blue-500 underline underline-offset-4"
-                      : "text-gray-800 hover:text-blue-500"
-                  }`}
-                >
-                  <Icon className="h-6 w-6" />
-                  <span>{label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </nav>
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveTab(id)}
+                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
+                  isActive
+                    ? "text-blue-500 underline underline-offset-4"
+                    : "text-gray-800 hover:text-blue-500"
+                }`}
+              >
+                <Icon className="h-6 w-6" />
+                <span>{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
-        {/* Main Content */}
-        <main className="min-h-0 flex-1 overflow-y-auto">
-          {activeTab === "ordering" && (
-            <OrderingLayout onTrackClick={() => setActiveTab("orderHistory")} />
-          )}
+      {/* Main Content */}
+      <main className="min-h-0 flex-1 overflow-y-auto">
+        {activeTab === "ordering" && (
+          <OrderingLayout onTrackClick={() => setActiveTab("orderHistory")} />
+        )}
 
-          {activeTab === "orderHistory" && (
-            <OrderHistory onBack={() => setActiveTab("ordering")} />
-          )}
+        {activeTab === "orderHistory" && (
+          <OrderHistory onBack={() => setActiveTab("ordering")} />
+        )}
 
-          {activeTab === "invoicing" && (
-            <InvoicingLayout
-              onTrackClick={() => setActiveTab("invoiceHistory")}
-            />
-          )}
+        {activeTab === "invoicing" && (
+          <InvoicingLayout
+            onTrackClick={() => setActiveTab("invoiceHistory")}
+          />
+        )}
 
-          {activeTab === "invoiceHistory" && (
-            <InvoiceHistory onBack={() => setActiveTab("invoicing")} />
-          )}
+        {activeTab === "invoiceHistory" && (
+          <InvoiceHistory onBack={() => setActiveTab("invoicing")} />
+        )}
 
-          {activeTab === "payments" && (
-            <PaymentLayout
-              onTrackClick={() => setActiveTab("paymentsHistory")}
-            />
-          )}
+        {activeTab === "payments" && (
+          <PaymentLayout onTrackClick={() => setActiveTab("paymentsHistory")} />
+        )}
 
-          {activeTab === "paymentsHistory" && (
-            <PaymentHistory onBack={() => setActiveTab("payments")} />
-          )}
+        {activeTab === "paymentsHistory" && (
+          <PaymentHistory onBack={() => setActiveTab("payments")} />
+        )}
 
-          {activeTab === "dashboard" && <div className="p-6">Dashboard</div>}
+        {activeTab === "dashboard" && <div className="p-6">Dashboard</div>}
 
-          {activeTab === "return" && <div className="p-6">Return</div>}
-        </main>
-      </div>
-
-      {/* Active Session Options */}
-      {showSessionStatus && (
-        <ActiveSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          activeSessionStartTime={new Date(
-            activeSession.startTime,
-          ).toLocaleTimeString()}
-          onClose={handleContinue}
-          onContinue={handleContinue}
-          onPause={handlePauseSession}
-          onEndSession={handleEndSession}
-        />
-      )}
-
-      {/* Closing Session Form */}
-      {showClosingSession && (
-        <ClosingSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          onCancel={handleCancelClosing}
-          onConfirm={handleConfirmClosing}
-        />
-      )}
-    </>
+        {activeTab === "return" && <div className="p-6">Return</div>}
+      </main>
+    </div>
   );
 };
 

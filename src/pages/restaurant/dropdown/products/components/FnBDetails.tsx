@@ -1,12 +1,14 @@
 // author: shrajja
 
-import { useState } from "react";
 import { Edit, Trash2, Minus, Box, Plus } from "lucide-react";
 
 import type { ProductFormData } from "../../../modal/dropdown/ProductFormModal";
 import ProductFormModal from "../../../modal/dropdown/ProductFormModal";
+
 import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+
 import type { ProductType } from "../../types/DropdownTypes";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 
 interface FnBDetailsProps {
   product: ProductType | null;
@@ -15,67 +17,30 @@ interface FnBDetailsProps {
 
 type ProductItem = ProductType["items"][number];
 
-type ModalType = "add" | "edit-item" | "edit-group" | null;
+type ModalType = "add" | "edit-item" | "edit-group";
 
 const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
-  const [modalType, setModalType] = useState<ModalType>(null);
-  const [editingItem, setEditingItem] = useState<ProductItem | null>(null);
+  const { showDialog, closeDialog } = useDialogBox();
 
-  // Open modal to add a new item
-  const handleAddProduct = () => {
-    setEditingItem(null);
-    setModalType("add");
-  };
+  // Open centralized dialog for Add / Edit actions
+  const openProductDialog = (
+    modalType: ModalType,
+    editingItem?: ProductItem,
+  ) => {
+    if (!product) return;
 
-  // Open modal to edit an individual item
-  const handleEditProduct = (item: ProductItem) => {
-    setEditingItem(item);
-    setModalType("edit-item");
-  };
+    // Modal title
+    const modalTitle = {
+      add: "Register New Items (F&B)",
+      "edit-item": "Edit Items Details (F&B)",
+      "edit-group": "Edit Product Group",
+    }[modalType];
 
-  // Open modal to edit the product group name
-  const handleEditGroupName = () => {
-    setEditingItem(null);
-    setModalType("edit-group");
-  };
+    // Initial form data
+    let initialData: ProductFormData | undefined;
 
-  // Close modal
-  const handleCloseModal = () => {
-    setModalType(null);
-    setEditingItem(null);
-  };
-
-  // Handle form submission
-  const handleConfirmProduct = (data: ProductFormData) => {
-    if (modalType === "edit-group" && product) {
-      console.log("Updating product group:", product.id, data);
-    } else if (modalType === "edit-item" && editingItem) {
-      console.log("Updating product item:", editingItem.id, data);
-    } else if (modalType === "add") {
-      console.log("Adding new product:", data);
-    }
-
-    handleCloseModal();
-  };
-
-  // Modal title
-  const getModalTitle = () => {
-    switch (modalType) {
-      case "add":
-        return "Register New Items (F&B)";
-      case "edit-item":
-        return "Edit Items Details (F&B)";
-      case "edit-group":
-        return "Edit Product Group";
-      default:
-        return "";
-    }
-  };
-
-  // Modal initial data
-  const getInitialData = (): ProductFormData | undefined => {
-    if (modalType === "edit-group" && product) {
-      return {
+    if (modalType === "edit-group") {
+      initialData = {
         name: product.name,
         description: "",
         recommendedAddons: [],
@@ -83,14 +48,40 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
     }
 
     if (modalType === "edit-item" && editingItem) {
-      return {
+      initialData = {
         name: editingItem.name,
         description: editingItem.description,
         recommendedAddons: [],
       };
     }
 
-    return undefined;
+    showDialog({
+      title: modalTitle,
+      width: 520,
+      showHeader: true,
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+
+      content: (
+        <ProductFormModal
+          title={modalTitle}
+          initialData={initialData}
+          onClose={() => closeDialog()}
+          onConfirm={(data: ProductFormData) => {
+            // Handle form submission
+            if (modalType === "edit-group") {
+              console.log("Updating product group:", product.id, data);
+            } else if (modalType === "edit-item" && editingItem) {
+              console.log("Updating product item:", editingItem.id, data);
+            } else if (modalType === "add") {
+              console.log("Adding new product:", data);
+            }
+
+            closeDialog();
+          }}
+        />
+      ),
+    });
   };
 
   return (
@@ -127,7 +118,7 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
                 type="button"
                 variant="secondary"
                 size="sm"
-                onClick={handleEditGroupName}
+                onClick={() => openProductDialog("edit-group")}
                 icon={<Edit className="h-3.5 w-3.5" />}
               >
                 Edit Name
@@ -155,7 +146,7 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
 
               <button
                 type="button"
-                onClick={handleAddProduct}
+                onClick={() => openProductDialog("add")}
                 className="flex items-center text-sm font-medium text-blue-600 hover:underline"
               >
                 <Plus className="h-3 w-3" />
@@ -199,7 +190,7 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
                     {/* Edit individual item */}
                     <button
                       type="button"
-                      onClick={() => handleEditProduct(item)}
+                      onClick={() => openProductDialog("edit-item", item)}
                       aria-label={`Edit ${item.name}`}
                       className="rounded p-1 hover:bg-blue-50"
                     >
@@ -307,17 +298,6 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
             </div>
           </section>
         </div>
-      )}
-
-      {/* Reusable Add / Edit Modal */}
-      {modalType && product && (
-        <ProductFormModal
-          key={`${modalType}-${editingItem?.id ?? product.id}`}
-          title={getModalTitle()}
-          initialData={getInitialData()}
-          onClose={handleCloseModal}
-          onConfirm={handleConfirmProduct}
-        />
       )}
     </main>
   );

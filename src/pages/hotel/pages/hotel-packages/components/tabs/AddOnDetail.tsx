@@ -1,17 +1,19 @@
 
-import { useRepoPackageHook } from "../../context/RepoPackageProvider";
+import type { HotelPackage } from "../../../../../../domain/hotel-package";
 import SectionHeading from "../SectionHeading";
 
 interface AddOnDetailProps {
+    packageData: HotelPackage
     compact?: boolean;
 }
 
 export default function AddOnDetail({
+    packageData,
     compact = false,
 }: AddOnDetailProps) {
-    const { selectedPackage } = useRepoPackageHook();
+    // const { selectedPackage } = useRepoPackageHook();
 
-    if (!selectedPackage) return null;
+    if (!packageData) return null;
 
     return (
         <section>
@@ -30,7 +32,7 @@ export default function AddOnDetail({
                     </thead>
 
                     <tbody>
-                        {selectedPackage.addOns.map((item) => (
+                        {packageData.addOns.map((item) => (
                             <tr
                                 className="border-t border-[#eeeeeb]"
                                 key={item.service}

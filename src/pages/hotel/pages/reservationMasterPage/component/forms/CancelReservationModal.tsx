@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { AlertTriangle } from "lucide-react";
-import ReservationActionModal from "./ReservationActionModal";
 
 interface Props {
     reservationNumber: string;
@@ -24,10 +23,7 @@ export default function CancelReservationModal({
     };
 
     return (
-        <ReservationActionModal
-            title="Cancel Reservation"
-            onClose={onClose}
-        >
+        <>
             <div className="mb-4 flex gap-3 rounded-lg border border-red-200 bg-red-50 p-3">
                 <AlertTriangle className="shrink-0 text-red-500" size={20} />
                 <div>
@@ -160,6 +156,8 @@ export default function CancelReservationModal({
                     Confirm
                 </button>
             </div>
-        </ReservationActionModal>
+
+        </>
+
     );
 }

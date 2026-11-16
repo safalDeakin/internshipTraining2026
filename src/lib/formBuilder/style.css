@@ -1,0 +1,74 @@
+@import "../../design-system/semantics.css";
+form{
+    display:flex;
+    flex-direction: column;
+    gap: var(--gap-form-group);
+}
+
+.form-fields{
+    display:flex;
+    flex-direction: column;
+    gap:var(--gap-form-item);
+}
+
+.form-item{
+    font-size: 14px;
+    display:flex;
+    gap:var(--gap-form-label-input);
+}
+
+.form-field-item-direction-col{
+    flex-direction: column;
+    gap:var(--gap-form-label-input);
+}
+
+
+.form-field-item-direction-row{
+    flex-direction: row;
+    gap:var(--gap-form-label-input);
+}
+
+.form-footer{
+    display: flex;
+    flex-direction: row;
+    gap:var( --gap-form-submit-buttons)
+}
+
+
+/* fix this below styling for fixing Checkbox and radio.  */
+input{
+    border: 1px solid rgba(231, 231, 231, 1);
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"]{
+    padding: var( --padding-input-default);
+    outline: none;
+    appearance: none;
+} 
+
+input::placeholder{
+    color:rgba(156, 163, 175, 1)
+}
+
+button{
+    border: 1px solid rgba(231, 231, 231, 1);
+    height: var(--form-button-height-m);
+    padding: var( --padding-button-comfortable);
+    box-shadow: none;
+    outline: none;
+    appearance: none;
+}
+
+button[type='submit']{
+    color: white;
+    background-color:rgba(8, 197, 151, 1)
+}
+
+select{
+    padding: 4px 4px;
+    border: 1px solid rgba(231, 231, 231, 1);
+}

@@ -1,29 +1,23 @@
-import { X } from 'lucide-react'
+import { Printer } from "lucide-react";
+import PdfPreviewWrapper from "../../../../../lib/utils/printer/PreviewWrapper";
+import PrintBlankReservationForm from "./PrintBlankReservationForm";
 
-export function ReservationHeader({ onClose }: { onClose: () => void }) {
+export function ReservationHeader() {
     return (
         <header className="flex justify-between ">
-            <div className='flex items-center gap-3'>
-                <button
-                    className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
-                    onClick={onClose}
-                    aria-label="Close reservation"
-                >
-                    <X size={20} />
-                </button>
-                <div>
-                    <p className="text-lg font-bold sm:text-xl">Make a reservation</p>
-                </div>
-            </div>
-
             <div>
-                <button
-                    type="button"
-                    onClick={() => window.open("/print-reservation-form", "_blank", "noopener,noreferrer")}
-                    className="cursor-pointer"
-                >
-                    Print Reservation Form
-                </button>
+                <PdfPreviewWrapper documentName="ReservationForm"
+                    openInNewTab={true}
+                    content={
+                        <PrintBlankReservationForm
+                        />
+                    }>
+                    <button className="flex gap-2 items-center">
+                        <Printer size={13} />
+                        Print Resrevation Form
+                    </button>
+                </PdfPreviewWrapper>
+
             </div>
         </header>
     )

@@ -14,6 +14,8 @@ import { RoomServiceTaskCompletionSheet } from "../ready-to-implement/RoomServic
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import PettyCash from "./pettycash/PettyCash";
 import RefundSidebar from "./refund/Refund";
+import GuestRequestPageRenderer from "../hotel/pages/guest-request/GuesteRequestRenderer";
+import PackageRenderer from "../hotel/pages/hotel-packages/components/PackageRenderer";
 
 const TestComponent = () => {
   return (
@@ -40,11 +42,14 @@ const TestComponent = () => {
       {/* <GuestCheckoutRenderer /> */}
 
       {/* <PickupRequestForm /> */}
-      <RoomServiceTask />
+      {/* <RoomServiceTask />
       <RoomServiceTaskCompletionSheet />
 
       <RefundSidebar />
-      <PettyCash />
+      <PettyCash /> */}
+      {/* <GuestRequestPageRenderer /> */}
+      < PackageRenderer />
+
     </>
   );
 };

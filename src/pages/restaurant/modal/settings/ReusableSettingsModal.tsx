@@ -62,7 +62,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   navItems,
   activeId,
   onNavChange,
-  onClose,
   navVariant = "filled",
   learnMore,
   children,
@@ -70,22 +69,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const variantStyles = navItemStyles[navVariant];
 
   return (
-    <div className="relative flex h-full max-h-[85vh] w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl">
+    <div className=" flex h-full max-h-screen w-full flex-col overflow-hidden bg-white shadow-2xl">
       <div className="flex min-h-0 w-full flex-1 flex-col px-4 pb-4 sm:px-6">
         {/* Header */}
         <header className="flex shrink-0 items-center justify-between border-b border-gray-200 px-2 pb-4 pt-5">
           <div>
             <h2 className="m-0">{title}</h2>
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close settings"
-            className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
-          >
-            <X />
-          </button>
         </header>
 
         {/* Body */}

@@ -14,7 +14,9 @@ function Field({ label, value }: { label: string; value: string }) {
 export function ReservationSummaryInfo() {
     const { info } = useReservationDetail();
     return (
-        <div className="px-4 py-3 border-b border-gray-200 bg-white shrink-0">
+        <div className="px-4 py-3 border-b border-gray-200 bg-white shrink-0" style={
+            { backgroundColor: "rgba(249, 250, 250, 1)" }
+        }>
             <div className="grid grid-cols-1 gap-x-8">
                 <div>
                     <Field label="Reservation Number" value={info.reservationCode} />

@@ -23,6 +23,10 @@
     --container-popup-xl : var(--container-3xl); /*768*/
     --container-popup-wide : var(--container-5xl);/* 1024 for settings*/
 
+    --form-button-height-s:var(--button-height-s);
+    --form-button-height-m:var(--button-height-m);
+    --form-button-height-l:var(--button-height-l);
+
 }
 
 :root{
@@ -41,9 +45,14 @@
     --gap-layout-tight: var(--space-xs);
     --gap-layout-fit: var(--space-s);
 
-    /* PopUp Padding*/
-    --padding-popup-comfortable:  var(--space-xl);/*24px*/
-    --padding-popup-spacious:  var(--space-2xl);/*32px*/
+    /* Dialogue Padding*/
+    --padding-dialogue-comfortable:  var(--space-xl);/*24px*/
+    --padding-dialogue-spacious:  var(--space-2xl);/*32px*/
+    --gap-dialogue-item-spacious: var(--space-xl);
+    --gap-dialogue-item-comfortable: var(--space-l);
+
+    --padding-dialogue-header-comfortable: var(--space-s) 0;
+    --padding-dialogue-header-spacious: var(--space-l) 0;
 
     /* Tile Padding*/
     --padding-tile-compact-x: var(--space-m);/*12px*/
@@ -65,8 +74,7 @@
     --padding-button-prominent-y: var(--space-m);
 
     /* Form Input padding */
-    --padding-input-default-x: var(--space-m);
-    --padding-input-default-y: var(--space-s);
+    --padding-input-default: var(--space-s) var(--space-m);
 
     /* Form nested banner padding */
     --padding-form-banner: var(--space-l);
@@ -84,8 +92,9 @@
     --padding-form-table-rows-x: var(--space-l);
     
     /* form nested buttons padding*/
-    --padding-button-nested-x : var(--space-m);
-    --padding-button-nested-y : var(--space-s);
+    --padding-button-compact : var(--space-none) var(--space-l);
+    --padding-button-comfortable : var(--space-none) var(--space-xl);
+    --padding-button-spacious: var(--space-none) var(--space-2xl);
 
 }   
 

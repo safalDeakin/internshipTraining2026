@@ -1,7 +1,5 @@
 // author: shrajja
 
-import { useState } from "react";
-
 import {
   ArrowDownToLine,
   ArrowRight,
@@ -16,6 +14,8 @@ import PricelistEditModal from "../../../modal/dropdown/PricelistEditModal";
 
 import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
 import type { PricelistType } from "../../types/DropdownTypes";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
+import React from "react";
 
 interface PricelistDetailsProps {
   pricelist: PricelistType;
@@ -70,11 +70,9 @@ const columns = [
 ];
 
 const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
-  //for edit modal
-  const [isEditOpen, setIsEditOpen] = useState(false);
+  const { showDialog, closeDialog } = useDialogBox();
 
-  const [itemSearch, setItemSearch] = useState("");
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = React.useState<number[]>([]);
 
   const handleToggleItem = (id: number) => {
     setSelectedItems((current) =>
@@ -82,6 +80,23 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
         ? current.filter((itemId) => itemId !== id)
         : [...current, id],
     );
+  };
+
+  // Open edit pricelist dialog
+  const handleEditPricelist = () => {
+    showDialog({
+      title: "Update Pricelists",
+      content: (
+        <PricelistEditModal
+          onClose={() => closeDialog()}
+          items={pricelist.items ?? []}
+        />
+      ),
+      width: 1100,
+      showHeader: true,
+      closeOnEscape: true,
+      closeOnBackdrop: true,
+    });
   };
 
   return (
@@ -100,8 +115,9 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
             </span>
 
             <span
-              className={`-ml-2 rounded-full px-3 py-1 text-[11px] font-semibold text-white ${pricelist.status === "Active" ? "bg-[#1E8C86]" : "bg-gray-400"
-                }`}
+              className={`-ml-2 rounded-full px-3 py-1 text-[11px] font-semibold text-white ${
+                pricelist.status === "Active" ? "bg-[#1E8C86]" : "bg-gray-400"
+              }`}
             >
               {pricelist.status}
             </span>
@@ -132,8 +148,7 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
             variant="primary"
             size="sm"
             icon={<Pencil size={16} />}
-            onClick={() => setIsEditOpen(true)}
-            className=""
+            onClick={handleEditPricelist}
           >
             Edit
           </ReusableButton>
@@ -176,18 +191,9 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
           onToggleItem={handleToggleItem}
           showSearchBar={true}
           searchType="All"
-          onSearchTypeChange={() => { }}
-          onChange={setItemSearch}
+          onSearchTypeChange={() => {}}
         />
       </div>
-
-      {/* Edit Modal */}
-      {isEditOpen && (
-        <PricelistEditModal
-          onClose={() => setIsEditOpen(false)}
-          items={pricelist.items ?? []}
-        />
-      )}
     </>
   );
 };

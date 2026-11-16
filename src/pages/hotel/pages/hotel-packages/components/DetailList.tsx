@@ -1,4 +1,4 @@
-import type { DetailField } from "../types/package"
+import type { DetailField } from "../../../../../domain/hotel-package"
 
 export function DetailList({
     items,

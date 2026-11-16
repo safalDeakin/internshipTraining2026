@@ -17,7 +17,8 @@ import ClosingSessionModal from "./modal/pos/ClosingSessionModal";
 import POSUserSession from "./pages/posuserSession/POSUserSession";
 import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
 import ReusableButton from "./pages/posuserSession/shared/components/reuse/ReusableButton";
-import DialogContainer from "../../lib/component/DialogueBox/DialogContainer";
+import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
+import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 
 const RestaurantLayout = () => {
   const [isSessionOpen, setIsSessionOpen] = useState(false);
@@ -171,138 +172,134 @@ const RestaurantLayout = () => {
 
   return (
     <>
-      <ResponsiveLayout
-        sidebar={(closeBar) => (
-          <RestaurantNav
-            closeBar={closeBar}
-            openSessionMode={handlePlay}
-            onOpenSetting={setActiveSetting}
-          />
-        )}
-      >
-        <Outlet context={{ openSessionMode: handlePlay }} />
-      </ResponsiveLayout>
+      <DialogProvider>
+        <DrawerProvider>
+          <ResponsiveLayout
+            sidebar={(closeBar) => (
+              <RestaurantNav
+                closeBar={closeBar}
+                openSessionMode={handlePlay}
+                onOpenSetting={setActiveSetting}
+              />
+            )}
+          >
+            <Outlet context={{ openSessionMode: handlePlay }} />
+          </ResponsiveLayout>
 
-      {/* SETTINGS */}
-      {activeSetting === "sales" && (
-        <DialogContainer
-          dialog={{
-            content: <ShellSetting onClose={() => setActiveSetting(null)} />,
-            width: "1100px",
-            showCloseButton: false,
-            closeOnEscape: true,
-            closeOnBackdrop: true,
-          }}
-          onClose={() => setActiveSetting(null)}
-        />
-      )}
+          {/* SETTINGS */}
+          {activeSetting === "sales" && (
+            <ShellSetting onClose={() => setActiveSetting(null)} />
+          )}
 
-      {/* POS SHELL */}
-      {isSessionOpen && activeSession && (
-        <POSUserSession
-          onExit={handleExitPOS}
-          sessionMode={activeSession.mode}
-        />
-      )}
-
-      {/* START NEW SESSION */}
-      {isModeOpen && (
-        <div
-          className="fixed inset-x-0 bottom-0 top-13 z-[10000] flex items-center justify-center bg-black/30 p-4 backdrop-blur-sm"
-          onClick={handleCancelMode}
-        >
-          <div onClick={(event) => event.stopPropagation()}>
-            <InactiveSessionModal
-              onClose={handleCancelMode}
-              onSelect={handleSelectMode}
-              staffName={user?.name ?? "Unknown"}
-              terminal="Main Counter"
-              date={new Date().toLocaleDateString()}
+          {/* POS SHELL */}
+          {isSessionOpen && activeSession && (
+            <POSUserSession
+              onExit={handleExitPOS}
+              sessionMode={activeSession.mode}
             />
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* PAUSED SESSION PROMPT */}
-      {isPausedPromptOpen && pausedSession && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">
-                Paused POS Session
-              </h2>
-
-              <button
-                type="button"
-                onClick={() => setIsPausedPromptOpen(false)}
-                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-                aria-label="Close"
-              >
-                <X size={20} />
-              </button>
+          {/* START NEW SESSION */}
+          {isModeOpen && (
+            <div
+              className="fixed inset-x-0 bottom-0 top-13 z-[10000] flex items-center justify-center bg-black/30 p-4 backdrop-blur-sm"
+              onClick={handleCancelMode}
+            >
+              <div onClick={(event) => event.stopPropagation()}>
+                <InactiveSessionModal
+                  onClose={handleCancelMode}
+                  onSelect={handleSelectMode}
+                  staffName={user?.name ?? "Unknown"}
+                  terminal="Main Counter"
+                  date={new Date().toLocaleDateString()}
+                />
+              </div>
             </div>
+          )}
 
-            <p className="mb-2 text-sm text-gray-600">
-              You have an unfinished POS session.
-            </p>
+          {/* PAUSED SESSION PROMPT */}
+          {isPausedPromptOpen && pausedSession && (
+            <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+              <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+                <div className="mb-5 flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    Paused POS Session
+                  </h2>
 
-            <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
-              <p>
-                <span className="font-medium">Staff:</span>{" "}
-                {pausedSession.staffName}
-              </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsPausedPromptOpen(false)}
+                    className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                    aria-label="Close"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
 
-              <p className="mt-1">
-                <span className="font-medium">Terminal:</span>{" "}
-                {pausedSession.terminal}
-              </p>
+                <p className="mb-2 text-sm text-gray-600">
+                  You have an unfinished POS session.
+                </p>
 
-              <p className="mt-1">
-                <span className="font-medium">Mode:</span> {pausedSession.mode}
-              </p>
+                <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
+                  <p>
+                    <span className="font-medium">Staff:</span>{" "}
+                    {pausedSession.staffName}
+                  </p>
 
-              <p className="mt-1">
-                <span className="font-medium">Opening cash:</span> Rs.{" "}
-                {pausedSession.openingCash}
-              </p>
+                  <p className="mt-1">
+                    <span className="font-medium">Terminal:</span>{" "}
+                    {pausedSession.terminal}
+                  </p>
+
+                  <p className="mt-1">
+                    <span className="font-medium">Mode:</span>{" "}
+                    {pausedSession.mode}
+                  </p>
+
+                  <p className="mt-1">
+                    <span className="font-medium">Opening cash:</span> Rs.{" "}
+                    {pausedSession.openingCash}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <ReusableButton
+                    variant="primary"
+                    size="lg"
+                    onClick={handleContinueSession}
+                    className="w-full"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Play size={17} />
+                      Continue Previous Session
+                    </span>
+                  </ReusableButton>
+
+                  <ReusableButton
+                    variant="danger"
+                    size="lg"
+                    onClick={handleOpenClosingForm}
+                    className="w-full"
+                  >
+                    End Previous Session
+                  </ReusableButton>
+                </div>
+              </div>
             </div>
+          )}
 
-            <div className="flex flex-col gap-3">
-              <ReusableButton
-                variant="primary"
-                size="lg"
-                onClick={handleContinueSession}
-                className="w-full"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <Play size={17} />
-                  Continue Previous Session
-                </span>
-              </ReusableButton>
-
-              <ReusableButton
-                variant="danger"
-                size="lg"
-                onClick={handleOpenClosingForm}
-                className="w-full"
-              >
-                End Previous Session
-              </ReusableButton>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* REUSABLE CLOSING SESSION MODAL */}
-      {isClosingFormOpen && pausedSession && (
-        <ClosingSessionModal
-          staffName={pausedSession.staffName}
-          terminal={pausedSession.terminal}
-          date={new Date(pausedSession.date).toLocaleDateString()}
-          onCancel={handleCancelClosing}
-          onConfirm={handleConfirmEndSession}
-        />
-      )}
+          {/* REUSABLE CLOSING SESSION MODAL */}
+          {isClosingFormOpen && pausedSession && (
+            <ClosingSessionModal
+              staffName={pausedSession.staffName}
+              terminal={pausedSession.terminal}
+              date={new Date(pausedSession.date).toLocaleDateString()}
+              onCancel={handleCancelClosing}
+              onConfirm={handleConfirmEndSession}
+            />
+          )}
+        </DrawerProvider>
+      </DialogProvider>
     </>
   );
 };

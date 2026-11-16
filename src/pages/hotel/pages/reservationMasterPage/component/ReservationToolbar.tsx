@@ -13,13 +13,16 @@ import ChangeRoomModal from "./forms/ChangeRoomModal";
 import CancelReservationModal from "./forms/CancelReservationModal";
 import RegisterService from "./forms/RegisterService";
 import AddChargeModal from "./forms/AddChargeModal";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 
 
 export default function ReservationToolbar() {
     const reservation = useReservationDetail();
 
-    const [showRoomService, setShowRoomService] = useState(false)
-    const [showChangeRoom, setShowChangeRoom] = useState(false);
+    const { showDialog } = useDialogBox();
+
+    const [showRoomService, setShowRoomService] = useState(false);
+    const [changeRoom, setChangeRoom] = useState(false);
     const [showCancelReservation, setShowCancelReservation] = useState(false);
     const [showRegisterService, setShowRegisterService] = useState(false);
     const [showAddCharge, setShowAddCharge] = useState(false);
@@ -27,6 +30,112 @@ export default function ReservationToolbar() {
     const info = reservation.info;
 
     const isCancelled = info.status === 'Cancelled';
+
+    const handleRoomService = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Request Room Service",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <RequestRoomService onClose={() => setShowRoomService(false)} />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+
+
+    const handleChangeRoom = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Change Room",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <ChangeRoomModal
+                    reservation={reservation as unknown as Parameters<typeof ChangeRoomModal>[0]["reservation"]}
+                    onClose={() => setChangeRoom(false)}
+                />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+
+
+    const handleCancelReservation = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Request Room Service",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <CancelReservationModal reservationNumber={reservation.id}
+                    onClose={() => setShowCancelReservation(false)} />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+
+    const handleRegisterService = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Register Service",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <RegisterService
+                    onClose={() => setShowRegisterService(false)}
+                />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+    const handleAddCharge = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Request Room Service",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <AddChargeModal
+                    onClose={() => setShowAddCharge(false)}
+                />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+
+
     return (
 
         <>
@@ -50,7 +159,8 @@ export default function ReservationToolbar() {
                 center={
                     <>
                         <Button variant="danger" size="md"
-                            onClick={() => setShowRoomService(true)}
+                            // onClick={() => setShowRoomService(true)}
+                            onClick={handleRoomService}
                         >
                             <Edit className="h-3.5 w-3.5" />
                             Room Service
@@ -72,27 +182,23 @@ export default function ReservationToolbar() {
 
                         {/* FinalReceipts Popup */}
                         <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            onClick={() => setShowChangeRoom(true)
-
-                            }
+                            onClick={handleChangeRoom}
                         >
                             <Edit className="h-3.5 w-3.5" />
                             Swap Room
                         </button>
 
                         <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            onClick={() => setShowRoomService(true)
-
-                            }
+                            // onClick={() => setShowRegisterService(true)}
+                            onClick={handleRegisterService}
                         >
                             <Edit className="h-3.5 w-3.5" />
                             Register Service
                         </button>
 
                         <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            onClick={() => setShowAddCharge(true)
-
-                            }
+                            // onClick={() => setShowAddCharge(true)}
+                            onClick={handleAddCharge}
                         >
                             <Edit className="h-3.5 w-3.5" />
                             Add Charge
@@ -120,10 +226,7 @@ export default function ReservationToolbar() {
                         </PdfPreviewWrapper>
                         <Button
                             variant={isCancelled ? "ghost" : "danger"}
-                            onClick={() =>
-                                setShowCancelReservation(true)
-
-                            }
+                            onClick={handleCancelReservation}
                         >
                             <Edit className="h-3.5 w-3.5" />
                             Cancel
@@ -131,39 +234,6 @@ export default function ReservationToolbar() {
                     </>
                 }
             />
-
-
-            {showRoomService && (
-                <RequestRoomService
-                    onClose={() => setShowRoomService(false)}
-                />
-            )}
-
-
-            {showChangeRoom && (
-                <ChangeRoomModal
-                    reservation={reservation}
-                    onClose={() => setShowChangeRoom(false)}
-                />
-            )}
-            {showCancelReservation && (
-                <CancelReservationModal
-                    reservationNumber={reservation.id}
-                    onClose={() => setShowCancelReservation(false)}
-                />
-            )}
-
-            {showRegisterService && (
-                <RegisterService
-                    onClose={() => setShowRegisterService(false)}
-                />
-            )}
-
-            {showAddCharge && (
-                <AddChargeModal
-                    onClose={() => setShowAddCharge(false)}
-                />
-            )}
         </>
     );
 }

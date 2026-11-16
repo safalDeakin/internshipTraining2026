@@ -1,8 +1,8 @@
-import { ListHeader } from "./component/Header";
 import { SearchBox } from "./component/SearchBox";
 import ListArea from "./component/ListArea";
-import { DetailSectionContainer } from "./component/DetailSectionContainer";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import './component/style.css';
+import { ArrowRight } from "lucide-react";
 
 type MasterDetailsProps<T extends object, ID> = {
     items: T[],
@@ -25,11 +25,18 @@ export default function MasterDetailView<T extends object, ID>({
     title,
     headerChildren
 }: MasterDetailsProps<T, ID>) {
-    const [selectedId, setSelectedId] =
-        useState<ID>(getId(items[0]));
+    const [selectedId, setSelectedId] = useState<ID | undefined>(
+        items.length > 0 ? getId(items[0]) : undefined
+    );
+
+    useEffect(() => {
+        if (selectedId === undefined && items.length > 0) {
+            setSelectedId(getId(items[0]));
+        }
+    }, [items, selectedId, getId]);
 
     return (
-        <div className="flex min-h-screen bg-[#f6f6f6] text-[#4a4a4a]">
+        <div className="main">
             {/* LEFT SIDE List Section MySpace*/}
             <ListSection title={title}
                 items={items}
@@ -45,12 +52,9 @@ export default function MasterDetailView<T extends object, ID>({
             </ListSection>
 
             {/* RIGHT Detail Section CONTENT MySpace*/}
-            <div>
-                <DetailSectionContainer>
+            <div className="detail-section">
 
-                    {selectedId ? detailContentBuilder(selectedId) : <p> Select Item To view Details</p>}
-                </DetailSectionContainer>
-
+                {selectedId ? detailContentBuilder(selectedId) : <p> Select Item To view Details</p>}
             </div>
 
             {/* RIGHT CONTENT ENDS*/}
@@ -78,25 +82,37 @@ export function ListSection<T extends object, ID>({ title, items, searchQuery,
 
     return (
 
-        <aside className="m-2 w-80 min-h-screen bg-white px-3.75 pb-3.75 pt-5">
-            <ListHeader title={title}>
-                {children}
-            </ListHeader>
-            <div className="h-6" />
-            {/* List Body. MySpace */}
-            <div className="min-h-svh shrink-0 rounded border border-[#e1e7ed] bg-white p-2">
-                <div className="p-2">
-                    {/* Search MySpace*/}
-                    <SearchBox searchQuery={searchQuery} onSearchChange={onSearchChange} />
-                    <ListArea
-                        getId={getId}
-                        items={items}
-                        selectedId={selectedId}
-                        onSelect={onSelect}
-                        itemBuilder={listItemBuilder}
+        <div className="list-section">
+            {/* Header Section */}
+            <div className="list-header">
+                {/* Header Left Side */}
+                <div className="list-title-group">
+                    <ArrowRight
+                        size={24}
+                        strokeWidth={2}
                     />
+
+                    <div className="title">
+                        {title}
+                    </div>
                 </div>
+
+                {/* Header Right Side */}
+                {children}
             </div>
-        </aside >
+            {/* List Body. MySpace */}
+            <div className="list-item-box">
+                {/* Search MySpace*/}
+                <SearchBox searchQuery={searchQuery} onSearchChange={onSearchChange} />
+                <ListArea
+                    getId={getId}
+                    items={items}
+                    selectedId={selectedId}
+                    onSelect={onSelect}
+                    itemBuilder={listItemBuilder}
+                />
+
+            </div>
+        </div >
     );
 } 

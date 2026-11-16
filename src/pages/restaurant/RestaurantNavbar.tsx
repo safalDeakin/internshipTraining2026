@@ -1,4 +1,4 @@
-import { ChevronDown, UtensilsCrossed, Play, ListCheck } from "lucide-react";
+import { ChevronDown, Book, UtensilsCrossed, Play, ListCheck, } from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
@@ -37,8 +37,7 @@ const RestaurantNavbar = ({
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2 rounded-lg px-2 py-2 ${
-      isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
+    `flex items-center gap-2 rounded-lg px-2 py-2 ${isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
     }`;
 
   // Format date for the sidebar.
@@ -55,7 +54,7 @@ const RestaurantNavbar = ({
     }).format(parsedDate);
   };
 
-  // Get only the latest session of each staff member
+  // Get only the latest session of each staff member.
   const organizationSessions = useMemo(() => {
     if (organization?.id == null) return [];
 
@@ -67,13 +66,12 @@ const RestaurantNavbar = ({
 
     filteredSessions.forEach((session) => {
       const staffKey = String(session.staffId);
-
       const existingSession = latestSessionsByStaff.get(staffKey);
 
       if (
         !existingSession ||
         new Date(session.startTime).getTime() >
-          new Date(existingSession.startTime).getTime()
+        new Date(existingSession.startTime).getTime()
       ) {
         latestSessionsByStaff.set(staffKey, session);
       }
@@ -81,6 +79,7 @@ const RestaurantNavbar = ({
 
     return Array.from(latestSessionsByStaff.values());
   }, [sessions, organization?.id]);
+
   // Group sessions by date.
   const groupedSessions = useMemo(() => {
     const groups = organizationSessions.reduce<Record<string, POSSession[]>>(
@@ -138,6 +137,13 @@ const RestaurantNavbar = ({
     closeBar?.();
   };
 
+  // Handle other configuration settings.
+  const handleOtherSetting = (setting: string) => {
+    setIsRestaurantOpen(false);
+    onOpenSetting?.(setting);
+    closeBar?.();
+  };
+
   // Select a date and open POS Overview.
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
@@ -159,7 +165,8 @@ const RestaurantNavbar = ({
   };
 
   return (
-    <nav className="flex h-full max-h-screen flex-col gap-1 overflow-y-auto p-4">
+    <nav className="flex h-full max-h-screen flex-col gap-1 overflow-y-auto p-3"
+      style={{ backgroundColor: 'rgba(249, 250, 250, 1)' }}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="relative flex w-full items-center px-1 py-2">
@@ -167,8 +174,7 @@ const RestaurantNavbar = ({
             to={getOrganizationPath("/restaurant", organization)}
             onClick={closeBar}
             className={({ isActive }) =>
-              `flex items-center gap-2 font-bold ${
-                isActive ? "text-blue-600" : ""
+              `flex items-center gap-2 font-bold ${isActive ? "text-blue-600" : ""
               }`
             }
           >
@@ -183,9 +189,8 @@ const RestaurantNavbar = ({
             aria-label="Toggle restaurant menu"
           >
             <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform ${
-                isRestaurantOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+              className={`h-5 w-5 text-gray-500 transition-transform ${isRestaurantOpen ? "rotate-180 text-blue-500" : ""
+                }`}
             />
           </button>
 
@@ -217,19 +222,30 @@ const RestaurantNavbar = ({
               <div className="border-t border-gray-200 pt-3">
                 <p className="mb-2 text-sm text-gray-900">Configuration</p>
 
+                {/* Sales Setting opens as a normal route. */}
+                <NavLink
+                  to={getOrganizationPath(
+                    "/restaurant/sales-settings",
+                    organization,
+                  )}
+                  onClick={() => {
+                    setIsRestaurantOpen(false);
+                    closeBar?.();
+                  }}
+                  className={getLinkClass}
+                >
+                  Sales Setting
+                </NavLink>
+
+                {/* Other settings use the existing callback. */}
                 {[
-                  { label: "Sales Setting", id: "sales" },
                   { label: "Staffs and Access", id: "staffs" },
                   { label: "Device Setup", id: "devices" },
                 ].map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => {
-                      setIsRestaurantOpen(false);
-                      onOpenSetting?.(item.id);
-                      closeBar?.();
-                    }}
+                    onClick={() => handleOtherSetting(item.id)}
                     className={getLinkClass({ isActive: false })}
                   >
                     {item.label}
@@ -266,9 +282,8 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${
-              overviewOpen ? "rotate-180 text-blue-500" : ""
-            }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${overviewOpen ? "rotate-180 text-blue-500" : ""
+              }`}
           />
           <span className="font-medium">Overview</span>
         </button>
@@ -297,22 +312,23 @@ const RestaurantNavbar = ({
       </div>
 
       {/* POS Sessions */}
-      <div className="pb-2">
+      <div >
         <button
           type="button"
           onClick={() => setPosSessionsOpen((open) => !open)}
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${
-              posSessionsOpen ? "rotate-180 text-blue-500" : ""
-            }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${posSessionsOpen ? "rotate-180 text-blue-500" : ""
+              }`}
           />
           <span className="font-medium">POS Sessions</span>
         </button>
 
         {posSessionsOpen && (
-          <div className="mt-1 flex flex-col gap-3 pl-5">
+          <div className="mt-1 flex flex-col gap-3"
+            style={{ backgroundColor: 'white', padding: '8px' }}
+          >
             {groupedSessions.length === 0 ? (
               <p className="px-2 py-2 text-xs text-gray-400">
                 No POS sessions found.
@@ -324,13 +340,12 @@ const RestaurantNavbar = ({
                   <button
                     type="button"
                     onClick={() => handleDateSelect(date)}
-                    className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${
-                      selectedDate === date && !selectedStaffName
-                        ? "border-blue-500 bg-blue-50 text-blue-600"
-                        : "border-gray-200 hover:bg-blue-50"
-                    }`}
+                    className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${selectedDate === date && !selectedStaffName
+                      ? "border-blue-500 bg-blue-50 text-blue-600"
+                      : "border-gray-200 hover:bg-blue-50"
+                      }`}
                   >
-                    <ChevronDown className="h-4 w-4" />
+                    <Book className="h-4 w-4" />
 
                     <span className="font-medium">{formatDate(date)}</span>
 
@@ -349,12 +364,11 @@ const RestaurantNavbar = ({
                           key={session.id}
                           type="button"
                           onClick={() => handleStaffSelect(session)}
-                          className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${
-                            selectedStaffName === session.staffName &&
+                          className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${selectedStaffName === session.staffName &&
                             !selectedDate
-                              ? "bg-blue-100 text-blue-600"
-                              : "text-gray-700 hover:bg-blue-50"
-                          }`}
+                            ? "bg-blue-100 text-blue-600"
+                            : "text-gray-700 hover:bg-blue-50"
+                            }`}
                         >
                           <ListCheck className="h-4 w-4 shrink-0" />
 
@@ -363,9 +377,8 @@ const RestaurantNavbar = ({
                           </span>
 
                           <span
-                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${
-                              status.color
-                            }`}
+                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${status.color
+                              }`}
                             title={status.label}
                           />
                         </button>
