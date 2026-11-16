@@ -4,9 +4,13 @@
 .container-popup{
     padding: 24px;
 }
+.container-box{
+    padding: 24px;
+}
 .container-main{
     padding: 32px;
 }
+
 /* 
 .container-bg-page{
 
