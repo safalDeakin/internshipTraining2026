@@ -1,12 +1,14 @@
 import { createContext } from "react";
-import type { HotelPackage } from "../../../domain/hotel-package";
+import type { HotelPackage } from "../../../../../domain/hotel-package";
 
 
 export type RepoPackageContextType = {
+    title: string
     data: HotelPackage[]
-    selectedPackage: HotelPackage | null
-    selectedPackageId: string
-    selectPackage: (id: string) => void
+    searchQuery: string,
+    setSearchQuery: (val: string) => void,
+    getId: (id: HotelPackage) => string
+
 
     create: (data: HotelPackage) => Promise<boolean | DOMException>
     remove: (id: string) => Promise<boolean | DOMException>

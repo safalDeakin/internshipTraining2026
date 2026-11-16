@@ -11,7 +11,7 @@ type HotelReservationProps = {
 }
 
 export default function HotelReservation({
-    onClose,
+    // onClose,
 }: HotelReservationProps) {
     const flow = useReservationFlow()
 
@@ -20,10 +20,10 @@ export default function HotelReservation({
             <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div className="p-5 sm:p-8 lg:p-10">
                     <ReservationHeader
-                        onClose={() => {
-                            flow.reset()
-                            onClose?.()
-                        }}
+                    // onClose={() => {
+                    //     flow.reset()
+                    //     onClose?.()
+                    // }}
                     />
 
                     <ReservationStepper
