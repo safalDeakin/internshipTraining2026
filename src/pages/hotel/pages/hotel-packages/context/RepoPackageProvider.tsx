@@ -1,26 +1,44 @@
 
 import { useContext, useMemo, useState, type ReactNode } from "react";
 import RepoPackageContext from "./RepoPackageContext";
-import { packageCmdService, packageQueryService } from "../../../application/services";
-import type { HotelPackage } from "../../../domain/hotel-package";
-import { useSubscription } from "../../../application/useSubscription";
+import { packageCmdService, packageQueryService } from "../../../../../application/services";
+import type { HotelPackage } from "../../../../../domain/hotel-package";
+import { useSubscription } from "../../../../../application/useSubscription";
+
 
 
 // Provider
 export const RepoPackageProvider = ({ children }: { children: ReactNode }) => {
 
 
+    const [searchQuery, setSearchQuery] = useState("");
 
-    //provider needs to log in, find an organization, or check authorization so ask for AuthService
+    const title = "Hotel Package";
+
     const queryService = packageQueryService;
     const cmdService = packageCmdService;
 
     const { data } = useSubscription<HotelPackage, string>(queryService);
 
 
-    const [selectedPackageId, setSelectedPackageId] = useState<string>(
-        data[0]?.id ?? ""
-    );
+
+    const filteredData = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase();
+
+        if (!query) {
+            return data;
+        }
+
+        return data.filter((item) =>
+            [
+                item.name,
+                item.id,
+                item.code,
+            ].some((value) =>
+                value.toLowerCase().includes(query),
+            ),
+        );
+    }, [data, searchQuery]);
 
 
     const create = async (data: HotelPackage): Promise<boolean> => {
@@ -43,21 +61,19 @@ export const RepoPackageProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const selectedPackage = useMemo(
-        () => data.find((item) => item.id === selectedPackageId) ?? data[0],
-        [data, selectedPackageId],
-    );
+
 
     const value = useMemo(
         () => ({
-            data,
-            selectedPackage,
-            selectedPackageId,
-            selectPackage: setSelectedPackageId,
+            title,
+            data: filteredData,
+            searchQuery,
+            setSearchQuery,
+            getId: (item: HotelPackage) => item.id,
             create,
             remove
         }),
-        [data, selectedPackage, selectedPackageId],
+        [filteredData, searchQuery],
     )
 
     return (

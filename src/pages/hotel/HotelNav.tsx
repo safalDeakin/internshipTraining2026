@@ -107,6 +107,12 @@ const menuSection: MenuSection[] = [
         count: 5,
       },
       {
+        key: "hotelPackage",
+        label: "Hotel Package",
+        path: "hotel-package",
+        count: 5,
+      },
+      {
         key: "arrivals",
         label: "Arrivals",
         path: "arrivals",

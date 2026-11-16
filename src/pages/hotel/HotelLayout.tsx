@@ -15,6 +15,9 @@ import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
 import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRenderer";
+import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
+import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
+import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +97,7 @@ type ViewKey =
   | "night-audit"
   | "lost-found"
   | "guest-request"
+  | "hotel-package"
   | "arrivals"
   | "in-house"
   | "overdue"
@@ -224,6 +228,11 @@ export default function HotelLayout() {
           <GuestRequestPageRenderer />
         );
 
+
+      case "hotel-package":
+        return (
+          <PackageRenderer />
+        );
       case "arrivals":
         return (
           <ReservationPageRenderer />
@@ -291,7 +300,12 @@ export default function HotelLayout() {
 
       {/* MAIN CONTENT */}
       <main className="min-w-0 flex-1 overflow-x-auto">
-        {renderContent()}
+        <DialogProvider>
+          <DrawerProvider>
+            {renderContent()}
+          </DrawerProvider>
+        </DialogProvider>
+
       </main>
     </div>
   );

@@ -7,10 +7,11 @@ import { RepoGuestRequestProvider } from "./provider/GuestRequestProvider";
 import { RequestHeader } from "./components/RequestHeader";
 import { useState } from "react";
 
-import DummyModal from "./components/DummyModal";
+import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 
 function GuestRequestMasterDetailView() {
     const guestRequestContext = useGuestRequestHook();
+    const { showDialog } = useDialogBox();
 
     const [showDummyModal, setShowDummyModal] = useState(false);
 
@@ -55,6 +56,24 @@ function GuestRequestMasterDetailView() {
             </div>
         );
     };
+    const handleShowAddGuestRequest = async () => {
+
+        const result = await showDialog<boolean>({
+            title: "Make Reservation",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <h2>Yet to implement</h2>
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
 
     const actionButton = (
         <button
@@ -69,7 +88,7 @@ function GuestRequestMasterDetailView() {
                 hover:bg-[#f3f7fb]
             "
             aria-label="Add guest request"
-            onClick={() => setShowDummyModal(true)}
+            onClick={handleShowAddGuestRequest}
         >
             <Plus
                 size={16}
@@ -94,11 +113,6 @@ function GuestRequestMasterDetailView() {
             />
 
 
-            {showDummyModal && (
-                <DummyModal
-                    onClose={() => setShowDummyModal(false)}
-                />
-            )}
         </>
     );
 }

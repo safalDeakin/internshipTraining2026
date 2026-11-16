@@ -1,6 +1,6 @@
 import { Check, ChevronDown, ListChecks, Send } from "lucide-react";
 import type { GuestRequest } from "../../../../../domain/GuestRequest";
-import { useState } from "react";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 import { PostToFolioModal } from "./PostToFolioModal";
 
 type Props = {
@@ -12,11 +12,29 @@ export function RequestHeader({
     request,
     posted,
 }: Props) {
+    const { showDialog } = useDialogBox();
 
-    const [showPostToFolio, setShowPostToFolio] = useState(false);
+    const handlePostToFolio = async () => {
+        const result = await showDialog<boolean>({
+            title: "Post to Folio",
+            showHeader: true,
+            width: 600,
+
+            content: (
+                <PostToFolioModal
+                    request={request}
+                />
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted to folio");
+        }
+    };
+
     return (
         <>
-
             <header className="flex h-12 items-center gap-2 border-b border-slate-200 bg-white px-3 sm:px-4">
                 <ListChecks
                     size={14}
@@ -34,7 +52,7 @@ export function RequestHeader({
                 </span>
 
                 <button
-                    onClick={() => setShowPostToFolio(true)}
+                    onClick={handlePostToFolio}
                     disabled={posted}
                     className={`flex h-7 items-center gap-1 px-3 text-[10px] text-white ${posted
                         ? "bg-emerald-600"
@@ -58,17 +76,6 @@ export function RequestHeader({
                     <ChevronDown size={12} />
                 </button>
             </header>
-
-            {showPostToFolio && (
-                <PostToFolioModal
-                    request={request}
-                    onClose={() => setShowPostToFolio(false)}
-                    onPost={() => {
-                        // post billing to folio
-                        setShowPostToFolio(false);
-                    }}
-                />
-            )}
         </>
     );
 }

@@ -1,5 +1,5 @@
 import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView"
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useReservationList } from "./provider/listProvider/useReservationList";
 import type { ReservationListModel } from "./model/ReservationModel";
 import ReservationListProvider from "./provider/listProvider/ReservationListProvider";
@@ -17,6 +17,8 @@ import PaymentsTab from './component/tabs/PaymentsTab';
 import TabView from "../../../../lib/component/Tabview/TabView";
 import { useState } from "react";
 import HotelReservation from "../hotelReservation/HotelReservation";
+import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
+import useDrawer from "../../../../lib/component/Drawer/useDrawer";
 
 
 const tabComponents: { label: string, content: React.ComponentType }[] = [
@@ -51,6 +53,8 @@ const tabComponents: { label: string, content: React.ComponentType }[] = [
 
 function ReservationMasterDetailView() {
     const reservationListContext = useReservationList();
+    const { showDialog } = useDialogBox();
+    const { openDrawer } = useDrawer();
 
     const [openMakeReservation, setOpenMakeReservation] = useState(false)
 
@@ -100,10 +104,31 @@ function ReservationMasterDetailView() {
         );
     };
 
+
+    const handleShowReservation = async () => {
+
+        const result = await openDrawer<boolean>({
+            title: "Make Reservation",
+            // showHeader: true,
+
+            content: (
+                <HotelReservation
+                    onClose={() => setOpenMakeReservation(false)}
+                />
+
+            ),
+        });
+
+        if (result === true) {
+            // successfully posted
+            console.log("Posted Room Service");
+        }
+    };
+
     const actionButton = <button
         type="button"
         className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-[#f3f7fb]"
-        onClick={() => setOpenMakeReservation(true)}
+        onClick={handleShowReservation}
         aria-label="Add reservation"
     >
         <Plus
@@ -126,7 +151,7 @@ function ReservationMasterDetailView() {
                 headerChildren={actionButton}
             />
 
-            {openMakeReservation && (
+            {/* {openMakeReservation && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
                     <div className="relative max-h-[95vh] w-full max-w-7xl overflow-y-auto rounded-xl bg-white shadow-2xl">
                         <HotelReservation
@@ -134,7 +159,7 @@ function ReservationMasterDetailView() {
                         />
                     </div>
                 </div>
-            )}
+            )} */}
         </>
     )
 }
