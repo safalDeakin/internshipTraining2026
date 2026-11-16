@@ -12,22 +12,33 @@ import OrderHistory from "./features/ordering/OrderHistory";
 import PaymentHistory from "./features/payment/PaymentHistory";
 import InvoiceHistory from "./features/invoicing/InvoiceHistory";
 
-import type { POSUserSessionProps } from "./types/posSessionTypes";
+import type {
+  POSUserSessionProps,
+  POSSessionMode,
+} from "./types/posSessionTypes";
+
 import { tabs } from "./constants/posSessionAlldata";
 
 import ActiveSessionModal from "../../modal/pos/ActiveSessionModal";
 import ClosingSessionModal from "../../modal/pos/ClosingSessionModal";
+import InactiveSessionModal from "../../modal/pos/InactiveSessionModal";
 
 import { useAuth } from "../../../../lib/utils/secureclient/useAuth";
 import { usePOSUserSession } from "./context/usePOSUserSession";
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 
-const POSUserSession = ({ onExit }: POSUserSessionProps) => {
+const POSUserSession = ({
+  onExit,
+  onStartSession,
+  onCancelStart,
+}: POSUserSessionProps) => {
   const [shown, setShown] = useState(false);
   const [activeTab, setActiveTab] = useState("ordering");
+  // Controls when the inactive session modal appears.
+  const [showInactiveModal, setShowInactiveModal] = useState(false);
 
   const navigate = useNavigate();
-  const { organization } = useAuth();
+  const { organization, user } = useAuth();
 
   const { showDialog, closeDialog } = useDialogBox();
 
@@ -37,12 +48,21 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const activeSession =
     organization?.id != null ? getActiveSession(organization.id) : undefined;
 
-  // Opening animation.
+  // Show inactive session modal after 3 seconds.
   useEffect(() => {
-    const id = requestAnimationFrame(() => setShown(true));
+    if (activeSession) {
+      setShowInactiveModal(false);
+      return;
+    }
 
-    return () => cancelAnimationFrame(id);
-  }, []);
+    setShowInactiveModal(false);
+
+    const timer = setTimeout(() => {
+      setShowInactiveModal(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [activeSession]);
 
   // Navigate back to restaurant page.
   const exitToRestaurant = () => {
@@ -77,7 +97,6 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
           activeSessionStartTime={new Date(
             activeSession.startTime,
           ).toLocaleTimeString()}
-          // onClose={handleContinue}
           onContinue={handleContinue}
           onPause={handlePauseSession}
           onEndSession={handleEndSession}
@@ -157,23 +176,19 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
     return activeTab === id;
   };
 
-  // Avoid rendering the shell if active session is unavailable.
-  if (!activeSession) {
-    return null;
-  }
-
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 top-13 z-[9000] flex flex-col bg-white transition-transform duration-300 ease-out ${
-        shown ? "translate-x-0" : "translate-x-full"
-      }`}
+    // className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden ${
+    //   shown ? "opacity-100" : "opacity-0"
+    // } transition-opacity duration-300`}
     >
-      {/* Navigation */}
-      <nav className="flex items-center gap-2 bg-gray-100 px-4 py-3">
+      {/* POS NAVIGATION - ALWAYS RENDERED */}
+      <nav className="flex shrink-0 items-center gap-2 bg-gray-100 px-4 py-3">
         <button
           type="button"
           onClick={handleExit}
-          className="rounded-lg p-2 hover:bg-gray-200"
+          disabled={!activeSession}
+          className="rounded-lg p-2 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
           aria-label="View active session options"
         >
           <ArrowLeft className="h-5 w-5" />
@@ -188,11 +203,12 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
                 key={id}
                 type="button"
                 onClick={() => setActiveTab(id)}
+                disabled={!activeSession}
                 className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
                   isActive
                     ? "text-blue-500 underline underline-offset-4"
                     : "text-gray-800 hover:text-blue-500"
-                }`}
+                } disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 <Icon className="h-6 w-6" />
                 <span>{label}</span>
@@ -202,7 +218,7 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* POS MAIN CONTENT - ALWAYS RENDERED */}
       <main className="min-h-0 flex-1 overflow-y-auto">
         {activeTab === "ordering" && (
           <OrderingLayout onTrackClick={() => setActiveTab("orderHistory")} />
@@ -234,6 +250,23 @@ const POSUserSession = ({ onExit }: POSUserSessionProps) => {
 
         {activeTab === "return" && <div className="p-6">Return</div>}
       </main>
+
+      {/* INACTIVE SESSION MODAL - OVERLAY ABOVE POS */}
+      {!activeSession && showInactiveModal && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg">
+            <InactiveSessionModal
+              staffName={user?.name ?? "Unknown"}
+              terminal="Main Counter"
+              date={new Date().toLocaleDateString()}
+              onClose={() => onCancelStart?.()}
+              onSelect={(mode, data) => {
+                onStartSession?.(mode, data);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
