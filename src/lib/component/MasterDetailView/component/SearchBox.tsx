@@ -1,15 +1,14 @@
 import { Search } from "lucide-react";
-
+import './style.css';
 
 export function SearchBox({ searchQuery, onSearchChange }: {
     searchQuery: string;
     onSearchChange: (value: string) => void;
 }) {
 
-    return (<div className="mb-3 flex h-9 items-center rounded-[5px] border border-[#e1e7ed] px-2">
+    return (<div className="search-box">
         <Search
-            size={18}
-            className="mr-2 shrink-0 text-[#9ba7b5]"
+            className="search-icon"
         />
 
         <input
@@ -19,7 +18,7 @@ export function SearchBox({ searchQuery, onSearchChange }: {
                 onSearchChange(e.target.value)
             }
             placeholder="Search room types..."
-            className="h-full w-full border-0 bg-transparent text-[14px] text-[#34495e] outline-none placeholder:text-[#9da8b5]"
+            className="search-input"
         />
     </div>
 

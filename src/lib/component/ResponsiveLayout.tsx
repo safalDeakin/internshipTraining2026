@@ -36,11 +36,15 @@ const ResponsiveLayout = ({ sidebar, children }: ResponsiveLayoutProps) => {
   return (
     <div
       className="md:grid md:grid-cols-[1fr_4fr]"
+      style={{
+        padding: "4px ",
+        backgroundColor: 'white'
+      }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       <aside
-        className={`fixed left-0 top-13 z-50 h-[calc(100vh-3rem)] w-[85vw] max-w-[280px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl transition-transform duration-300 ease-in-out ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:h-screen md:w-[280px] md:translate-x-0 md:shadow-none`}
+        className={`fixed left-0 top-13 z-50 h-[calc(100vh-3rem)] w-[85vw] max-w-[280px] overflow-hidden rounded-xl transition-transform duration-300 ease-in-out ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:h-screen md:w-[280px] md:translate-x-0 md:shadow-none`}
       >
         {sidebar(closeBar)}
       </aside>
