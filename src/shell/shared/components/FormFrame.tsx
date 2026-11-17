@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { FormFrameProps } from "../../../../../../../shell/types/posSessionTypes";
+import type { FormFrameProps } from "../../types/posSessionTypes";
 
 const FormFrame = ({
   title,

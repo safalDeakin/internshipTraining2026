@@ -1,12 +1,9 @@
 import {
-  CalendarCheck,
   ClipboardList,
-  LayoutDashboard,
   Radio,
   Receipt,
   Undo2,
   Wallet,
-  Warehouse,
   type LucideIcon,
 } from "lucide-react";
 import type { POSSessionMode } from "../types/posSessionTypes";
