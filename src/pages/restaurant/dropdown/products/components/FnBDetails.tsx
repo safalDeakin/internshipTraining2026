@@ -5,7 +5,7 @@ import { Edit, Trash2, Minus, Box, Plus } from "lucide-react";
 import type { ProductFormData } from "../../../modal/dropdown/ProductFormModal";
 import ProductFormModal from "../../../modal/dropdown/ProductFormModal";
 
-import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 
 import type { ProductType } from "../../types/DropdownTypes";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";

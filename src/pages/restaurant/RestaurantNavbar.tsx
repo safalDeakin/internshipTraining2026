@@ -1,13 +1,19 @@
-import { ChevronDown, Book, UtensilsCrossed, Play, ListCheck, } from "lucide-react";
+import {
+  ChevronDown,
+  Book,
+  UtensilsCrossed,
+  Play,
+  ListCheck,
+} from "lucide-react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
-import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
 
-import type { POSSession } from "./pages/posuserSession/types/posSessionTypes";
+import type { POSSession } from "../../shell/types/posSessionTypes";
+import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
@@ -37,7 +43,8 @@ const RestaurantNavbar = ({
   const [posSessionsOpen, setPosSessionsOpen] = useState(true);
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2 rounded-lg px-2 py-2 ${isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
+    `flex items-center gap-2 rounded-lg px-2 py-2 ${
+      isActive ? "bg-blue-100 text-blue-500" : "hover:bg-blue-50"
     }`;
 
   // Format date for the sidebar.
@@ -71,7 +78,7 @@ const RestaurantNavbar = ({
       if (
         !existingSession ||
         new Date(session.startTime).getTime() >
-        new Date(existingSession.startTime).getTime()
+          new Date(existingSession.startTime).getTime()
       ) {
         latestSessionsByStaff.set(staffKey, session);
       }
@@ -165,8 +172,10 @@ const RestaurantNavbar = ({
   };
 
   return (
-    <nav className="flex h-full max-h-screen flex-col gap-1 overflow-y-auto p-3"
-      style={{ backgroundColor: 'rgba(249, 250, 250, 1)' }}>
+    <nav
+      className="flex h-full max-h-screen flex-col gap-1 overflow-y-auto p-3"
+      style={{ backgroundColor: "rgba(249, 250, 250, 1)" }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="relative flex w-full items-center px-1 py-2">
@@ -174,7 +183,8 @@ const RestaurantNavbar = ({
             to={getOrganizationPath("/restaurant", organization)}
             onClick={closeBar}
             className={({ isActive }) =>
-              `flex items-center gap-2 font-bold ${isActive ? "text-blue-600" : ""
+              `flex items-center gap-2 font-bold ${
+                isActive ? "text-blue-600" : ""
               }`
             }
           >
@@ -189,8 +199,9 @@ const RestaurantNavbar = ({
             aria-label="Toggle restaurant menu"
           >
             <ChevronDown
-              className={`h-5 w-5 text-gray-500 transition-transform ${isRestaurantOpen ? "rotate-180 text-blue-500" : ""
-                }`}
+              className={`h-5 w-5 text-gray-500 transition-transform ${
+                isRestaurantOpen ? "rotate-180 text-blue-500" : ""
+              }`}
             />
           </button>
 
@@ -282,8 +293,9 @@ const RestaurantNavbar = ({
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${overviewOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${
+              overviewOpen ? "rotate-180 text-blue-500" : ""
+            }`}
           />
           <span className="font-medium">Overview</span>
         </button>
@@ -312,22 +324,24 @@ const RestaurantNavbar = ({
       </div>
 
       {/* POS Sessions */}
-      <div >
+      <div>
         <button
           type="button"
           onClick={() => setPosSessionsOpen((open) => !open)}
           className="flex w-full items-center gap-1 rounded-lg pb-2 text-left text-gray-800 hover:bg-blue-50"
         >
           <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${posSessionsOpen ? "rotate-180 text-blue-500" : ""
-              }`}
+            className={`h-5 w-5 text-gray-500 transition-transform ${
+              posSessionsOpen ? "rotate-180 text-blue-500" : ""
+            }`}
           />
           <span className="font-medium">POS Sessions</span>
         </button>
 
         {posSessionsOpen && (
-          <div className="mt-1 flex flex-col gap-3"
-            style={{ backgroundColor: 'white', padding: '8px' }}
+          <div
+            className="mt-1 flex flex-col gap-3"
+            style={{ backgroundColor: "white", padding: "8px" }}
           >
             {groupedSessions.length === 0 ? (
               <p className="px-2 py-2 text-xs text-gray-400">
@@ -340,10 +354,11 @@ const RestaurantNavbar = ({
                   <button
                     type="button"
                     onClick={() => handleDateSelect(date)}
-                    className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${selectedDate === date && !selectedStaffName
-                      ? "border-blue-500 bg-blue-50 text-blue-600"
-                      : "border-gray-200 hover:bg-blue-50"
-                      }`}
+                    className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${
+                      selectedDate === date && !selectedStaffName
+                        ? "border-blue-500 bg-blue-50 text-blue-600"
+                        : "border-gray-200 hover:bg-blue-50"
+                    }`}
                   >
                     <Book className="h-4 w-4" />
 
@@ -364,11 +379,12 @@ const RestaurantNavbar = ({
                           key={session.id}
                           type="button"
                           onClick={() => handleStaffSelect(session)}
-                          className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${selectedStaffName === session.staffName &&
+                          className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${
+                            selectedStaffName === session.staffName &&
                             !selectedDate
-                            ? "bg-blue-100 text-blue-600"
-                            : "text-gray-700 hover:bg-blue-50"
-                            }`}
+                              ? "bg-blue-100 text-blue-600"
+                              : "text-gray-700 hover:bg-blue-50"
+                          }`}
                         >
                           <ListCheck className="h-4 w-4 shrink-0" />
 
@@ -377,8 +393,9 @@ const RestaurantNavbar = ({
                           </span>
 
                           <span
-                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${status.color
-                              }`}
+                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${
+                              status.color
+                            }`}
                             title={status.label}
                           />
                         </button>

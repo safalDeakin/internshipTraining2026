@@ -12,7 +12,7 @@ import {
 import MsTable from "../../../../../lib/component/table/components/MsTable";
 import PricelistEditModal from "../../../modal/dropdown/PricelistEditModal";
 
-import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import type { PricelistType } from "../../types/DropdownTypes";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 import React from "react";

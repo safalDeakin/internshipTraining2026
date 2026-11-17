@@ -11,7 +11,7 @@ import {
 import StatCard from "./StatCard";
 import { AreaChart, BarChart, DonutChart, formatCurrency } from "./Charts";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
-import ReusableButton from "../../posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Container from "../../../../../lib/component/Container/Container";
 
 const Card: React.FC<{

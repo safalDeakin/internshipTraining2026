@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Clock, Download, FileText, SquarePen } from "lucide-react";
 
 import type { InfoRow, OfferType, Stat } from "../../types/DropdownTypes";
-import ReusableButton from "../../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Container from "../../../../../lib/component/Container/Container";
 
