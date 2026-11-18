@@ -8,18 +8,18 @@ import RestaurantNav from "./RestaurantNavbar";
 import ResponsiveLayout from "../../lib/component/ResponsiveLayout";
 
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
-import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
+import type { POSSessionMode } from "../../shell/types/posSessionTypes";
 
 import ShellSetting from "./modal/settings/ShellSetting";
-import ClosingSessionModal from "./modal/pos/ClosingSessionModal";
+import ClosingSessionModal from "../../shell/modal/ClosingSessionModal";
 
-import POSUserSession from "./pages/posuserSession/POSUserSession";
-import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
-import ReusableButton from "./pages/posuserSession/shared/components/reuse/ReusableButton";
+import POSUserSession from "../../shell/POSUserSession";
+import ReusableButton from "../../shell/shared/components/ReusableButton";
 
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import useDrawer from "../../lib/component/Drawer/useDrawer";
+import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
 
 const RestaurantLayoutContent = () => {
   const [isPausedPromptOpen, setIsPausedPromptOpen] = useState(false);

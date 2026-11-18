@@ -24,7 +24,6 @@ import { nightAuditData } from "../pages/hotel/pages/nightAudit/data/nightAuditD
 import type { KeyCard } from "../domain/KeyCard";
 import { initialKeyCards } from "../pages/key-card/data/Keycard.data";
 import type { POSOverview } from "../domain/pos.overview";
-import { initialPOSOverview } from "../pages/pos-overviewPage/data/pos.overview.data";
 
 import { initialPricelistData } from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
 import { initialProductData } from "../pages/restaurant/dropdown/products/data/initialProductData";
@@ -37,7 +36,7 @@ import type {
 //PMS/Guest-Request
 import type { GuestRequest } from "../domain/GuestRequest";
 import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
-
+import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.data";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -224,19 +223,20 @@ export const PricelistCmdService = new CommandService<PricelistType, string>(
   PricelistRepo,
 );
 
-
-
-
 //This is for Guest Request
 const GuestRequestRepo = new Repository<GuestRequest, string>({
-  sourceType: 'InMemoryLocal',
-  domain: 'GuestRequest',
-  tenantId: 'MySpace1234',
+  sourceType: "InMemoryLocal",
+  domain: "GuestRequest",
+  tenantId: "MySpace1234",
   getId: (entity: GuestRequest) => String(entity.id),
   initialData: guestRequests,
   baseUrl: "asas",
-  eventsUrl: "events"
-})
+  eventsUrl: "events",
+});
 
-export const guestRequestQueryService = new QueryService<GuestRequest, string>(GuestRequestRepo);
-export const guestRequestCmdService = new CommandService<GuestRequest, string>(GuestRequestRepo);
+export const guestRequestQueryService = new QueryService<GuestRequest, string>(
+  GuestRequestRepo,
+);
+export const guestRequestCmdService = new CommandService<GuestRequest, string>(
+  GuestRequestRepo,
+);

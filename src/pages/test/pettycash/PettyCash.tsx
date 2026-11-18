@@ -1,7 +1,7 @@
 // author: shrajja
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, Pencil, Search } from "lucide-react";
-import ReusableButton from "../../restaurant/pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../shell/shared/components/ReusableButton";
 import PettyCashEntryModal, {
   type PettyCashEntry,
 } from "./PettyCashEntryModal";
