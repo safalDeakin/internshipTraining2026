@@ -92,7 +92,7 @@ export function ListSection<T extends object, ID>({ title, items, searchQuery,
                         strokeWidth={2}
                     />
 
-                    <div className="title">
+                    <div className="list-title">
                         {title}
                     </div>
                 </div>

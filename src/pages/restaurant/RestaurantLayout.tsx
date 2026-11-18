@@ -8,27 +8,26 @@ import RestaurantNav from "./RestaurantNavbar";
 import ResponsiveLayout from "../../lib/component/ResponsiveLayout";
 
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
-import type { POSSessionMode } from "./pages/posuserSession/types/posSessionTypes";
+import type { POSSessionMode } from "../../shell/types/posSessionTypes";
 
 import ShellSetting from "./modal/settings/ShellSetting";
-import InactiveSessionModal from "./modal/pos/InactiveSessionModal";
-import ClosingSessionModal from "./modal/pos/ClosingSessionModal";
+import ClosingSessionModal from "../../shell/modal/ClosingSessionModal";
 
-import POSUserSession from "./pages/posuserSession/POSUserSession";
-import { usePOSUserSession } from "./pages/posuserSession/context/usePOSUserSession";
-import ReusableButton from "./pages/posuserSession/shared/components/reuse/ReusableButton";
+import POSUserSession from "../../shell/POSUserSession";
+import ReusableButton from "../../shell/shared/components/ReusableButton";
+
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
+import useDrawer from "../../lib/component/Drawer/useDrawer";
+import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
 
-const RestaurantLayout = () => {
-  const [isSessionOpen, setIsSessionOpen] = useState(false);
-  const [isModeOpen, setIsModeOpen] = useState(false);
+const RestaurantLayoutContent = () => {
   const [isPausedPromptOpen, setIsPausedPromptOpen] = useState(false);
   const [isClosingFormOpen, setIsClosingFormOpen] = useState(false);
-
   const [activeSetting, setActiveSetting] = useState<string | null>(null);
 
   const { organization, user } = useAuth();
+  const { openDrawer, closeDrawer } = useDrawer();
 
   const {
     addSession,
@@ -41,39 +40,16 @@ const RestaurantLayout = () => {
   const location = useLocation();
   const organizationId = organization?.id;
 
-  // Get the current active session.
   const activeSession =
     organizationId != null ? getActiveSession(organizationId) : undefined;
 
-  // Get the current paused session.
   const pausedSession =
     organizationId != null ? getPausedSession(organizationId) : undefined;
 
-  // Close overlays when navigating to another route.
   useEffect(() => {
-    setIsSessionOpen(false);
-    setIsModeOpen(false);
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(false);
   }, [location.pathname]);
-
-  // PLAY BUTTON
-  const handlePlay = () => {
-    // If a session is already active, reopen it.
-    if (activeSession) {
-      setIsSessionOpen(true);
-      return;
-    }
-
-    // If a session is paused, ask whether to continue or end it.
-    if (pausedSession) {
-      setIsPausedPromptOpen(true);
-      return;
-    }
-
-    // Otherwise, start a new session.
-    setIsModeOpen(true);
-  };
 
   // CREATE A NEW SESSION
   const handleSelectMode = (
@@ -82,21 +58,11 @@ const RestaurantLayout = () => {
   ) => {
     if (!user || organizationId == null) return;
 
-    // Prevent creating another unfinished session.
     const existingActive = getActiveSession(organizationId);
     const existingPaused = getPausedSession(organizationId);
 
-    if (existingActive) {
-      setIsModeOpen(false);
-      setIsSessionOpen(true);
-      return;
-    }
-
-    if (existingPaused) {
-      setIsModeOpen(false);
-      setIsPausedPromptOpen(true);
-      return;
-    }
+    // Do not create another unfinished session.
+    if (existingActive || existingPaused) return;
 
     const now = new Date();
 
@@ -119,8 +85,45 @@ const RestaurantLayout = () => {
       openingNotes: data.notes,
     });
 
-    setIsModeOpen(false);
-    setIsSessionOpen(true);
+    // Do not close the drawer.
+    // POSUserSession will now display the POS tabs.
+  };
+
+  // OPEN POSUserSession INSIDE THE DRAWER
+  const openPOSDrawer = () => {
+    void openDrawer({
+      title: "POS Session",
+      showHeader: false,
+      width: "100%",
+      closeOnBackdrop: false,
+      closeOnEscape: false,
+      content: (
+        <POSUserSession
+          onExit={closeDrawer}
+          onStartSession={handleSelectMode}
+          onCancelStart={closeDrawer}
+        />
+      ),
+    });
+  };
+
+  // PLAY BUTTON
+  const handlePlay = () => {
+    if (activeSession) {
+      // Existing active session: open POS tabs in the drawer.
+      openPOSDrawer();
+      return;
+    }
+
+    if (pausedSession) {
+      // Paused session: ask whether to continue or end it.
+      setIsPausedPromptOpen(true);
+      return;
+    }
+
+    // No active session: open the drawer.
+    // POSUserSession will show InactiveSessionModal inside it.
+    openPOSDrawer();
   };
 
   // CONTINUE A PAUSED SESSION
@@ -131,22 +134,24 @@ const RestaurantLayout = () => {
 
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(false);
-    setIsSessionOpen(true);
+
+    // Open the same POS drawer after resuming.
+    openPOSDrawer();
   };
 
-  // OPEN THE EXISTING CLOSING SESSION MODAL
+  // OPEN CLOSING FORM FOR PAUSED SESSION
   const handleOpenClosingForm = () => {
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(true);
   };
 
-  // CANCEL CLOSING AND RETURN TO PAUSED SESSION PROMPT
+  // CANCEL CLOSING FORM
   const handleCancelClosing = () => {
     setIsClosingFormOpen(false);
     setIsPausedPromptOpen(true);
   };
 
-  // CONFIRM END OF PAUSED SESSION
+  // END PAUSED SESSION
   const handleConfirmEndSession = (data: {
     closingCash: number;
     notes: string;
@@ -157,151 +162,115 @@ const RestaurantLayout = () => {
 
     setIsClosingFormOpen(false);
     setIsPausedPromptOpen(false);
-    setIsSessionOpen(false);
-  };
-
-  // CANCEL INITIAL SESSION CREATION
-  const handleCancelMode = () => {
-    setIsModeOpen(false);
-  };
-
-  // HIDE POS SHELL WITHOUT ENDING THE SESSION.
-  const handleExitPOS = () => {
-    setIsSessionOpen(false);
   };
 
   return (
     <>
-      <DialogProvider>
-        <DrawerProvider>
-          <ResponsiveLayout
-            sidebar={(closeBar) => (
-              <RestaurantNav
-                closeBar={closeBar}
-                openSessionMode={handlePlay}
-                onOpenSetting={setActiveSetting}
-              />
-            )}
-          >
-            <Outlet context={{ openSessionMode: handlePlay }} />
-          </ResponsiveLayout>
+      <ResponsiveLayout
+        sidebar={(closeBar) => (
+          <RestaurantNav
+            closeBar={closeBar}
+            openSessionMode={handlePlay}
+            onOpenSetting={setActiveSetting}
+          />
+        )}
+      >
+        <Outlet context={{ openSessionMode: handlePlay }} />
+      </ResponsiveLayout>
 
-          {/* SETTINGS */}
-          {activeSetting === "sales" && (
-            <ShellSetting onClose={() => setActiveSetting(null)} />
-          )}
+      {/* SETTINGS */}
+      {activeSetting === "sales" && (
+        <ShellSetting onClose={() => setActiveSetting(null)} />
+      )}
 
-          {/* POS SHELL */}
-          {isSessionOpen && activeSession && (
-            <POSUserSession
-              onExit={handleExitPOS}
-              sessionMode={activeSession.mode}
-            />
-          )}
+      {/* PAUSED SESSION PROMPT */}
+      {isPausedPromptOpen && pausedSession && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Paused POS Session
+              </h2>
 
-          {/* START NEW SESSION */}
-          {isModeOpen && (
-            <div
-              className="fixed inset-x-0 bottom-0 top-13 z-[10000] flex items-center justify-center bg-black/30 p-4 backdrop-blur-sm"
-              onClick={handleCancelMode}
-            >
-              <div onClick={(event) => event.stopPropagation()}>
-                <InactiveSessionModal
-                  onClose={handleCancelMode}
-                  onSelect={handleSelectMode}
-                  staffName={user?.name ?? "Unknown"}
-                  terminal="Main Counter"
-                  date={new Date().toLocaleDateString()}
-                />
-              </div>
+              <button
+                type="button"
+                onClick={() => setIsPausedPromptOpen(false)}
+                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
             </div>
-          )}
 
-          {/* PAUSED SESSION PROMPT */}
-          {isPausedPromptOpen && pausedSession && (
-            <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
-              <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-                <div className="mb-5 flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Paused POS Session
-                  </h2>
+            <p className="mb-2 text-sm text-gray-600">
+              You have an unfinished POS session.
+            </p>
 
-                  <button
-                    type="button"
-                    onClick={() => setIsPausedPromptOpen(false)}
-                    className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-                    aria-label="Close"
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-
-                <p className="mb-2 text-sm text-gray-600">
-                  You have an unfinished POS session.
-                </p>
-
-                <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
-                  <p>
-                    <span className="font-medium">Staff:</span>{" "}
-                    {pausedSession.staffName}
-                  </p>
-
-                  <p className="mt-1">
-                    <span className="font-medium">Terminal:</span>{" "}
-                    {pausedSession.terminal}
-                  </p>
-
-                  <p className="mt-1">
-                    <span className="font-medium">Mode:</span>{" "}
-                    {pausedSession.mode}
-                  </p>
-
-                  <p className="mt-1">
-                    <span className="font-medium">Opening cash:</span> Rs.{" "}
-                    {pausedSession.openingCash}
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <ReusableButton
-                    variant="primary"
-                    size="lg"
-                    onClick={handleContinueSession}
-                    className="w-full"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <Play size={17} />
-                      Continue Previous Session
-                    </span>
-                  </ReusableButton>
-
-                  <ReusableButton
-                    variant="danger"
-                    size="lg"
-                    onClick={handleOpenClosingForm}
-                    className="w-full"
-                  >
-                    End Previous Session
-                  </ReusableButton>
-                </div>
-              </div>
+            <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
+              <p>
+                <span className="font-medium">Staff:</span>{" "}
+                {pausedSession.staffName}
+              </p>
+              <p className="mt-1">
+                <span className="font-medium">Terminal:</span>{" "}
+                {pausedSession.terminal}
+              </p>
+              <p className="mt-1">
+                <span className="font-medium">Mode:</span> {pausedSession.mode}
+              </p>
+              <p className="mt-1">
+                <span className="font-medium">Opening cash:</span> Rs.{" "}
+                {pausedSession.openingCash}
+              </p>
             </div>
-          )}
 
-          {/* REUSABLE CLOSING SESSION MODAL */}
-          {isClosingFormOpen && pausedSession && (
-            <ClosingSessionModal
-              staffName={pausedSession.staffName}
-              terminal={pausedSession.terminal}
-              date={new Date(pausedSession.date).toLocaleDateString()}
-              onCancel={handleCancelClosing}
-              onConfirm={handleConfirmEndSession}
-            />
-          )}
-        </DrawerProvider>
-      </DialogProvider>
+            <div className="flex flex-col gap-3">
+              <ReusableButton
+                variant="primary"
+                size="lg"
+                onClick={handleContinueSession}
+                className="w-full"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Play size={17} />
+                  Continue Previous Session
+                </span>
+              </ReusableButton>
+
+              <ReusableButton
+                variant="danger"
+                size="lg"
+                onClick={handleOpenClosingForm}
+                className="w-full"
+              >
+                End Previous Session
+              </ReusableButton>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CLOSING FORM FOR PAUSED SESSION */}
+      {isClosingFormOpen && pausedSession && (
+        <ClosingSessionModal
+          staffName={pausedSession.staffName}
+          terminal={pausedSession.terminal}
+          date={new Date(pausedSession.date).toLocaleDateString()}
+          onCancel={handleCancelClosing}
+          onConfirm={handleConfirmEndSession}
+        />
+      )}
     </>
   );
 };
+
+// Providers must wrap the component that uses useDrawer().
+const RestaurantLayout = () => (
+  <DialogProvider>
+    <DrawerProvider>
+      <RestaurantLayoutContent />
+    </DrawerProvider>
+  </DialogProvider>
+);
 
 export default RestaurantLayout;
