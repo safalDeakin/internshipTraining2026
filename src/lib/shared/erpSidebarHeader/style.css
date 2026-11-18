@@ -1,0 +1,121 @@
+.erp-sidebar-header{
+  display: flex;
+  width:100%;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  padding:4px 0px;
+}
+
+.sidebar-header-huge-button{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+    border: 1px solid #BCBEC0;
+    background-color: transparent;
+    color:#0066b3;
+    cursor: pointer; 
+}
+
+.sidebar-header-huge-button:hover{
+ background-color: oklch(97% 0.014 254.604);
+}
+
+.sidebar-header-top-selector-button{
+  display:flex;
+  flex-direction: row;
+  flex-shrink:0;
+  align-items: center;
+  color:#0066b3;
+  gap:12px;
+}
+
+.sidebar-header-top-selector-button:hover{
+background-color: oklch(97% 0.014 254.604);
+}
+
+.sidebar-header-top-selector-label-icon{
+  display:flex;
+  flex-direction: row;
+  flex-shrink:0;
+  gap:4px;
+}
+
+.sidebar-header-top-selector-title{
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.sidebar-header-top-selector-icon{
+  width:28px;
+  height:12px;
+}
+
+.sidebar-header-top-selector-arrow{
+  width:16px;
+  height:16px;
+}
+
+
+.sidebar-header-dropdown{
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  z-index:50;
+  border-radius: 4;
+  border-style: solid;
+  background-color: white;
+  padding: 16px;
+  gap:12px;
+  top:100%;
+  width:100%;
+}
+
+.sidebar-header-dropdown-group{
+  display:flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sidebar-header-dropdown-group-title{
+  display: flex;
+  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  color:#546D88
+}
+.sidebar-header-dropdown-group-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 12px;
+  font-size: 16px;
+  line-height: 24px;
+     width: 100%;
+     align-items: center;
+     text-align: left;
+     cursor: pointer;
+
+}
+
+.sidebar-header-dropdown-group-item:hover{
+  background-color:oklch(97% 0.014 254.604);;
+}
+
+.sidebar-header-dropdown-hr{
+  height: 1px;
+  background-color: #EAECEF;
+}
+
+.sidebar-header-dropdown-icon{
+  height: 1px;
+  width: 16px;
+}
+
+.sidebar-header-dropdown-group-item-section{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
