@@ -8,6 +8,7 @@ import {
 
 import type { POSSession } from "../types/posSessionTypes";
 
+//Stores all sessions and lifecycle functions and 	Receives new session through addSession()
 interface POSUserSessionContextType {
   sessions: POSSession[];
 

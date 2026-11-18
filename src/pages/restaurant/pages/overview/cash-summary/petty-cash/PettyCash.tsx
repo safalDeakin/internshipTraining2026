@@ -1,10 +1,9 @@
 // author: shrajja
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, Pencil, Search } from "lucide-react";
-import ReusableButton from "../../../shell/shared/components/ReusableButton";
-import PettyCashEntryModal, {
-  type PettyCashEntry,
-} from "./PettyCashEntryModal";
+import ReusableButton from "../../../../../../shell/shared/components/ReusableButton";
+import type { PettyCashEntry } from "./PettyCashEntryModal";
+import PettyCashEntryModal from "./PettyCashEntryModal";
 
 // Sample entries
 const initialEntries: PettyCashEntry[] = [
