@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ReusableButton from "../shared/components/ReusableButton";
-
+//Collects opening cash and notes	Sends form data through onConfirm
 interface StartingSessionModalProps {
   staffName: string;
   terminal: string;
@@ -28,8 +28,13 @@ const StartingSessionModal = ({
     openingCash.trim() !== "" && Number.isFinite(cash) && cash >= 0;
   //executes when confirm button clicked
   const handleConfirm = () => {
-    if (!isValidCash) return;
-    //Send data to the parent
+    console.log("1. Confirm clicked");
+
+    if (!isValidCash) {
+      console.log("Invalid cash");
+      return;
+    }
+
     onConfirm({
       openingCash: cash,
       notes: notes.trim(),

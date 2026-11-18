@@ -1,7 +1,7 @@
 // author: shrajja
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import ReusableButton from "../../../shell/shared/components/ReusableButton";
+import ReusableButton from "../../../../../../shell/shared/components/ReusableButton";
 
 export interface PettyCashEntry {
   id: number;
