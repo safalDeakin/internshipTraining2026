@@ -7,7 +7,7 @@ export type FormConfig = {
     fields: FieldConfig[]
 }
 
-export type FieldType = 'number' | 'text' | 'dropdown' | 'checkbox' | 'radio' | 'date'
+export type FieldType = 'number' | 'text' | 'textArea' | 'dropdown' | 'checkbox' | 'radio' | 'date' | 'date-range' | 'date-time';
 
 export type FieldConfig = {
     type: FieldType,
@@ -47,7 +47,7 @@ export default class FormBuilder {
         return new FormBuilder(name, code, onSubmit, onCancel);
     }
 
-    static fromConfig({ formConfig, onSubmit, onCancel }: { onSubmit: (values: string) => void, onCancel?: (values: string) => void, formConfig: FormConfig }) {
+    static formConfig({ formConfig, onSubmit, onCancel }: { onSubmit: (values: string) => void, onCancel?: (values: string) => void, formConfig: FormConfig }) {
         const builder = new FormBuilder(formConfig.name, formConfig.code, onSubmit, onCancel);
         formConfig.fields.forEach((item, index) => {
 
@@ -55,6 +55,16 @@ export default class FormBuilder {
                 case "text":
                     console.log("Text" + item.type + "   " + item.code);
                     builder.addTextField(
+                        item.label,
+                        item.code,
+                        item.placeholder,
+                        item.isRequired
+                    )
+                    break;
+
+                case "textArea":
+                    console.log("Text" + item.type + " " + item.code);
+                    builder.addTextAreaField(
                         item.label,
                         item.code,
                         item.placeholder,
@@ -103,6 +113,31 @@ export default class FormBuilder {
                     }
                     break;
 
+                case "date":
+                    console.log("Text" + item.type + "   " + item.code);
+                    builder.addDateField(
+                        item.label,
+                        item.code,
+                        item.isRequired
+                    )
+                    break;
+
+                case "date-range":
+                    builder.addDateRangeField(
+                        item.label,
+                        item.code,
+                        item.isRequired
+                    );
+                    break;
+
+                case "date-time":
+                    builder.addDateTimeField(
+                        item.label,
+                        item.code,
+                        item.isRequired);
+                    break;
+
+
                 default:
                     return;
             }
@@ -126,6 +161,24 @@ export default class FormBuilder {
         </div>);
 
         return this;
+    }
+
+    addTextAreaField(label: string, code: string, placeholder?: string, isRequired: boolean = true) {
+        this.fields.push(
+            <div key={code} className="form-item form-field-item-direction-col">
+                <label >{label}</label>
+                <textarea
+                    name={label}
+                    onChange={(e) => {
+                        this.answers[code] = e.target.value;
+                    }}
+                    required={isRequired}
+                    placeholder={placeholder}
+                    className="w-full px-3 py-2"
+                />
+
+            </div>
+        )
     }
 
     addNumberField(label: string, code: string, placeholder?: string, isRequired: boolean = true) {
@@ -181,7 +234,7 @@ export default class FormBuilder {
             }
             {
                 options?.map(option => (
-                    <label className="form-item form-field-item-direction-row">
+                    <label key={option.val} className="form-item form-field-item-direction-row">
                         <input
                             type="checkbox"
                             name={option.val}
@@ -239,6 +292,130 @@ export default class FormBuilder {
         return this;
     }
 
+    addDateField(label: string, code: string,
+        isRequired: boolean = true, placeholder?: string) {
+        this.fields.push(
+            <div key={code} className="flex flex-col gap-1">
+                <label >
+                    {label}
+                </label>
+
+                <input
+                    type="date"
+                    defaultValue={this.answers[code] ?? ""}
+                    required={isRequired}
+                    placeholder={placeholder}
+                    onChange={(e) => {
+                        this.answers[code] = e.target.value;
+                    }}
+                    className="w-full px-3 py-2"
+                />
+            </div>
+        );
+
+        return this;
+    }
+
+
+    addDateRangeField(
+        label: string,
+        code: string,
+        isRequired: boolean = true
+    ) {
+        const value = this.answers[code] ?? {
+            startDate: "",
+            endDate: "",
+        };
+
+        this.fields.push(
+            <div key={code}>
+                <label>
+                    {label}
+                </label>
+
+                <div className="grid grid-cols-2 gap-2">
+
+                    {/* Start Date */}
+                    <input
+                        type="date"
+                        defaultValue={value.startDate}
+                        required={isRequired}
+                        onChange={(e) => {
+                            const startDate = e.target.value;
+
+                            const currentEndDate =
+                                this.answers[code]?.endDate ?? "";
+
+                            const endDate =
+                                currentEndDate &&
+                                    currentEndDate >= startDate
+                                    ? currentEndDate
+                                    : "";
+
+                            this.answers[code] = {
+                                startDate,
+                                endDate,
+                            };
+                        }}
+                        className="w-full px-3 py-2"
+                    />
+
+                    {/* End Date */}
+                    <input
+                        type="date"
+                        defaultValue={value.endDate}
+                        min={value.startDate || undefined}
+                        required={isRequired}
+                        onChange={(e) => {
+                            const endDate = e.target.value;
+
+                            const startDate =
+                                this.answers[code]?.startDate ?? "";
+
+                            if (startDate && endDate < startDate) {
+                                return;
+                            }
+
+                            this.answers[code] = {
+                                startDate,
+                                endDate,
+                            };
+                        }}
+                        className="w-full px-3 py-2"
+                    />
+
+                </div>
+            </div>
+        );
+
+        return this;
+    }
+
+
+
+    addDateTimeField(label: string, code: string,
+        isRequired: boolean = true) {
+        this.fields.push(
+            <div key={code} className="flex flex-col gap-1">
+                <label>
+                    {label}
+                </label>
+
+                <input
+                    type="datetime-local"
+                    defaultValue={this.answers[code] ?? ""}
+                    required={isRequired}
+                    onChange={(e) => {
+                        this.answers[code] = e.target.value;
+                    }}
+                    className="w-full px-3 py-2"
+                />
+            </div>
+        );
+
+        return this;
+    }
+
     private getAnswer() {
         return JSON.stringify(this.answers)
     }
@@ -246,15 +423,15 @@ export default class FormBuilder {
     build(): ReactNode {
         return (
             <form className="form">
-                <p className="form-fields">
+                <div className="form-fields">
                     {
                         this.fields.map(field => (
                             field
                         ))
                     }
-                </p>
+                </div>
                 {/* here we also add banners if u like on other  */}
-                <p className='form-footer'>
+                <div className='form-footer'>
 
                     {
                         this.onCancel !== undefined ?
@@ -265,7 +442,7 @@ export default class FormBuilder {
                     <button type="submit" onClick={() => {
                         this.onSubmit(this.getAnswer())
                     }}>Submit</button>
-                </p>
+                </div>
 
             </form>
         );
