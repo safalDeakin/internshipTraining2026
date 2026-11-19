@@ -18,6 +18,7 @@ import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRendere
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
+import Frame from "../../lib/component/Frame/Frame";
 
 /*
 |--------------------------------------------------------------------------
@@ -292,21 +293,19 @@ export default function HotelLayout() {
   };
 
   return (
-    <div className="flex min-h-screen  bg-white" style={{ padding: '4px', gap: '4px' }}>
+    <Frame>
       {/* SIDEBAR */}
-      <aside className="w-64 shrink-0">
-        <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
-      </aside>
-
+      <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
       {/* MAIN CONTENT */}
-      <main className="min-w-0 flex-1 overflow-x-auto">
-        <DialogProvider>
-          <DrawerProvider>
-            {renderContent()}
-          </DrawerProvider>
-        </DialogProvider>
+      <DialogProvider>
+        <DrawerProvider>
+          {renderContent()}
+        </DrawerProvider>
+      </DialogProvider>
 
-      </main>
-    </div>
+
+
+    </Frame>
+
   );
 }

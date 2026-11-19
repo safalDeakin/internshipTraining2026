@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
 import type { AppRoute } from "../../../routes/appRoutes";
 import RootRedirect from "./pages/RouteRedirect";
+import './style.css';
 
 interface SecureConfig {
   authServerUrl: string;
@@ -21,6 +22,7 @@ interface SecureConfig {
 interface SecureAppClientProps {
   children?: ReactNode;
   config?: SecureConfig;
+  allowOverFlow?: boolean;
   permissions?: Record<
     string,
     {
@@ -30,17 +32,23 @@ interface SecureAppClientProps {
   >;
   routes: AppRoute[];
 }
-const OrganizationLayout = ({ routes }: { routes: AppRoute[] }) => {
+const OrganizationLayout = ({ overflow, routes }: { overflow: boolean, routes: AppRoute[] }) => {
   return (
-    <>
+    overflow ? <>
       <Navbar routes={routes} />
       <Outlet />{" "}
-    </>
+    </> :
+      <div className='mainframe'>
+        <Navbar routes={routes} />
+        <Outlet />{" "}
+      </div>
+
   );
 };
 
 const SecureAppClient = ({
   children,
+  allowOverFlow = false,
   config,
   permissions = {},
   routes,
@@ -78,7 +86,7 @@ const SecureAppClient = ({
               path=":organizationSlug"
               element={<SecureCellRoute permissions={permissions} />}
             >
-              <Route element={<OrganizationLayout routes={routes} />}>
+              <Route element={<OrganizationLayout overflow={allowOverFlow} routes={routes} />}>
                 {" "}
                 {renderRoutes(routes)}{" "}
               </Route>

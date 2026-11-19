@@ -1,0 +1,7 @@
+.scrollable-container {
+    /* Expands to fill available space */
+    width: 100%;     /* Full width */
+    height: 100%;        /* Full width */
+    overflow-y: scroll;     /* Enables vertical scrolling only when content exceeds height */
+    overflow-x: hidden;   /* Prevents horizontal overflow */
+}

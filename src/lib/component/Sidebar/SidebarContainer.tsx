@@ -20,6 +20,7 @@ export default function SidebarContainer({ header, children, footer }: SidebarCo
                     footer && <div className='sidebar-footer'>{footer}</div>
                 }
             </div >
+
         </nav>
     );
 }

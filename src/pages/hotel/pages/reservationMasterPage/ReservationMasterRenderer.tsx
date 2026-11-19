@@ -19,6 +19,7 @@ import { useState } from "react";
 import HotelReservation from "../hotelReservation/HotelReservation";
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 import useDrawer from "../../../../lib/component/Drawer/useDrawer";
+import Scrollable from "../../../../lib/component/scrollable/Scrollable";
 
 
 const tabComponents: { label: string, content: React.ComponentType }[] = [
@@ -59,14 +60,20 @@ function ReservationMasterDetailView() {
     const [openMakeReservation, setOpenMakeReservation] = useState(false)
 
     const detailContentBuilder = (selectId: string) => {
+
         return (
+
             <ReservationDetailProvider id={selectId}>
-                <div className="flex flex-col gap-1 ">
+                <div className="flex flex-col gap-1 top-0">
                     <ReservationToolbar />
-                    <ReservationSummaryInfo />
-                    <TabView tabs={tabComponents} />
+                    <Scrollable direction="y">
+                        <ReservationSummaryInfo />
+                        <TabView tabs={tabComponents} />
+                    </Scrollable>
                 </div>
-            </ReservationDetailProvider>
+
+            </ReservationDetailProvider >
+
 
         );
     };
@@ -150,7 +157,6 @@ function ReservationMasterDetailView() {
                 title={reservationListContext.title}
                 headerChildren={actionButton}
             />
-
             {/* {openMakeReservation && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
                     <div className="relative max-h-[95vh] w-full max-w-7xl overflow-y-auto rounded-xl bg-white shadow-2xl">
