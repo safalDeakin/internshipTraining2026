@@ -41,6 +41,8 @@ import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.
 //ReportBuilder
 import type { ReportBuilder } from "../domain/ReportBuilder";
 import { ReportBuilderData } from "../pages/reports/data/reportBuilder.data";
+import type { HoldReservation, ReservationRecord } from "../domain/holdReservation";
+import { HoldReservationRecords } from "../pages/hotel/pages/hold-reservation/data/holdReservation.data";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -263,4 +265,23 @@ export const ReportBuilderQueryService = new QueryService<ReportBuilder, string>
 );
 export const ReportBuilderCmdService = new CommandService<ReportBuilder, string>(
   RepoprtBuilderRepo,
+);
+
+
+//This is for Report Builder
+const HoldReservationRepo = new Repository<ReservationRecord, string>({
+  sourceType: "InMemoryLocal",
+  domain: "HoldReservation",
+  tenantId: "MySpace1234",
+  getId: (entity: ReservationRecord) => String(entity.reservation.id),
+  initialData: HoldReservationRecords,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+export const HoldReservationQueryService = new QueryService<ReservationRecord, string>(
+  HoldReservationRepo,
+);
+export const HoldReservationCmdService = new CommandService<ReservationRecord, string>(
+  HoldReservationRepo,
 );

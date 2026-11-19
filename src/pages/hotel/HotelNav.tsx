@@ -84,6 +84,12 @@ const menuSection: MenuSection[] = [
     label: "Front-Desk",
     items: [
       {
+        key: "holdReservation",
+        label: "Pending",
+        path: "hold-reservation",
+        count: 5,
+      },
+      {
         key: "guestRequest",
         label: "Guest Request",
         path: "guest-request",

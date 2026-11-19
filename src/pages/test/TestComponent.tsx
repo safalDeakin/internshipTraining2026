@@ -1,5 +1,6 @@
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
+import HoldReservationRenderer from "../hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
 import Report from "../reports/Report";
 import ReportBuilderRenderer from "../reports/ReportBuilderRenderer";
 
@@ -47,7 +48,8 @@ const TestComponent = () => {
       {/* < PackageRenderer /> */}
       {/* <GuestCheckoutRenderer /> */}
       {/* <FormBuilderTest /> */}
-      <ReportBuilderRenderer />
+      {/* <ReportBuilderRenderer /> */}
+      {/* <HoldReservationRenderer /> */}
     </>
   );
 };
