@@ -30,7 +30,6 @@ const ReportBuilderSidebar = () => {
             <div className="shrink-0 p-5">
 
                 <label
-                    htmlFor="report-template"
                     className="mb-3 block text-sm font-bold text-gray-700"
                 >
                     Report Template:
