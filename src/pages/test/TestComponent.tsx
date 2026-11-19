@@ -7,6 +7,8 @@
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
 
+import CashMovement from "../restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
+import PettyCash from "../restaurant/pages/overview/cash-summary/petty-cash/PettyCash";
 import FormBuilderTest from "./FormBuilderTest";
 
 const TestComponent = () => {
@@ -38,12 +40,13 @@ const TestComponent = () => {
       <RoomServiceTaskCompletionSheet />
 
       <RefundSidebar />
-      <PettyCash /> */}
+      //
       {/* <GuestRequestPageRenderer /> */}
       {/* < PackageRenderer /> */}
       {/* <GuestCheckoutRenderer /> */}
-      <FormBuilderTest />
-
+      {/* <FormBuilderTest /> */}
+      {/* <PettyCash /> */}
+      <CashMovement />
     </>
   );
 };

@@ -5,6 +5,8 @@ import {
   ChevronDown,
   CreditCard,
   Download,
+  EllipsisVertical,
+  Menu,
   Smartphone,
   Wallet,
 } from "lucide-react";
@@ -13,6 +15,7 @@ import { AreaChart, BarChart, DonutChart, formatCurrency } from "./Charts";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Container from "../../../../../lib/component/Container/Container";
+import { useNavigate } from "react-router-dom";
 
 const Card: React.FC<{
   title?: string;
@@ -250,7 +253,7 @@ const txColumns: Column<Transaction>[] = [
 
 const CashSummary = () => {
   const [range, setRange] = useState<Range>("Today");
-
+  const navigate = useNavigate();
   //Calculating total sales
   const total = paymentBreakdown.reduce((s, p) => s + p.value, 0);
 
@@ -291,14 +294,12 @@ const CashSummary = () => {
             >
               Export
             </ReusableButton>
-
-            <button className="flex items-center gap-2 text-sm font-medium">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-xs text-white">
-                JD
-              </span>
-              John Doe
-              <ChevronDown size={14} />
-            </button>
+            <ReusableButton
+              variant="outline"
+              size="sm"
+              icon={<EllipsisVertical className="font-extrabold" />}
+              onClick={() => navigate("cash-movement")}
+            ></ReusableButton>
           </div>
         }
       />

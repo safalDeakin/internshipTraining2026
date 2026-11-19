@@ -22,7 +22,7 @@ interface InactiveSessionModalProps {
     },
   ) => void;
 }
-
+//Lets staff select session mode	Passes selected mode and form data
 const InactiveSessionModal = ({
   staffName,
   terminal,
@@ -40,7 +40,12 @@ const InactiveSessionModal = ({
         terminal={terminal}
         date={date}
         onCancel={() => setPickedMode(null)}
-        onConfirm={(data) => onSelect(pickedMode, data)}
+        onConfirm={(data) => {
+          console.log("2. InactiveSessionModal received:", data);
+          console.log("Selected mode:", pickedMode);
+
+          onSelect(pickedMode, data);
+        }}
       />
     );
   }
