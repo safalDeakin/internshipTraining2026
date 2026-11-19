@@ -169,7 +169,7 @@ const RestaurantLayoutContent = () => {
   const handleOpenShellSettings = () => {
     openDrawer({
       title: "Shell Settings",
-      width: "1100px",
+      width: "100%",
       closeOnBackdrop: true,
       closeOnEscape: true,
       content: <ShellSettings />,

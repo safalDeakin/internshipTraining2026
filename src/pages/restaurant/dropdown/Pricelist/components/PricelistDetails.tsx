@@ -102,11 +102,11 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col">
       {/* Header / Actions */}
       <Toolbar
         left={
-          <div className="flex min-w-0 flex-1 items-center gap-5">
+          <div className="flex gap-2">
             <p className="flex min-w-0 items-center gap-2 text-sm font-medium text-gray-800">
               <TextAlignJustify className="h-4 w-4 shrink-0" />
               <span className="truncate">{pricelist.name}</span>
@@ -204,7 +204,7 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
           />
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 

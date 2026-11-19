@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-// import './style.css';
+import "./style.css";
 
 export type FormConfig = {
   name: string;
@@ -161,28 +161,40 @@ export default class FormBuilder {
     return builder;
   }
 
-  addTextField(label: string, code: string, placeholder?: string, isRequired: boolean = true) {
-    this.fields.push(<div key={code} className="form-item form-field-item-direction-col">
-      <label>{label}</label>
-      <input
-        type='text'
-        className='input'
-        name={label}
-        placeholder={placeholder}
-        required={isRequired}
-        onChange={(e) => {
-          this.answers[code] = e.target.value;
-        }}
-      />
-    </div>);
+  addTextField(
+    label: string,
+    code: string,
+    placeholder?: string,
+    isRequired: boolean = true,
+  ) {
+    this.fields.push(
+      <div key={code} className="form-item form-field-item-direction-col">
+        <label>{label}</label>
+        <input
+          type="text"
+          className="input"
+          name={label}
+          placeholder={placeholder}
+          required={isRequired}
+          onChange={(e) => {
+            this.answers[code] = e.target.value;
+          }}
+        />
+      </div>,
+    );
 
     return this;
   }
 
-  addTextAreaField(label: string, code: string, placeholder?: string, isRequired: boolean = true) {
+  addTextAreaField(
+    label: string,
+    code: string,
+    placeholder?: string,
+    isRequired: boolean = true,
+  ) {
     this.fields.push(
       <div key={code} className="form-item form-field-item-direction-col">
-        <label >{label}</label>
+        <label>{label}</label>
         <textarea
           name={label}
           onChange={(e) => {
@@ -192,28 +204,32 @@ export default class FormBuilder {
           placeholder={placeholder}
           className="input w-full px-3 py-2"
         />
-
-      </div>
-    )
+      </div>,
+    );
   }
 
-
-  addNumberField(label: string, code: string, placeholder?: string, isRequired: boolean = true) {
-    this.fields.push(<div key={code} className="form-item form-field-item-direction-col" >
-      <label>{label}</label>
-      <input
-        className="input"
-        type='number'
-        name={label}
-        placeholder={placeholder}
-        required={isRequired}
-        onChange={(e) => {
-          this.answers[code] = e.target.value === ""
-            ? ""
-            : Number(e.target.value);
-        }}
-      />
-    </div>);
+  addNumberField(
+    label: string,
+    code: string,
+    placeholder?: string,
+    isRequired: boolean = true,
+  ) {
+    this.fields.push(
+      <div key={code} className="form-item form-field-item-direction-col">
+        <label>{label}</label>
+        <input
+          className="input"
+          type="number"
+          name={label}
+          placeholder={placeholder}
+          required={isRequired}
+          onChange={(e) => {
+            this.answers[code] =
+              e.target.value === "" ? "" : Number(e.target.value);
+          }}
+        />
+      </div>,
+    );
 
     return this;
   }
@@ -294,33 +310,37 @@ export default class FormBuilder {
     return this;
   }
 
-  addDropdown(label: string, code: string,
-    options: { label: string, val: any; }[], isRequired: boolean = true) {
-    this.fields.push(<div key={code} className='form-item'>
-      <label>{label}: </label>
-      <select
-        className="select"
-        key={code}
-        name={code}
-        required={isRequired}
-        defaultValue={"Select"}
-        onChange={(e) => {
-          this.answers[code] = e.target.value;
-        }}
-      >
-        {/* Empty placeholder option */}
-        <option value="Select" disabled hidden>Select </option>
-        {options?.map(option => (
-          <option
-            className='option'
-            key={option.val}
-            value={option.val}
-          >
-            {option.label}
+  addDropdown(
+    label: string,
+    code: string,
+    options: { label: string; val: any }[],
+    isRequired: boolean = true,
+  ) {
+    this.fields.push(
+      <div key={code} className="form-item">
+        <label>{label}: </label>
+        <select
+          className="select"
+          key={code}
+          name={code}
+          required={isRequired}
+          defaultValue={"Select"}
+          onChange={(e) => {
+            this.answers[code] = e.target.value;
+          }}
+        >
+          {/* Empty placeholder option */}
+          <option value="Select" disabled hidden>
+            Select{" "}
           </option>
-        ))}
-      </select>
-    </div>);
+          {options?.map((option) => (
+            <option className="option" key={option.val} value={option.val}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>,
+    );
 
     return this;
   }
@@ -384,7 +404,6 @@ export default class FormBuilder {
             }}
             className=" w-full px-3 py-2"
           />
-
 
           {/* End Date */}
           <input
