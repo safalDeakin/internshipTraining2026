@@ -17,13 +17,24 @@ export default function TabView({ tabs }: TabsProps) {
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors -mb-px ${currentIndex === index
-                            ? 'border-blue-500 text-blue-700 bg-blue-50 rounded-t'
+                        className={`tab-item ${currentIndex === index
+                            ? 'rounded-t'
                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                             }`}
+                        style={
+                            currentIndex === index ?
+                                {
+                                    borderColor: '#2779e6g',
+                                    backgroundColor: '#f5f9ff',
+                                    color: '#2779e6'
+                                } : {
+
+                                }}
                     >
-                        {tab.label}
+                        <span style={{ fontSize: '14px', lineHeight: '20px' }}>{tab.label}</span>
+
                     </button>
+
                 ))}
             </div>
 
