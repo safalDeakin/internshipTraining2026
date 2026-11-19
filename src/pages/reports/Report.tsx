@@ -1,15 +1,16 @@
-import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 import ReportBuilderSidebar from "./components/ReportBuilderSidebar";
 import ReportTemplateRenderer from "./ReportTemplateRenderer";
 import ReportSectionRenderer from "./ReportSectionRenderer";
 import ReportFilters from "./ReportFilters";
 
-import { ReportBuilderStateHolder } from "../../states/ReportBuilderStateHolder";
-import { useReportBuilderState } from "../../hooks/useReportBuilderState";
+// import { ReportBuilderStateHolder } from "../../states/ReportBuilderStateHolder";
+// import { useReportBuilderState } from "../../hooks/useReportBuilderState";
 
 import { exportReportToCSV } from "./reportExport";
 import type { ReportSection } from "./types/report";
+import { useReportBuilderHook } from "./provider/useReportBuilderHook";
 
 type DragState = {
     section: ReportSection;
@@ -37,10 +38,10 @@ const DRAG_TRANSITION =
 const DROP_DURATION = 220;
 
 const Report = () => {
-    const reportBuilderState = useMemo(
-        () => new ReportBuilderStateHolder(),
-        []
-    );
+    // const reportBuilderState = useMemo(
+    //     () => new ReportBuilderStateHolder(),
+    //     []
+    // );
 
     const {
         selectedTemplate,
@@ -52,7 +53,7 @@ const Report = () => {
         setStartDate,
         setTerminal,
         reorderSections,
-    } = useReportBuilderState(reportBuilderState);
+    } = useReportBuilderHook();
 
     /*DRAG STATE*/
     const [dragState, setDragState] = useState<DragState | null>(null);
@@ -494,9 +495,9 @@ const Report = () => {
                 {/* SIDEBAR */}
                 <aside className="hidden w-56 shrink-0 overflow-y-auto border-r border-gray-200 bg-white sm:block lg:w-64">
                     <ReportBuilderSidebar
-                        stateHolder={
-                            reportBuilderState
-                        }
+                    // stateHolder={
+                    //     reportBuilderState
+                    // }
                     />
                 </aside>
 

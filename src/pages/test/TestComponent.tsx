@@ -1,5 +1,8 @@
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
+import Report from "../reports/Report";
+import ReportBuilderRenderer from "../reports/ReportBuilderRenderer";
+
 // import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
 // import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
 // import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
@@ -7,7 +10,8 @@
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
 
-import FormBuilderTest from "./FormBuilderTest";
+// import PickupRequestForm from "../ready-to-implement/PickupRequestForm";
+// import FormBuilderTest from "./FormBuilderTest";
 
 const TestComponent = () => {
   return (
@@ -42,8 +46,8 @@ const TestComponent = () => {
       {/* <GuestRequestPageRenderer /> */}
       {/* < PackageRenderer /> */}
       {/* <GuestCheckoutRenderer /> */}
-      <FormBuilderTest />
-
+      {/* <FormBuilderTest /> */}
+      <ReportBuilderRenderer />
     </>
   );
 };

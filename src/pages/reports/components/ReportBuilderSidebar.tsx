@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-import { ReportBuilderStateHolder } from "../../../states/ReportBuilderStateHolder";
-import { useReportBuilderState } from "../../../hooks/useReportBuilderState";
 import type { ReportTemplate } from "../types/report";
 import { REPORT_TEMPLATES } from "../constants/reportTemplates";
 import { ALL_REPORT_SECTIONS } from "../constants/reportSections";
+import { useReportBuilderHook } from "../provider/useReportBuilderHook";
 
-interface ReportBuilderSidebarProps {
-    stateHolder: ReportBuilderStateHolder;
-}
 
-const ReportBuilderSidebar = ({
-    stateHolder,
-}: ReportBuilderSidebarProps) => {
+
+const ReportBuilderSidebar = () => {
     const {
         selectedTemplate,
         selectedSections,
-        setTemplate,
-        toggleSection,
-    } = useReportBuilderState(stateHolder);
+        setTemplate, toggleSection } = useReportBuilderHook();
 
     const [isTemplateOpen, setIsTemplateOpen] = useState(false);
 

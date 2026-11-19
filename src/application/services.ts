@@ -38,6 +38,10 @@ import type { GuestRequest } from "../domain/GuestRequest";
 import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
 import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.data";
 
+//ReportBuilder
+import type { ReportBuilder } from "../domain/ReportBuilder";
+import { ReportBuilderData } from "../pages/reports/data/reportBuilder.data";
+
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
   domain: "Reservation",
@@ -239,4 +243,24 @@ export const guestRequestQueryService = new QueryService<GuestRequest, string>(
 );
 export const guestRequestCmdService = new CommandService<GuestRequest, string>(
   GuestRequestRepo,
+);
+
+
+
+//This is for Report Builder
+const RepoprtBuilderRepo = new Repository<ReportBuilder, string>({
+  sourceType: "InMemoryLocal",
+  domain: "ReportBuilder",
+  tenantId: "MySpace1234",
+  getId: (entity: ReportBuilder) => String(entity.id),
+  initialData: [ReportBuilderData],
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+export const ReportBuilderQueryService = new QueryService<ReportBuilder, string>(
+  RepoprtBuilderRepo,
+);
+export const ReportBuilderCmdService = new CommandService<ReportBuilder, string>(
+  RepoprtBuilderRepo,
 );

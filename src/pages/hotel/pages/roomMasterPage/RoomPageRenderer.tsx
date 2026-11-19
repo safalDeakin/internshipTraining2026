@@ -6,6 +6,7 @@ import { useRoomsMasterDetail } from "./provider/useRoomContext";
 import { RoomListProvider } from "./provider/RoomsProvider";
 import type { RoomTypes } from "./model/RoomModel";
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
+import AddRoomForm from "./components/forms/AddRoomForm";
 
 
 function RoomMasterDetailView() {
@@ -28,13 +29,12 @@ function RoomMasterDetailView() {
     const handleShowAddRoom = async () => {
 
         const result = await showDialog<boolean>({
-            title: "Make Reservation",
+            title: "Add Rooms",
             showHeader: true,
             width: 600,
 
             content: (
-                <h2>Foms Informaion is yet to implement</h2>
-
+                <AddRoomForm />
             ),
         });
 

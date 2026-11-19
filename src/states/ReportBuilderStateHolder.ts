@@ -1,85 +1,77 @@
-
 import { REPORT_SECTIONS } from "../pages/reports/constants/reportSections";
-import type { ReportBuilderSnapshot, ReportSection, ReportTemplate } from "../pages/reports/types/report";
+import type {
+    ReportBuilderSnapshot,
+    ReportSection,
+    ReportTemplate,
+} from "../pages/reports/types/report";
 
 export class ReportBuilderStateHolder {
-    private listeners = new Set<() => void>()
+    private listeners = new Set<() => void>();
 
     private snapshot: ReportBuilderSnapshot = {
         selectedTemplate: "sale",
         selectedSections: REPORT_SECTIONS.sale.map(
             (section) => section.value
         ),
-
         period: "daily",
         startDate: "",
-        terminal: ""
-    }
+        terminal: "",
+    };
 
-
-    //subscribe
     subscribe = (listener: () => void) => {
-        this.listeners.add(listener)
+        this.listeners.add(listener);
 
         return () => {
-            this.listeners.delete(listener)
-        }
+            this.listeners.delete(listener);
+        };
+    };
 
-    }
-
-
-    //snapshot
     getSnapshot = () => {
-        return this.snapshot
-    }
+        return this.snapshot;
+    };
 
-
-    //notify
     private notify() {
-        this.listeners.forEach((listener) => listener())
+        this.listeners.forEach((listener) => listener());
     }
 
-
-    //template
     setTemplate = (template: ReportTemplate) => {
         if (this.snapshot.selectedTemplate === template) {
             return;
         }
 
-        const defalutSections = REPORT_SECTIONS[template].map((section) => section.value)
+        const defaultSections = REPORT_SECTIONS[template].map(
+            (section) => section.value
+        );
 
         this.snapshot = {
             ...this.snapshot,
             selectedTemplate: template,
-            selectedSections: defalutSections
-        }
+            selectedSections: defaultSections,
+        };
 
-        this.notify()
-    }
+        this.notify();
+    };
 
-
-    //Sections
     toggleSection = (section: ReportSection) => {
-        const sections = this.snapshot.selectedSections
+        const sections = this.snapshot.selectedSections;
 
-        const exists = sections.includes(section)
+        const exists = sections.includes(section);
 
-        const updatedSelections = exists ?
-            sections.filter((item) => item !== section)
-            : [...sections, section]
+        const updatedSections = exists
+            ? sections.filter((item) => item !== section)
+            : [...sections, section];
 
         this.snapshot = {
             ...this.snapshot,
-            selectedSections: updatedSelections
-        }
+            selectedSections: updatedSections,
+        };
 
-        this.notify()
-    }
+        this.notify();
+    };
 
-
-    //Rerecord the Section
     reorderSections = (fromIndex: number, toIndex: number) => {
         const sections = [...this.snapshot.selectedSections];
+
         const [movedSection] = sections.splice(fromIndex, 1);
 
         sections.splice(toIndex, 0, movedSection);
@@ -92,20 +84,15 @@ export class ReportBuilderStateHolder {
         this.notify();
     };
 
-
-    //setting the Sections
-    setSections = (section: ReportSection[]) => {
+    setSections = (sections: ReportSection[]) => {
         this.snapshot = {
             ...this.snapshot,
-            selectedSections: section
-        }
+            selectedSections: sections,
+        };
 
-        this.notify()
-    }
+        this.notify();
+    };
 
-
-
-    //filters
     setPeriod = (period: string) => {
         this.snapshot = {
             ...this.snapshot,
@@ -133,20 +120,17 @@ export class ReportBuilderStateHolder {
         this.notify();
     };
 
-
-    reset() {
+    reset = () => {
         this.snapshot = {
             selectedTemplate: "sale",
-            selectedSections: [],
-
-            period: "Daily",
+            selectedSections: REPORT_SECTIONS.sale.map(
+                (section) => section.value
+            ),
+            period: "daily",
             startDate: "",
             terminal: "",
-        }
+        };
 
-        this.notify()
-    }
-
-
-
+        this.notify();
+    };
 }
