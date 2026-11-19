@@ -151,6 +151,7 @@ export default class FormBuilder {
             <label>{label}</label>
             <input
                 type='text'
+                className='input'
                 name={label}
                 placeholder={placeholder}
                 required={isRequired}
@@ -174,7 +175,7 @@ export default class FormBuilder {
                     }}
                     required={isRequired}
                     placeholder={placeholder}
-                    className="w-full px-3 py-2"
+                    className="input w-full px-3 py-2"
                 />
 
             </div>
@@ -185,6 +186,7 @@ export default class FormBuilder {
         this.fields.push(<div key={code} className="form-item form-field-item-direction-col" >
             <label>{label}</label>
             <input
+                className="input"
                 type='number'
                 name={label}
                 placeholder={placeholder}
@@ -268,6 +270,7 @@ export default class FormBuilder {
         this.fields.push(<div key={code} className='form-item'>
             <label>{label}: </label>
             <select
+                className="select"
                 key={code}
                 name={code}
                 required={isRequired}
@@ -280,6 +283,7 @@ export default class FormBuilder {
                 <option value="Select" disabled hidden>Select </option>
                 {options?.map(option => (
                     <option
+                        className='option'
                         key={option.val}
                         value={option.val}
                     >
@@ -357,7 +361,7 @@ export default class FormBuilder {
                                 endDate,
                             };
                         }}
-                        className="w-full px-3 py-2"
+                        className=" w-full px-3 py-2"
                     />
 
                     {/* End Date */}
@@ -381,7 +385,7 @@ export default class FormBuilder {
                                 endDate,
                             };
                         }}
-                        className="w-full px-3 py-2"
+                        className="input w-full px-3 py-2"
                     />
 
                 </div>
@@ -402,7 +406,7 @@ export default class FormBuilder {
                 </label>
 
                 <input
-                    type="datetime-local"
+                    type='datetime-local'
                     defaultValue={this.answers[code] ?? ""}
                     required={isRequired}
                     onChange={(e) => {

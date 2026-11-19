@@ -1,5 +1,5 @@
 
-import { Edit, Download, Printer, Bed } from "lucide-react";
+import { Edit, Download, Printer, Bed, Trash } from "lucide-react";
 import PrintReservationForm from "./ReservationForm";
 
 import PdfPreviewWrapper from "../../../../../lib/utils/printer/PreviewWrapper";
@@ -7,7 +7,6 @@ import { Invoice } from "../../../../recepits/Invoice";
 import { useReservationDetail } from "../provider/detailProvider/useReservationDetail";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Button from "../../../../../lib/component/Button/Button";
-import { useState } from "react";
 import RequestRoomService from "./forms/RequestRoomService";
 import ChangeRoomModal from "./forms/ChangeRoomModal";
 import CancelReservationModal from "./forms/CancelReservationModal";
@@ -19,13 +18,7 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 export default function ReservationToolbar() {
     const reservation = useReservationDetail();
 
-    const { showDialog } = useDialogBox();
-
-    const [showRoomService, setShowRoomService] = useState(false);
-    const [changeRoom, setChangeRoom] = useState(false);
-    const [showCancelReservation, setShowCancelReservation] = useState(false);
-    const [showRegisterService, setShowRegisterService] = useState(false);
-    const [showAddCharge, setShowAddCharge] = useState(false);
+    const { showDialog, closeDialog } = useDialogBox();
 
     const info = reservation.info;
 
@@ -39,7 +32,7 @@ export default function ReservationToolbar() {
             width: 600,
 
             content: (
-                <RequestRoomService onClose={() => setShowRoomService(false)} />
+                <RequestRoomService onClose={() => closeDialog(false)} />
 
             ),
         });
@@ -61,7 +54,7 @@ export default function ReservationToolbar() {
             content: (
                 <ChangeRoomModal
                     reservation={reservation as unknown as Parameters<typeof ChangeRoomModal>[0]["reservation"]}
-                    onClose={() => setChangeRoom(false)}
+                    onClose={() => closeDialog(false)}
                 />
 
             ),
@@ -83,7 +76,7 @@ export default function ReservationToolbar() {
 
             content: (
                 <CancelReservationModal reservationNumber={reservation.id}
-                    onClose={() => setShowCancelReservation(false)} />
+                    onClose={() => closeDialog(false)} />
 
             ),
         });
@@ -103,7 +96,7 @@ export default function ReservationToolbar() {
 
             content: (
                 <RegisterService
-                    onClose={() => setShowRegisterService(false)}
+                    onClose={() => closeDialog(false)}
                 />
 
             ),
@@ -123,7 +116,7 @@ export default function ReservationToolbar() {
 
             content: (
                 <AddChargeModal
-                    onClose={() => setShowAddCharge(false)}
+                    onClose={() => closeDialog(false)}
                 />
 
             ),
@@ -158,7 +151,8 @@ export default function ReservationToolbar() {
                 }
                 center={
                     <>
-                        <Button variant="danger" size="md"
+
+                        <Button variant="primary"
                             // onClick={() => setShowRoomService(true)}
                             onClick={handleRoomService}
                         >
@@ -166,6 +160,10 @@ export default function ReservationToolbar() {
                             Room Service
                         </Button>
 
+                        <Button variant="primary" onClick={handleRegisterService}>
+                            <Edit className="h-3.5 w-3.5" />
+                            Register Service
+                        </Button>
 
                         <PdfPreviewWrapper documentName="ReservationForm"
                             openInNewTab={false}
@@ -173,7 +171,7 @@ export default function ReservationToolbar() {
                                 <Invoice data={reservation.getInvoice()} />
                             }
                         >
-                            <Button >
+                            <Button variant='outline'>
                                 <Edit className="h-3.5 w-3.5" />
                                 Invoice
                             </Button>
@@ -181,36 +179,22 @@ export default function ReservationToolbar() {
 
 
                         {/* FinalReceipts Popup */}
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            onClick={handleChangeRoom}
-                        >
+
+                        <Button variant='outline' onClick={handleChangeRoom}>
                             <Edit className="h-3.5 w-3.5" />
                             Swap Room
-                        </button>
+                        </Button>
 
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            // onClick={() => setShowRegisterService(true)}
-                            onClick={handleRegisterService}
-                        >
-                            <Edit className="h-3.5 w-3.5" />
-                            Register Service
-                        </button>
-
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            // onClick={() => setShowAddCharge(true)}
-                            onClick={handleAddCharge}
-                        >
+                        <Button variant='outline' onClick={handleAddCharge}>
                             <Edit className="h-3.5 w-3.5" />
                             Add Charge
-                        </button>
+                        </Button>
+                        <Button variant='outline' onClick={() => {
+                            console.log("Cancel Reservation clicked");
+                        }}>
+                            <Download size={13} />
+                        </Button>
 
-                        <button className="flex items-center gap-1.5 rounded bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-700"
-                            onClick={() => {
-                                console.log("Cancel Reservation clicked");
-                            }}
-                        >
-                            <Download size={13} /> Export
-                        </button>
                         <PdfPreviewWrapper documentName="ReservationForm"
                             openInNewTab={true}
                             content={
@@ -219,17 +203,16 @@ export default function ReservationToolbar() {
                                         reservation.getReservationPdfForm()}
                                 />
                             }>
-                            <Button >
+                            <Button variant='outline' >
                                 <Printer size={13} />
-                                Print
                             </Button>
                         </PdfPreviewWrapper>
                         <Button
                             variant={isCancelled ? "ghost" : "danger"}
                             onClick={handleCancelReservation}
                         >
-                            <Edit className="h-3.5 w-3.5" />
-                            Cancel
+                            <Trash className="h-3.5 w-3.5" />
+
                         </Button>
                     </>
                 }
