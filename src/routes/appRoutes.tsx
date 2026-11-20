@@ -27,6 +27,7 @@ import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSum
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
 import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
+import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 
@@ -176,7 +177,7 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "reservation-report",
-    element: <Report />,
+    element: <ReportBuilderRenderer />,
     nav: {
       label: "Reports",
       group: "Manage",

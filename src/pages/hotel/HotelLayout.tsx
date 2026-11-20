@@ -18,6 +18,7 @@ import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRendere
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
+import HoldReservationRenderer from "./pages/hold-reservation/components/HoldReservationWorkSpace";
 import Frame from "../../lib/component/Frame/Frame";
 
 /*
@@ -97,6 +98,7 @@ type ViewKey =
   | "housekeeping"
   | "night-audit"
   | "lost-found"
+  | "hold-reservation"
   | "guest-request"
   | "hotel-package"
   | "arrivals"
@@ -223,6 +225,11 @@ export default function HotelLayout() {
       | FRONT-DESK
       |--------------------------------------------------------------------------
       */
+
+      case "hold-reservation":
+        return (
+          <HoldReservationRenderer />
+        );
 
       case "guest-request":
         return (
