@@ -16,7 +16,7 @@ import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
 import Report from "../pages/reports/Report";
 // import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
-import POSUserSession from "../pages/restaurant/pages/posuserSession/POSUserSession";
+import POSUserSession from "../shell/POSUserSession";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
 import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRenderer";
@@ -24,9 +24,12 @@ import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
-import PosOvervewRenderer from "../pages/pos-overviewPage/PosOvervewRenderer";
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
+import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
+import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
+import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
+import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 
 //information needed for a navigation
 export type AppNav = {
@@ -87,7 +90,16 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "cash",
-        element: <CashSummary />,
+        children: [
+          {
+            index: true,
+            element: <CashSummary />,
+          },
+          {
+            path: "cash-movement",
+            element: <CashMovement />,
+          },
+        ],
       },
       {
         path: "price",
@@ -100,6 +112,10 @@ export const appRoutes: AppRoute[] = [
       {
         path: "offer",
         element: <OfferRenderer />,
+      },
+      {
+        path: "shell-settings",
+        element: <ShellSettings />,
       },
       {
         path: "pos-overview",
@@ -161,7 +177,7 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "reservation-report",
-    element: <Report />,
+    element: <ReportBuilderRenderer />,
     nav: {
       label: "Reports",
       group: "Manage",

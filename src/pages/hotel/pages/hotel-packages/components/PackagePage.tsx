@@ -6,6 +6,8 @@ import { PackageDetail } from "./PackageDetail";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 import type { HotelPackage } from "../../../../../domain/hotel-package";
 import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
+import AddPackageForm from "./forms/AddPackageForm";
+import { useState } from "react";
 
 
 
@@ -47,16 +49,14 @@ export default function PackagePage() {
         );
     };
 
-
     const handleShowAddHotelPackage = async () => {
         const result = await showDialog<boolean>({
             title: "Add Hotel-Packages",
             showHeader: true,
-            width: 600,
+            width: 800,
 
             content: (
-                <h2>Hotel Package Yet to implement</h2>
-
+                <AddPackageForm />
             ),
         });
 

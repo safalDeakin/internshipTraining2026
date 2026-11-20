@@ -1,8 +1,7 @@
-import { SearchBox } from "./component/SearchBox";
-import ListArea from "./component/ListArea";
+
+import { ListSection } from "./component/ListSection";
 import { useEffect, useState, type ReactNode } from "react";
 import './component/style.css';
-import { ArrowRight } from "lucide-react";
 
 type MasterDetailsProps<T extends object, ID> = {
     items: T[],
@@ -36,7 +35,7 @@ export default function MasterDetailView<T extends object, ID>({
     }, [items, selectedId, getId]);
 
     return (
-        <div className="main">
+        <div className="masterDetail-main">
             {/* LEFT SIDE List Section MySpace*/}
             <ListSection title={title}
                 items={items}
@@ -50,69 +49,9 @@ export default function MasterDetailView<T extends object, ID>({
             >
                 {headerChildren}
             </ListSection>
-
-            {/* RIGHT Detail Section CONTENT MySpace*/}
-            <div className="detail-section">
-
-                {selectedId ? detailContentBuilder(selectedId) : <p> Select Item To view Details</p>}
-            </div>
-
+            {selectedId ? detailContentBuilder(selectedId) : <p> Select Item To view Details</p>}
             {/* RIGHT CONTENT ENDS*/}
         </div >
     );
 }
 
-
-
-export function ListSection<T extends object, ID>({ title, items, searchQuery,
-    selectedId, onSearchChange, onSelect, listItemBuilder, children,
-    getId
-}: {
-    title: string,
-    items: T[];
-    searchQuery: string;
-    selectedId: ID;
-    onSearchChange: (value: string) => void;
-    onSelect: (id: ID) => void;
-    listItemBuilder: (item: T) => ReactNode;
-    children: ReactNode;
-    getId: (item: T) => ID;
-
-}) {
-
-    return (
-
-        <div className="list-section">
-            {/* Header Section */}
-            <div className="list-header">
-                {/* Header Left Side */}
-                <div className="list-title-group">
-                    <ArrowRight
-                        size={24}
-                        strokeWidth={2}
-                    />
-
-                    <div className="title">
-                        {title}
-                    </div>
-                </div>
-
-                {/* Header Right Side */}
-                {children}
-            </div>
-            {/* List Body. MySpace */}
-            <div className="list-item-box">
-                {/* Search MySpace*/}
-                <SearchBox searchQuery={searchQuery} onSearchChange={onSearchChange} />
-                <ListArea
-                    getId={getId}
-                    items={items}
-                    selectedId={selectedId}
-                    onSelect={onSelect}
-                    itemBuilder={listItemBuilder}
-                />
-
-            </div>
-        </div >
-    );
-} 

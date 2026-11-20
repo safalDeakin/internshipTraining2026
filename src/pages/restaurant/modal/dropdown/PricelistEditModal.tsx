@@ -1,7 +1,7 @@
 import { ChevronDown, Plus, Search } from "lucide-react";
 
 import MsTable from "../../../../lib/component/table/components/MsTable";
-import ReusableButton from "../../pages/posuserSession/shared/components/reuse/ReusableButton";
+import ReusableButton from "../../../../shell/shared/components/ReusableButton";
 import type { PricelistType } from "../../dropdown/types/DropdownTypes";
 
 const editColumns = [

@@ -1,21 +1,18 @@
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
+import HoldReservationRenderer from "../hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
+import Report from "../reports/Report";
+import ReportBuilderRenderer from "../reports/ReportBuilderRenderer";
+
 // import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
 // import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
 // import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
 // import { RepoKeyCardProvider } from "../key-card/context/KeyCardProvider";
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
-import { RoomServiceTask } from "../ready-to-implement/RoomServiceTask";
-import { RoomServiceTaskCompletionSheet } from "../ready-to-implement/RoomServiceTaskCompletionSheet";
 
-
-
-import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
-import PettyCash from "./pettycash/PettyCash";
-import RefundSidebar from "./refund/Refund";
-import GuestRequestPageRenderer from "../hotel/pages/guest-request/GuesteRequestRenderer";
-import PackageRenderer from "../hotel/pages/hotel-packages/components/PackageRenderer";
+// import PickupRequestForm from "../ready-to-implement/PickupRequestForm";
+// import FormBuilderTest from "./FormBuilderTest";
 
 const TestComponent = () => {
   return (
@@ -46,10 +43,13 @@ const TestComponent = () => {
       <RoomServiceTaskCompletionSheet />
 
       <RefundSidebar />
-      <PettyCash /> */}
+      //
       {/* <GuestRequestPageRenderer /> */}
-      < PackageRenderer />
-
+      {/* < PackageRenderer /> */}
+      {/* <GuestCheckoutRenderer /> */}
+      {/* <FormBuilderTest /> */}
+      {/* <ReportBuilderRenderer /> */}
+      {/* <HoldReservationRenderer /> */}
     </>
   );
 };

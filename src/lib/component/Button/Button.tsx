@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import "./style.css";
 
 type ButtonVariant =
     | "primary"
@@ -17,8 +18,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export default function Button({
-    variant = "primary",
-    size = "md",
+    variant = "outline",
+    size = "sm",
     leftIcon,
     rightIcon,
     children,
