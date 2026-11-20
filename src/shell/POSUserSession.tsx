@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import OrderingLayout from "./features/layout/OrderingLayout";
 
-import type { POSUserSessionProps } from "./types/posSessionTypes";
+import type { POSSessionMode, POSUserSessionProps } from "./types/posSessionTypes";
 import { tabs } from "./constants/posSessionAlldata";
 
 import ActiveSessionModal from "./modal/ActiveSessionModal";
@@ -24,7 +24,6 @@ import PaymentHistory from "./features/historypages/PaymentHistory";
 //	Controls POS screen and modals	Receives callbacks from RestaurantLayout
 const POSUserSession = ({
   onExit,
-  onStartSession,
   onCancelStart,
 }: POSUserSessionProps) => {
   const [activeTab, setActiveTab] = useState("ordering");
@@ -36,11 +35,16 @@ const POSUserSession = ({
 
   const { showDialog, closeDialog } = useDialogBox();
 
-  const { getActiveSession, pauseSession, endSession } = usePOSUserSession();
+  const { addSession, getActiveSession, pauseSession, getPausedSession, endSession } = usePOSUserSession();
+
+  const organizationId = organization?.id;
 
   // Get the current active session.
   const activeSession =
     organization?.id != null ? getActiveSession(organization.id) : undefined;
+
+
+
 
   // Show inactive session modal after 3 seconds.
   useEffect(() => {
@@ -57,6 +61,42 @@ const POSUserSession = ({
 
     return () => clearTimeout(timer);
   }, [activeSession]);
+
+
+
+  const onStartSession = (
+    mode: POSSessionMode,
+    data: { openingCash: number; notes: string },
+  ) => {
+    if (!user || organizationId == null) return;
+    const existingActive = getActiveSession(organizationId);
+    const existingPaused = getPausedSession(organizationId);
+
+    // Prevent another unfinished session.
+    if (existingActive || existingPaused) return;
+
+
+    const now = new Date();
+
+    addSession({
+      id: crypto.randomUUID(),
+      staffId: String(user.id),
+      staffName: user.name,
+      terminal: "Main Counter",
+      date: now.toISOString().slice(0, 10),
+      mode,
+      organizationId,
+      startTime: now.toISOString(),
+      endTime: null,
+      pausedAt: null,
+      totalPausedDurationMs: 0,
+      status: "active",
+      isApproved: false,
+      isVerified: false,
+      openingCash: data.openingCash,
+      openingNotes: data.notes,
+    });
+  };
 
   // Navigate back to restaurant page.
   const exitToRestaurant = () => {
@@ -85,12 +125,6 @@ const POSUserSession = ({
       closeOnBackdrop: true,
       content: (
         <ActiveSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          activeSessionStartTime={new Date(
-            activeSession.startTime,
-          ).toLocaleTimeString()}
           onContinue={handleContinue}
           onPause={handlePauseSession}
           onEndSession={handleEndSession}
@@ -198,11 +232,10 @@ const POSUserSession = ({
                 type="button"
                 onClick={() => setActiveTab(id)}
                 disabled={!activeSession}
-                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
-                  isActive
-                    ? "text-blue-500 underline underline-offset-4"
-                    : "text-gray-800 hover:text-blue-500"
-                } disabled:cursor-not-allowed disabled:opacity-50`}
+                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${isActive
+                  ? "text-blue-500 underline underline-offset-4"
+                  : "text-gray-800 hover:text-blue-500"
+                  } disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 <Icon className="h-6 w-6" />
                 <span>{label}</span>

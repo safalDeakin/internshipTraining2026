@@ -1,4 +1,4 @@
-import { UtensilsCrossed, Play, ChevronDown } from "lucide-react";
+import { UtensilsCrossed, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -20,16 +20,19 @@ import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 
 import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
-import { SessionNavList } from "../../shell/SessionNavlist";
 import type { POSSession } from "../../shell/types/posSessionTypes";
+import { SessionNavGroup } from "./nav/SessionNavGroup";
+import ShellSetting from "./modal/settings/ShellSetting";
+import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
+import OpenPOSSession from "../../shell/OpenPosSession";
+import useDrawer from "../../lib/component/Drawer/useDrawer";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
   openSessionMode?: () => void;
-  onOpenSetting?: (setting: string) => void;
 }
 
-const restaurantMenu: DropdownMenuSection[] = [
+const dropDownMenu: DropdownMenuSection[] = [
   {
     title: "Menu",
     items: [
@@ -74,12 +77,12 @@ const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 
 export default function RestaurantNav({
   closeBar,
-  openSessionMode,
-  onOpenSetting,
 }: RestaurantNavbarProps) {
+
   const { organization } = useAuth();
   const navigate = useNavigate();
-
+  const { showDialog, closeDialog } = useDialogBox();
+  const { openDrawer, closeDrawer } = useDrawer();
   const {
     getLatestSession,
     selectedDate,
@@ -88,7 +91,29 @@ export default function RestaurantNav({
     setSelectedStaffName,
   } = usePOSUserSession();
 
-  const [posSessionsOpen, setPosSessionsOpen] = useState(true);
+  const openSessionMode = () => {
+    openDrawer(
+      {
+        title: "Shell Settings",
+        width: "1100px",
+        closeOnBackdrop: true,
+        closeOnEscape: true,
+        showHeader: false,
+        content: <OpenPOSSession ></OpenPOSSession>,
+      }
+
+    );
+  }
+
+  const onOpenSetting = () => {
+    showDialog({
+      title: "Shell Settings",
+
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      content: <ShellSetting onClose={closeDialog} ></ShellSetting>,
+    });
+  }
 
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
@@ -108,7 +133,7 @@ export default function RestaurantNav({
   // Open a setting or navigate to a page.
   const go = (path: string) => {
     if (SETTING_PATHS.includes(path)) {
-      onOpenSetting?.(path);
+      onOpenSetting();
     } else {
       navigate(getOrganizationPath(`/restaurant/${path}`, organization));
     }
@@ -141,7 +166,7 @@ export default function RestaurantNav({
     <ERPSidebarHeader
       title="Restaurant"
       icon={<UtensilsCrossed />}
-      menu={restaurantMenu}
+      menu={dropDownMenu}
       onClick={go}
     >
       <SidebarHugeButton
@@ -168,32 +193,14 @@ export default function RestaurantNav({
         onNavItemClick={handleSubItemClick}
       />
 
-      {/* POS Sessions */}
-      <div>
-        <button
-          type="button"
-          onClick={() => setPosSessionsOpen((open) => !open)}
-          className="flex w-full items-center gap-1 rounded-lg px-2 pb-2 text-left text-gray-800 hover:bg-blue-50"
-        >
-          <ChevronDown
-            className={`h-5 w-5 text-gray-500 transition-transform ${
-              posSessionsOpen ? "rotate-180 text-blue-500" : ""
-            }`}
-          />
+      <SessionNavGroup
+        organizationId={organization!.id}
+        selectedDate={selectedDate!}
+        selectedStaffName={selectedStaffName!}
+        handleDateSelect={handleDateSelect}
+        handleStaffSelect={handleStaffSelect}
 
-          <span className="font-medium">POS Sessions</span>
-        </button>
-
-        {posSessionsOpen && (
-          <SessionNavList
-            organizationId={organization?.id}
-            selectedDate={selectedDate}
-            selectedStaffName={selectedStaffName}
-            onDateSelect={handleDateSelect}
-            onSessionSelect={handleStaffSelect}
-          />
-        )}
-      </div>
+      ></SessionNavGroup>
     </SidebarContainer>
   );
 }

@@ -81,10 +81,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export interface POSUserSessionProps {
   onExit?: () => void;
 
-  onStartSession?: (
-    mode: POSSessionMode,
-    data: { openingCash: number; notes: string },
-  ) => void;
 
   onCancelStart?: () => void;
 

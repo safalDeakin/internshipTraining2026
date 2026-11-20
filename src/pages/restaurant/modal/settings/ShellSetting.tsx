@@ -395,7 +395,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                     <select
                       value={
                         selectedDevices[
-                          device.name as keyof typeof selectedDevices
+                        device.name as keyof typeof selectedDevices
                         ]
                       }
                       onChange={(e) =>

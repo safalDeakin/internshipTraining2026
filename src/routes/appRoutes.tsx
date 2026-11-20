@@ -12,7 +12,7 @@ import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
 import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
-import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
+import RestaurantLayout from "../pages/restaurant/RestaurantLayoutv2";
 import Report from "../pages/reports/Report";
 // import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";

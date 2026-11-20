@@ -302,9 +302,6 @@ export default function HotelLayout() {
           {renderContent()}
         </DrawerProvider>
       </DialogProvider>
-
-
-
     </Frame>
 
   );

@@ -1,24 +1,27 @@
+import { useAuth } from "../../lib/utils/secureclient/useAuth";
+import { usePOSUserSession } from "../hooks/usePOSUserSession";
 import ReusableButton from "../shared/components/ReusableButton";
 
 interface ActiveSessionModalProps {
-  staffName: string;
-  terminal: string;
-  date: string;
-  activeSessionStartTime?: string;
   onEndSession: () => void;
   onPause: () => void;
   onContinue: () => void;
 }
 
 const ActiveSessionModal = ({
-  staffName,
-  terminal,
-  date,
-  activeSessionStartTime,
   onEndSession,
   onPause,
   onContinue,
 }: ActiveSessionModalProps) => {
+  const { organization } = useAuth()
+  const { getActiveSession } = usePOSUserSession();
+  ;
+
+  // Get the current active session.
+  const session =
+    organization?.id != null ? getActiveSession(organization.id) : undefined;
+
+
   return (
     <div className="">
       {/* Description */}
@@ -32,23 +35,27 @@ const ActiveSessionModal = ({
         <div>
           <h3 className="text-sm font-medium text-gray-500">Session Started</h3>
           <p className="mt-1 font-semibold text-gray-800">
-            {activeSessionStartTime || "Start time unavailable"}
+            {
+              new Date(
+                session!.startTime
+              ).toLocaleTimeString()
+              || "Start time unavailable"}
           </p>
         </div>
 
         <div>
           <h3 className="text-sm font-medium text-gray-500">Staff</h3>
-          <p className="mt-1 font-semibold text-gray-800">{staffName}</p>
+          <p className="mt-1 font-semibold text-gray-800">{session?.staffName}</p>
         </div>
 
         <div>
           <h3 className="text-sm font-medium text-gray-500">Terminal</h3>
-          <p className="mt-1 font-semibold text-gray-800">{terminal}</p>
+          <p className="mt-1 font-semibold text-gray-800">{session?.terminal}</p>
         </div>
 
         <div>
           <h3 className="text-sm font-medium text-gray-500">Date</h3>
-          <p className="mt-1 font-semibold text-gray-800">{date}</p>
+          <p className="mt-1 font-semibold text-gray-800">{session?.date}</p>
         </div>
       </div>
 

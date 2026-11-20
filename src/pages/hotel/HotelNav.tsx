@@ -22,7 +22,6 @@ interface AccommodationNavbarProps {
 }
 
 
-
 // Accommodation dropdown options.
 const accommodationMenu: DropdownMenuSection[] = [
   {
@@ -144,6 +143,7 @@ const menuSection: MenuSection[] = [
   },
 ];
 
+const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 
 export default function HotelNav({
   closeBar,
@@ -155,6 +155,17 @@ export default function HotelNav({
     navItemKey: string;
   } | null>(null);
 
+
+  // Open a setting or navigate to a page.
+  // const go = (path: string) => {
+  //   if (SETTING_PATHS.includes(path)) {
+  //     onOpenSetting?.(path);
+  //   } else {
+  //     navigate(getOrganizationPath(`/restaurant/${path}`, organization));
+  //   }
+
+  //   closeBar?.();
+  // };
 
   // Used by Front-Desk, Rooms, and Reservation options.
   const handleSubItemClick = (
@@ -170,6 +181,7 @@ export default function HotelNav({
     onSelectView(item.path);
     closeBar?.();
   };
+
 
 
   const header = <ERPSidebarHeader
@@ -214,7 +226,6 @@ export default function HotelNav({
             activeGroup={activeSubItem?.groupKey}
             activeItem={activeSubItem?.navItemKey}
             onNavItemClick={handleSubItemClick}>
-
           </NavGroup>
         );
       })}
