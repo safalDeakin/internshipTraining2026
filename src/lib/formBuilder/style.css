@@ -1,6 +1,6 @@
 @import "../design-system/semantics.css";
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: var(--gap-form-group);
@@ -35,25 +35,25 @@ form {
 }
 
 /* fix this below styling for fixing Checkbox and radio.  */
-input {
+.input {
   border: 1px solid rgba(231, 231, 231, 1);
   border-radius: 4px;
   box-shadow: none;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="number"] {
+.input[type="text"],
+.input[type="email"],
+.input[type="number"] {
   padding: var(--padding-input-default);
   outline: none;
   appearance: none;
 }
 
-input::placeholder {
+.input::placeholder {
   color: rgba(156, 163, 175, 1);
 }
 
-button {
+.button {
   border: 1px solid rgba(231, 231, 231, 1);
   height: var(--form-button-height-m);
   padding: var(--padding-button-comfortable);
@@ -62,12 +62,12 @@ button {
   appearance: none;
 }
 
-button[type="submit"] {
+.button[type="submit"] {
   color: white;
   background-color: rgba(8, 197, 151, 1);
 }
 
-select {
+.select {
   padding: 4px 4px;
   border: 1px solid rgba(231, 231, 231, 1);
 }

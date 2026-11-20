@@ -19,8 +19,12 @@ import ReusableButton from "../../shell/shared/components/ReusableButton";
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import useDrawer from "../../lib/component/Drawer/useDrawer";
-import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
 
+import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
+import { SessionProvider } from "../../shell/context/SessionProvider";
+import ShellSettings from "./dropdown/shell/ShellSettings";
+
+// Coordinates session operations and drawer rendering.
 const RestaurantLayoutContent = () => {
   const [isPausedPromptOpen, setIsPausedPromptOpen] = useState(false);
   const [isClosingFormOpen, setIsClosingFormOpen] = useState(false);
@@ -40,12 +44,15 @@ const RestaurantLayoutContent = () => {
   const location = useLocation();
   const organizationId = organization?.id;
 
+  // Get current organization's active session.
   const activeSession =
     organizationId != null ? getActiveSession(organizationId) : undefined;
 
+  // Get current organization's paused session.
   const pausedSession =
     organizationId != null ? getPausedSession(organizationId) : undefined;
 
+  // Close prompts when route changes.
   useEffect(() => {
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(false);
@@ -61,7 +68,7 @@ const RestaurantLayoutContent = () => {
     const existingActive = getActiveSession(organizationId);
     const existingPaused = getPausedSession(organizationId);
 
-    // Do not create another unfinished session.
+    // Prevent another unfinished session.
     if (existingActive || existingPaused) return;
 
     const now = new Date();
@@ -84,14 +91,11 @@ const RestaurantLayoutContent = () => {
       openingCash: data.openingCash,
       openingNotes: data.notes,
     });
-
-    // Do not close the drawer.
-    // POSUserSession will now display the POS tabs.
   };
 
-  // OPEN POSUserSession INSIDE THE DRAWER
+  // OPEN POS SESSION DRAWER
   const openPOSDrawer = () => {
-    void openDrawer({
+    openDrawer({
       title: "POS Session",
       showHeader: false,
       width: "100%",
@@ -100,7 +104,9 @@ const RestaurantLayoutContent = () => {
       content: (
         <POSUserSession
           onExit={closeDrawer}
-          onStartSession={handleSelectMode}
+          onStartSession={(mode, data) => {
+            handleSelectMode(mode, data);
+          }}
           onCancelStart={closeDrawer}
         />
       ),
@@ -110,23 +116,19 @@ const RestaurantLayoutContent = () => {
   // PLAY BUTTON
   const handlePlay = () => {
     if (activeSession) {
-      // Existing active session: open POS tabs in the drawer.
       openPOSDrawer();
       return;
     }
 
     if (pausedSession) {
-      // Paused session: ask whether to continue or end it.
       setIsPausedPromptOpen(true);
       return;
     }
 
-    // No active session: open the drawer.
-    // POSUserSession will show InactiveSessionModal inside it.
     openPOSDrawer();
   };
 
-  // CONTINUE A PAUSED SESSION
+  // CONTINUE PAUSED SESSION
   const handleContinueSession = () => {
     if (!pausedSession) return;
 
@@ -135,11 +137,10 @@ const RestaurantLayoutContent = () => {
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(false);
 
-    // Open the same POS drawer after resuming.
     openPOSDrawer();
   };
 
-  // OPEN CLOSING FORM FOR PAUSED SESSION
+  // OPEN CLOSING FORM
   const handleOpenClosingForm = () => {
     setIsPausedPromptOpen(false);
     setIsClosingFormOpen(true);
@@ -164,6 +165,27 @@ const RestaurantLayoutContent = () => {
     setIsPausedPromptOpen(false);
   };
 
+  // OPEN SHELL SETTINGS DRAWER
+  const handleOpenShellSettings = () => {
+    openDrawer({
+      title: "Shell Settings",
+      width: "100%",
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      content: <ShellSettings />,
+    });
+  };
+
+  // HANDLE NAVBAR SETTINGS
+  const handleOpenSetting = (setting: string) => {
+    if (setting === "shell-settings") {
+      handleOpenShellSettings();
+      return;
+    }
+
+    setActiveSetting(setting);
+  };
+
   return (
     <>
       <ResponsiveLayout
@@ -171,14 +193,14 @@ const RestaurantLayoutContent = () => {
           <RestaurantNav
             closeBar={closeBar}
             openSessionMode={handlePlay}
-            onOpenSetting={setActiveSetting}
+            onOpenSetting={handleOpenSetting}
           />
         )}
       >
         <Outlet context={{ openSessionMode: handlePlay }} />
       </ResponsiveLayout>
 
-      {/* SETTINGS */}
+      {/* OTHER SETTINGS */}
       {activeSetting === "sales" && (
         <ShellSetting onClose={() => setActiveSetting(null)} />
       )}
@@ -211,13 +233,16 @@ const RestaurantLayoutContent = () => {
                 <span className="font-medium">Staff:</span>{" "}
                 {pausedSession.staffName}
               </p>
+
               <p className="mt-1">
                 <span className="font-medium">Terminal:</span>{" "}
                 {pausedSession.terminal}
               </p>
+
               <p className="mt-1">
                 <span className="font-medium">Mode:</span> {pausedSession.mode}
               </p>
+
               <p className="mt-1">
                 <span className="font-medium">Opening cash:</span> Rs.{" "}
                 {pausedSession.openingCash}
@@ -250,7 +275,7 @@ const RestaurantLayoutContent = () => {
         </div>
       )}
 
-      {/* CLOSING FORM FOR PAUSED SESSION */}
+      {/* CLOSING FORM */}
       {isClosingFormOpen && pausedSession && (
         <ClosingSessionModal
           staffName={pausedSession.staffName}
@@ -264,13 +289,14 @@ const RestaurantLayoutContent = () => {
   );
 };
 
-// Providers must wrap the component that uses useDrawer().
 const RestaurantLayout = () => (
-  <DialogProvider>
-    <DrawerProvider>
-      <RestaurantLayoutContent />
-    </DrawerProvider>
-  </DialogProvider>
+  <SessionProvider>
+    <DialogProvider>
+      <DrawerProvider>
+        <RestaurantLayoutContent />
+      </DrawerProvider>
+    </DialogProvider>
+  </SessionProvider>
 );
 
 export default RestaurantLayout;

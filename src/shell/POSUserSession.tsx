@@ -21,7 +21,7 @@ import InvoicingLayout from "./features/layout/InvoicingLayout";
 import InvoiceHistory from "./features/historypages/InvoiceHistory";
 import PaymentLayout from "./features/layout/PaymentLayout";
 import PaymentHistory from "./features/historypages/PaymentHistory";
-
+//	Controls POS screen and modals	Receives callbacks from RestaurantLayout
 const POSUserSession = ({
   onExit,
   onStartSession,
@@ -255,7 +255,16 @@ const POSUserSession = ({
               date={new Date().toLocaleDateString()}
               onClose={() => onCancelStart?.()}
               onSelect={(mode, data) => {
-                onStartSession?.(mode, data);
+                console.log("3. POSUserSession received:", mode, data);
+                console.log("Calling onStartSession:", onStartSession);
+
+                if (typeof onStartSession !== "function") {
+                  console.error("onStartSession is missing or not a function");
+                  return;
+                }
+
+                console.log("Sending session data to RestaurantLayout...");
+                onStartSession(mode, data);
               }}
             />
           </div>

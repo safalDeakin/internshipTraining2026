@@ -28,6 +28,8 @@ import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
 import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
 import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
 import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
+import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
+import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 
 //information needed for a navigation
 export type AppNav = {
@@ -88,7 +90,16 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "cash",
-        element: <CashSummary />,
+        children: [
+          {
+            index: true,
+            element: <CashSummary />,
+          },
+          {
+            path: "cash-movement",
+            element: <CashMovement />,
+          },
+        ],
       },
       {
         path: "price",
@@ -101,6 +112,10 @@ export const appRoutes: AppRoute[] = [
       {
         path: "offer",
         element: <OfferRenderer />,
+      },
+      {
+        path: "shell-settings",
+        element: <ShellSettings />,
       },
       {
         path: "pos-overview",
