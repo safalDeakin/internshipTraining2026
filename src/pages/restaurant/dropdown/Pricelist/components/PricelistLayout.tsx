@@ -4,10 +4,47 @@ import PricelistDetails from "./PricelistDetails";
 import usePricelist from "../context/usePricelist";
 import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import type { PricelistType } from "../../types/DropdownTypes";
+import { Plus } from "lucide-react";
+
+import PricelistAddModal, {
+  type PricelistFormData,
+} from "../../../modal/dropdown/PricelistAddModal";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 
 const PricelistLayout = () => {
-  //data from context
   const { filteredPricelists, loading, search, setSearch } = usePricelist();
+
+  const { showDialog, closeDialog } = useDialogBox();
+
+  // Handle pricelist submission
+  const handlePricelistSubmit = (data: PricelistFormData) => {
+    console.log("Registered Pricelist:", data);
+
+    // TODO: Call pricelist registration context/API here.
+  };
+
+  // Open Add Pricelist Dialog
+  const handleAddPricelist = async () => {
+    const result = await showDialog<PricelistFormData>({
+      title: "Add PriceList-Form",
+      width: 420,
+      showHeader: false,
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+
+      content: (
+        <PricelistAddModal
+          onClose={() => closeDialog()}
+          onConfirm={(data) => closeDialog(data)}
+          templates={[{ label: "Empty Pricelist", val: "empty" }]}
+        />
+      ),
+    });
+
+    if (result) {
+      handlePricelistSubmit(result);
+    }
+  };
 
   if (loading) {
     return (
@@ -21,11 +58,8 @@ const PricelistLayout = () => {
       items={filteredPricelists}
       searchQuery={search}
       onSearchChange={setSearch}
-      //Get the ID of each pricelist
       getId={(item) => item.id}
-      //Display each pricelist in the list
       listItemBuilder={(item) => <span>{item.name}</span>}
-      //details of that pricelist appear on the right side.
       detailContentBuilder={(selectedId) => {
         const selectedPricelist = filteredPricelists.find(
           (item) => item.id === selectedId,
@@ -39,7 +73,16 @@ const PricelistLayout = () => {
 
         return <PricelistDetails pricelist={selectedPricelist} />;
       }}
-      headerChildren={null}
+      headerChildren={
+        <button
+          type="button"
+          onClick={handleAddPricelist}
+          className="p-2 rounded-md text-blue-600 border border-gray-300 hover:bg-gray-100"
+          title="Add Pricelist"
+        >
+          <Plus size={18} />
+        </button>
+      }
     />
   );
 };
