@@ -13,7 +13,7 @@ export const sessionModes: {
   value: POSSessionMode;
 }[] = [
   { label: "Session Mode (Standard)", value: "Standard" },
-  { label: "Over The Air", value: "Over The Air" },
+
   { label: "Manager Mode", value: "Manager Mode" },
   {
     label: "Service and Technical Check",

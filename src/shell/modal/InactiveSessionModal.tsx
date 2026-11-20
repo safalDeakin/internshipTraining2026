@@ -83,6 +83,8 @@ const InactiveSessionModal = ({
               onClick={() => setPickedMode(mode.value)}
             />
           ))}
+          {/* Go Back Button */}
+          <ReusableButton title="Go Back" variant="primary" onClick={onClose} />
         </div>
       </div>
     </div>
