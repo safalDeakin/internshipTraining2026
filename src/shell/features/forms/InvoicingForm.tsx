@@ -21,13 +21,11 @@ const InvoicingForm = ({
   onGenerate,
   onSplit,
 }: InvoicingFormProps) => {
+  //store value that  chnge
   const [guest, setGuest] = useState("");
   const [phone, setPhone] = useState("");
-
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("Cash");
-
   const [receivedAmount, setReceivedAmount] = useState(0);
-
   const [extraPayments, setExtraPayments] = useState<
     { id: number; method: PaymentMethod; amount: number }[]
   >([]);
@@ -37,7 +35,6 @@ const InvoicingForm = ({
   const [showReceipt, setShowReceipt] = useState(false);
 
   const isProcessing = isGenerating || isSplitting;
-
   const today = new Date().toLocaleDateString("en-CA");
 
   // Prefill customer details
@@ -53,7 +50,9 @@ const InvoicingForm = ({
     }
   }, [primary?.id]);
 
+  //caches calculated values.
   // Combine invoice items
+  //combines invoice items from multiple customers.
   const rows = useMemo(
     () =>
       customers.flatMap((customer) =>

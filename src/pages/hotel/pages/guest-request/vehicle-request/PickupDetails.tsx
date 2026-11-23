@@ -5,6 +5,9 @@ import Container from "../../../../../lib/component/Container/Container";
 import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import { DetailItem } from "../components/DetailItem";
+import PickupStatusModal from "../../../dropdown/modal/PickupStatusModal";
+import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
+import { useGuestRequestTask } from "../provider/GuestRequestTaskProvider";
 
 interface PickupDetailsProps {
   request: GuestRequest;
@@ -13,6 +16,35 @@ interface PickupDetailsProps {
 export default function PickupDetails({ request }: PickupDetailsProps) {
   const handleEdit = () => {
     console.log("Edit pickup request:", request.id);
+  };
+  const { showDialog, closeDialog } = useDialogBox();
+
+  const { getTaskDetails, updateTaskDetails } = useGuestRequestTask();
+  const taskDetails = getTaskDetails(request.id);
+  const currentStatus = taskDetails.status;
+
+  const handleStatusClick = () => {
+    showDialog({
+      title: "Pick up status",
+      showHeader: true,
+      // width: "600px",
+      closeOnBackdrop: false,
+      closeOnEscape: true,
+      content: (
+        <PickupStatusModal
+          onClose={() => closeDialog()}
+          onUpdate={(values) => {
+            updateTaskDetails(request.id, {
+              ...taskDetails,
+              status: values.status,
+              completionNote: values.remark,
+            });
+
+            console.log("Updated pickup status:", values);
+          }}
+        />
+      ),
+    });
   };
 
   return (
@@ -34,10 +66,21 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
               <MessageCircle size={14} />
               Msg to WhatsApp
             </ReusableButton>
-            <ReusableButton variant="outline" size="sm" onClick={handleEdit}>
-              Pending
-              <ChevronDown size={14} />
+            <ReusableButton
+              variant="outline"
+              size="sm"
+              onClick={handleStatusClick}
+            >
+              pickuo status
             </ReusableButton>
+            <p>
+              {" "}
+              {currentStatus === "Completed"
+                ? "Completed"
+                : currentStatus === "Assigned"
+                  ? "Assigned"
+                  : "Pending"}
+            </p>
           </>
         }
       />

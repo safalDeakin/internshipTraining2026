@@ -15,22 +15,11 @@ interface ReservationDetails {
 
 type TripType = "Pick Up" | "Drop Off";
 
-// Reusable read-only detail row
-const DetailRow = ({ title, value }: { title: string; value: string }) => (
-  <div className="flex items-center justify-between gap-4">
-    <span className="text-sm font-medium text-gray-600">{title}</span>
-    <span className="text-sm font-semibold text-gray-800 text-right">
-      {value || "-"}
-    </span>
-  </div>
-);
-
 export default function PickupRequestForm({
   onClose,
 }: PickupDropOffRequestFormProps) {
   const [tripType, setTripType] = useState<TripType | "">("");
 
-  // Reservation details
   const reservationDetails: ReservationDetails = {
     reservation: "RES-001",
     guestName: "John Smith",
@@ -39,7 +28,46 @@ export default function PickupRequestForm({
     requestedFor: "2026-11-20",
   };
 
-  // Common fields used in both Pick Up and Drop Off
+  // Reservation details as FormBuilder fields
+  const reservationFields = [
+    {
+      type: "text" as const,
+      label: "Reservation Number",
+      code: "reservation",
+      isRequired: true,
+      defaultValue: reservationDetails.reservation,
+      disabled: true,
+    },
+    {
+      type: "text" as const,
+      label: "Guest Name",
+      code: "guestName",
+      defaultValue: reservationDetails.guestName,
+      disabled: true,
+    },
+    {
+      type: "text" as const,
+      label: "Room No",
+      code: "room",
+      defaultValue: reservationDetails.room,
+      disabled: true,
+    },
+    {
+      type: "text" as const,
+      label: "Room Type",
+      code: "roomType",
+      defaultValue: reservationDetails.roomType,
+      disabled: true,
+    },
+    {
+      type: "date" as const,
+      label: "Requested For",
+      code: "requestedFor",
+      defaultValue: reservationDetails.requestedFor,
+      disabled: true,
+    },
+  ];
+
   const commonFields = [
     {
       type: "text" as const,
@@ -62,7 +90,6 @@ export default function PickupRequestForm({
     },
   ];
 
-  // Pick Up specific fields
   const pickupFields = [
     {
       type: "date" as const,
@@ -115,7 +142,6 @@ export default function PickupRequestForm({
     },
   ];
 
-  // Drop Off specific fields
   const dropOffFields = [
     {
       type: "date" as const,
@@ -132,16 +158,16 @@ export default function PickupRequestForm({
     },
     {
       type: "text" as const,
-      label: " Pick up Location",
-      code: "pick up Location",
+      label: "Pick Up Location",
+      code: "pickupLocation",
       placeholder: "e.g. Hotel",
       isRequired: true,
     },
     {
       type: "text" as const,
-      label: "Drop Off",
+      label: "Drop Off Location",
       code: "dropOffLocation",
-      placeholder: "e.g. Hotel",
+      placeholder: "e.g. Airport",
       isRequired: true,
     },
     {
@@ -159,18 +185,19 @@ export default function PickupRequestForm({
     {
       type: "date" as const,
       label: "Arrival Date",
-      code: "arrivaldate",
-      placeholder: "2080/01/23",
+      code: "arrivalDate",
     },
     {
-      type: "number" as const,
-      label: "Arrival time",
-      code: "arrivaltime",
+      type: "text" as const,
+      label: "Arrival Time",
+      code: "arrivalTime",
+      placeholder: "e.g. 01:00 PM",
     },
   ];
 
-  // Show fields according to selected Trip Type
   const visibleFields = [
+    ...reservationFields,
+
     {
       type: "dropdown" as const,
       label: "Trip Type",
@@ -200,8 +227,8 @@ export default function PickupRequestForm({
 
     onSubmit: (values) => {
       const request = {
-        ...reservationDetails,
         ...JSON.parse(values),
+        ...reservationDetails,
         tripType,
       };
 
@@ -213,40 +240,17 @@ export default function PickupRequestForm({
   });
 
   return (
-    <div className="w-full">
-      {/* Reservation Details */}
-      <div className="mb-5 rounded-lg bg-white p-4 shadow-sm">
-        <div className="grid grid-cols-1 gap-x-8">
-          <DetailRow
-            title="Reservation Number"
-            value={reservationDetails.reservation}
-          />
-          <DetailRow title="Guest Name" value={reservationDetails.guestName} />
-          <DetailRow title="Room No" value={reservationDetails.room} />
-          <DetailRow title="Room Type" value={reservationDetails.roomType} />
-          <DetailRow
-            title="Requested For"
-            value={reservationDetails.requestedFor}
-          />
-        </div>
-      </div>
+    <div
+      className="w-full"
+      onChangeCapture={(event) => {
+        const target = event.target;
 
-      {/* Trip Type and Conditional Form */}
-      <div
-        className="border-t border-gray-200 pt-4"
-        onChangeCapture={(event) => {
-          const target = event.target;
-
-          if (
-            target instanceof HTMLSelectElement &&
-            target.name === "tripType"
-          ) {
-            setTripType(target.value as TripType);
-          }
-        }}
-      >
-        {form.build()}
-      </div>
+        if (target instanceof HTMLSelectElement && target.name === "tripType") {
+          setTripType(target.value as TripType);
+        }
+      }}
+    >
+      {form.build()}
     </div>
   );
 }

@@ -17,6 +17,7 @@ import RoomServiceRequestForm from "../../dropdown/modal/RoomServiceRequestForm"
 
 import ReusableButton from "../../../../shell/shared/components/ReusableButton";
 import PickupRequestForm from "../../dropdown/modal/PickupRequestForm";
+import { GuestRequestTaskProvider } from "./provider/GuestRequestTaskProvider";
 
 /* ---------------- Request Type Selection ---------------- */
 
@@ -169,7 +170,9 @@ function GuestRequestMasterDetailView() {
 export default function GuestRequestPageRenderer() {
   return (
     <RepoGuestRequestProvider>
-      <GuestRequestMasterDetailView />
+      <GuestRequestTaskProvider>
+        <GuestRequestMasterDetailView />
+      </GuestRequestTaskProvider>
     </RepoGuestRequestProvider>
   );
 }

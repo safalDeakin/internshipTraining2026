@@ -2,12 +2,17 @@ import type { GuestRequest } from "../../../../../domain/GuestRequest";
 import Container from "../../../../../lib/component/Container/Container";
 import { BillingTable } from "./BillingTable";
 import { DetailItem } from "./DetailItem";
+import { useGuestRequestTask } from "../provider/GuestRequestTaskProvider";
 
 export function RequestDetails({ request }: { request: GuestRequest }) {
+  const { getTaskDetails } = useGuestRequestTask();
+
+  const task = getTaskDetails(request.id);
+
   return (
     <Container>
       <section className="flex flex-col">
-        <div className="">
+        <div>
           <div className="p-3 sm:px-4">
             <h3 className="mb-1 text-[11px] font-bold">Particulars</h3>
 
@@ -45,17 +50,30 @@ export function RequestDetails({ request }: { request: GuestRequest }) {
             </h3>
 
             <dl className="max-w-lg">
-              <DetailItem label="Assigned To" value={request.assignedTo} />
+              <DetailItem
+                label="Assigned To"
+                value={task.assignedTo || request.assignedTo}
+              />
               <DetailItem label="Completed By" value={request.completedBy} />
               <DetailItem label="Completed At" value={request.completedAt} />
             </dl>
           </div>
 
-          <div className="mb-3">
+          {/* Existing Note */}
+          <div className="mb-4">
             <h3 className="text-[11px] font-bold">Note</h3>
 
             <p className="mt-0.5 text-[clamp(10px,0.7vw,12px)] text-slate-700">
               {request.note}
+            </p>
+          </div>
+
+          {/* New Completion Note */}
+          <div className="mb-4">
+            <h3 className="text-[11px] font-bold">Completion Note</h3>
+
+            <p className="mt-0.5 whitespace-pre-wrap text-[clamp(10px,0.7vw,12px)] text-slate-700">
+              {task.completionNote || "No completion note added yet."}
             </p>
           </div>
 
