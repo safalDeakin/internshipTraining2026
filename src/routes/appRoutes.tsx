@@ -30,6 +30,8 @@ import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
 import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
+import Transportation from "../pages/hotel/dropdown/transportation/TransportationLayout";
+import TransportationLayout from "../pages/hotel/dropdown/transportation/TransportationLayout";
 
 //information needed for a navigation
 export type AppNav = {
@@ -148,7 +150,10 @@ export const appRoutes: AppRoute[] = [
         path: "all-rooms",
         element: <RoomPageRenderer />,
       },
-
+      {
+        path: "transport",
+        element: <TransportationLayout />,
+      },
       {
         path: "reservation",
         element: <Reservation />,

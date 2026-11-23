@@ -1,14 +1,16 @@
-.container-clickable{
-    padding: 16px;
+.container-clickable {
+  padding: 16px;
 }
-.container-popup{
-    padding: 24px;
+.container-popup {
+  padding: 24px;
 }
-.container-box{
-    padding: 24px;
+.container-box {
+  padding: 24px;
 }
-.container-main{
-    padding: 32px;
+.container-main {
+  padding: 16px;
+  width: 100%;
+  height: 100%;
 }
 
 /* 
@@ -34,4 +36,3 @@
 .container-bg-surface-sunken{
 
 } */
-
