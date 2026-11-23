@@ -1,85 +1,103 @@
-import type { SetStateAction } from "react";
 import type { POSSession } from "../types/posSessionTypes";
 import ReusableButton from "../shared/components/ReusableButton";
-import { Play, X } from "lucide-react";
+import { X } from "lucide-react";
+import { useState, type ReactNode } from "react";
 
 export type ContinueSessionProps = {
   session: POSSession;
-  handleOpenClosingForm: () => void;
-  handleContinueSession: () => void
-  setIsPausedPromptOpen: (value: SetStateAction<boolean>) => void
+  onContinueSession: () => void;
+  loadEndSession: (
+    onBack: () => void
+  ) => ReactNode;
+  onCancel: () => void;
 }
 
 
-export default function ContinueSession({ session, handleOpenClosingForm, handleContinueSession, setIsPausedPromptOpen }: ContinueSessionProps) {
+export default function ContinueSession({ session, onContinueSession, loadEndSession, onCancel }: ContinueSessionProps) {
 
+  const [endSessionSelected, setEndSessionSelected] = useState<boolean>(false);
 
-  return (<div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
-    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-      <div className="mb-5 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Paused POS Session
-        </h2>
+  return (<>
+    {
+      endSessionSelected == true ?
+        loadEndSession(() => {
+          setEndSessionSelected(false)
+        })
+        : <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Paused POS Session
+              </h2>
 
-        <button
-          type="button"
-          onClick={() => setIsPausedPromptOpen(false)}
-          className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-          aria-label="Close"
-        >
-          <X size={20} />
-        </button>
-      </div>
+              <button
+                type="button"
+                onClick={onCancel}
+                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-      <p className="mb-2 text-sm text-gray-600">
-        You have an unfinished POS session.
-      </p>
+            <p className="mb-2 text-sm text-gray-600">
+              You have an unfinished POS session.
+            </p>
 
-      <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
-        <p>
-          <span className="font-medium">Staff:</span>{" "}
-          {session.staffName}
-        </p>
+            <div className="mb-6 rounded-lg bg-gray-50 p-4 text-sm">
+              <p>
+                <span className="font-medium">Staff:</span>{" "}
+                {session.staffName}
+              </p>
 
-        <p className="mt-1">
-          <span className="font-medium">Terminal:</span>{" "}
-          {session.terminal}
-        </p>
+              <p className="mt-1">
+                <span className="font-medium">Terminal:</span>{" "}
+                {session.terminal}
+              </p>
 
-        <p className="mt-1">
-          <span className="font-medium">Mode:</span> {session.mode}
-        </p>
+              <p className="mt-1">
+                <span className="font-medium">Mode:</span> {session.mode}
+              </p>
 
-        <p className="mt-1">
-          <span className="font-medium">Opening cash:</span> Rs.{" "}
-          {session.openingCash}
-        </p>
-      </div>
+              <p className="mt-1">
+                <span className="font-medium">Opening cash:</span> Rs.{" "}
+                {session.openingCash}
+              </p>
+            </div>
 
-      <div className="flex flex-col gap-3">
-        <ReusableButton
-          variant="primary"
-          size="lg"
-          onClick={handleContinueSession}
-          className="w-full"
-        >
-          <span className="flex items-center justify-center gap-2">
-            <Play size={17} />
-            Continue Previous Session
-          </span>
-        </ReusableButton>
+            <div className="flex flex-col gap-3">
+              <ReusableButton
+                title='Continue Previous Session'
+                variant="primary"
+                size="lg"
+                onClick={onContinueSession}
+                className="w-full"
+              />
 
-        <ReusableButton
-          variant="danger"
-          size="lg"
-          onClick={handleOpenClosingForm}
-          className="w-full"
-        >
-          End Previous Session
-        </ReusableButton>
-      </div>
-    </div>
-  </div>);
+              <ReusableButton
+                title='End Previous Session'
+                variant="danger"
+                size="lg"
+                onClick={() => {
+                  setEndSessionSelected(true)
+                }}
+                className="w-full"
+              />
+
+              <ReusableButton
+                title='Close'
+                variant="danger"
+                size="lg"
+                onClick={onCancel}
+                className="w-full"
+              />
+
+            </div>
+          </div>
+        </div>
+    }
+  </>
+  );
 }
 
 
@@ -285,3 +303,4 @@ return (
   
   */
 }
+

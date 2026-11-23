@@ -9,7 +9,7 @@ import OrderingLayout from "./features/layout/OrderingLayout";
 import type { POSSessionMode, POSUserSessionProps } from "./types/posSessionTypes";
 import { tabs } from "./constants/posSessionAlldata";
 
-import ActiveSessionModal from "./modal/ActiveSessionModal";
+import ActiveSessionModal from "./modal/ExitSessionModal";
 import ClosingSessionModal from "./modal/ClosingSessionModal";
 import InactiveSessionModal from "./modal/InactiveSessionModal";
 
@@ -24,7 +24,6 @@ import PaymentHistory from "./features/historypages/PaymentHistory";
 //	Controls POS screen and modals	Receives callbacks from RestaurantLayout
 const POSUserSession = ({
   onExit,
-  onCancelStart,
 }: POSUserSessionProps) => {
   const [activeTab, setActiveTab] = useState("ordering");
   // Controls when the inactive session modal appears.
@@ -278,31 +277,6 @@ const POSUserSession = ({
         {activeTab === "return" && <div className="p-6">Return</div>}
       </main>
 
-      {/* INACTIVE SESSION MODAL - OVERLAY ABOVE POS */}
-      {!activeSession && showInactiveModal && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg">
-            <InactiveSessionModal
-              staffName={user?.name ?? "Unknown"}
-              terminal="Main Counter"
-              date={new Date().toLocaleDateString()}
-              onClose={() => onCancelStart?.()}
-              onSelect={(mode, data) => {
-                console.log("3. POSUserSession received:", mode, data);
-                console.log("Calling onStartSession:", onStartSession);
-
-                if (typeof onStartSession !== "function") {
-                  console.error("onStartSession is missing or not a function");
-                  return;
-                }
-
-                console.log("Sending session data to RestaurantLayout...");
-                onStartSession(mode, data);
-              }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

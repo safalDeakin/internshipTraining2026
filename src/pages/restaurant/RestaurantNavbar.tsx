@@ -24,8 +24,9 @@ import type { POSSession } from "../../shell/types/posSessionTypes";
 import { SessionNavGroup } from "./nav/SessionNavGroup";
 import ShellSetting from "./modal/settings/ShellSetting";
 import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
-import OpenPOSSession from "../../shell/OpenPosSession";
 import useDrawer from "../../lib/component/Drawer/useDrawer";
+import UserSessionProvider from "../../shell/context/UserSessionProvider";
+import RunPOSSession from "../../shell/RunPosSession";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
@@ -82,7 +83,7 @@ export default function RestaurantNav({
   const { organization } = useAuth();
   const navigate = useNavigate();
   const { showDialog, closeDialog } = useDialogBox();
-  const { openDrawer, closeDrawer } = useDrawer();
+  const { openDrawer } = useDrawer();
   const {
     getLatestSession,
     selectedDate,
@@ -99,7 +100,10 @@ export default function RestaurantNav({
         closeOnBackdrop: true,
         closeOnEscape: true,
         showHeader: false,
-        content: <OpenPOSSession ></OpenPOSSession>,
+        content:
+          <UserSessionProvider orgId='sasas'>
+            <RunPOSSession ></RunPOSSession>
+          </UserSessionProvider>,
       }
 
     );

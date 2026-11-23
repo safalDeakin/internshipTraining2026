@@ -3,9 +3,10 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 // 1. Allowed session modes
 export type POSSessionMode =
   | "Standard"
-  | "Over The Air"
+  | "Only Ordering"
   | "Manager Mode"
   | "Service and Technical Check";
+
 
 // 2. Session lifecycle status
 export type POSSessionStatus = "active" | "paused" | "ended";
