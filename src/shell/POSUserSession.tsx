@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 import OrderingLayout from "./features/layout/OrderingLayout";
 
-import type { POSSessionMode, POSUserSessionProps } from "./types/posSessionTypes";
+import type {
+  POSSessionMode,
+  POSUserSessionProps,
+} from "./types/posSessionTypes";
 import { tabs } from "./constants/posSessionAlldata";
 
 import ActiveSessionModal from "./modal/ExitSessionModal";
@@ -22,9 +25,7 @@ import InvoiceHistory from "./features/historypages/InvoiceHistory";
 import PaymentLayout from "./features/layout/PaymentLayout";
 import PaymentHistory from "./features/historypages/PaymentHistory";
 //	Controls POS screen and modals	Receives callbacks from RestaurantLayout
-const POSUserSession = ({
-  onExit,
-}: POSUserSessionProps) => {
+const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const [activeTab, setActiveTab] = useState("ordering");
   // Controls when the inactive session modal appears.
   const [showInactiveModal, setShowInactiveModal] = useState(false);
@@ -34,16 +35,19 @@ const POSUserSession = ({
 
   const { showDialog, closeDialog } = useDialogBox();
 
-  const { addSession, getActiveSession, pauseSession, getPausedSession, endSession } = usePOSUserSession();
+  const {
+    addSession,
+    getActiveSession,
+    pauseSession,
+    getPausedSession,
+    endSession,
+  } = usePOSUserSession();
 
   const organizationId = organization?.id;
 
   // Get the current active session.
   const activeSession =
     organization?.id != null ? getActiveSession(organization.id) : undefined;
-
-
-
 
   // Show inactive session modal after 3 seconds.
   useEffect(() => {
@@ -61,8 +65,6 @@ const POSUserSession = ({
     return () => clearTimeout(timer);
   }, [activeSession]);
 
-
-
   const onStartSession = (
     mode: POSSessionMode,
     data: { openingCash: number; notes: string },
@@ -73,7 +75,6 @@ const POSUserSession = ({
 
     // Prevent another unfinished session.
     if (existingActive || existingPaused) return;
-
 
     const now = new Date();
 
@@ -114,23 +115,23 @@ const POSUserSession = ({
   };
 
   // Show active session dialog.
-  const handleExit = () => {
-    if (!activeSession) return;
+  // const handleExit = () => {
+  //   if (!activeSession) return;
 
-    showDialog({
-      title: "Active Session",
-      showHeader: true,
-      closeOnEscape: true,
-      closeOnBackdrop: true,
-      content: (
-        <ActiveSessionModal
-          onContinue={handleContinue}
-          onPause={handlePauseSession}
-          onEndSession={handleEndSession}
-        />
-      ),
-    });
-  };
+  //   showDialog({
+  //     title: "Active Session",
+  //     showHeader: true,
+  //     closeOnEscape: true,
+  //     closeOnBackdrop: true,
+  //     content: (
+  //       <ActiveSessionModal
+  //         onContinue={handleContinue}
+  //         onPause={handlePauseSession}
+  //         onEndSession={handleEndSession}
+  //       />
+  //     ),
+  //   });
+  // };
 
   // Pause the current session.
   const handlePauseSession = () => {
@@ -144,33 +145,33 @@ const POSUserSession = ({
   };
 
   // Show closing session dialog.
-  const handleEndSession = () => {
-    if (!activeSession) return;
+  // const handleEndSession = () => {
+  //   if (!activeSession) return;
 
-    closeDialog();
+  //   closeDialog();
 
-    showDialog({
-      title: "Close POS Session",
-      showHeader: true,
-      closeOnEscape: true,
-      closeOnBackdrop: true,
-      content: (
-        <ClosingSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          onCancel={handleCancelClosing}
-          onConfirm={handleConfirmClosing}
-        />
-      ),
-    });
-  };
+  //   showDialog({
+  //     title: "Close POS Session",
+  //     showHeader: true,
+  //     closeOnEscape: true,
+  //     closeOnBackdrop: true,
+  //     content: (
+  //       <ClosingSessionModal
+  //         staffName={activeSession.staffName}
+  //         terminal={activeSession.terminal}
+  //         date={activeSession.date}
+  //         // onCancel={handleCancelClosing}
+  //         onConfirm={handleConfirmClosing}
+  //       />
+  //     ),
+  //   });
+  // };
 
   // Cancel closing: return to active session dialog.
-  const handleCancelClosing = () => {
-    closeDialog();
-    handleExit();
-  };
+  // const handleCancelClosing = () => {
+  //   closeDialog();
+  //   handleExit();
+  // };
 
   // Confirm closing session.
   const handleConfirmClosing = (data: {
@@ -213,7 +214,7 @@ const POSUserSession = ({
       <nav className="flex shrink-0 items-center gap-2 bg-gray-100 px-4 py-3">
         <button
           type="button"
-          onClick={handleExit}
+          // onClick={handleExit}
           disabled={!activeSession}
           className="rounded-lg p-2 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
           aria-label="View active session options"
@@ -231,10 +232,11 @@ const POSUserSession = ({
                 type="button"
                 onClick={() => setActiveTab(id)}
                 disabled={!activeSession}
-                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${isActive
-                  ? "text-blue-500 underline underline-offset-4"
-                  : "text-gray-800 hover:text-blue-500"
-                  } disabled:cursor-not-allowed disabled:opacity-50`}
+                className={`flex min-w-24 flex-col items-center gap-1 px-4 py-1 text-sm ${
+                  isActive
+                    ? "text-blue-500 underline underline-offset-4"
+                    : "text-gray-800 hover:text-blue-500"
+                } disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 <Icon className="h-6 w-6" />
                 <span>{label}</span>
@@ -276,7 +278,6 @@ const POSUserSession = ({
 
         {activeTab === "return" && <div className="p-6">Return</div>}
       </main>
-
     </div>
   );
 };

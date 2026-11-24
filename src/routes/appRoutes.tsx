@@ -16,7 +16,6 @@ import RestaurantLayout from "../pages/restaurant/RestaurantLayoutv2";
 import Report from "../pages/reports/Report";
 // import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
-import POSUserSession from "../shell/POSUserSession";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
 import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRenderer";
@@ -29,6 +28,7 @@ import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
 import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
+import POSUserSession from "../shell/POSUserSession";
 
 //information needed for a navigation
 export type AppNav = {

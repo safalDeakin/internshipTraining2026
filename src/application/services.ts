@@ -37,6 +37,7 @@ import type {
 import type { GuestRequest } from "../domain/GuestRequest";
 import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
 import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.data";
+import type { POSSession } from "../shell/types/posSessionTypes";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -239,4 +240,28 @@ export const guestRequestQueryService = new QueryService<GuestRequest, string>(
 );
 export const guestRequestCmdService = new CommandService<GuestRequest, string>(
   GuestRequestRepo,
+);
+
+// POS User Session Repository
+//manages session records.
+const POSSessionRepo = new Repository<POSSession, string>({
+  sourceType: "InMemoryLocal",
+  domain: "POSSession",
+  tenantId: "MySpace1234",
+  getId: (entity: POSSession) => entity.id,
+  initialData: [],
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+// POS User Session Query Service
+//retrives session record
+export const POSSessionQueryService = new QueryService<POSSession, string>(
+  POSSessionRepo,
+);
+
+// POS User Session Command Service
+//modifies sesion record
+export const POSSessionCmdService = new CommandService<POSSession, string>(
+  POSSessionRepo,
 );
