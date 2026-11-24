@@ -21,6 +21,7 @@ export type HoldReservation = {
 };
 
 export type ReservationRecord = {
+    id: string;
     hold: HoldItem;
     reservation: HoldReservation;
 };

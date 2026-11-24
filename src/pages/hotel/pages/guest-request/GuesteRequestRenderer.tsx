@@ -28,14 +28,16 @@ function GuestRequestMasterDetailView() {
 
         return (
             <>
-                <GuestRequestToolbar
-                    request={request}
-                    posted={false}
-                />
-                <div className="p-1"></div>
-                <RequestDetails
-                    request={request}
-                />
+                <div className="flex flex-col w-full">
+                    <GuestRequestToolbar
+                        request={request}
+                        posted={false}
+                    />
+                    <div className="p-1"></div>
+                    <RequestDetails
+                        request={request}
+                    />
+                </div>
             </>
         );
     };

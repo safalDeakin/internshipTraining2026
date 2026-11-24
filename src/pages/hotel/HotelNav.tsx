@@ -61,8 +61,38 @@ const accommodationMenu: DropdownMenuSection[] = [
         path: "housekeeping",
       },
       {
-        label: "Night Audit",
-        path: "night-audit",
+        label: "Day Activity",
+        path: "dayactivity",
+        children: [
+          {
+            label: "July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "1st July - P123",
+            //     path: "dayactivity/july-2026/1st-july-p123",
+            //   },
+            //   {
+            //     label: "1st west-P123",
+            //     path: "dayactivity/july-2026/1st-west-p123",
+            //   },
+            // ],
+          },
+          {
+            label: "Sun-24-July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "TiyaPiya-c3-1344",
+            //     path: "dayactivity/sun-24-july-2026/tiyapiya-c3-1344",
+            //   },
+            //   {
+            //     label: "RamSta-c1-1144",
+            //     path: "dayactivity/sun-24-july-2026/ramsta-c1-1144",
+            //   },
+            // ],
+          },
+        ],
       },
       {
         label: "Lost and Found",
@@ -96,6 +126,12 @@ const menuSection: MenuSection[] = [
         count: 5,
       },
       {
+        key: "hallReservation",
+        label: "Hall Reservation",
+        path: "hall-reservation",
+        count: 5,
+      },
+      {
         key: "hotelPackage",
         label: "Hotel Package",
         path: "hotel-package",
@@ -121,17 +157,6 @@ const menuSection: MenuSection[] = [
       },
     ],
   },
-  // {
-  //   key: "rooms",
-  //   label: "Rooms",
-  //   items: [
-  //     {
-  //       key: "roomList",
-  //       label: "Room List",
-  //       path: "room",
-  //     },
-  //   ],
-  // },
   {
     key: "reservation",
     label: "Reservation",

@@ -7,7 +7,6 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 import type { HotelPackage } from "../../../../../domain/hotel-package";
 import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
 import AddPackageForm from "./forms/AddPackageForm";
-import { useState } from "react";
 
 
 

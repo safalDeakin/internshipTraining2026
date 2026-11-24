@@ -1,4 +1,4 @@
-import type { HotelPackage } from "../types/package"
+import type { HotelPackage } from "../../../../../domain/hotel-package"
 
 const standardMenu = [
     { mealType: "Welcome Drink", included: "2 Items", serviceType: "Buffet" },
