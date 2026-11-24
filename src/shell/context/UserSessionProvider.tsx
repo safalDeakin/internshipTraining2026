@@ -50,9 +50,10 @@ export const UserSessionProvider = ({
 }: UserSessionProviderProps) => {
   const { organization, user } = useAuth();
   const organizationId = organization?.id;
-  const staffId = "Safal";
-  const staffName = "Safal";
-
+  // const staffId = "Safal";
+  // const staffName = "Safal";
+  const staffId = "STAFF-002";
+  const staffName = "Sita Thapa";
   const currentDate = new Date();
   const [session, setSession] = useState<POSSession>();
   const [content, setContent] = useState<Content>(
@@ -64,13 +65,16 @@ export const UserSessionProvider = ({
 
     let cancelled = false;
     let unsubscribe: (() => void) | undefined;
-
+    ////Create loadSession()
+    //This requests all POS sessions from repository.
     const loadSession = async () => {
       try {
         const allSessions = await POSSessionQueryService.getAll();
+        console.log("All POS Sessions:", allSessions);
+        console.log("Total sessions:", allSessions.length);
 
         if (cancelled) return;
-
+        //Filter the sessions
         // Find the current user's session in this organization
         const currentSession = allSessions
           .filter(
@@ -79,13 +83,14 @@ export const UserSessionProvider = ({
               item.staffId === staffId &&
               (item.status === "active" || item.status === "paused"),
           )
+          //Sorts the matching sessions from newest to oldest.
           .sort(
             (a, b) =>
               new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
           )[0];
-
+        // /Update state
         setSession(currentSession);
-
+        //Stores the selected session.
         setContent(
           currentSession ? "Continue Session Prompt" : "New Session Prompt",
         );
@@ -93,7 +98,7 @@ export const UserSessionProvider = ({
         console.error("Failed to load POS session:", error);
       }
     };
-
+    //Subscribe to repository changes
     const setupSubscription = async () => {
       try {
         // Listen for repository changes

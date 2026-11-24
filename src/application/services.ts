@@ -38,6 +38,7 @@ import type { GuestRequest } from "../domain/GuestRequest";
 import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequest.data";
 import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.data";
 import type { POSSession } from "../shell/types/posSessionTypes";
+import { posInitialData } from "../shell/constants/posInitialData";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -249,7 +250,7 @@ const POSSessionRepo = new Repository<POSSession, string>({
   domain: "POSSession",
   tenantId: "MySpace1234",
   getId: (entity: POSSession) => entity.id,
-  initialData: [],
+  initialData: posInitialData,
   baseUrl: "asas",
   eventsUrl: "events",
 });

@@ -19,14 +19,17 @@ import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 
-import { usePOSUserSession } from "../../shell/hooks/usePOSUserSession";
 import type { POSSession } from "../../shell/types/posSessionTypes";
-import { SessionNavGroup } from "./nav/SessionNavGroup";
+
 import ShellSetting from "./modal/settings/ShellSetting";
+
 import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
 import useDrawer from "../../lib/component/Drawer/useDrawer";
+
 import UserSessionProvider from "../../shell/context/UserSessionProvider";
-import RunPOSSession from "../../shell/RunPosSession";
+import RunPOSSession from "../../shell/RunPOSSession";
+import { usePOSNavList } from "../../shell/context/PosNavListProvider";
+import SessionNavGroup from "./nav/SessionNavGroup";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
@@ -73,57 +76,59 @@ const overviewSection = {
   ] as NavItemModel[],
 };
 
-// These paths open settings in a drawer/modal instead of navigating.
 const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 
-export default function RestaurantNav({
-  closeBar,
-}: RestaurantNavbarProps) {
-
+export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
   const { organization } = useAuth();
+
   const navigate = useNavigate();
+
   const { showDialog, closeDialog } = useDialogBox();
   const { openDrawer } = useDrawer();
+
+  // Navigation session context
   const {
     getLatestSession,
     selectedDate,
     selectedStaffName,
     setSelectedDate,
     setSelectedStaffName,
-  } = usePOSUserSession();
-
-  const openSessionMode = () => {
-    openDrawer(
-      {
-        title: "Shell Settings",
-        width: "1100px",
-        closeOnBackdrop: true,
-        closeOnEscape: true,
-        showHeader: false,
-        content:
-          <UserSessionProvider orgId='sasas'>
-            <RunPOSSession ></RunPOSSession>
-          </UserSessionProvider>,
-      }
-
-    );
-  }
-
-  const onOpenSetting = () => {
-    showDialog({
-      title: "Shell Settings",
-
-      closeOnBackdrop: true,
-      closeOnEscape: true,
-      content: <ShellSetting onClose={closeDialog} ></ShellSetting>,
-    });
-  }
+  } = usePOSNavList();
 
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
   } | null>(null);
 
+  // Open POS session drawer
+  const openSessionMode = () => {
+    if (!organization?.id) return;
+
+    openDrawer({
+      title: "Shell Settings",
+      width: "1100px",
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      showHeader: false,
+      content: (
+        <UserSessionProvider orgId={String(organization.id)}>
+          <RunPOSSession />
+        </UserSessionProvider>
+      ),
+    });
+  };
+
+  // Open settings
+  const onOpenSetting = () => {
+    showDialog({
+      title: "Shell Settings",
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      content: <ShellSetting onClose={closeDialog} />,
+    });
+  };
+
+  // Get latest session
   const latestSession =
     organization?.id != null ? getLatestSession(organization.id) : undefined;
 
@@ -134,7 +139,7 @@ export default function RestaurantNav({
         ? "Resume POS session"
         : "Start POS session";
 
-  // Open a setting or navigate to a page.
+  // Navigate or open settings
   const go = (path: string) => {
     if (SETTING_PATHS.includes(path)) {
       onOpenSetting();
@@ -154,12 +159,14 @@ export default function RestaurantNav({
     go(item.path);
   };
 
+  // Select date
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
     setSelectedStaffName(null);
     go("pos-overview");
   };
 
+  // Select staff session
   const handleStaffSelect = (session: POSSession) => {
     setSelectedStaffName(session.staffName);
     setSelectedDate(null);
@@ -177,7 +184,7 @@ export default function RestaurantNav({
         title={playTitle}
         ariaLabel="Open POS session"
         onClick={() => {
-          openSessionMode?.();
+          openSessionMode();
           closeBar?.();
         }}
       >
@@ -197,14 +204,15 @@ export default function RestaurantNav({
         onNavItemClick={handleSubItemClick}
       />
 
-      <SessionNavGroup
-        organizationId={organization!.id}
-        selectedDate={selectedDate!}
-        selectedStaffName={selectedStaffName!}
-        handleDateSelect={handleDateSelect}
-        handleStaffSelect={handleStaffSelect}
-
-      ></SessionNavGroup>
+      {organization?.id != null && (
+        <SessionNavGroup
+          organizationId={organization.id}
+          selectedDate={selectedDate}
+          selectedStaffName={selectedStaffName}
+          handleDateSelect={handleDateSelect}
+          handleStaffSelect={handleStaffSelect}
+        />
+      )}
     </SidebarContainer>
   );
 }
