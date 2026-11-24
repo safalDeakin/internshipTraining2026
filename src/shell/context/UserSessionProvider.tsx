@@ -193,6 +193,7 @@ export const UserSessionProvider = ({
 
   // 4. Continue session using CommandService
   const continueSession = async () => {
+
     if (!session || session.status !== "paused") return;
 
     const now = new Date();

@@ -37,6 +37,8 @@ export default function RunPOSSession() {
     useEffect(() => {
         if (session == null) {
             showDialog({
+                closeOnBackdrop: false,
+                closeOnEscape: false,
                 title: "Start Session",
                 showHeader: false,
                 content: (
@@ -62,14 +64,22 @@ export default function RunPOSSession() {
             });
         } else if (session.status == 'paused') {
             showDialog({
+                closeOnEscape: false,
+                closeOnBackdrop: false,
                 title: 'Continue Session',
                 content: <ContinueSession
                     session={session}
-                    onCancel={closeDrawer}
+                    onCancel={() => {
+                        closeDialog()
+                        closeDrawer()
+                    }}
                     loadEndSession={(onBack) => {
                         return loadEndSession(onBack);
                     }}
-                    onContinueSession={continueSession}
+                    onContinueSession={() => {
+                        continueSession()
+                        closeDialog()
+                    }}
                 />
             })
         }
@@ -80,23 +90,29 @@ export default function RunPOSSession() {
             <POSScreen
                 onExit={() => {
                     console.log('running the function')
-                    showDialog({
-                        title: 'Exit Session',
-                        content:
-                            <ExitSessionModal
-                                session={session!}
-                                onCancel={closeDialog}
-                                onPauseSession={() => {
-                                    pauseSession()
-                                    closeDialog()
-                                    closeDrawer()
-                                }}
-                                loadEndSession={(onBack) => {
-                                    return loadEndSession(onBack)
-                                }}
-                            />
+                    if (session != null) {
+                        showDialog({
+                            title: 'Exit Session',
+                            content:
+                                <ExitSessionModal
+                                    session={session!}
+                                    onCancel={closeDialog}
+                                    onPauseSession={() => {
+                                        pauseSession()
+                                        closeDialog()
+                                        closeDrawer()
+                                    }}
+                                    loadEndSession={(onBack) => {
+                                        return loadEndSession(onBack)
+                                    }}
+                                />
+                        }
+                        )
+                    } else {
+                        closeDialog()
+                        closeDrawer()
                     }
-                    )
+
                 }}
             />
 

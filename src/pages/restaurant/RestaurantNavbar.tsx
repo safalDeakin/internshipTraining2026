@@ -106,9 +106,9 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
 
     openDrawer({
       title: "Shell Settings",
-      width: "1100px",
-      closeOnBackdrop: true,
-      closeOnEscape: true,
+      width: "100%",
+      closeOnBackdrop: false,
+      closeOnEscape: false,
       showHeader: false,
       content: (
         <UserSessionProvider orgId={String(organization.id)}>
