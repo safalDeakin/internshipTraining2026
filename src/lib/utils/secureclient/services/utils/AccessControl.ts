@@ -9,6 +9,7 @@ type Policy = {
 };
 
 class AccessControl {
+
   private policies: Policy[] = [
     //for admin access
     {
@@ -29,6 +30,12 @@ class AccessControl {
     {
       role: "ADMIN",
       resource: "activity-logs",
+      action: ["view", "create", "update", "delete"],
+    },
+
+    {
+      role: "ADMIN",
+      resource: "reservation-report",
       action: ["view", "create", "update", "delete"],
     },
     {
@@ -83,6 +90,10 @@ class AccessControl {
       return false;
     }
     return policy.action.includes(action);
+  }
+
+  checkPermission() {
+
   }
 }
 export default AccessControl;

@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Download, Printer, X } from "lucide-react";
 
-import type { InvoiceCards, InvoicingFormProps } from "../types/InvoiceTypes";
+import type {
+  InvoiceCards,
+  InvoicingFormProps,
+} from "../../types/InvoiceTypes";
 import type { PaymentMethod } from "../../shared/components/PaymentMethodFields";
 
 import PaymentMethodFields from "../../shared/components/PaymentMethodFields";

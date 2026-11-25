@@ -1,30 +1,15 @@
 import ReceiptFrame from "../shared/components/ReceiptFrame";
-
-interface ReferenceInvoice {
-  customerName: string;
-  phone: string;
-  serviceDate: string;
-  staffName?: string;
-  items: {
-    name: string;
-    quantity: number;
-    amount: number;
-  }[];
-}
+import type { InvoiceCards } from "../types/InvoiceTypes";
 
 interface ReferenceDetailsModalProps {
-  invoice: ReferenceInvoice;
-  reference: string;
+  invoice: InvoiceCards;
   onClose: () => void;
 }
 
 const ReferenceDetailsModal = ({
   invoice,
-  reference,
   onClose,
 }: ReferenceDetailsModalProps) => {
-  const isKOT = reference.startsWith("KOT");
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="w-full max-w-lg">
@@ -34,26 +19,34 @@ const ReferenceDetailsModal = ({
             type="button"
             onClick={onClose}
             className="absolute right-3 top-3 z-10 text-gray-500 hover:text-gray-800 print:hidden"
+            aria-label="Close reference details"
           >
             ✕
           </button>
 
           <ReceiptFrame
-            hotelName={reference}
+            hotelName={invoice.reference}
             address=""
-            phone={invoice.phone}
+            phone={invoice.number}
             onPrint={() => window.print()}
           >
             <div
               id="reference-print-area"
               className="mx-auto w-full max-w-md space-y-4 text-xs"
             >
-              {/* Date */}
+              {/* Reference Information */}
               <div>
                 <p className="text-gray-500">
-                  Date:{" "}
+                  Type:{" "}
                   <span className="font-medium text-gray-900">
-                    {invoice.serviceDate}
+                    {invoice.type}
+                  </span>
+                </p>
+
+                <p className="text-gray-500">
+                  Time:{" "}
+                  <span className="font-medium text-gray-900">
+                    {invoice.time}
                   </span>
                 </p>
               </div>
@@ -63,21 +56,21 @@ const ReferenceDetailsModal = ({
                 <p className="text-gray-500">
                   Customer Name:{" "}
                   <span className="font-semibold text-gray-800">
-                    {invoice.customerName}
+                    {invoice.name}
                   </span>
                 </p>
 
                 <p className="text-gray-500">
                   Reference Number:{" "}
                   <span className="font-semibold text-gray-800">
-                    {reference}
+                    {invoice.reference}
                   </span>
                 </p>
 
                 <p className="text-gray-500">
                   Phone Number:{" "}
                   <span className="font-semibold text-gray-800">
-                    {invoice.phone}
+                    {invoice.number}
                   </span>
                 </p>
               </div>
@@ -90,26 +83,37 @@ const ReferenceDetailsModal = ({
                       <th className="p-2">S.No.</th>
                       <th className="p-2">Particulars</th>
                       <th className="p-2 text-right">Quantity</th>
+                      <th className="p-2 text-right">Amount</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {invoice.items.map((item, index) => (
-                      <tr key={`${item.name}-${index}`}>
+                    {invoice.invoiceItems.map((item, index) => (
+                      <tr key={item.id}>
                         <td className="p-2">{index + 1}</td>
                         <td className="p-2">{item.name}</td>
                         <td className="p-2 text-right">{item.quantity}</td>
+                        <td className="p-2 text-right">Rs {item.amount}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
 
-              {/* Staff Name */}
-              <div className="flex gap-2 pt-3">
-                <p className="text-gray-500">Staff Name:</p>
-                <p className="font-semibold text-gray-800">
-                  {invoice.staffName || "XYZ"}
+              {/* Staff and Table Information */}
+              <div className="space-y-1 border-t border-gray-200 pt-3">
+                <p className="text-gray-500">
+                  Waiter:{" "}
+                  <span className="font-semibold text-gray-800">
+                    {invoice.waiter}
+                  </span>
+                </p>
+
+                <p className="text-gray-500">
+                  Table:{" "}
+                  <span className="font-semibold text-gray-800">
+                    {invoice.table}
+                  </span>
                 </p>
               </div>
 

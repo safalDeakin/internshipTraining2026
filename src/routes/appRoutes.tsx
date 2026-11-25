@@ -12,11 +12,10 @@ import Dash from "../pages/hotel/Dash";
 import HotelLayout from "../pages/hotel/HotelLayout";
 import Sales from "../pages/restaurant/pages/overview/Sales";
 import RestaurantDashboard from "../pages/restaurant/RestaurantDashboard";
-import RestaurantLayout from "../pages/restaurant/RestaurantLayout";
+import RestaurantLayout from "../pages/restaurant/RestaurantLayoutv2";
 import Report from "../pages/reports/Report";
 // import FinalAllReservationPage from "../pages/hotel/pages/FinalAllReservationPage";
 import ReservationCalendar from "../pages/hotel/pages/ReservationCalendar";
-import POSUserSession from "../shell/POSUserSession";
 import PrintBlankReservationForm from "../pages/hotel/pages/hotelReservation/components/PrintBlankReservationForm";
 import OfferRenderer from "../pages/restaurant/dropdown/offer/OfferRenderer";
 import RoomPageRenderer from "../pages/hotel/pages/roomMasterPage/RoomPageRenderer";
@@ -25,14 +24,25 @@ import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistR
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
-import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
-import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
-import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
+import PosOverviewRenderer from "../shell/pos-overviewPage/PosOverviewRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
+import POSUserSession from "../shell/POSUserSession";
+import HousekeepingRenderer from "../pages/houseKeeping/components/HousekeepingRenderer";
+import RoomsDetailRenderer from "../pages/hotel/pages/room-status/components/RoomsDetailRenderer";
+import RatePlanPageRenderer from "../pages/hotel/pages/rate-plan/RatePlanPageRenderer";
+import SettingRenderer from "../pages/popupsetting/components/SettingRenderer";
+import NightAuditRenderer from "../pages/hotel/pages/nightAudit/components/overview/NightAuditRenderer";
+import LostAndFoundRenderer from "../pages/lost-found/LostAndFoundRenderer";
+import PackageRenderer from "../pages/hotel/pages/hotel-packages/components/PackageRenderer";
+import GuestRequestPageRenderer from "../pages/hotel/pages/guest-request/GuesteRequestRenderer";
+import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
 import Transportation from "../pages/hotel/dropdown/transportation/TransportationLayout";
 import TransportationLayout from "../pages/hotel/dropdown/transportation/TransportationLayout";
 import BillingPage from "../pages/hotel/dropdown/billing/BillingLayout";
+import HoldReservationRenderer from "../pages/hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
+import HallReservationRenderer from "../pages/hotel/pages/hall-reservation/HallReservationRenderer";
+import DayActivityRenderer from "../pages/hotel/pages/day-activity/DayActivityRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -122,7 +132,7 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "pos-overview",
-        element: <PosOvervewRenderer />,
+        element: <PosOverviewRenderer />,
       },
       {
         path: "session",
@@ -152,6 +162,37 @@ export const appRoutes: AppRoute[] = [
         element: <RoomPageRenderer />,
       },
       {
+        path: "quick-rooms",
+        element: <RoomsDetailRenderer />
+      },
+      {
+        path: "quick-housekeeping",
+        element: <HousekeepingRenderer />
+      },
+      {
+        path: "rate-plan",
+        element: <RatePlanPageRenderer />
+      },
+      {
+        path: "offers",
+        element: <DemoComponent title="Offers and Discounts" />
+      },
+      {
+        path: "sales-settings",
+        // Replace with your real SalesSettings component.
+        element: <SettingRenderer />
+      },
+      {
+        path: "staff-access",
+        // Replace with your real StaffAccess component.
+        element: <SettingRenderer />
+      },
+      {
+        path: "device-setup",
+        // Replace with your real DeviceSetup component.
+        element: <SettingRenderer />
+      },
+      {
         path: "transport",
         element: <TransportationLayout />,
       },
@@ -160,21 +201,85 @@ export const appRoutes: AppRoute[] = [
         element: <BillingPage />,
       },
       {
+        path: "housekeeping",
+        // Replace with your real DeviceSetup component.
+        element: <Workspace>
+          {/* Replace with <Housekeeping /> */}
+          <DemoComponent title="Housekeeping" />
+
+          {/* Replace with <Maintenance /> */}
+          <DemoComponent title="Maintenance" />
+        </Workspace>
+      },
+      {
+        path: "night-audit",
+        // Replace with your real DeviceSetup component.
+        element: <NightAuditRenderer />
+      },
+
+      {
+        path: "lost-found",
+        // Replace with your real DeviceSetup component.
+        element: <LostAndFoundRenderer />
+      }, {
+        path: "guest-request",
+        // Replace with your real DeviceSetup component.
+        element: <GuestRequestPageRenderer />
+      },
+      {
+        path: "hall-reservation",
+        // Replace with your real DeviceSetup component.
+        element: <HallReservationRenderer />
+      },
+
+      {
+        path: "hotel-package",
+        // Replace with your real DeviceSetup component.
+        element: <PackageRenderer />
+      }, {
+        path: "arrivals",
+        // Replace with your real DeviceSetup component.
+        element: <ReservationPageRenderer />
+      }, {
+        path: "in-house",
+        // Replace with your real DeviceSetup component.
+        element: <ReservationPageRenderer />
+      }, {
+        path: "overdue",
+        // Replace with your real DeviceSetup component.
+        element: <ReservationPageRenderer />
+      },
+      {
+        path: "dayactivity/july-2026",
+        // Replace with your real DeviceSetup component.
+        element: <DayActivityRenderer />
+      },
+      {
+        path: "room",
+        // Replace with your real DeviceSetup component.
+        element: <DemoComponent title="Room List" />
+      },
+      {
+        path: "all-reservation",
+        element: <ReservationPageRenderer />,
+      },
+      {
+        path: "hold-reservation",
+        element: <HoldReservationRenderer />,
+      },
+
+      {
+        path: "reservation-calendar",
+        element: <ReservationCalendar />,
+      },
+      {
         path: "reservation",
         element: <Reservation />,
         children: [
           {
             path: ":id",
             element: <Hoteldetails />,
-          },
-          {
-            path: "all-reservation",
-            element: <ReservationPageRenderer />,
-          },
-          {
-            path: "reservation-calendar",
-            element: <ReservationCalendar />,
-          },
+          }
         ],
       },
     ],
@@ -205,3 +310,27 @@ export const appRoutes: AppRoute[] = [
     },
   },
 ];
+
+
+
+function DemoComponent({ title }: { title: string }) {
+  return (
+    <section className="min-w-0 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+      <h2 className="text-lg font-semibold text-gray-800">
+        {title}
+      </h2>
+
+      <p className="mt-2 text-sm text-gray-500">
+        Placeholder component. Replace this with your actual component.
+      </p>
+    </section>
+  );
+}
+
+function Workspace({ children }: { children: ReactNode }) {
+  return (
+    <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-2">
+      {children}
+    </div>
+  );
+}

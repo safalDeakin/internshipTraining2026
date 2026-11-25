@@ -15,7 +15,7 @@ export type DialogContextType = {
         options: DialogOptions
     ) => Promise<T | undefined>;
 
-    closeDialog: (result?: unknown) => void;
+    closeDialog: () => void;
 };
 
 export type DialogState = Required<DialogOptions>;

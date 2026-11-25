@@ -42,10 +42,12 @@ export default function DrawerContainer({
 
     return (
         <div className="drawer-overlay">
+
             <div
                 className="drawer-backdrop"
                 onClick={handleBackdropClick}
             />
+
             <div
                 className={`drawer-container ${isClosing
                     ? "drawer-closing"
@@ -60,27 +62,31 @@ export default function DrawerContainer({
                     }
                 }}
             >
-                {
-                    drawer.showHeader && (
-                        <div
-                            className="drawer-header"
-                        >
-                            <span>{drawer.title}</span>
-                            <button
-                                className="drawer-close-button"
-                                onClick={() => onClose()}
-                                aria-label="Close dialog">
-                                X
-                            </button>
-                        </div>
 
-                    )}
-                {
-                    drawer.showHeader && (
-                        <hr style={{ margin: 0 }}></hr>
-                    )
-                }
-                {drawer.content}
+                {!isClosing && (
+                    <>
+                        {drawer.showHeader && (
+                            <div className="drawer-header">
+                                <span>{drawer.title}</span>
+
+                                <button
+                                    className="drawer-close-button"
+                                    onClick={() => onClose()}
+                                    aria-label="Close drawer"
+                                >
+                                    X
+                                </button>
+                            </div>
+                        )}
+
+                        {drawer.showHeader && (
+                            <hr style={{ margin: 0 }} />
+                        )}
+
+                        {drawer.content}
+                    </>
+                )}
+
             </div>
         </div>
     );

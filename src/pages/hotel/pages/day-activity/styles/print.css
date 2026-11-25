@@ -1,0 +1,187 @@
+/* Hidden during normal dashboard viewing */
+.print-sheet {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
+    body {
+        margin: 0 !important;
+        background: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Hide normal dashboard */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Show only print content */
+    .print-sheet,
+    .print-sheet * {
+        visibility: visible;
+    }
+
+    .print-sheet {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #222;
+        background: white;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+    }
+
+    .print-header {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr 1fr;
+        align-items: start;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+    }
+
+    .print-header h2 {
+        font-size: 12px;
+        text-decoration: underline;
+    }
+
+    .hotel-info {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-size: 10px;
+    }
+
+    .print-building {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+    }
+
+    .print-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid #ddd;
+        margin: 18px 0 14px;
+        padding: 15px 5px;
+        text-align: center;
+    }
+
+    .print-summary>div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .print-summary strong {
+        font-size: 10px;
+    }
+
+    .print-summary small {
+        font-size: 9px;
+    }
+
+    .print-checklists {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .print-checklists section {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .print-checklists section>strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .print-checklists label {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+        margin: 4px 0;
+        font-size: 9px;
+    }
+
+    .print-checklists input {
+        width: 10px;
+        height: 10px;
+        margin: 0;
+    }
+
+    .print-table-section {
+        margin-top: 15px;
+    }
+
+    .print-table-section h3 {
+        font-size: 11px;
+        margin-bottom: 8px;
+    }
+
+    .print-table-section table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .print-table-section th {
+        color: #777;
+        font-weight: normal;
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .print-table-section td {
+        padding: 9px 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .print-table-section td:nth-child(n+2),
+    .print-table-section th:nth-child(n+2) {
+        text-align: center;
+    }
+
+    .print-input {
+        display: inline-block;
+        width: 75px;
+        height: 18px;
+        border: 1px solid #ddd;
+    }
+
+    .print-remark {
+        margin-top: 15px;
+    }
+
+    .print-remark strong {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .print-remark div {
+        height: 25px;
+        border: 1px solid #ddd;
+    }
+
+    .print-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 55px;
+    }
+
+    .print-signatures div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}

@@ -1,5 +1,6 @@
 //author: Shrajja
 //modified by: Safal Shrestha
+
 import type { Organization } from "./models/organization";
 import type { Action, Resources } from "./models/permission";
 import type { User } from "./models/users";
@@ -12,9 +13,53 @@ class AuthService {
   userAuthentication = new UserAuthentication();
   tenantSecurity = new TenantSecurity();
 
+  permissions: Record<
+    string,
+    {
+      resource: Resources;
+      action: Action;
+    }
+  > = {
+      restaurant: {
+        resource: "restaurant",
+        action: "view",
+      },
+
+      accomodation: {
+        resource: "accommodation",
+        action: "view",
+      },
+
+      "reservation-report": {
+        resource: "reports",
+        action: "view",
+      },
+
+      "activity-log": {
+        resource: "activity-logs",
+        action: "view",
+      },
+      //path
+      "test-component": {
+        resource: "test-component",
+        action: "view",
+      },
+    };
+
+  isAuthorizedUsingRouteKey = (user: User, orgSlug: number | null, routeKey: string) => {
+    const permission = this.permissions[routeKey];
+    // Resource exists in URL but no permission configuration exists
+    if (!permission) {
+      return undefined
+    }
+
+    return this.isAuthorized(user, orgSlug, permission.resource, permission.action);
+  }
+
+
   isAuthorized = (
-    selectedOrgId: number | null,
     user: User,
+    selectedOrgId: number | null,
     resource: Resources,
     action: Action,
   ): boolean => {

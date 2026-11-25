@@ -13,12 +13,15 @@ import {
   type NavItemModel,
 } from "../../lib/component/Sidebar/NavigationGroup";
 import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
+import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
+import ShellSetting from "../restaurant/modal/settings/ShellSetting";
+import { useNavigate } from "react-router-dom";
 
+import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
+import { useAuth } from "../../lib/utils/secureclient/useAuth";
 interface AccommodationNavbarProps {
   closeBar?: () => void;
 
-  // Parent callback: tells HotelLayout which option was selected.
-  onSelectView: (view: string) => void;
 }
 
 // Accommodation dropdown options.
@@ -61,8 +64,38 @@ const accommodationMenu: DropdownMenuSection[] = [
         path: "housekeeping",
       },
       {
-        label: "Night Audit",
-        path: "night-audit",
+        label: "Day Activity",
+        path: "dayactivity",
+        children: [
+          {
+            label: "July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "1st July - P123",
+            //     path: "dayactivity/july-2026/1st-july-p123",
+            //   },
+            //   {
+            //     label: "1st west-P123",
+            //     path: "dayactivity/july-2026/1st-west-p123",
+            //   },
+            // ],
+          },
+          {
+            label: "Sun-24-July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "TiyaPiya-c3-1344",
+            //     path: "dayactivity/sun-24-july-2026/tiyapiya-c3-1344",
+            //   },
+            //   {
+            //     label: "RamSta-c1-1144",
+            //     path: "dayactivity/sun-24-july-2026/ramsta-c1-1144",
+            //   },
+            // ],
+          },
+        ],
       },
       {
         label: "Lost and Found",
@@ -96,6 +129,12 @@ const menuSection: MenuSection[] = [
         count: 5,
       },
       {
+        key: "hallReservation",
+        label: "Hall Reservation",
+        path: "hall-reservation",
+        count: 5,
+      },
+      {
         key: "hotelPackage",
         label: "Hotel Package",
         path: "hotel-package",
@@ -121,17 +160,6 @@ const menuSection: MenuSection[] = [
       },
     ],
   },
-  // {
-  //   key: "rooms",
-  //   label: "Rooms",
-  //   items: [
-  //     {
-  //       key: "roomList",
-  //       label: "Room List",
-  //       path: "room",
-  //     },
-  //   ],
-  // },
   {
     key: "reservation",
     label: "Reservation",
@@ -150,14 +178,35 @@ const menuSection: MenuSection[] = [
   },
 ];
 
+const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
+
 export default function HotelNav({
-  closeBar,
-  onSelectView,
+  closeBar
 }: AccommodationNavbarProps) {
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
   } | null>(null);
+
+  const { showDialog, closeDialog } = useDialogBox();
+  const navigate = useNavigate();
+  const { organization } = useAuth();
+
+  // Navigate or open settings
+  const go = (path: string) => {
+    if (SETTING_PATHS.includes(path)) {
+      showDialog({
+        title: "Shell Settings",
+        closeOnBackdrop: true,
+        closeOnEscape: true,
+        content: <ShellSetting onClose={closeDialog} />,
+      });
+    } else {
+      navigate(getOrganizationPath(`/accomodation/${path}`, organization));
+    }
+
+    closeBar?.();
+  };
 
   // Used by Front-Desk, Rooms, and Reservation options.
   const handleSubItemClick = (groupKey: string, item: NavItemModel) => {
@@ -167,44 +216,37 @@ export default function HotelNav({
     });
 
     // Send the selected option to the parent.
-    onSelectView(item.path);
+    go(item.path);
     closeBar?.();
   };
 
-  const header = (
-    <ERPSidebarHeader
-      title="Hotel"
-      icon={<Hotel />}
-      menu={accommodationMenu}
-      onClick={(path: string) => {
-        onSelectView(path);
+
+  const header = <ERPSidebarHeader
+    title="Hotel" icon={<Hotel />}
+    menu={accommodationMenu}
+    onClick={(path: string) => {
+      go(path);
+      closeBar?.();
+    }}
+  >
+    {/* Housekeeping + Maintenance */}
+    <SidebarHugeButton title="Housekeeping and Maintenance"
+      ariaLabel="Open Housekeeping and Maintenance"
+      onClick={() => {
+        go("quick-housekeeping");
         closeBar?.();
-      }}
-    >
-      {/* Housekeeping + Maintenance */}
-      <SidebarHugeButton
-        title="Housekeeping and Maintenance"
-        ariaLabel="Open Housekeeping and Maintenance"
-        onClick={() => {
-          onSelectView("quick-housekeeping");
-          closeBar?.();
-        }}
-      >
-        <BrushCleaning className="h-4 w-4 text-blue-700" />
-      </SidebarHugeButton>
-      {/* Room Details Renderer */}
-      <SidebarHugeButton
-        title="Room Details"
-        ariaLabel="Open Room Details"
-        onClick={() => {
-          onSelectView("quick-rooms");
-          closeBar?.();
-        }}
-      >
-        <Building className="h-4 w-4 text-blue-700" />
-      </SidebarHugeButton>
-    </ERPSidebarHeader>
-  );
+      }}>
+      <BrushCleaning className="h-4 w-4 text-blue-700" />
+    </SidebarHugeButton>
+    {/* Room Details Renderer */}
+    <SidebarHugeButton title="Room Details" ariaLabel="Open Room Details"
+      onClick={() => {
+        go("quick-rooms");
+        closeBar?.();
+      }}>
+      <Building className="h-4 w-4 text-blue-700" />
+    </SidebarHugeButton>
+  </ERPSidebarHeader>;
 
   return (
     <SidebarContainer header={header}>
@@ -217,8 +259,8 @@ export default function HotelNav({
             items={menu.items}
             activeGroup={activeSubItem?.groupKey}
             activeItem={activeSubItem?.navItemKey}
-            onNavItemClick={handleSubItemClick}
-          ></NavGroup>
+            onNavItemClick={handleSubItemClick}>
+          </NavGroup>
         );
       })}
     </SidebarContainer>
