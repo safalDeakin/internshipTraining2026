@@ -26,15 +26,15 @@ export default function SessionNavGroup({
   // Select date
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
-    setSelectedStaffName(null);
-    reRouteTo("pos-overview");
+    setSelectedStaffName(undefined);
+    reRouteTo(`pos-overview?date=${date}`);
   };
 
   // Select staff session
   const handleStaffSelect = (session: POSSession) => {
     setSelectedStaffName(session.staffName);
-    setSelectedDate(null);
-    reRouteTo("pos-overview");
+    setSelectedDate(undefined);
+    reRouteTo(`pos-overview?session=${session.id}`);
   };
 
 

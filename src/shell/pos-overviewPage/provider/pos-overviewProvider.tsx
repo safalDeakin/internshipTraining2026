@@ -12,15 +12,21 @@ import PosOverviewContext, {
 } from "./pos-overviewContext";
 
 import type { POSOverview } from "../../../domain/pos.overview";
+import { useAuth } from "../../../lib/utils/secureclient/useAuth";
 
 export const RepoPosOverviewProvider = ({
   children,
+  selectedDate,
+  selectedSessionId,
 }: {
+  selectedDate?: string,
+  selectedSessionId?: string,
   children: ReactNode;
 }) => {
   const { data, loading, error } = useSubscription<POSOverview, string>(
     posOverviewQueryService,
   );
+  const { organization } = useAuth();
 
   const overviews = data ?? [];
 
@@ -46,11 +52,14 @@ export const RepoPosOverviewProvider = ({
 
   const value = useMemo<RepoPosOverviewContextType>(
     () => ({
+      organizationId: organization?.id,
       overviews,
       create,
       remove,
+      selectedDate,
+      selectedSessionId,
     }),
-    [overviews],
+    [overviews, selectedDate, selectedSessionId, organization?.id],
   );
 
   if (loading) return <div>Loading POS Overviews...</div>;

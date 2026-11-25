@@ -158,12 +158,12 @@ export interface POSSessionDateGroup {
 interface POSNavListContextType {
   sessions: POSSession[];
 
-  selectedDate: string | null;
-  selectedStaffName: string | null;
+  selectedDate: string | undefined;
+  selectedStaffName: string | undefined;
 
-  setSelectedDate: (date: string | null) => void;
-  setSelectedStaffName: (name: string | null) => void;
-
+  setSelectedDate: (date: string | undefined) => void;
+  setSelectedStaffName: (name: string | undefined) => void;
+  getSessionById: (id: string) => POSSession | undefined;
   getLatestSession: (organizationId: string | number) => POSSession | undefined;
 
   getGroupedSessions: (
@@ -183,9 +183,9 @@ interface POSNavListProviderProps {
 
 export function POSNavListProvider({ children }: POSNavListProviderProps) {
   const [sessions, setSessions] = useState<POSSession[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedStaffName, setSelectedStaffName] = useState<string | null>(
-    null,
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  const [selectedStaffName, setSelectedStaffName] = useState<string | undefined>(
+    undefined,
   );
 
   // Load sessions and listen for changes
@@ -280,6 +280,16 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
     );
   };
 
+  const getSessionById = (id: string): POSSession | undefined => {
+    if (sessions != null && sessions.length > 0) {
+      sessions.forEach((session) => {
+        if (session.id == id) {
+          return session;
+        }
+      });
+    }
+    return undefined;
+  }
   // Filter, group, sort and prepare sessions for navbar
   const getGroupedSessions = (
     organizationId: string | number,
@@ -337,6 +347,7 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
         setSelectedDate,
         setSelectedStaffName,
         getLatestSession,
+        getSessionById,
         getGroupedSessions,
       }}
     >

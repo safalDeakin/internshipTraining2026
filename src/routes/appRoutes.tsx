@@ -24,7 +24,7 @@ import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistR
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
-import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
+import PosOverviewRenderer from "../shell/pos-overviewPage/PosOverviewRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 import POSUserSession from "../shell/POSUserSession";
@@ -117,7 +117,7 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "pos-overview",
-        element: <PosOvervewRenderer />,
+        element: <PosOverviewRenderer />,
       },
       {
         path: "session",

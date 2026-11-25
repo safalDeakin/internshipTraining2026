@@ -162,8 +162,8 @@ import { usePOSNavList } from "./context/PosNavListProvider";
 
 interface SessionNavListProps {
   organizationId: string | number;
-  selectedDate: string | null;
-  selectedStaffName: string | null;
+  selectedDate: string | undefined;
+  selectedStaffName: string | undefined;
   onDateSelect: (date: string) => void;
   onSessionSelect: (session: POSSession) => void;
 }
@@ -192,11 +192,10 @@ export function SessionNavList({
           <button
             type="button"
             onClick={() => onDateSelect(group.date)}
-            className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${
-              selectedDate === group.date && !selectedStaffName
+            className={`flex items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm ${selectedDate === group.date && !selectedStaffName
                 ? "border-blue-500 bg-blue-50 text-blue-600"
                 : "border-gray-200 hover:bg-blue-50"
-            }`}
+              }`}
           >
             <Book className="h-4 w-4" />
 
@@ -213,11 +212,10 @@ export function SessionNavList({
                 key={item.id}
                 type="button"
                 onClick={() => onSessionSelect(item.session)}
-                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${
-                  selectedStaffName === item.staffName && !selectedDate
+                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-left text-xs ${selectedStaffName === item.staffName && !selectedDate
                     ? "bg-blue-100 text-blue-600"
                     : "text-gray-700 hover:bg-blue-50"
-                }`}
+                  }`}
               >
                 <ListCheck className="h-4 w-4 shrink-0" />
 

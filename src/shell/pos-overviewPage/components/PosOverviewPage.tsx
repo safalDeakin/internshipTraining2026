@@ -1,24 +1,35 @@
-import { useOutletContext } from "react-router-dom";
-
 import { CollectionSummary } from "./CollectionSummary";
 import { TodaySummary } from "./TodaySummary";
 
 import { CashVariancePanel } from "./CashVariancePanel";
-import { usePOSUserSession } from "../../hooks/usePOSUserSession";
 import { usePosOverviewHook } from "../provider/usePosOverview";
-
-interface RestaurantOutletContext {
-  openSessionMode: () => void;
-}
+import useDrawer from "../../../lib/component/Drawer/useDrawer";
+import RunPOSSession from "../../RunPOSSession";
+import UserSessionProvider from "../../context/UserSessionProvider";
 
 const PosOverviewPage = () => {
-  const { openSessionMode } = useOutletContext<RestaurantOutletContext>();
 
-  const { overviews } = usePosOverviewHook();
-  const { selectedDate, selectedStaffName } = usePOSUserSession();
+  const { organizationId, overviews, selectedSessionId, selectedDate } = usePosOverviewHook();
+  const { openDrawer } = useDrawer();
+
+
+  const openSessionMode = () => {
+
+    openDrawer({
+      title: "Shell Settings",
+      width: "100%",
+      closeOnBackdrop: false,
+      closeOnEscape: false,
+      showHeader: false,
+      content: (
+        <UserSessionProvider orgId={String(organizationId)}>
+          <RunPOSSession />
+        </UserSessionProvider>
+      ),
+    });
+  }
 
   const overview = overviews?.[0];
-
   if (!overview) {
     return (
       <div className="p-4 text-center text-gray-500">
@@ -32,8 +43,10 @@ const PosOverviewPage = () => {
       <TodaySummary
         data={overview}
         selectedDate={selectedDate}
-        staffName={selectedStaffName ?? undefined}
-        onOpenSessionMode={openSessionMode}
+        staffName={selectedSessionId ?? undefined}
+        onOpenSessionMode={() => {
+          openSessionMode()
+        }}
       />
 
       <CashVariancePanel
