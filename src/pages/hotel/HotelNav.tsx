@@ -30,6 +30,7 @@ const accommodationMenu: DropdownMenuSection[] = [
       { label: "Transportation", path: "transport" },
       { label: "Rate Plan", path: "rate-plan" },
       { label: "Offers and Discounts", path: "offers" },
+      { label: "Billing", path: "billing" },
     ],
   },
   {
