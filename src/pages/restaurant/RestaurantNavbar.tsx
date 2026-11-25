@@ -19,7 +19,6 @@ import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 
-import type { POSSession } from "../../shell/types/posSessionTypes";
 
 import ShellSetting from "./modal/settings/ShellSetting";
 
@@ -33,7 +32,6 @@ import SessionNavGroup from "./nav/SessionNavGroup";
 
 interface RestaurantNavbarProps {
   closeBar?: () => void;
-  openSessionMode?: () => void;
 }
 
 const dropDownMenu: DropdownMenuSection[] = [
@@ -88,61 +86,28 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
 
   // Navigation session context
   const {
-    getLatestSession,
-    selectedDate,
-    selectedStaffName,
-    setSelectedDate,
-    setSelectedStaffName,
-  } = usePOSNavList();
+    getLatestSession } = usePOSNavList();
 
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
   } | null>(null);
 
-  // Open POS session drawer
-  const openSessionMode = () => {
-    if (!organization?.id) return;
 
-    openDrawer({
-      title: "Shell Settings",
-      width: "100%",
-      closeOnBackdrop: false,
-      closeOnEscape: false,
-      showHeader: false,
-      content: (
-        <UserSessionProvider orgId={String(organization.id)}>
-          <RunPOSSession />
-        </UserSessionProvider>
-      ),
-    });
-  };
-
-  // Open settings
-  const onOpenSetting = () => {
-    showDialog({
-      title: "Shell Settings",
-      closeOnBackdrop: true,
-      closeOnEscape: true,
-      content: <ShellSetting onClose={closeDialog} />,
-    });
-  };
 
   // Get latest session
   const latestSession =
     organization?.id != null ? getLatestSession(organization.id) : undefined;
 
-  const playTitle =
-    latestSession?.status === "active"
-      ? "Continue POS session"
-      : latestSession?.status === "paused"
-        ? "Resume POS session"
-        : "Start POS session";
-
   // Navigate or open settings
   const go = (path: string) => {
     if (SETTING_PATHS.includes(path)) {
-      onOpenSetting();
+      showDialog({
+        title: "Shell Settings",
+        closeOnBackdrop: true,
+        closeOnEscape: true,
+        content: <ShellSetting onClose={closeDialog} />,
+      });
     } else {
       navigate(getOrganizationPath(`/restaurant/${path}`, organization));
     }
@@ -159,19 +124,6 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
     go(item.path);
   };
 
-  // Select date
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date);
-    setSelectedStaffName(null);
-    go("pos-overview");
-  };
-
-  // Select staff session
-  const handleStaffSelect = (session: POSSession) => {
-    setSelectedStaffName(session.staffName);
-    setSelectedDate(null);
-    go("pos-overview");
-  };
 
   const header = (
     <ERPSidebarHeader
@@ -181,10 +133,28 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
       onClick={go}
     >
       <SidebarHugeButton
-        title={playTitle}
+        title={latestSession?.status === "active"
+          ? "Continue POS session"
+          : latestSession?.status === "paused"
+            ? "Resume POS session"
+            : "Start POS session"}
         ariaLabel="Open POS session"
         onClick={() => {
-          openSessionMode();
+          if (!organization?.id) return;
+
+          openDrawer({
+            title: "Shell Settings",
+            width: "100%",
+            closeOnBackdrop: false,
+            closeOnEscape: false,
+            showHeader: false,
+            content: (
+              <UserSessionProvider orgId={String(organization.id)}>
+                <RunPOSSession />
+              </UserSessionProvider>
+            ),
+          });
+
           closeBar?.();
         }}
       >
@@ -206,11 +176,9 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
 
       {organization?.id != null && (
         <SessionNavGroup
+          reRouteTo={go}
           organizationId={organization.id}
-          selectedDate={selectedDate}
-          selectedStaffName={selectedStaffName}
-          handleDateSelect={handleDateSelect}
-          handleStaffSelect={handleStaffSelect}
+
         />
       )}
     </SidebarContainer>

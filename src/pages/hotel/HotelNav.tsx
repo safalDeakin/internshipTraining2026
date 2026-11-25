@@ -183,7 +183,6 @@ export default function HotelNav({
   };
 
 
-
   const header = <ERPSidebarHeader
     title="Hotel" icon={<Hotel />}
     menu={accommodationMenu}

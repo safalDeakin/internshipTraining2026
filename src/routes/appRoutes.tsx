@@ -24,7 +24,6 @@ import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistR
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
 import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
-import DialogProvider from "../lib/component/DialogueBox/DialogProvider";
 import PosOvervewRenderer from "../shell/pos-overviewPage/PosOvervewRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
