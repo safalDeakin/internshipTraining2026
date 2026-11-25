@@ -1,40 +1,36 @@
-import type { ReactNode } from 'react';
-import './style.css';
+import type { ReactNode } from "react";
+// import './style.css';
 
 type Type = "clickable" | "popup" | "main" | "box";
 
-type Background = "page"
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "surface-default"
-    | "surface-raised"
-    | "surface-sunken"
-    | "surface-overlay";
-
+type Background =
+  | "page"
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "surface-default"
+  | "surface-raised"
+  | "surface-sunken"
+  | "surface-overlay";
 
 type ContainerProps = {
-    children: ReactNode;
-    // Appearance
-    background?: Background;
-    type?: Type;
+  children: ReactNode;
+  // Appearance
+  background?: Background;
+  type?: Type;
 };
 
-
 export default function Container({
-    children,
-    type,
-    background
+  children,
+  type,
+  background,
 }: ContainerProps) {
+  const className =
+    "container-" +
+    type?.toString() +
+    " " +
+    "container-bg-" +
+    background?.toString();
 
-    const className = 'container-' + type?.toString() + ' ' + 'container-bg-' + background?.toString();
-
-    return (
-        <div
-            className={className}
-        >
-            {children}
-        </div >
-
-    );
+  return <div className={className}>{children}</div>;
 }

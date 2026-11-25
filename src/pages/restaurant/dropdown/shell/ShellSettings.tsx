@@ -270,12 +270,6 @@ const ShellSettings = () => {
   return (
     <Container type="main" background="page">
       <div className="flex min-w-0 flex-1 flex-col gap-4">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <ArrowRight size={16} className="text-blue-600" />
-          <span>Shell Status / Store Status</span>
-        </div>
-
         {/* Store Information */}
         <StoreInfoCard onEdit={handleEditOrganization} />
 

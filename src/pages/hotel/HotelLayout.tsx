@@ -20,6 +20,8 @@ import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 import HoldReservationRenderer from "./pages/hold-reservation/components/HoldReservationWorkSpace";
 import Frame from "../../lib/component/Frame/Frame";
+import Transportation from "./dropdown/transportation/TransportationLayout";
+import BillingPage from "./dropdown/billing/BillingLayout";
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +47,7 @@ interface DemoComponentProps {
 function DemoComponent({ title }: DemoComponentProps) {
   return (
     <section className="min-w-0 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-      <h2 className="text-lg font-semibold text-gray-800">
-        {title}
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
 
       <p className="mt-2 text-sm text-gray-500">
         Placeholder component. Replace this with your actual component.
@@ -90,6 +90,8 @@ type ViewKey =
   | "quick-rooms"
   | "quick-housekeeping"
   | "all-rooms"
+  | "transport"
+  | "billing"
   | "rate-plan"
   | "offers"
   | "sales-settings"
@@ -114,9 +116,7 @@ export default function HotelLayout() {
    *
    * The existing nested route will be displayed instead.
    */
-  const [activeView, setActiveView] = useState<ViewKey | null>(
-    null,
-  );
+  const [activeView, setActiveView] = useState<ViewKey | null>(null);
 
   /*
    * Render the components associated with the selected option.
@@ -135,14 +135,10 @@ export default function HotelLayout() {
       |--------------------------------------------------------------------------
       */
       case "quick-rooms":
-        return (
-          <RoomsDetailRenderer />
-        );
+        return <RoomsDetailRenderer />;
 
       case "quick-housekeeping":
-        return (
-          <HousekeepingRenderer />
-        );
+        return <HousekeepingRenderer />;
 
       /*
       |--------------------------------------------------------------------------
@@ -151,20 +147,18 @@ export default function HotelLayout() {
       */
 
       case "all-rooms":
-        return (
-          <RoomPageRenderer />
-        );
+        return <RoomPageRenderer />;
+      case "transport":
+        return <Transportation />;
+      case "billing":
+        return <BillingPage />;
 
       case "rate-plan":
-        return (
-          <RatePlanPageRenderer />
-        );
+        return <RatePlanPageRenderer />;
 
       case "offers":
         // Replace with your real OffersAndDiscounts component.
-        return (
-          <DemoComponent title="Offers and Discounts" />
-        );
+        return <DemoComponent title="Offers and Discounts" />;
 
       /*
       |--------------------------------------------------------------------------
@@ -174,21 +168,15 @@ export default function HotelLayout() {
 
       case "sales-settings":
         // Replace with your real SalesSettings component.
-        return (
-          <SettingRenderer />
-        );
+        return <SettingRenderer />;
 
       case "staff-access":
         // Replace with your real StaffAccess component.
-        return (
-          <SettingRenderer />
-        );
+        return <SettingRenderer />;
 
       case "device-setup":
         // Replace with your real DeviceSetup component.
-        return (
-          <SettingRenderer />
-        );
+        return <SettingRenderer />;
 
       /*
       |--------------------------------------------------------------------------
@@ -209,16 +197,11 @@ export default function HotelLayout() {
         );
 
       case "night-audit":
-        return (
-          <NightAuditRenderer />
-        );
-
+        return <NightAuditRenderer />;
 
       case "lost-found":
         // Replace with your real NightAudit component.
-        return (
-          <LostAndFoundRenderer />
-        );
+        return <LostAndFoundRenderer />;
 
       /*
       |--------------------------------------------------------------------------
@@ -227,34 +210,21 @@ export default function HotelLayout() {
       */
 
       case "hold-reservation":
-        return (
-          <HoldReservationRenderer />
-        );
+        return <HoldReservationRenderer />;
 
       case "guest-request":
-        return (
-          <GuestRequestPageRenderer />
-        );
-
+        return <GuestRequestPageRenderer />;
 
       case "hotel-package":
-        return (
-          <PackageRenderer />
-        );
+        return <PackageRenderer />;
       case "arrivals":
-        return (
-          <ReservationPageRenderer />
-        );
+        return <ReservationPageRenderer />;
 
       case "in-house":
-        return (
-          <ReservationPageRenderer />
-        );
+        return <ReservationPageRenderer />;
 
       case "overdue":
-        return (
-          <ReservationPageRenderer />
-        );
+        return <ReservationPageRenderer />;
 
       /*
       |--------------------------------------------------------------------------
@@ -264,9 +234,7 @@ export default function HotelLayout() {
 
       case "room":
         // Replace with your actual RoomList component.
-        return (
-          <DemoComponent title="Room List" />
-        );
+        return <DemoComponent title="Room List" />;
 
       /*
       |--------------------------------------------------------------------------
@@ -275,14 +243,10 @@ export default function HotelLayout() {
       */
 
       case "all-reservation":
-        return (
-          <ReservationPageRenderer />
-        );
+        return <ReservationPageRenderer />;
 
       case "reservation-calendar":
-        return (
-          <ReservationCalendar />
-        );
+        return <ReservationCalendar />;
 
       /*
       |--------------------------------------------------------------------------
@@ -305,14 +269,8 @@ export default function HotelLayout() {
       <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
       {/* MAIN CONTENT */}
       <DialogProvider>
-        <DrawerProvider>
-          {renderContent()}
-        </DrawerProvider>
+        <DrawerProvider>{renderContent()}</DrawerProvider>
       </DialogProvider>
-
-
-
     </Frame>
-
   );
 }

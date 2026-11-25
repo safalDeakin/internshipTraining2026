@@ -1,18 +1,18 @@
 // author: Shrajja
 
-import {
-  BrushCleaning,
-  Building,
-  Files,
-  Hotel,
-} from "lucide-react";
+import { BrushCleaning, Building, Files, Hotel } from "lucide-react";
 
 import { useState } from "react";
 import { SidebarHugeButton } from "../../lib/shared/erpSidebarHeader/SidebarHugeButton";
-import { ERPSidebarHeader, type DropdownMenuSection } from "../../lib/shared/erpSidebarHeader/ERPSidebarHeader";
-import { NavGroup, type NavItemModel } from "../../lib/component/Sidebar/NavigationGroup";
+import {
+  ERPSidebarHeader,
+  type DropdownMenuSection,
+} from "../../lib/shared/erpSidebarHeader/ERPSidebarHeader";
+import {
+  NavGroup,
+  type NavItemModel,
+} from "../../lib/component/Sidebar/NavigationGroup";
 import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
-
 
 interface AccommodationNavbarProps {
   closeBar?: () => void;
@@ -21,16 +21,16 @@ interface AccommodationNavbarProps {
   onSelectView: (view: string) => void;
 }
 
-
-
 // Accommodation dropdown options.
 const accommodationMenu: DropdownMenuSection[] = [
   {
     title: "Manage",
     items: [
       { label: "All Rooms", path: "all-rooms" },
+      { label: "Transportation", path: "transport" },
       { label: "Rate Plan", path: "rate-plan" },
       { label: "Offers and Discounts", path: "offers" },
+      { label: "Billing", path: "billing" },
     ],
   },
   {
@@ -150,23 +150,17 @@ const menuSection: MenuSection[] = [
   },
 ];
 
-
 export default function HotelNav({
   closeBar,
   onSelectView,
 }: AccommodationNavbarProps) {
-
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
   } | null>(null);
 
-
   // Used by Front-Desk, Rooms, and Reservation options.
-  const handleSubItemClick = (
-    groupKey: string,
-    item: NavItemModel,
-  ) => {
+  const handleSubItemClick = (groupKey: string, item: NavItemModel) => {
     setActiveSubItem({
       groupKey,
       navItemKey: item.key,
@@ -177,39 +171,43 @@ export default function HotelNav({
     closeBar?.();
   };
 
-
-  const header = <ERPSidebarHeader
-    title="Hotel" icon={<Hotel />}
-    menu={accommodationMenu}
-    onClick={(path: string) => {
-      onSelectView(path);
-      closeBar?.();
-    }}
-  >
-    {/* Housekeeping + Maintenance */}
-    <SidebarHugeButton title="Housekeeping and Maintenance"
-      ariaLabel="Open Housekeeping and Maintenance"
-      onClick={() => {
-        onSelectView("quick-housekeeping");
+  const header = (
+    <ERPSidebarHeader
+      title="Hotel"
+      icon={<Hotel />}
+      menu={accommodationMenu}
+      onClick={(path: string) => {
+        onSelectView(path);
         closeBar?.();
-      }}>
-      <BrushCleaning className="h-4 w-4 text-blue-700" />
-    </SidebarHugeButton>
-    {/* Room Details Renderer */}
-    <SidebarHugeButton title="Room Details" ariaLabel="Open Room Details"
-      onClick={() => {
-        onSelectView("quick-rooms");
-        closeBar?.();
-      }}>
-      <Building className="h-4 w-4 text-blue-700" />
-    </SidebarHugeButton>
-  </ERPSidebarHeader>;
+      }}
+    >
+      {/* Housekeeping + Maintenance */}
+      <SidebarHugeButton
+        title="Housekeeping and Maintenance"
+        ariaLabel="Open Housekeeping and Maintenance"
+        onClick={() => {
+          onSelectView("quick-housekeeping");
+          closeBar?.();
+        }}
+      >
+        <BrushCleaning className="h-4 w-4 text-blue-700" />
+      </SidebarHugeButton>
+      {/* Room Details Renderer */}
+      <SidebarHugeButton
+        title="Room Details"
+        ariaLabel="Open Room Details"
+        onClick={() => {
+          onSelectView("quick-rooms");
+          closeBar?.();
+        }}
+      >
+        <Building className="h-4 w-4 text-blue-700" />
+      </SidebarHugeButton>
+    </ERPSidebarHeader>
+  );
 
   return (
-    <SidebarContainer
-      header={
-        header}
-    >
+    <SidebarContainer header={header}>
       {/* MAIN NAVIGATION */}
       {menuSection.map((menu) => {
         return (
@@ -219,9 +217,8 @@ export default function HotelNav({
             items={menu.items}
             activeGroup={activeSubItem?.groupKey}
             activeItem={activeSubItem?.navItemKey}
-            onNavItemClick={handleSubItemClick}>
-
-          </NavGroup>
+            onNavItemClick={handleSubItemClick}
+          ></NavGroup>
         );
       })}
     </SidebarContainer>
