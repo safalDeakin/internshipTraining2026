@@ -9,6 +9,7 @@ type Policy = {
 };
 
 class AccessControl {
+
   private policies: Policy[] = [
     //for admin access
     {
@@ -83,6 +84,10 @@ class AccessControl {
       return false;
     }
     return policy.action.includes(action);
+  }
+
+  checkPermission() {
+
   }
 }
 export default AccessControl;

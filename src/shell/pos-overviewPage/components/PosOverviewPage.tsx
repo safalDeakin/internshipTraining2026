@@ -9,7 +9,8 @@ import UserSessionProvider from "../../context/UserSessionProvider";
 
 const PosOverviewPage = () => {
 
-  const { organizationId, overviews, selectedSessionId, selectedDate } = usePosOverviewHook();
+  const { organizationId, overviews, selectedSessionId, selectedDate, } = usePosOverviewHook();
+
   const { openDrawer } = useDrawer();
 
 

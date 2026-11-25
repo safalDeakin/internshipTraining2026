@@ -48,6 +48,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
+  const isAuthorizedUsingRouteKey = (orgSlug: string, routeKey: string) => {
+    const selectedOrg = getOrganizationFromSlug(orgSlug);
+    if (selectedOrg && user) {
+      return authService.isAuthorizedUsingRouteKey(user!, selectedOrg.id, routeKey);
+    }
+    return false;
+  }
+
   const isAuthorized = (
     selectedOrgSlug: string,
     resource: Resources,
@@ -55,14 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ): boolean => {
     console.log("Found Oranization Slug " + selectedOrgSlug);
     const selectedOrg = getOrganizationFromSlug(selectedOrgSlug);
-    console.log("Resource:", resource);
-    console.log("Action:", action);
-    console.log(selectedOrg);
     if (selectedOrg)
       if (user) {
-        console.log("User also found");
-        console.log(user);
-        return authService.isAuthorized(selectedOrg.id, user, resource, action);
+        return authService.isAuthorized(user, selectedOrg.id, resource, action);
       }
     return false;
   };
@@ -76,6 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
+        isAuthorizedUsingRouteKey,
         user,
         login,
         setUser,
