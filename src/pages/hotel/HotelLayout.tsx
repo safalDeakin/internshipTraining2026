@@ -1,23 +1,12 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 
 // Import your existing sidebar.
 // Adjust this import path to match your project.
 import HotelNav from "./HotelNav";
-import RoomsDetailRenderer from "../hotel/pages/room-status/components/RoomsDetailRenderer";
-import HousekeepingRenderer from "../houseKeeping/components/HousekeepingRenderer";
-import RoomPageRenderer from "./pages/roomMasterPage/RoomPageRenderer";
-import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer";
 // import FinalAllReservationPage from "../hotel/pages/FinalAllReservationPage";
-import ReservationCalendar from "../hotel/pages/ReservationCalendar";
-import SettingRenderer from "../popupsetting/components/SettingRenderer";
-import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
-import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
-import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
-import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRenderer";
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
 import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
-import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 import Frame from "../../lib/component/Frame/Frame";
 
 /*
@@ -85,221 +74,18 @@ function Workspace({ children }: WorkspaceProps) {
 |--------------------------------------------------------------------------
 */
 
-type ViewKey =
-  | "quick-rooms"
-  | "quick-housekeeping"
-  | "all-rooms"
-  | "rate-plan"
-  | "offers"
-  | "sales-settings"
-  | "staff-access"
-  | "device-setup"
-  | "housekeeping"
-  | "night-audit"
-  | "lost-found"
-  | "guest-request"
-  | "hotel-package"
-  | "arrivals"
-  | "in-house"
-  | "overdue"
-  | "room"
-  | "all-reservation"
-  | "reservation-calendar";
 
 export default function HotelLayout() {
-  /*
-   * null means no custom view has been selected.
-   *
-   * The existing nested route will be displayed instead.
-   */
-  const [activeView, setActiveView] = useState<ViewKey | null>(
-    null,
-  );
-
-  /*
-   * Render the components associated with the selected option.
-   *
-   * Each case can render:
-   * - A single component.
-   * - Two components side by side.
-   * - More than two components.
-   */
-
-  const renderContent = () => {
-    switch (activeView) {
-      /*
-      |--------------------------------------------------------------------------
-      | QUICK ACCESS ICONS
-      |--------------------------------------------------------------------------
-      */
-      case "quick-rooms":
-        return (
-          <RoomsDetailRenderer />
-        );
-
-      case "quick-housekeeping":
-        return (
-          <HousekeepingRenderer />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | HOTEL DROPDOWN: MANAGE
-      |--------------------------------------------------------------------------
-      */
-
-      case "all-rooms":
-        return (
-          <RoomPageRenderer />
-        );
-
-      case "rate-plan":
-        return (
-          <RatePlanPageRenderer />
-        );
-
-      case "offers":
-        // Replace with your real OffersAndDiscounts component.
-        return (
-          <DemoComponent title="Offers and Discounts" />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | HOTEL DROPDOWN: CONFIGURATION
-      |--------------------------------------------------------------------------
-      */
-
-      case "sales-settings":
-        // Replace with your real SalesSettings component.
-        return (
-          <SettingRenderer />
-        );
-
-      case "staff-access":
-        // Replace with your real StaffAccess component.
-        return (
-          <SettingRenderer />
-        );
-
-      case "device-setup":
-        // Replace with your real DeviceSetup component.
-        return (
-          <SettingRenderer />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | HOTEL DROPDOWN: OPERATIONS
-      |--------------------------------------------------------------------------
-      */
-
-      case "housekeeping":
-        // Housekeeping and Maintenance displayed side by side.
-        return (
-          <Workspace>
-            {/* Replace with <Housekeeping /> */}
-            <DemoComponent title="Housekeeping" />
-
-            {/* Replace with <Maintenance /> */}
-            <DemoComponent title="Maintenance" />
-          </Workspace>
-        );
-
-      case "night-audit":
-        return (
-          <NightAuditRenderer />
-        );
-
-
-      case "lost-found":
-        // Replace with your real NightAudit component.
-        return (
-          <LostAndFoundRenderer />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | FRONT-DESK
-      |--------------------------------------------------------------------------
-      */
-
-      case "guest-request":
-        return (
-          <GuestRequestPageRenderer />
-        );
-
-
-      case "hotel-package":
-        return (
-          <PackageRenderer />
-        );
-      case "arrivals":
-        return (
-          <ReservationPageRenderer />
-        );
-
-      case "in-house":
-        return (
-          <ReservationPageRenderer />
-        );
-
-      case "overdue":
-        return (
-          <ReservationPageRenderer />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | ROOMS
-      |--------------------------------------------------------------------------
-      */
-
-      case "room":
-        // Replace with your actual RoomList component.
-        return (
-          <DemoComponent title="Room List" />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | RESERVATIONS
-      |--------------------------------------------------------------------------
-      */
-
-      case "all-reservation":
-        return (
-          <ReservationPageRenderer />
-        );
-
-      case "reservation-calendar":
-        return (
-          <ReservationCalendar />
-        );
-
-      /*
-      |--------------------------------------------------------------------------
-      | DEFAULT VIEW
-      |--------------------------------------------------------------------------
-      |
-      | When no sidebar option has been selected, render the component
-      | associated with the current React Router route.
-      |
-      */
-
-      default:
-        return <Outlet />;
-    }
-  };
 
   return (
     <Frame>
       {/* SIDEBAR */}
-      <HotelNav onSelectView={(view) => setActiveView(view as ViewKey)} />
+
       {/* MAIN CONTENT */}
       <DialogProvider>
         <DrawerProvider>
-          {renderContent()}
+          <HotelNav />
+          <Outlet />
         </DrawerProvider>
       </DialogProvider>
     </Frame>

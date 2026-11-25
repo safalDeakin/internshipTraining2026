@@ -12,13 +12,15 @@ import { SidebarHugeButton } from "../../lib/shared/erpSidebarHeader/SidebarHuge
 import { ERPSidebarHeader, type DropdownMenuSection } from "../../lib/shared/erpSidebarHeader/ERPSidebarHeader";
 import { NavGroup, type NavItemModel } from "../../lib/component/Sidebar/NavigationGroup";
 import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
+import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
+import ShellSetting from "../restaurant/modal/settings/ShellSetting";
+import { useNavigate } from "react-router-dom";
 
-
+import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
+import { useAuth } from "../../lib/utils/secureclient/useAuth";
 interface AccommodationNavbarProps {
   closeBar?: () => void;
 
-  // Parent callback: tells HotelLayout which option was selected.
-  onSelectView: (view: string) => void;
 }
 
 
@@ -146,8 +148,7 @@ const menuSection: MenuSection[] = [
 const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 
 export default function HotelNav({
-  closeBar,
-  onSelectView,
+  closeBar
 }: AccommodationNavbarProps) {
 
   const [activeSubItem, setActiveSubItem] = useState<{
@@ -155,17 +156,25 @@ export default function HotelNav({
     navItemKey: string;
   } | null>(null);
 
+  const { showDialog, closeDialog } = useDialogBox();
+  const navigate = useNavigate();
+  const { organization } = useAuth();
 
-  // Open a setting or navigate to a page.
-  // const go = (path: string) => {
-  //   if (SETTING_PATHS.includes(path)) {
-  //     onOpenSetting?.(path);
-  //   } else {
-  //     navigate(getOrganizationPath(`/restaurant/${path}`, organization));
-  //   }
+  // Navigate or open settings
+  const go = (path: string) => {
+    if (SETTING_PATHS.includes(path)) {
+      showDialog({
+        title: "Shell Settings",
+        closeOnBackdrop: true,
+        closeOnEscape: true,
+        content: <ShellSetting onClose={closeDialog} />,
+      });
+    } else {
+      navigate(getOrganizationPath(`/accomodation/${path}`, organization));
+    }
 
-  //   closeBar?.();
-  // };
+    closeBar?.();
+  };
 
   // Used by Front-Desk, Rooms, and Reservation options.
   const handleSubItemClick = (
@@ -178,7 +187,7 @@ export default function HotelNav({
     });
 
     // Send the selected option to the parent.
-    onSelectView(item.path);
+    go(item.path);
     closeBar?.();
   };
 
@@ -187,7 +196,7 @@ export default function HotelNav({
     title="Hotel" icon={<Hotel />}
     menu={accommodationMenu}
     onClick={(path: string) => {
-      onSelectView(path);
+      go(path);
       closeBar?.();
     }}
   >
@@ -195,7 +204,7 @@ export default function HotelNav({
     <SidebarHugeButton title="Housekeeping and Maintenance"
       ariaLabel="Open Housekeeping and Maintenance"
       onClick={() => {
-        onSelectView("quick-housekeeping");
+        go("quick-housekeeping");
         closeBar?.();
       }}>
       <BrushCleaning className="h-4 w-4 text-blue-700" />
@@ -203,7 +212,7 @@ export default function HotelNav({
     {/* Room Details Renderer */}
     <SidebarHugeButton title="Room Details" ariaLabel="Open Room Details"
       onClick={() => {
-        onSelectView("quick-rooms");
+        go("quick-rooms");
         closeBar?.();
       }}>
       <Building className="h-4 w-4 text-blue-700" />
