@@ -6,6 +6,7 @@ type DropdownMenuItem = {
   label: string;
   path: string;
   icon?: LucideIcon;
+  children?: DropdownMenuItem[];
 };
 
 export type DropdownMenuSection = {
@@ -30,7 +31,6 @@ export function ERPSidebarHeader({
 
   const handleMenuClick = (path: string) => {
     onClick(path);
-    setIsOpen(false);
   };
 
   return (
@@ -44,25 +44,96 @@ export function ERPSidebarHeader({
           onClick={() => setIsOpen((current) => !current)}
         >
           <span className="sidebar-header-top-selector-label-icon">
-            <span className="sidebar-header-top-selector-icon">{icon}</span>
+            <span className="sidebar-header-top-selector-icon">
+              {icon}
+            </span>
 
-            <span className="sidebar-header-top-selector-title">{title}</span>
+            <span className="sidebar-header-top-selector-title">
+              {title}
+            </span>
           </span>
 
           <ChevronDown
-            className={`sidebar-header-top-selector-arrow transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
+            className={`sidebar-header-top-selector-arrow transition-transform ${isOpen ? "rotate-180" : ""
+              }`}
           />
         </button>
 
         {isOpen && (
-          <SidebarHeaderDropdown menu={menu} onClick={handleMenuClick} />
+          <SidebarHeaderDropdown
+            menu={menu}
+            onClick={handleMenuClick}
+          />
         )}
       </div>
 
       {/* QUICK ACCESS ICONS */}
-      <div className="flex gap-2">{children}</div>
+      <div className="flex gap-2">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function DropdownMenuItemComponent({
+  item,
+  onClick,
+  level = 0,
+}: {
+  item: DropdownMenuItem;
+  onClick: (path: string) => void;
+  level?: number;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const Icon = item.icon;
+  const hasChildren = Boolean(item.children?.length);
+
+  const handleClick = () => {
+    if (hasChildren) {
+      setIsOpen((current) => !current);
+      return;
+    }
+
+    onClick(item.path);
+  };
+
+  return (
+    <div>
+      <button
+        type="button"
+        className="sidebar-header-dropdown-group-item"
+        style={{
+          paddingLeft: `${12 + level * 16}px`,
+        }}
+        onClick={handleClick}
+      >
+        <span className="flex min-w-0 items-center gap-2">
+          {Icon && <Icon className="h-4 w-4 shrink-0" />}
+
+          <span>{item.label}</span>
+        </span>
+
+        {hasChildren && (
+          <ChevronDown
+            className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""
+              }`}
+          />
+        )}
+      </button>
+
+      {hasChildren && isOpen && (
+        <div>
+          {item.children!.map((child) => (
+            <DropdownMenuItemComponent
+              key={child.path}
+              item={child}
+              onClick={onClick}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -84,22 +155,13 @@ export function SidebarHeaderDropdown({
             </div>
 
             <div className="sidebar-header-dropdown-group-item-section">
-              {section.items.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <button
-                    type="button"
-                    className="sidebar-header-dropdown-group-item"
-                    key={item.path}
-                    onClick={() => onClick(item.path)}
-                  >
-                    <span>{item.label}</span>
-
-                    {Icon && <Icon className="h-4 w-4" />}
-                  </button>
-                );
-              })}
+              {section.items.map((item) => (
+                <DropdownMenuItemComponent
+                  key={item.path}
+                  item={item}
+                  onClick={onClick}
+                />
+              ))}
             </div>
           </div>
 

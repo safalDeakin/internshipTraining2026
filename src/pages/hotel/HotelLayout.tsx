@@ -12,7 +12,6 @@ import RatePlanPageRenderer from "../hotel/pages/rate-plan/RatePlanPageRenderer"
 import ReservationCalendar from "../hotel/pages/ReservationCalendar";
 import SettingRenderer from "../popupsetting/components/SettingRenderer";
 import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
-import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 import ReservationPageRenderer from "./pages/reservationMasterPage/ReservationMasterRenderer";
 import GuestRequestPageRenderer from "./pages/guest-request/GuesteRequestRenderer";
 import DialogProvider from "../../lib/component/DialogueBox/DialogProvider";
@@ -20,8 +19,11 @@ import DrawerProvider from "../../lib/component/Drawer/DrawerProvider";
 import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 import HoldReservationRenderer from "./pages/hold-reservation/components/HoldReservationWorkSpace";
 import Frame from "../../lib/component/Frame/Frame";
+import HallReservationRenderer from "./pages/hall-reservation/HallReservationRenderer";
+import DayActivityRenderer from "./pages/day-activity/DayActivityRenderer";
 import Transportation from "./dropdown/transportation/TransportationLayout";
 import BillingPage from "./dropdown/billing/BillingLayout";
+import NightAuditRenderer from "./pages/nightAudit/components/overview/NightAuditRenderer";
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +89,7 @@ function Workspace({ children }: WorkspaceProps) {
 */
 
 type ViewKey =
+  "night-audit"
   | "quick-rooms"
   | "quick-housekeeping"
   | "all-rooms"
@@ -98,10 +101,11 @@ type ViewKey =
   | "staff-access"
   | "device-setup"
   | "housekeeping"
-  | "night-audit"
   | "lost-found"
+  | "dayactivity/july-2026"
   | "hold-reservation"
   | "guest-request"
+  | "hall-reservation"
   | "hotel-package"
   | "arrivals"
   | "in-house"
@@ -213,7 +217,14 @@ export default function HotelLayout() {
         return <HoldReservationRenderer />;
 
       case "guest-request":
-        return <GuestRequestPageRenderer />;
+        return (
+          <GuestRequestPageRenderer />
+        );
+
+      case "hall-reservation":
+        return (
+          <HallReservationRenderer />
+        );
 
       case "hotel-package":
         return <PackageRenderer />;
@@ -225,6 +236,11 @@ export default function HotelLayout() {
 
       case "overdue":
         return <ReservationPageRenderer />;
+
+      case "dayactivity/july-2026":
+        return (
+          <DayActivityRenderer />
+        );
 
       /*
       |--------------------------------------------------------------------------
