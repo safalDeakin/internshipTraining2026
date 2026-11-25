@@ -94,7 +94,6 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
   } | null>(null);
 
 
-
   // Get latest session
   const latestSession =
     organization?.id != null ? getLatestSession(organization.id) : undefined;

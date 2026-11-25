@@ -41,6 +41,7 @@ export default function RunPOSSession() {
                 closeOnEscape: false,
                 title: "Start Session",
                 showHeader: false,
+                width: 400,
                 content: (
                     <NewSessionModal
                         staffName={userName ?? "Unknown"}
@@ -67,6 +68,7 @@ export default function RunPOSSession() {
                 closeOnEscape: false,
                 closeOnBackdrop: false,
                 title: 'Continue Session',
+                width: 400,
                 content: <ContinueSession
                     session={session}
                     onCancel={() => {
@@ -93,6 +95,7 @@ export default function RunPOSSession() {
                     if (session != null) {
                         showDialog({
                             title: 'Exit Session',
+                            width: 400,
                             content:
                                 <ExitSessionModal
                                     session={session!}
