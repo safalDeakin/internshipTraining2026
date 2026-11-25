@@ -1,6 +1,5 @@
-import type { FoodCardProps } from "../types/OrderingTypes";
+import type { FoodCardProps } from "../../types/OrderingTypes";
 
-// author:shrajja
 const FoodCards = ({
   image,
   label,
@@ -11,20 +10,28 @@ const FoodCards = ({
 }: FoodCardProps) => {
   return (
     <div className="w-55">
-      {/* Food Card */}
-      <div
+      <button
+        type="button"
         onClick={onClick}
-        className={`w-full min-w-0 cursor-pointer overflow-hidden rounded-lg p-4 shadow-md transition ${isSelected ? "border border-gray-200" : "border border-gray-100 hover:shadow-lg"}`}
+        aria-pressed={isSelected}
+        className={`w-full min-w-0 cursor-pointer overflow-hidden rounded-lg p-4 text-left shadow-md transition ${
+          isSelected
+            ? "border border-gray-200"
+            : "border border-gray-100 hover:shadow-lg"
+        }`}
       >
         <img
           src={image || "/images.jpg"}
           alt={label}
           className="h-28 w-full rounded-md object-cover"
         />
+
         <div className="pt-2">
           <h3 className="truncate font-medium">{label}</h3>
+
           <p className="flex justify-between gap-2 text-xs">
             {date}
+
             <span
               className={
                 status === "N/A"
@@ -36,8 +43,9 @@ const FoodCards = ({
             </span>
           </p>
         </div>
-      </div>
+      </button>
     </div>
   );
 };
+
 export default FoodCards;

@@ -1,98 +1,53 @@
-import { useMemo, useState } from "react";
-import type { Invoicefilter, InvoiceLayoutProps } from "../types/InvoiceTypes";
-import { INVOICE_FILTERS, invoicingCards } from "../data/InvoiceData";
+import { X } from "lucide-react";
+
+import type { InvoiceLayoutProps } from "../../types/InvoiceTypes";
+
 import TwoPanelLayout from "../../shared/components/TwoPanelLayout";
 import InvoicingForm from "../forms/InvoicingForm";
 import InvoicingCards from "../cards/InvoicingCards";
-import { X } from "lucide-react";
 import SplitBillForm from "../forms/SplitBillForm";
 
+import useInvoicingLayout from "../../hooks/useInvoicingLayout";
+
 const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [activeType, setActiveType] = useState<Invoicefilter>("All");
-  const [search, setSearch] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
-  const [staff, setStaff] = useState("All");
+  const {
+    visibleCards,
+    selectedCards,
+    selectedIds,
+    loading,
 
-  const [showSplitBill, setShowSplitBill] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
-  const [receiptOpen, setReceiptOpen] = useState(false);
+    filters,
+    activeType,
+    setActiveType,
+    search,
+    setSearch,
+    handleSearch,
 
-  // Staff filter options
-  const staffOptions = useMemo(
-    () => Array.from(new Set(invoicingCards.map((card) => card.waiter))).sort(),
-    [],
-  );
+    toggleCard,
+    clearSelection,
 
-  // Filter invoice cards
-  const visibleCards = useMemo(() => {
-    const query = appliedSearch.trim().toLowerCase();
+    showSplitBill,
+    showPanel,
+    receiptOpen,
+    setReceiptOpen,
+    openSplitBill,
+    closeSplitBill,
 
-    return invoicingCards.filter((card) => {
-      const matchesType = activeType === "All" || card.type === activeType;
-
-      const matchesStaff = staff === "All" || card.waiter === staff;
-
-      const matchesSearch =
-        !query ||
-        card.name.toLowerCase().includes(query) ||
-        card.table.toLowerCase().includes(query);
-
-      return matchesType && matchesStaff && matchesSearch;
-    });
-  }, [activeType, staff, appliedSearch]);
-
-  // Get selected invoice cards
-  const selectedCards = useMemo(
-    () => invoicingCards.filter((card) => selectedIds.includes(card.id)),
-    [selectedIds],
-  );
-
-  // Select or deselect invoice cards
-  const toggleCard = (id: number) => {
-    setSelectedIds((previousIds) => {
-      if (previousIds.includes(id)) {
-        return previousIds.filter((selectedId) => selectedId !== id);
-      }
-
-      return [...previousIds, id];
-    });
-  };
-  // Open split bill panel
-  const openSplitBill = () => {
-    setShowSplitBill(true);
-
-    requestAnimationFrame(() => {
-      setShowPanel(true);
-    });
-  };
-
-  // Close split bill panel
-  const closeSplitBill = () => {
-    setShowPanel(false);
-
-    setTimeout(() => {
-      setShowSplitBill(false);
-      setReceiptOpen(false);
-    }, 300);
-  };
-
-  // Invoice card grid layout
-  const gridClasses =
-    selectedCards.length > 0
-      ? "grid grid-cols-2 gap-3 py-3 md:grid-cols-3 2xl:grid-cols-4"
-      : "grid grid-cols-2 gap-3 py-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5";
+    gridClasses,
+  } = useInvoicingLayout();
 
   return (
     <>
       <TwoPanelLayout
         panelWidth="400px"
-        filters={INVOICE_FILTERS}
+        filters={filters}
         activeFilter={activeType}
-        onFilterChange={(filter) => setActiveType(filter as Invoicefilter)}
+        onFilterChange={(filter: string) =>
+          setActiveType(filter as typeof activeType)
+        }
         search={search}
         onSearchChange={setSearch}
-        onSearch={() => setAppliedSearch(search)}
+        onSearch={handleSearch}
         searchPlaceholder="Name, Table"
         onHistoryClick={onTrackClick}
         panel={
@@ -100,7 +55,7 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
             <InvoicingForm
               customers={selectedCards}
               onRemove={toggleCard}
-              onClose={() => setSelectedIds([])}
+              onClose={clearSelection}
               onGenerate={(data) => console.log("Generate receipt:", data)}
               onSplit={openSplitBill}
             />
@@ -115,7 +70,11 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
               : ""
           }
         >
-          {visibleCards.length === 0 ? (
+          {loading ? (
+            <p className="py-10 text-center text-sm text-gray-400">
+              Loading billing records...
+            </p>
+          ) : visibleCards.length === 0 ? (
             <p className="py-10 text-center text-sm text-gray-400">
               No orders match your filters.
             </p>
@@ -158,7 +117,6 @@ const InvoicingLayout = ({ onTrackClick }: InvoiceLayoutProps) => {
                 : "top-0 h-full max-w-6xl"
             } ${showPanel ? "translate-x-0" : "translate-x-full"}`}
           >
-            {/* Close button - hidden when receipt is displayed */}
             {!receiptOpen && (
               <button
                 type="button"

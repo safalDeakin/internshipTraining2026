@@ -7,7 +7,6 @@ export type POSSessionMode =
   | "Manager Mode"
   | "Service and Technical Check";
 
-
 // 2. Session lifecycle status
 export type POSSessionStatus = "active" | "paused" | "ended";
 
@@ -82,7 +81,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export interface POSUserSessionProps {
   onExit?: () => void;
 
-
   onCancelStart?: () => void;
 
   sessionMode?: POSSessionMode;
@@ -127,16 +125,19 @@ export interface ReceiptFrameProps {
   onPrint?: () => void;
   onDownloadPDF?: () => void;
 }
+// 10. Order Cancel types
 
-// 10. KOT Cancel types
 export interface KOTCard {
-  id: number;
+  id: string;
   reference: string;
+  customerName: string;
+  phone: string;
+  table: string;
+  time: string;
   invoiceItems: {
     id: number;
     name: string;
     quantity: number;
-    amount: number;
   }[];
 }
 
@@ -144,7 +145,6 @@ export interface KOTItem {
   id: string;
   name: string;
   qty: number;
-  amount: number;
   reference: string;
 }
 

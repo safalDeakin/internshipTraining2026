@@ -1,5 +1,5 @@
 import ReceiptFrame from "../../shared/components/ReceiptFrame";
-import type { OrderReceiptProps, ReceiptItem } from "../types/OrderingTypes";
+import type { OrderReceiptProps, ReceiptItem } from "../../types/OrderingTypes";
 
 const OrderReceipt = ({
   restaurantName,

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import ReceiptFrame from "../../shared/components/ReceiptFrame";
-import type { SplitBillReceiptProps } from "../types/InvoiceTypes";
+import type { SplitBillReceiptProps } from "../../types/InvoiceTypes";
 
 const SMALL_SCROLLBAR =
   "[scrollbar-width:thin] [scrollbar-color:#d1d5db_transparent] " +
