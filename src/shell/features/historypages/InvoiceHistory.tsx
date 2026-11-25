@@ -53,6 +53,8 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
   /* ----------------------------- UI ----------------------------- */
 
+  /* ----------------------------- UI ----------------------------- */
+
   return (
     <div className="px-4 py-4">
       <HistoryHeader
@@ -95,8 +97,8 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                     type="button"
                     onClick={() => handleSelectInvoice(customer.id)}
                     className={`w-full rounded border px-3 py-2 text-left transition ${customer.id === selected?.id
-                        ? "border-blue-400 bg-blue-50"
-                        : "border-transparent hover:bg-gray-50"
+                      ? "border-blue-400 bg-blue-50"
+                      : "border-transparent hover:bg-gray-50"
                       }`}
                   >
                     <p className="text-xs font-medium text-gray-800">
@@ -148,8 +150,8 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                         type="button"
                         onClick={() => handleReferenceClick(card.reference)}
                         className={` px-3 py-2 text-xs transition ${activeReference?.id === card.id
-                            ? "border-blue-400 bg-blue-50 text-blue-700"
-                            : "border-gray-200 text-blue-600 hover:bg-gray-50"
+                          ? "border-blue-400 bg-blue-50 text-blue-700"
+                          : "border-gray-200 text-blue-600 hover:bg-gray-50"
                           }`}
                       >
                         {card.reference}

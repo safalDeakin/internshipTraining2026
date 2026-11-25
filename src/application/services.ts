@@ -43,18 +43,15 @@ import type { FoodItem, Order } from "../shell/types/OrderingTypes";
 import { foodItems, initialOrderData } from "../shell/constants/OrderData";
 import type { InvoiceCards } from "../shell/types/InvoiceTypes";
 import { invoicingCards } from "../shell/constants/InvoiceData";
-
-//ReportBuilder
 import type { ReportBuilder } from "../domain/ReportBuilder";
 import { ReportBuilderData } from "../pages/reports/data/reportBuilder.data";
-
-//HoldReservation(Pending)
 import type { ReservationRecord } from "../domain/holdReservation";
 import { HoldReservationRecords } from "../pages/hotel/pages/hold-reservation/data/holdReservation.data";
 import type { HallReservation } from "../domain/hallReservation";
 import { hallReservations } from "../pages/hotel/pages/hall-reservation/data/hallReservation.data";
-import type { Building, DayActivity } from "../domain/dayActivity";
+import type { DayActivity } from "../domain/dayActivity";
 import { dayActivity } from "../pages/hotel/pages/day-activity/data/dayActivity.data";
+
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
