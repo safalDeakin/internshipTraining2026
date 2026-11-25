@@ -3,11 +3,17 @@ import { Minus, Plus, Trash2, ChevronDown } from "lucide-react";
 
 import LoadingOverlay from "../../shared/components/LoadingOverlay";
 import ReusableButton from "../../shared/components/ReusableButton";
-import PhoneInput from "../../shared/components/PhoneInput";
+import FormFrame from "../../shared/components/FormFrame";
 
 import OrderReceipt from "../receipts/OrderReceipt";
-import type { OrderFormProps, OrderSectionProps } from "../types/OrderingTypes";
-import FormFrame from "../../shared/components/FormFrame";
+
+import type {
+  Order,
+  OrderFormProps,
+  OrderSectionProps,
+} from "../../types/OrderingTypes";
+
+import { useOrdering } from "../../context/OrderingProvider";
 
 // Order section component
 const OrderSection = ({
@@ -40,7 +46,6 @@ const OrderSection = ({
           return (
             <div key={item.id} className="p-3">
               <div className="flex items-center gap-3">
-                {/* Quantity controls */}
                 <div className="flex shrink-0 items-center gap-1">
                   <button
                     type="button"
@@ -65,12 +70,10 @@ const OrderSection = ({
                   </button>
                 </div>
 
-                {/* Item name */}
                 <p className="min-w-0 flex-1 truncate text-sm font-bold">
                   {item.label.trim()}
                 </p>
 
-                {/* Expand notes */}
                 <button
                   type="button"
                   onClick={() => toggleExpand(item.id)}
@@ -80,11 +83,12 @@ const OrderSection = ({
                 >
                   <ChevronDown
                     size={16}
-                    className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                    className={`transition-transform ${
+                      expanded ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
 
-                {/* Remove item */}
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
@@ -95,7 +99,6 @@ const OrderSection = ({
                 </button>
               </div>
 
-              {/* Notes area */}
               {expanded && (
                 <div className="mt-3 border-t border-gray-200 pt-5">
                   <label
@@ -131,7 +134,6 @@ const OrderSection = ({
                 </div>
               )}
 
-              {/* Saved notes */}
               {!expanded && notes[item.id]?.trim() && (
                 <p className="mt-2 truncate text-xs text-gray-500">
                   Notes: {notes[item.id]}
@@ -153,23 +155,66 @@ const OrderForm = ({
   onChangeQty,
   onRemove,
   onClose,
+  onOrderSuccess,
 }: OrderFormProps) => {
+  const { createOrder } = useOrdering();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const [customerName, setCustomerName] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
+
+  const [receiptData, setReceiptData] = useState<{
+    orderNo: string;
+    createdAt: string;
+    customerName: string;
+    phone: string;
+    location: string;
+    kotItems: typeof kotItems;
+    botItems: typeof botItems;
+  } | null>(null);
 
   const handleSubmit = async () => {
     if (orderedItems.length === 0 || isSubmitting) return;
 
     setIsSubmitting(true);
 
-    try {
-      // Replace with your actual API request.
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    const orderNo = `ORD-${Date.now()}`;
+    const createdAt = new Date().toISOString();
 
+    // Create the object matching the current Order interface
+    const newOrder: Order = {
+      id: orderNo,
+      orderNo,
+      customerName: customerName.trim() || "Walk-in Customer",
+      phone,
+      referenceNumber,
+      location,
+      waiter: "Current Staff",
+      table: location || "N/A",
+      items: orderedItems.map((item) => ({ ...item })),
+      status: "Pending",
+      createdAt,
+    };
+
+    try {
+      await createOrder(newOrder);
+
+      // Save a snapshot for the receipt before clearing the cart
+      setReceiptData({
+        orderNo,
+        createdAt,
+        customerName: newOrder.customerName,
+        phone,
+        location,
+        kotItems: [...kotItems],
+        botItems: [...botItems],
+      });
+
+      onOrderSuccess();
       setSubmitted(true);
     } catch (error) {
       console.error("Failed to submit order:", error);
@@ -178,20 +223,19 @@ const OrderForm = ({
     }
   };
 
-  // Show receipt after successful submission.
-  if (submitted) {
+  if (submitted && receiptData) {
     return (
       <OrderReceipt
         restaurantName="VIP Restaurant"
         address="Banepa-07, Kavre"
         restaurantPhone="01-661234"
-        orderNo="INN_55"
-        date="04-02-2026"
-        customerName={customerName || "ram"}
-        phone=""
-        location={location || "Banepa"}
-        kotItems={kotItems}
-        botItems={botItems}
+        orderNo={receiptData.orderNo}
+        date={new Date(receiptData.createdAt).toLocaleString()}
+        customerName={receiptData.customerName}
+        phone={receiptData.phone}
+        location={receiptData.location || "Banepa"}
+        kotItems={receiptData.kotItems}
+        botItems={receiptData.botItems}
         onDownloadPDF={() => {
           // Connect PDF generation here.
         }}
@@ -222,18 +266,16 @@ const OrderForm = ({
         }}
         className="flex flex-col gap-5"
       >
-        {/* Customer name */}
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">Particular</label>
           <input
             value={customerName}
             onChange={(event) => setCustomerName(event.target.value)}
             placeholder="Full Name"
-            className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+            className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500"
           />
         </div>
 
-        {/* Reference and phone */}
         <div className="grid grid-cols-[1fr_1.6fr] gap-3">
           <div className="flex min-w-0 flex-col gap-1">
             <label className="text-sm font-medium">Reference Number</label>
@@ -241,28 +283,31 @@ const OrderForm = ({
               value={referenceNumber}
               onChange={(event) => setReferenceNumber(event.target.value)}
               placeholder="000-123-999"
-              className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+              className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500"
             />
           </div>
 
           <div className="flex min-w-0 flex-col gap-1">
             <label className="text-sm font-medium">Mobile Number</label>
-            <PhoneInput />
+            <input
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              placeholder="Mobile number"
+              className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500"
+            />
           </div>
         </div>
 
-        {/* Location */}
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">Location</label>
           <input
             value={location}
             onChange={(event) => setLocation(event.target.value)}
             placeholder="Enter location"
-            className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+            className="h-9 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-blue-500"
           />
         </div>
 
-        {/* KOT and BOT */}
         <div className="flex flex-col gap-3">
           {orderedItems.length === 0 ? (
             <>

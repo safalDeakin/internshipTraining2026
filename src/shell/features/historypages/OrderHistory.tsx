@@ -1,15 +1,14 @@
-import { useState } from "react";
 import type {
-  OrderCardData,
   OrderHistoryProps,
   ReusableDropdownProps,
-} from "../types/OrderingTypes";
-import { historyItems } from "../data/OrderData";
+} from "../../types/OrderingTypes";
+
 import HistoryHeader from "../../shared/history/HistoryHeader";
 import OrderCardGrid from "../cards/OrderCardGrid";
 import TableView from "../../shared/history/TableView";
 
-// Reusable dropdown
+import useOrderHistory from "../../hooks/useOrderHistory";
+
 export const ReusableDropdown = ({
   placeholder,
   options,
@@ -19,7 +18,7 @@ export const ReusableDropdown = ({
   return (
     <select
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(event) => onChange(event.target.value)}
       className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
     >
       <option value="">{placeholder}</option>
@@ -34,145 +33,116 @@ export const ReusableDropdown = ({
 };
 
 const OrderHistory = ({ onBack }: OrderHistoryProps) => {
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
-  const [customerName, setCustomerName] = useState("");
-  const [receiptNumber, setReceiptNumber] = useState("");
-  const [orderId, setOrderId] = useState("");
-
-  const [appliedFilters, setAppliedFilters] = useState({
-    invoiceNumber: "",
-    customerName: "",
-    receiptNumber: "",
-    orderId: "",
-  });
-
-  // Filter history when Go is clicked
-  const filteredItems = historyItems.filter((item) => {
-    return (
-      (!appliedFilters.invoiceNumber ||
-        item.reference === appliedFilters.invoiceNumber) &&
-      (!appliedFilters.customerName ||
-        item.name === appliedFilters.customerName) &&
-      (!appliedFilters.receiptNumber ||
-        item.number === appliedFilters.receiptNumber) &&
-      (!appliedFilters.orderId || item.table === appliedFilters.orderId)
-    );
-  });
-
-  // Map history items to the shape OrderCardGrid expects
-  const orderCards: OrderCardData[] = filteredItems.map((item, index) => ({
-    id: index + 1,
-    type: item.type,
-    reference: item.reference,
-    phone: item.number,
-    waiter: `Waiter No ${item.waiter}`,
-    customerName: item.name,
-    table: `Table No:${item.table}`,
-    time: item.time,
-    invoiceItems: item.invoiceItems,
-  }));
+  const {
+    loading,
+    viewMode,
+    setViewMode,
+    invoiceNumber,
+    setInvoiceNumber,
+    customerName,
+    setCustomerName,
+    receiptNumber,
+    setReceiptNumber,
+    orderId,
+    setOrderId,
+    invoiceOptions,
+    customerOptions,
+    orderIdOptions,
+    receiptOptions,
+    filteredItems,
+    orderCards,
+    applyFilters,
+  } = useOrderHistory();
 
   const summary = [
-    { label: "Total Invoices", value: "8" },
-    { label: "Total Amount", value: "Rs 120000" },
-    { label: "Received Amount", value: "Rs 25000" },
-    { label: "Due Amount", value: "Rs 25000" },
-    { label: "Total Paid", value: "Rs 25000" },
+    { label: "Total Orders", value: String(filteredItems.length) },
+    { label: "Total Amount", value: "Not available" },
+    { label: "Received Amount", value: "Not available" },
+    { label: "Due Amount", value: "Not available" },
+    { label: "Total Paid", value: "Not available" },
   ];
 
   const columns = [
-    { key: "receiptNo", label: "Receipt No" },
-    { key: "invoiceNumber", label: "Invoice Number" },
-    { key: "customer", label: "Customer" },
-    { key: "contact", label: "Contact" },
-    { key: "date", label: "Date" },
-    { key: "references", label: "Reference Number" },
-    { key: "type", label: "Type" },
-    { key: "subTotal", label: "Sub total" },
-    { key: "totalAmount", label: "Total Amount" },
+    { key: "reference", label: "Order Number" },
+    { key: "customerName", label: "Customer" },
+    { key: "phone", label: "Contact" },
+    { key: "waiter", label: "Waiter" },
+    { key: "table", label: "Table" },
+    { key: "time", label: "Date" },
+    { key: "itemCount", label: "Items" },
+    { key: "status", label: "Status" },
   ];
 
-  const rows = Array.from({ length: 5 }, () => ({
-    receiptNo: "#R_555",
-    invoiceNumber: "INV_555",
-    customer: "Ram",
-    contact: "9876543210",
-    date: "2024-12-23",
-    references: (
-      <>
-        <div>KOT#125</div>
-        <div>BOT#125</div>
-      </>
+  const rows = filteredItems.map((order) => ({
+    reference: order.reference,
+    customerName: order.customerName,
+    phone: order.phone,
+    waiter: order.waiter,
+    table: order.table,
+    time: order.time,
+    itemCount: order.invoiceItems.reduce(
+      (total, item) => total + item.quantity,
+      0,
     ),
-    type: "Cheque",
-    subTotal: "Rs 800",
-    totalAmount: "Rs 832.35",
+    status: "Order",
   }));
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-5">
-      {/* Top bar: Back arrow and view toggle */}
       <HistoryHeader
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         onBack={onBack}
       />
 
-      {/* Filters */}
       <div className="flex w-full min-w-0 flex-wrap items-end justify-end gap-2 px-5">
         <ReusableDropdown
-          placeholder="Invoice number"
-          options={historyItems.map((item) => item.reference)}
+          placeholder="Reference number"
+          options={invoiceOptions}
           value={invoiceNumber}
           onChange={setInvoiceNumber}
         />
 
         <ReusableDropdown
           placeholder="Customer name"
-          options={[...new Set(historyItems.map((item) => item.name))]}
+          options={customerOptions}
           value={customerName}
           onChange={setCustomerName}
         />
 
         <ReusableDropdown
           placeholder="Order ID"
-          options={[...new Set(historyItems.map((item) => item.table))]}
+          options={orderIdOptions}
           value={orderId}
           onChange={setOrderId}
         />
 
         <ReusableDropdown
           placeholder="Receipt number"
-          options={[...new Set(historyItems.map((item) => item.number))]}
+          options={receiptOptions}
           value={receiptNumber}
           onChange={setReceiptNumber}
         />
 
         <button
           type="button"
-          onClick={() =>
-            setAppliedFilters({
-              invoiceNumber,
-              customerName,
-              receiptNumber,
-              orderId,
-            })
-          }
+          onClick={applyFilters}
           className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Go
         </button>
       </div>
 
-      {/* History content changes according to selected view */}
       <main className="w-full min-w-0 px-5 pb-5">
-        {filteredItems.length === 0 ? (
+        {loading ? (
+          <p className="py-10 text-center text-sm text-gray-500">
+            Loading order history...
+          </p>
+        ) : filteredItems.length === 0 ? (
           <p className="py-10 text-center text-sm text-gray-500">
             No history found.
           </p>
         ) : viewMode === "grid" ? (
-          // Clicking Cancel on a card opens KOTCancelForm inside OrderCardGrid
           <OrderCardGrid
             orders={orderCards}
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"

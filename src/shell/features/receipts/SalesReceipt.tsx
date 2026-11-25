@@ -1,5 +1,5 @@
 import ReceiptFrame from "../../shared/components/ReceiptFrame";
-import type { SalesReceiptProps } from "../types/InvoiceTypes";
+import type { SalesReceiptProps } from "../../types/InvoiceTypes";
 
 const SalesReceipt = ({ invoice }: SalesReceiptProps) => {
   const today = new Date().toLocaleDateString("en-GB");

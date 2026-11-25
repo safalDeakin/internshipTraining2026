@@ -39,6 +39,10 @@ import { guestRequests } from "../pages/hotel/pages/guest-request/data/guestRequ
 import { initialPOSOverview } from "../shell/pos-overviewPage/data/pos.overview.data";
 import type { POSSession } from "../shell/types/posSessionTypes";
 import { posInitialData } from "../shell/constants/posInitialData";
+import type { FoodItem, Order } from "../shell/types/OrderingTypes";
+import { foodItems, initialOrderData } from "../shell/constants/OrderData";
+import type { InvoiceCards } from "../shell/types/InvoiceTypes";
+import { invoicingCards } from "../shell/constants/InvoiceData";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -171,7 +175,7 @@ export const posOverviewQueryService = new QueryService<POSOverview, string>(
 export const posOverviewCmdService = new CommandService<POSOverview, string>(
   POSOverviewRepo,
 );
-// Offer Repository -----------1st---------
+// Offer Repository -----------1st---------S
 const OfferRepo = new Repository<OfferType, string>({
   sourceType: "InMemoryLocal",
   domain: "Offer",
@@ -185,7 +189,7 @@ const OfferRepo = new Repository<OfferType, string>({
 export const OfferQueryService = new QueryService<OfferType, string>(OfferRepo);
 export const OfferCmdService = new CommandService<OfferType, string>(OfferRepo);
 
-// Products
+// Products------------------2nd S
 const ProductRepo = new Repository<ProductType, string>({
   sourceType: "InMemoryLocal",
   domain: "Product",
@@ -204,7 +208,7 @@ export const ProductCmdService = new CommandService<ProductType, string>(
   ProductRepo,
 );
 
-// Pricelist Repository
+// Pricelist Repository---------------3rdS
 const PricelistRepo = new Repository<PricelistType, string>({
   sourceType: "InMemoryLocal",
   domain: "Product",
@@ -243,7 +247,7 @@ export const guestRequestCmdService = new CommandService<GuestRequest, string>(
   GuestRequestRepo,
 );
 
-// POS User Session Repository
+// POS User Session Repository-----------4th S
 //manages session records.
 const POSSessionRepo = new Repository<POSSession, string>({
   sourceType: "InMemoryLocal",
@@ -265,4 +269,66 @@ export const POSSessionQueryService = new QueryService<POSSession, string>(
 //modifies sesion record
 export const POSSessionCmdService = new CommandService<POSSession, string>(
   POSSessionRepo,
+);
+
+//Ordering repository--------5th S
+// 1. Food Item Repository
+//stores the restaurant menu.
+const FoodItemRepo = new Repository<FoodItem, string>({
+  sourceType: "InMemoryLocal",
+  domain: "FoodItem",
+  tenantId: "MySpace1234",
+  getId: (entity: FoodItem) => String(entity.id),
+  initialData: foodItems,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+// Food Item Query Service
+export const FoodItemQueryService = new QueryService<FoodItem, string>(
+  FoodItemRepo,
+);
+
+// 2. Order Repository
+//stores customer orders and their history.
+const OrderRepo = new Repository<Order, string>({
+  sourceType: "InMemoryLocal",
+  domain: "Order",
+  tenantId: "MySpace1234",
+
+  getId: (entity: Order) => entity.id,
+  initialData: initialOrderData,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+// Order Query Service
+export const OrderQueryService = new QueryService<Order, string>(OrderRepo);
+
+// Order Command Service
+export const OrderCmdService = new CommandService<Order, string>(OrderRepo);
+
+// ================= BILLING REPOSITORY =================
+
+// Invoicing Card Repository
+// Shared by Invoicing and Invoice History.
+
+const InvoicingCardRepo = new Repository<InvoiceCards, string>({
+  sourceType: "InMemoryLocal",
+  domain: "InvoicingCard",
+  tenantId: "MySpace1234",
+  getId: (entity: InvoiceCards) => String(entity.id),
+  initialData: invoicingCards,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+// Query Service
+export const InvoicingCardQueryService = new QueryService<InvoiceCards, string>(
+  InvoicingCardRepo,
+);
+
+// Command Service
+export const InvoicingCardCmdService = new CommandService<InvoiceCards, string>(
+  InvoicingCardRepo,
 );

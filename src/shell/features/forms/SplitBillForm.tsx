@@ -8,7 +8,7 @@ import type {
   BillItem,
   ReceiptBill,
   SplitBillFormProps,
-} from "../types/InvoiceTypes";
+} from "../../types/InvoiceTypes";
 import SplitBillReceipt from "../receipts/SplitBillReceipt";
 import KOTCancelForm from "../../shared/components/KOTCancelForm";
 
