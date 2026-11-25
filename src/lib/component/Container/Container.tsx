@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-// import './style.css';
+// import "./style.css";
 
 type Type = "clickable" | "popup" | "main" | "box";
 

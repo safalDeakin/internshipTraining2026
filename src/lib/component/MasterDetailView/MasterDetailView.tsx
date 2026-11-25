@@ -1,6 +1,6 @@
 import { ListSection } from "./component/ListSection";
 import { useEffect, useState, type ReactNode } from "react";
-import "./component/style.css";
+// import "./component/style.css";
 
 type MasterDetailsProps<T extends object, ID> = {
   items: T[];

@@ -16,6 +16,7 @@ import PickupDetails from "./vehicle-request/PickupDetails";
 import RoomServiceRequestForm from "../../dropdown/modal/RoomServiceRequestForm";
 import ReusableButton from "../../../../shell/shared/components/ReusableButton";
 import PickupRequestForm from "../../dropdown/modal/PickupRequestForm";
+import Scrollable from "../../../../lib/component/scrollable/Scrollable";
 
 /* ---------------- Request Type Selection ---------------- */
 
@@ -75,7 +76,9 @@ function GuestRequestMasterDetailView() {
       <div className="w-full min-w-0">
         <GuestRequestToolbar request={request} posted={false} />
         <div className="p-1" />
-        <RequestDetails request={request} />
+        <Scrollable direction="y">
+          <RequestDetails request={request} />
+        </Scrollable>
       </div>
     );
   };

@@ -1,53 +1,235 @@
 // author: shrajja
 
-import type { ReactNode } from "react";
-import { Clock, Download, FileText, SquarePen } from "lucide-react";
+import { useMemo, useState, type ReactNode } from "react";
+import {
+  Download,
+  FileText,
+  SquarePen,
+  Plus,
+  ListFilter,
+  Search,
+} from "lucide-react";
 
-import type { InfoRow, OfferType, Stat } from "../../types/DropdownTypes";
+import type {
+  InfoRow,
+  OfferType,
+  ApplicableOfferItem,
+} from "../../types/DropdownTypes";
+
 import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Container from "../../../../../lib/component/Container/Container";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
+// ------------------------------------------
 // Section Title
+// ------------------------------------------
+
 const SectionTitle = ({ children }: { children: ReactNode }) => (
-  <h3 className="mb-3 font-semibold ">{children}</h3>
+  <h3 className="mb-4 font-semibold text-gray-800">{children}</h3>
 );
 
+// ------------------------------------------
 // Information List
+// ------------------------------------------
+
 const InfoList = ({ rows }: { rows: InfoRow[] }) => (
-  <div className="space-y-3 ">
+  <div className="space-y-3">
     {rows.map((row) => (
-      <p key={row.label} className="text-gray-600">
-        {row.label}: <span className="text-black">{row.value}</span>
+      <p key={row.label} className="text-sm text-gray-600">
+        {row.label}:{" "}
+        <span className="font-medium text-gray-900">{row.value}</span>
       </p>
     ))}
   </div>
 );
 
-// Statistics Column
-const StatColumn = ({ stats }: { stats: Stat[] }) => (
-  <div className="flex-1 space-y-3 ">
-    {stats.map((stat) => (
-      <div key={stat.label} className="flex items-center justify-between gap-3">
-        <span className="text-gray-500">{stat.label}</span>
-        <span className="text-gray-900">{stat.value}</span>
-      </div>
-    ))}
-  </div>
+// ------------------------------------------
+// Offer Information
+// ------------------------------------------
+
+const OfferInformation = ({ offer }: { offer: OfferType }) => (
+  <section className="rounded-lg border border-gray-200 bg-white p-5">
+    <SectionTitle>Offer Information</SectionTitle>
+
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <InfoList rows={offer.leftInfo ?? []} />
+      <InfoList rows={offer.rightInfo ?? []} />
+    </div>
+  </section>
 );
 
-// Offer Details Page
-interface OffersDetailsProps {
-  offer: OfferType;
+// ------------------------------------------
+// Usage Limit
+// ------------------------------------------
+
+const UsageLimit = ({ offer }: { offer: OfferType }) => (
+  <section className="rounded-lg border border-gray-200 bg-white p-5">
+    <SectionTitle>Usage Limit</SectionTitle>
+
+    <InfoList rows={offer.usageLimits ?? []} />
+  </section>
+);
+
+// ------------------------------------------
+// Applicable Item Table
+// ------------------------------------------
+
+interface ApplicableItemTableProps {
+  items: ApplicableOfferItem[];
+  onAddItem?: () => void;
 }
 
-const OffersDetails = ({ offer }: OffersDetailsProps) => {
+const ApplicableItemTable = ({
+  items,
+  onAddItem,
+}: ApplicableItemTableProps) => {
+  const [search, setSearch] = useState("");
+
+  // Filter applicable items
+  const filteredItems = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    if (!query) return items;
+
+    return items.filter(
+      (item) =>
+        item.itemName.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query),
+    );
+  }, [items, search]);
+
   return (
-    <div className="w-full">
+    <section className=" rounded-lg border border-gray-200 bg-white">
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 p-4">
+        <div className="flex items-center gap-2">
+          <ListFilter size={17} className="text-gray-600" />
+
+          <h3 className="font-semibold text-gray-800">Applicable Item</h3>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Search */}
+          <div className="relative">
+            <Search
+              size={14}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+
+            <input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-36 rounded-md border border-gray-300 py-2 pl-9 pr-3 text-sm outline-none focus:border-blue-500"
+            />
+          </div>
+
+          {/* Add Item */}
+          <button
+            type="button"
+            onClick={onAddItem}
+            disabled={!onAddItem}
+            className="flex items-center gap-1 rounded-md border border-blue-200 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Plus size={14} />
+            Add Item
+          </button>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="">
+        <table className="w-full min-w-[750px] text-sm">
+          <thead className="bg-gray-50 text-gray-500">
+            <tr>
+              <th className="px-4 py-3 text-left font-medium">S.N</th>
+
+              <th className="px-4 py-3 text-left font-medium">Item Name</th>
+
+              <th className="px-4 py-3 text-left font-medium">Category</th>
+
+              <th className="px-4 py-3 text-center font-medium">
+                Mini Qty Order
+              </th>
+
+              <th className="px-4 py-3 text-center font-medium">Cash Back %</th>
+
+              <th className="px-4 py-3 text-center font-medium">
+                Cash Back Amt
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className="border-t border-gray-200 hover:bg-gray-50"
+                >
+                  <td className="px-4 py-3 text-blue-600">{index + 1}</td>
+
+                  <td className="px-4 py-3 text-blue-600">{item.itemName}</td>
+
+                  <td className="px-4 py-3 text-gray-700">{item.category}</td>
+
+                  <td className="px-4 py-3 text-center">{item.minQtyOrder}</td>
+
+                  <td className="px-4 py-3 text-center">
+                    {item.cashBackPercent}%
+                  </td>
+
+                  <td className="px-4 py-3 text-center">
+                    {item.cashBackAmount}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                  No applicable items found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+};
+
+// ------------------------------------------
+// Offer Details Props
+// ------------------------------------------
+
+interface OffersDetailsProps {
+  offer: OfferType;
+
+  onAddItem?: (offer: OfferType) => void;
+  onEdit?: (offer: OfferType) => void;
+  onExportCSV?: (offer: OfferType) => void;
+  onDownloadPDF?: (offer: OfferType) => void;
+}
+
+// ------------------------------------------
+// Offer Details Page
+// ------------------------------------------
+
+const OffersDetails = ({
+  offer,
+  onAddItem,
+  onEdit,
+  onExportCSV,
+  onDownloadPDF,
+}: OffersDetailsProps) => {
+  return (
+    <>
       {/* Header */}
       <Toolbar
         left={
-          <h1 className="font-semibold">
+          <h1 className="font-semibold text-gray-800">
             {offer.name}{" "}
             <span className="font-normal text-gray-500">({offer.code})</span>
           </h1>
@@ -58,7 +240,7 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
               variant="outline"
               size="sm"
               icon={<Download size={13} />}
-              onClick={() => console.log("Export CSV")}
+              onClick={() => onExportCSV?.(offer)}
             >
               Export CSV
             </ReusableButton>
@@ -67,7 +249,7 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
               variant="outline"
               size="sm"
               icon={<FileText size={13} />}
-              onClick={() => console.log("Download PDF")}
+              onClick={() => onDownloadPDF?.(offer)}
             >
               Download PDF
             </ReusableButton>
@@ -76,7 +258,7 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
               variant="outline"
               size="sm"
               icon={<SquarePen size={13} />}
-              onClick={() => console.log("Edit item settings")}
+              onClick={() => onEdit?.(offer)}
             >
               Edit Item Settings
             </ReusableButton>
@@ -84,82 +266,20 @@ const OffersDetails = ({ offer }: OffersDetailsProps) => {
         }
       />
 
-      {/* Offer Information */}
+      {/* Details */}
       <Container type="box" background="surface-default">
-        <section className=" rounded-lg border border-gray-200 bg-white p-2">
-          <SectionTitle>Offer Information</SectionTitle>
+        <div className="flex min-w-0 flex-col gap-5">
+          <OfferInformation offer={offer} />
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <InfoList rows={offer.leftInfo ?? []} />
-            <InfoList rows={offer.rightInfo ?? []} />
-          </div>
-        </section>
+          <UsageLimit offer={offer} />
 
-        {/* Overview */}
-        <section className="mt-6">
-          <h2 className="mb-3 font-semibold">Overview</h2>
-
-          <div className="grid grid-cols-1 gap-6 rounded-lg border border-gray-200 bg-white p-2 md:grid-cols-2">
-            {/* POS Shifts */}
-            <div>
-              <p className="mb-3 border-b border-gray-100 text-sm font-bold">
-                POS Shifts
-              </p>
-
-              <div className="flex gap-6">
-                {offer.posShifts?.map((column: any, index: any) => (
-                  <StatColumn key={index} stats={column} />
-                ))}
-              </div>
-            </div>
-
-            {/* Sales */}
-            <div className="md:pl-6">
-              <p className="mb-3 border-b border-gray-100 text-sm font-bold">
-                Sales
-              </p>
-
-              <div className="flex gap-6">
-                {offer.sales?.map((column: any, index: any) => (
-                  <StatColumn key={index} stats={column} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Shortcut Actions */}
-        <section className="mt-6">
-          <h2 className="mb-3 font-semibold">Shortcuts Actions</h2>
-
-          <div className="relative grid grid-cols-2 gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:grid-cols-4">
-            {offer.shortcuts?.map((shortcut: any) => (
-              <button
-                key={shortcut.label}
-                type="button"
-                className="relative flex h-14 items-center justify-center rounded-md bg-white px-4 text-[11px] font-medium text-gray-700 shadow-sm ring-1 ring-gray-100 hover:bg-gray-50"
-              >
-                <span
-                  className={`absolute bottom-2 left-0 top-2 w-1 rounded-r ${shortcut.color}`}
-                />
-                {shortcut.label}
-              </button>
-            ))}
-
-            <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-white">
-              <Clock size={12} />
-            </span>
-          </div>
-        </section>
-
-        {/* Usage Limits */}
-        <section className="mt-6 rounded-lg border border-gray-200 bg-white p-5">
-          <SectionTitle>Usage Limit</SectionTitle>
-
-          <InfoList rows={offer.usageLimits ?? []} />
-        </section>
+          <ApplicableItemTable
+            items={offer.applicableItems ?? []}
+            onAddItem={onAddItem ? () => onAddItem(offer) : undefined}
+          />
+        </div>
       </Container>
-    </div>
+    </>
   );
 };
 

@@ -28,7 +28,7 @@ const BillingDetails = ({
   );
 
   return (
-    <div className="w-full ">
+    <>
       {/* HEADER TOOLBAR */}
 
       <Toolbar
@@ -181,7 +181,7 @@ const BillingDetails = ({
           Receive Payment
         </ReusableButton>
       </div>
-    </div>
+    </>
   );
 };
 

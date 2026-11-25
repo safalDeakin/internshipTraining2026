@@ -11,6 +11,7 @@ import ProductFormModal, {
   type ProductFormData,
 } from "../../../modal/dropdown/ProductFormModal";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 const getVariants = (attributes: string[][]) => {
   if (!attributes.length) return [];
@@ -32,7 +33,11 @@ const Products = () => {
 
     const variants = product ? getVariants(product.attributes) : [];
 
-    return <FnBDetails product={product} variants={variants} />;
+    return (
+      <Scrollable direction="y">
+        <FnBDetails product={product} variants={variants} />
+      </Scrollable>
+    );
   };
 
   // Handle product submission

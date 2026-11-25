@@ -8,6 +8,7 @@ import Container from "../../../../lib/component/Container/Container";
 import TransportationDetails from "./TransportationDetails";
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 import VehicleAddModal from "../modal/VehicleAddModal";
+import Scrollable from "../../../../lib/component/scrollable/Scrollable";
 
 export interface Vehicle {
   id: number;
@@ -155,12 +156,14 @@ const TransportationLayout = () => {
         if (!selectedVehicle) return null;
 
         return (
-          <Container type="main" background="surface-default">
-            <TransportationDetails
-              vehicle={selectedVehicle}
-              onEdit={() => handleEditVehicle(selectedVehicle)}
-            />
-          </Container>
+          <Scrollable direction="y">
+            <Container type="main" background="surface-default">
+              <TransportationDetails
+                vehicle={selectedVehicle}
+                onEdit={() => handleEditVehicle(selectedVehicle)}
+              />
+            </Container>
+          </Scrollable>
         );
       }}
     />

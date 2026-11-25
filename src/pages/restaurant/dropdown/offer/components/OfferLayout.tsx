@@ -10,18 +10,22 @@ import OffersDetails from "./OffersDetails";
 import OfferAddModal, {
   type OfferFormData,
 } from "../../../modal/dropdown/OfferAddModal";
+
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 const OfferLayout = () => {
-  const { filteredOffers, loading, search, setSearch } = useOffer();
+  const { filteredOffers, loading, search, setSearch, addOffer } = useOffer();
 
   const { showDialog, closeDialog } = useDialogBox();
 
   // Handle offer submission
-  const handleOfferSubmit = (data: OfferFormData) => {
+  const handleOfferSubmit = async (data: OfferFormData) => {
+    // Map form data to your complete OfferType structure
     console.log("Registered Offer:", data);
 
-    // TODO: Call offer registration context/API here.
+    // TODO: Map OfferFormData to Omit<OfferType, "id">
+    // before calling addOffer.
   };
 
   // Open Create Offer Dialog
@@ -47,7 +51,7 @@ const OfferLayout = () => {
     });
 
     if (result) {
-      handleOfferSubmit(result);
+      await handleOfferSubmit(result);
     }
   };
 
@@ -72,13 +76,17 @@ const OfferLayout = () => {
           return <p className="p-5 text-sm text-gray-500">Offer not found.</p>;
         }
 
-        return <OffersDetails offer={selectedOffer} />;
+        return (
+          <Scrollable direction="y">
+            <OffersDetails offer={selectedOffer} />
+          </Scrollable>
+        );
       }}
       headerChildren={
         <button
           type="button"
           onClick={handleAddOffer}
-          className="p-2 rounded-md text-blue-600 border border-gray-300 hover:bg-gray-100"
+          className="rounded-md border border-gray-300 p-2 text-blue-600 hover:bg-gray-100"
           title="Add Offer"
         >
           <Plus size={18} />

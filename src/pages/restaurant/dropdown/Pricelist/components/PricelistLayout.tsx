@@ -10,6 +10,7 @@ import PricelistAddModal, {
   type PricelistFormData,
 } from "../../../modal/dropdown/PricelistAddModal";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 const PricelistLayout = () => {
   const { filteredPricelists, loading, search, setSearch } = usePricelist();
@@ -71,7 +72,11 @@ const PricelistLayout = () => {
           );
         }
 
-        return <PricelistDetails pricelist={selectedPricelist} />;
+        return (
+          <Scrollable direction="y">
+            <PricelistDetails pricelist={selectedPricelist} />
+          </Scrollable>
+        );
       }}
       headerChildren={
         <button

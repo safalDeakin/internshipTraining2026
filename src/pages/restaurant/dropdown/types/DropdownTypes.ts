@@ -3,6 +3,31 @@ export interface InfoRow {
   value: string | number;
 }
 
+export interface ApplicableOfferItem {
+  id: number;
+  itemName: string;
+  category: string;
+  minQtyOrder: number;
+  cashBackPercent: number;
+  cashBackAmount: number;
+}
+
+export interface OfferType {
+  id: number;
+  name: string;
+  code: string;
+
+  // Offer Information
+  leftInfo: InfoRow[];
+  rightInfo: InfoRow[];
+
+  // Usage Limit
+  usageLimits: InfoRow[];
+
+  // Applicable Items
+  applicableItems: ApplicableOfferItem[];
+}
+
 export interface Stat {
   label: string;
   value: string | number;
@@ -13,21 +38,6 @@ export interface Shortcut {
   color: string; // tailwind bg class for the accent bar
   onClick?: () => void;
 }
-
-export type OfferType = {
-  id: number;
-  name: string;
-  code?: string;
-  leftInfo?: InfoRow[];
-  rightInfo?: InfoRow[];
-  posShifts?: Stat[][];
-  sales?: Stat[][];
-  shortcuts?: {
-    label: string;
-    color: string;
-  }[];
-  usageLimits?: InfoRow[];
-};
 
 export interface OfferDetailsProps {
   title: string;
