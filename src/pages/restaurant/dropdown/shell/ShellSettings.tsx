@@ -1,3 +1,5 @@
+// author: shrajja
+
 import type { ReactNode } from "react";
 import { ArrowRight, Monitor, Pencil } from "lucide-react";
 import ReusableButton from "../../../../shell/shared/components/ReusableButton";
@@ -24,24 +26,19 @@ const store = {
   payPeriod: "Monthly",
 };
 
+// Billing and Tax Settings
 const salesColumns: [SettingsColumn, SettingsColumn] = [
   {
     title: "Billing",
     items: [
       { label: "Active PriceList", value: "March 2024 - #123" },
       { label: "Pricing Mode", value: "Tax Inclusive" },
-      { label: "Invoice Rounding", value: "Disable" },
-      { label: "Display full tax BreakDown", value: "No" },
-      { label: "Allow Split Billing", value: "Not Allowed" },
     ],
   },
   {
     title: "Tax and Additional Charges",
     items: [
       { label: "Default Tax applied", value: "[ Vat 13, Municipality Tax]" },
-      { label: "Tax Calculation Method", value: "Per Invoice (or per item)" },
-      { label: "Tax Rounding Method", value: "Round Up" },
-      { label: "Manual Tax Override", value: "Not Allowed" },
       {
         label: "Additional Charges",
         value: "[ ServiceCharges, Delivery Charges]",
@@ -50,48 +47,26 @@ const salesColumns: [SettingsColumn, SettingsColumn] = [
   },
 ];
 
-const paymentColumns: [SettingsColumn, SettingsColumn] = [
+// Payment Settings (Refund section removed)
+const paymentItems: KeyValue[] = [
   {
-    title: "Returns and Refunds",
-    items: [
-      { label: "Return Time limit", value: "1 day" },
-      { label: "Partial Refund - Amount", value: "Not Allowed" },
-      { label: "Partial Refund - Items", value: "Not Allowed" },
-      { label: "Cash Refunds Limits", value: "Not Allowed" },
-    ],
+    label: "Allowed Methods",
+    value: "[ EftPos, Mobile Banking, Cheque]",
   },
-  {
-    title: "Payments",
-    items: [
-      { label: "Allowed Methods", value: "[ EftPos, Mobile Banking, Cheque]" },
-      { label: "Allow Split Payments", value: "Allowed" },
-      { label: "Allow Credit Sales", value: "Not Allowed" },
-      { label: "Credit Payment Duration", value: "1 days after" },
-      { label: "Minimum Payment Required", value: "20% of sales" },
-      { label: "Auto Calculate Changes", value: "Allowed" },
-    ],
-  },
+  { label: "Allow Credit Sales", value: "Not Allowed" },
+  { label: "Credit Payment Duration", value: "1 days after" },
+  { label: "Auto Calculate Changes", value: "Allowed" },
 ];
 
+// Offers
 const offerStats: OfferStat[] = [
   { label: "Active Offers", value: 12 },
-  { label: "Active Items", value: 12 },
-  { label: "Last Offer Date", value: 12 },
+  { label: "Effected Items", value: 5 },
+  { label: "Last Available Offer Date", value: 3 },
+  { label: "Expiring Offers", value: 2 },
 ];
 
-/* ------------------------- Page components ----------------------- */
-
-const Breadcrumb = ({
-  current,
-  parent,
-}: {
-  current: string;
-  parent: string;
-}) => (
-  <div className="border-b border-gray-200 pb-1.5  text-blue-700 flex items-center gap-2">
-    <ArrowRight className="w-3 h-3" /> <span>{current}</span> / {parent}
-  </div>
-);
+/* ------------------------- Small Components ---------------------- */
 
 const InfoRow = ({
   label,
@@ -101,22 +76,23 @@ const InfoRow = ({
   children: ReactNode;
 }) => (
   <div className="flex justify-start gap-3">
-    <span className="text-gray-500">{label} </span>
+    <span className="text-gray-500">{label}</span>
     {children}
   </div>
 );
 
+/* ------------------------- Store Information --------------------- */
+
 const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
   <section className="flex items-center gap-3">
-    <div className="text-5xl leading-none mt-0">
+    <div className="mt-0 text-5xl leading-none">
       <Monitor className="font-extrabold" />
     </div>
 
     <div className="flex flex-1 flex-col gap-1">
       <div className="flex items-center justify-between">
-        <div>
-          <span className=" font-semibold">{store.code}</span>
-        </div>
+        <span className="font-semibold">{store.code}</span>
+
         <ReusableButton
           variant="outline"
           size="sm"
@@ -128,8 +104,9 @@ const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
       </div>
 
       <div className="grid grid-cols-[1.4fr_1fr_1fr] rounded-md bg-white px-4 py-2.5 text-[11px]">
+        {/* Organization Details */}
         <div className="flex flex-col gap-1 pr-4">
-          <div className="  text-sm text-blue-700">{store.name}</div>
+          <div className="text-sm text-blue-700">{store.name}</div>
 
           <div>{store.address}</div>
 
@@ -138,13 +115,10 @@ const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
           </InfoRow>
         </div>
 
+        {/* Opening Information */}
         <div className="flex flex-col gap-1 border-l border-gray-300 px-4">
-          <InfoRow label="Current Fiscal Year">
-            <b>{store.fiscalYear}</b>
-          </InfoRow>
-
           <InfoRow label="Opening Time:">
-            <span className=" text-blue-700">{store.openingTime}</span>
+            <span className="text-blue-700">{store.openingTime}</span>
           </InfoRow>
 
           <InfoRow label="Today :">
@@ -152,6 +126,7 @@ const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
           </InfoRow>
         </div>
 
+        {/* Business Information */}
         <div className="flex flex-col gap-1 border-l border-gray-300 px-4">
           <InfoRow label="Business ID">
             <b>{store.businessId}</b>
@@ -174,16 +149,20 @@ const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
   </section>
 );
 
+/* ------------------------- Key Value List ------------------------ */
+
 const KeyValueList = ({ items }: { items: KeyValue[] }) => (
   <dl className="m-0 flex flex-col gap-2">
     {items.map((item) => (
-      <div key={item.label} className="flex justify-between ">
+      <div key={item.label} className="flex justify-between gap-4">
         <dt className="text-gray-500">{item.label}</dt>
         <dd className="m-0 text-right text-gray-800">{item.value}</dd>
       </div>
     ))}
   </dl>
 );
+
+/* ------------------------- Sales Settings ------------------------- */
 
 const SettingsPanel = ({
   columns,
@@ -206,6 +185,20 @@ const SettingsPanel = ({
   </div>
 );
 
+/* ------------------------- Payment Settings ---------------------- */
+
+const PaymentSection = ({ items }: { items: KeyValue[] }) => (
+  <section>
+    <h3 className="mb-2 text-sm font-medium">Payments</h3>
+
+    <div className="rounded-md border border-gray-200 bg-white p-3.5">
+      <KeyValueList items={items} />
+    </div>
+  </section>
+);
+
+/* ------------------------- Section Header ------------------------- */
+
 const SectionHeader = ({
   title,
   action,
@@ -219,23 +212,25 @@ const SectionHeader = ({
   </div>
 );
 
+/* ------------------------- Offer Cards --------------------------- */
+
 const StatCard = ({ label, value }: OfferStat) => (
   <button
     type="button"
-    className="flex min-w-[100px] cursor-pointer flex-col items-center gap-2 rounded-md bg-indigo-100 px-5 py-3.5 text-[10px] shadow-md transition hover:shadow-lg"
+    className="flex min-w-[100px] flex-1 cursor-pointer flex-col items-start gap-2 rounded-md bg-indigo-100 px-4 py-3.5 text-left text-[10px] shadow-md transition hover:shadow-lg"
   >
-    <span>{label}</span>
-    <span>{value}</span>
+    <span className="font-semibold">{label}</span>
+    <span className="self-center text-base font-semibold">{value}</span>
   </button>
 );
 
 const OffersSection = ({ stats }: { stats: OfferStat[] }) => (
   <section>
-    <div className="mb-1.5 ">
+    <div className="mb-1.5">
       <b>Offers:</b> <span className="text-blue-600">(Manage Offers)</span>
     </div>
 
-    <div className="flex gap-9 rounded-md bg-white px-24 py-4">
+    <div className="flex gap-6 rounded-md bg-white px-5 py-3">
       {stats.map((s) => (
         <StatCard key={s.label} {...s} />
       ))}
@@ -243,7 +238,15 @@ const OffersSection = ({ stats }: { stats: OfferStat[] }) => (
   </section>
 );
 
-//page
+/* ------------------------- Item Status --------------------------- */
+
+const ItemStatusSection = () => (
+  <section className="flex min-h-[90px] items-center justify-center bg-gray-300">
+    <span className="text-sm text-gray-700">Item Status</span>
+  </section>
+);
+
+/* ------------------------- Page ----------------------------------- */
 
 const ShellSettings = () => {
   const { openDrawer } = useDrawer();
@@ -267,10 +270,10 @@ const ShellSettings = () => {
   return (
     <Container type="main" background="page">
       <div className="flex min-w-0 flex-1 flex-col gap-4">
-        <Breadcrumb current="Shell Status" parent="Store Status" />
-
+        {/* Store Information */}
         <StoreInfoCard onEdit={handleEditOrganization} />
 
+        {/* Sales Configuration */}
         <SectionHeader
           title="Sales Configuration and Overview:"
           action={
@@ -285,11 +288,17 @@ const ShellSettings = () => {
           }
         />
 
+        {/* Billing and Tax */}
         <SettingsPanel columns={salesColumns} />
 
-        <SettingsPanel columns={paymentColumns} />
+        {/* Payments (Full Width) */}
+        <PaymentSection items={paymentItems} />
 
+        {/* Offers */}
         <OffersSection stats={offerStats} />
+
+        {/* Item Status */}
+        <ItemStatusSection />
       </div>
     </Container>
   );

@@ -44,7 +44,11 @@ const ResponsiveLayout = ({ sidebar, children }: ResponsiveLayoutProps) => {
       onTouchEnd={handleTouchEnd}
     >
       <aside
-        className={`fixed left-0 top-13 z-50 h-[calc(100vh-3rem)] w-[85vw] max-w-[280px] overflow-hidden rounded-xl transition-transform duration-300 ease-in-out ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:h-screen md:w-[280px] md:translate-x-0 md:shadow-none`}
+        className={`fixed left-0 top-13 z-50 h-[calc(100vh-3rem)] overflow-hidden rounded-xl transition-transform duration-300 ease-in-out ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:h-screen md:w-[280px] md:translate-x-0 md:shadow-none`}
+        style={{
+          display: 'flex',
+          height: '100%'
+        }}
       >
         {sidebar(closeBar)}
       </aside>

@@ -51,8 +51,10 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     handleSelectInvoice,
   } = useInvoiceHistory();
 
+  /* ----------------------------- UI ----------------------------- */
+
   return (
-    <div className="px-4 py-4 sm:px-6">
+    <div className="px-4 py-4">
       <HistoryHeader
         viewMode={viewMode}
         onViewModeChange={setViewMode}
@@ -92,11 +94,10 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                   <button
                     type="button"
                     onClick={() => handleSelectInvoice(customer.id)}
-                    className={`w-full rounded border px-3 py-2 text-left transition ${
-                      customer.id === selected?.id
+                    className={`w-full rounded border px-3 py-2 text-left transition ${customer.id === selected?.id
                         ? "border-blue-400 bg-blue-50"
                         : "border-transparent hover:bg-gray-50"
-                    }`}
+                      }`}
                   >
                     <p className="text-xs font-medium text-gray-800">
                       {customer.customerName}
@@ -146,11 +147,10 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                         key={card.id}
                         type="button"
                         onClick={() => handleReferenceClick(card.reference)}
-                        className={` px-3 py-2 text-xs transition ${
-                          activeReference?.id === card.id
+                        className={` px-3 py-2 text-xs transition ${activeReference?.id === card.id
                             ? "border-blue-400 bg-blue-50 text-blue-700"
                             : "border-gray-200 text-blue-600 hover:bg-gray-50"
-                        }`}
+                          }`}
                       >
                         {card.reference}
                         <span className="ml-2 text-gray-500">
@@ -261,6 +261,8 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     </div>
   );
 };
+
+/* ----------------------------- Empty State ----------------------------- */
 
 const EmptyState = ({ message }: { message: string }) => (
   <div className="rounded border border-gray-200 bg-white py-12 text-center text-sm text-gray-400">

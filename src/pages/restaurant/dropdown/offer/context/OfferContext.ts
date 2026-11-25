@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import type { Offer } from "../data/initialOfferData";
+import type { OfferType } from "../../types/DropdownTypes";
 
 export interface OfferContextType {
-  data: Offer[];
-  filteredOffers: Offer[];
+  data: OfferType[];
+  filteredOffers: OfferType[];
   loading: boolean;
   search: string;
   setSearch: (search: string) => void;

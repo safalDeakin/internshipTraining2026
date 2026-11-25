@@ -1,11 +1,11 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { OfferContext } from "./OfferContext";
 import { useSubscription } from "../../../../../application/useSubscription";
-import type { Offer } from "../data/initialOfferData";
 import {
   OfferCmdService,
   OfferQueryService,
 } from "../../../../../application/services";
+import type { OfferType } from "../../types/DropdownTypes";
 
 interface OfferProviderProps {
   children: ReactNode;
@@ -13,7 +13,9 @@ interface OfferProviderProps {
 
 const OfferProvider = ({ children }: OfferProviderProps) => {
   //Reads or retrieves data.
-  const { data, loading } = useSubscription<Offer, string>(OfferQueryService);
+  const { data, loading } = useSubscription<OfferType, string>(
+    OfferQueryService,
+  );
 
   const [search, setSearch] = useState("");
 
@@ -25,7 +27,7 @@ const OfferProvider = ({ children }: OfferProviderProps) => {
 
   const addOffer = async (name: string): Promise<boolean> => {
     if (!name.trim()) return false;
-    const newOffer: Offer = {
+    const newOffer: OfferType = {
       id: Date.now(),
       name: name.trim(),
     };

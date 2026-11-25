@@ -1,5 +1,10 @@
 // import RatePlanPageRenderer from "../rate-plan/RatePlanPageRenderer";
 
+import DayActivityRenderer from "../hotel/pages/day-activity/DayActivityRenderer";
+import HoldReservationRenderer from "../hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
+import Report from "../reports/Report";
+import ReportBuilderRenderer from "../reports/ReportBuilderRenderer";
+
 // import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
 // import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
 // import { KeyCardPage } from "../key-card/components/KeyCardDetail.tsx/KeyCardPage";
@@ -7,9 +12,8 @@
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
 
-import CashMovement from "../restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
-import PettyCash from "../restaurant/pages/overview/cash-summary/petty-cash/PettyCash";
-import FormBuilderTest from "./FormBuilderTest";
+// import PickupRequestForm from "../ready-to-implement/PickupRequestForm";
+// import FormBuilderTest from "./FormBuilderTest";
 
 const TestComponent = () => {
   return (
@@ -45,8 +49,9 @@ const TestComponent = () => {
       {/* < PackageRenderer /> */}
       {/* <GuestCheckoutRenderer /> */}
       {/* <FormBuilderTest /> */}
-      {/* <PettyCash /> */}
-      <CashMovement />
+      {/* <ReportBuilderRenderer /> */}
+      {/* <HoldReservationRenderer /> */}
+      {/* <DayActivityRenderer /> */}
     </>
   );
 };

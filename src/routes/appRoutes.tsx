@@ -36,6 +36,13 @@ import NightAuditRenderer from "../pages/hotel/pages/nightAudit/components/overv
 import LostAndFoundRenderer from "../pages/lost-found/LostAndFoundRenderer";
 import PackageRenderer from "../pages/hotel/pages/hotel-packages/components/PackageRenderer";
 import GuestRequestPageRenderer from "../pages/hotel/pages/guest-request/GuesteRequestRenderer";
+import ReportBuilderRenderer from "../pages/reports/ReportBuilderRenderer";
+import Transportation from "../pages/hotel/dropdown/transportation/TransportationLayout";
+import TransportationLayout from "../pages/hotel/dropdown/transportation/TransportationLayout";
+import BillingPage from "../pages/hotel/dropdown/billing/BillingLayout";
+import HoldReservationRenderer from "../pages/hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
+import HallReservationRenderer from "../pages/hotel/pages/hall-reservation/HallReservationRenderer";
+import DayActivityRenderer from "../pages/hotel/pages/day-activity/DayActivityRenderer";
 
 //information needed for a navigation
 export type AppNav = {
@@ -185,7 +192,14 @@ export const appRoutes: AppRoute[] = [
         // Replace with your real DeviceSetup component.
         element: <SettingRenderer />
       },
-
+      {
+        path: "transport",
+        element: <TransportationLayout />,
+      },
+      {
+        path: "billing",
+        element: <BillingPage />,
+      },
       {
         path: "housekeeping",
         // Replace with your real DeviceSetup component.
@@ -211,7 +225,14 @@ export const appRoutes: AppRoute[] = [
         path: "guest-request",
         // Replace with your real DeviceSetup component.
         element: <GuestRequestPageRenderer />
-      }, {
+      },
+      {
+        path: "hall-reservation",
+        // Replace with your real DeviceSetup component.
+        element: <HallReservationRenderer />
+      },
+
+      {
         path: "hotel-package",
         // Replace with your real DeviceSetup component.
         element: <PackageRenderer />
@@ -229,6 +250,11 @@ export const appRoutes: AppRoute[] = [
         element: <ReservationPageRenderer />
       },
       {
+        path: "dayactivity/july-2026",
+        // Replace with your real DeviceSetup component.
+        element: <DayActivityRenderer />
+      },
+      {
         path: "room",
         // Replace with your real DeviceSetup component.
         element: <DemoComponent title="Room List" />
@@ -237,6 +263,11 @@ export const appRoutes: AppRoute[] = [
         path: "all-reservation",
         element: <ReservationPageRenderer />,
       },
+      {
+        path: "hold-reservation",
+        element: <HoldReservationRenderer />,
+      },
+
       {
         path: "reservation-calendar",
         element: <ReservationCalendar />,
@@ -261,7 +292,7 @@ export const appRoutes: AppRoute[] = [
 
   {
     path: "reservation-report",
-    element: <Report />,
+    element: <ReportBuilderRenderer />,
     nav: {
       label: "Reports",
       group: "Manage",

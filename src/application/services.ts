@@ -44,6 +44,18 @@ import { foodItems, initialOrderData } from "../shell/constants/OrderData";
 import type { InvoiceCards } from "../shell/types/InvoiceTypes";
 import { invoicingCards } from "../shell/constants/InvoiceData";
 
+//ReportBuilder
+import type { ReportBuilder } from "../domain/ReportBuilder";
+import { ReportBuilderData } from "../pages/reports/data/reportBuilder.data";
+
+//HoldReservation(Pending)
+import type { ReservationRecord } from "../domain/holdReservation";
+import { HoldReservationRecords } from "../pages/hotel/pages/hold-reservation/data/holdReservation.data";
+import type { HallReservation } from "../domain/hallReservation";
+import { hallReservations } from "../pages/hotel/pages/hall-reservation/data/hallReservation.data";
+import type { Building, DayActivity } from "../domain/dayActivity";
+import { dayActivity } from "../pages/hotel/pages/day-activity/data/dayActivity.data";
+
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
   domain: "Reservation",
@@ -255,6 +267,15 @@ const POSSessionRepo = new Repository<POSSession, string>({
   tenantId: "MySpace1234",
   getId: (entity: POSSession) => entity.id,
   initialData: posInitialData,
+})
+
+//This is for Report Builder
+const RepoprtBuilderRepo = new Repository<ReportBuilder, string>({
+  sourceType: "InMemoryLocal",
+  domain: "ReportBuilder",
+  tenantId: "MySpace1234",
+  getId: (entity: ReportBuilder) => String(entity.id),
+  initialData: [ReportBuilderData],
   baseUrl: "asas",
   eventsUrl: "events",
 });
@@ -280,6 +301,23 @@ const FoodItemRepo = new Repository<FoodItem, string>({
   tenantId: "MySpace1234",
   getId: (entity: FoodItem) => String(entity.id),
   initialData: foodItems,
+})
+
+export const ReportBuilderQueryService = new QueryService<ReportBuilder, string>(
+  RepoprtBuilderRepo,
+);
+export const ReportBuilderCmdService = new CommandService<ReportBuilder, string>(
+  RepoprtBuilderRepo,
+);
+
+
+//This is for HoldReservation(Pending)
+const HoldReservationRepo = new Repository<ReservationRecord, string>({
+  sourceType: "InMemoryLocal",
+  domain: "HoldReservation",
+  tenantId: "MySpace1234",
+  getId: (entity: ReservationRecord) => String(entity.reservation.id),
+  initialData: HoldReservationRecords,
   baseUrl: "asas",
   eventsUrl: "events",
 });
@@ -298,6 +336,22 @@ const OrderRepo = new Repository<Order, string>({
 
   getId: (entity: Order) => entity.id,
   initialData: initialOrderData,
+})
+export const HoldReservationQueryService = new QueryService<ReservationRecord, string>(
+  HoldReservationRepo,
+);
+export const HoldReservationCmdService = new CommandService<ReservationRecord, string>(
+  HoldReservationRepo,
+);
+
+
+//This is for HallReservation
+const HallReservationRepo = new Repository<HallReservation, string>({
+  sourceType: "InMemoryLocal",
+  domain: "HoldReservation",
+  tenantId: "MySpace1234",
+  getId: (entity: HallReservation) => String(entity.id),
+  initialData: hallReservations,
   baseUrl: "asas",
   eventsUrl: "events",
 });
@@ -319,6 +373,22 @@ const InvoicingCardRepo = new Repository<InvoiceCards, string>({
   tenantId: "MySpace1234",
   getId: (entity: InvoiceCards) => String(entity.id),
   initialData: invoicingCards,
+});
+export const HallReservationQueryService = new QueryService<HallReservation, string>(
+  HallReservationRepo,
+);
+export const HallReservationCmdService = new CommandService<HallReservation, string>(
+  HallReservationRepo,
+);
+
+
+//This is for Day Activity
+const DayActivityRepo = new Repository<DayActivity, string>({
+  sourceType: "InMemoryLocal",
+  domain: "DayActivity",
+  tenantId: "MySpace1234",
+  getId: (entity: DayActivity) => String(entity.id),
+  initialData: [dayActivity],
   baseUrl: "asas",
   eventsUrl: "events",
 });
@@ -331,4 +401,10 @@ export const InvoicingCardQueryService = new QueryService<InvoiceCards, string>(
 // Command Service
 export const InvoicingCardCmdService = new CommandService<InvoiceCards, string>(
   InvoicingCardRepo,
+);
+export const DayActivityQueryService = new QueryService<DayActivity, string>(
+  DayActivityRepo,
+);
+export const DayActivityCmdService = new CommandService<DayActivity, string>(
+  DayActivityRepo,
 );

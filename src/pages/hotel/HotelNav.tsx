@@ -1,16 +1,17 @@
 // author: Shrajja
 
-import {
-  BrushCleaning,
-  Building,
-  Files,
-  Hotel,
-} from "lucide-react";
+import { BrushCleaning, Building, Files, Hotel } from "lucide-react";
 
 import { useState } from "react";
 import { SidebarHugeButton } from "../../lib/shared/erpSidebarHeader/SidebarHugeButton";
-import { ERPSidebarHeader, type DropdownMenuSection } from "../../lib/shared/erpSidebarHeader/ERPSidebarHeader";
-import { NavGroup, type NavItemModel } from "../../lib/component/Sidebar/NavigationGroup";
+import {
+  ERPSidebarHeader,
+  type DropdownMenuSection,
+} from "../../lib/shared/erpSidebarHeader/ERPSidebarHeader";
+import {
+  NavGroup,
+  type NavItemModel,
+} from "../../lib/component/Sidebar/NavigationGroup";
 import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
 import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
 import ShellSetting from "../restaurant/modal/settings/ShellSetting";
@@ -23,15 +24,16 @@ interface AccommodationNavbarProps {
 
 }
 
-
 // Accommodation dropdown options.
 const accommodationMenu: DropdownMenuSection[] = [
   {
     title: "Manage",
     items: [
       { label: "All Rooms", path: "all-rooms" },
+      { label: "Transportation", path: "transport" },
       { label: "Rate Plan", path: "rate-plan" },
       { label: "Offers and Discounts", path: "offers" },
+      { label: "Billing", path: "billing" },
     ],
   },
   {
@@ -62,8 +64,38 @@ const accommodationMenu: DropdownMenuSection[] = [
         path: "housekeeping",
       },
       {
-        label: "Night Audit",
-        path: "night-audit",
+        label: "Day Activity",
+        path: "dayactivity",
+        children: [
+          {
+            label: "July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "1st July - P123",
+            //     path: "dayactivity/july-2026/1st-july-p123",
+            //   },
+            //   {
+            //     label: "1st west-P123",
+            //     path: "dayactivity/july-2026/1st-west-p123",
+            //   },
+            // ],
+          },
+          {
+            label: "Sun-24-July/2026",
+            path: "dayactivity/july-2026",
+            // children: [
+            //   {
+            //     label: "TiyaPiya-c3-1344",
+            //     path: "dayactivity/sun-24-july-2026/tiyapiya-c3-1344",
+            //   },
+            //   {
+            //     label: "RamSta-c1-1144",
+            //     path: "dayactivity/sun-24-july-2026/ramsta-c1-1144",
+            //   },
+            // ],
+          },
+        ],
       },
       {
         label: "Lost and Found",
@@ -85,9 +117,21 @@ const menuSection: MenuSection[] = [
     label: "Front-Desk",
     items: [
       {
+        key: "holdReservation",
+        label: "Pending",
+        path: "hold-reservation",
+        count: 5,
+      },
+      {
         key: "guestRequest",
         label: "Guest Request",
         path: "guest-request",
+        count: 5,
+      },
+      {
+        key: "hallReservation",
+        label: "Hall Reservation",
+        path: "hall-reservation",
         count: 5,
       },
       {
@@ -116,17 +160,6 @@ const menuSection: MenuSection[] = [
       },
     ],
   },
-  // {
-  //   key: "rooms",
-  //   label: "Rooms",
-  //   items: [
-  //     {
-  //       key: "roomList",
-  //       label: "Room List",
-  //       path: "room",
-  //     },
-  //   ],
-  // },
   {
     key: "reservation",
     label: "Reservation",
@@ -150,7 +183,6 @@ const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 export default function HotelNav({
   closeBar
 }: AccommodationNavbarProps) {
-
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
@@ -177,10 +209,7 @@ export default function HotelNav({
   };
 
   // Used by Front-Desk, Rooms, and Reservation options.
-  const handleSubItemClick = (
-    groupKey: string,
-    item: NavItemModel,
-  ) => {
+  const handleSubItemClick = (groupKey: string, item: NavItemModel) => {
     setActiveSubItem({
       groupKey,
       navItemKey: item.key,
@@ -220,10 +249,7 @@ export default function HotelNav({
   </ERPSidebarHeader>;
 
   return (
-    <SidebarContainer
-      header={
-        header}
-    >
+    <SidebarContainer header={header}>
       {/* MAIN NAVIGATION */}
       {menuSection.map((menu) => {
         return (

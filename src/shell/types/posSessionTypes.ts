@@ -4,6 +4,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 export type POSSessionMode =
   | "Standard"
   | "Only Ordering"
+  | "GoBack"
   | "Manager Mode"
   | "Service and Technical Check";
 
