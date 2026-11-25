@@ -32,6 +32,12 @@ class AccessControl {
       resource: "activity-logs",
       action: ["view", "create", "update", "delete"],
     },
+
+    {
+      role: "ADMIN",
+      resource: "reservation-report",
+      action: ["view", "create", "update", "delete"],
+    },
     {
       role: "ADMIN",
       resource: "reports",
