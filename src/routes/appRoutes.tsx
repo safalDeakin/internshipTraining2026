@@ -32,6 +32,7 @@ import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 import Transportation from "../pages/hotel/dropdown/transportation/TransportationLayout";
 import TransportationLayout from "../pages/hotel/dropdown/transportation/TransportationLayout";
+import BillingPage from "../pages/hotel/dropdown/billing/BillingLayout";
 
 //information needed for a navigation
 export type AppNav = {
@@ -153,6 +154,10 @@ export const appRoutes: AppRoute[] = [
       {
         path: "transport",
         element: <TransportationLayout />,
+      },
+      {
+        path: "billing",
+        element: <BillingPage />,
       },
       {
         path: "reservation",

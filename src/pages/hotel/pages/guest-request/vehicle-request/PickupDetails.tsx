@@ -34,6 +34,9 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
               <MessageCircle size={14} />
               Msg to WhatsApp
             </ReusableButton>
+            <ReusableButton variant="secondary" size="sm" onClick={handleEdit}>
+              Post to Folio
+            </ReusableButton>
             <ReusableButton variant="outline" size="sm" onClick={handleEdit}>
               Pending
               <ChevronDown size={14} />
@@ -110,6 +113,17 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
               <DetailItem label="Assigned To" value={request.assignedTo} />
               <DetailItem label="Completed By" value={request.completedBy} />
               <DetailItem label="Completed At" value={request.completedAt} />
+            </dl>
+          </div>
+
+          {/* charge*/}
+          <div className="mt-4">
+            <h3 className="mb-2 text-sm font-bold">Charge</h3>
+
+            <dl className="max-w-lg">
+              <DetailItem label="Price" value="Rs:1000" />
+              <DetailItem label="Extra Price" value="Rs:1000" />
+              <DetailItem label="Total Chrge" value="Rs:1000" />
             </dl>
           </div>
 

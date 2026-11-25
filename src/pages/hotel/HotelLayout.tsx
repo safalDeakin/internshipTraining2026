@@ -21,6 +21,7 @@ import PackageRenderer from "./pages/hotel-packages/components/PackageRenderer";
 import HoldReservationRenderer from "./pages/hold-reservation/components/HoldReservationWorkSpace";
 import Frame from "../../lib/component/Frame/Frame";
 import Transportation from "./dropdown/transportation/TransportationLayout";
+import BillingPage from "./dropdown/billing/BillingLayout";
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,7 @@ type ViewKey =
   | "quick-housekeeping"
   | "all-rooms"
   | "transport"
+  | "billing"
   | "rate-plan"
   | "offers"
   | "sales-settings"
@@ -148,6 +150,8 @@ export default function HotelLayout() {
         return <RoomPageRenderer />;
       case "transport":
         return <Transportation />;
+      case "billing":
+        return <BillingPage />;
 
       case "rate-plan":
         return <RatePlanPageRenderer />;
@@ -206,9 +210,7 @@ export default function HotelLayout() {
       */
 
       case "hold-reservation":
-        return (
-          <HoldReservationRenderer />
-        );
+        return <HoldReservationRenderer />;
 
       case "guest-request":
         return <GuestRequestPageRenderer />;
