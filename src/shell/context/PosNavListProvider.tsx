@@ -18,10 +18,18 @@ export interface POSSessionNavItem {
   session: POSSession;
 }
 
+// Sessions grouped by date
 export interface POSSessionDateGroup {
   date: string;
   formattedDate: string;
   sessions: POSSessionNavItem[];
+}
+
+// Dates grouped by month
+export interface POSSessionMonthGroup {
+  key: string;
+  label: string;
+  dates: POSSessionDateGroup[];
 }
 
 // Context type
@@ -33,12 +41,18 @@ interface POSNavListContextType {
 
   setSelectedDate: (date: string | undefined) => void;
   setSelectedStaffName: (name: string | undefined) => void;
+
   getSessionById: (id: string) => POSSession | undefined;
+
   getLatestSession: (organizationId: string | number) => POSSession | undefined;
 
   getGroupedSessions: (
     organizationId: string | number,
   ) => POSSessionDateGroup[];
+
+  getMonthlyGroupedSessions: (
+    organizationId: string | number,
+  ) => POSSessionMonthGroup[];
 }
 
 // Create context
@@ -53,10 +67,14 @@ interface POSNavListProviderProps {
 
 export function POSNavListProvider({ children }: POSNavListProviderProps) {
   const [sessions, setSessions] = useState<POSSession[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
-  const [selectedStaffName, setSelectedStaffName] = useState<string | undefined>(
+
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(
     undefined,
   );
+
+  const [selectedStaffName, setSelectedStaffName] = useState<
+    string | undefined
+  >(undefined);
 
   // Load sessions and listen for changes
   useEffect(() => {
@@ -125,6 +143,15 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
     }).format(new Date(`${date}T12:00:00+05:45`));
   };
 
+  // Format month
+  const formatSessionMonth = (date: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Kathmandu",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(`${date}T12:00:00+05:45`));
+  };
+
   // Prepare session status
   const getSessionStatus = (status: string) => {
     const statusMap: Record<string, { label: string; color: string }> = {
@@ -150,17 +177,12 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
     );
   };
 
+  // Get session by ID
   const getSessionById = (id: string): POSSession | undefined => {
-    if (sessions != null && sessions.length > 0) {
-      sessions.forEach((session) => {
-        if (session.id == id) {
-          return session;
-        }
-      });
-    }
-    return undefined;
-  }
-  // Filter, group, sort and prepare sessions for navbar
+    return sessions.find((session) => String(session.id) === String(id));
+  };
+
+  // Filter, group, sort and prepare sessions by date
   const getGroupedSessions = (
     organizationId: string | number,
   ): POSSessionDateGroup[] => {
@@ -168,6 +190,7 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
       (session) => String(session.organizationId) === String(organizationId),
     );
 
+    // Group sessions by YYYY-MM-DD
     const groups = organizationSessions.reduce<Record<string, POSSession[]>>(
       (result, session) => {
         const date = session.date.slice(0, 10);
@@ -183,8 +206,9 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
       {},
     );
 
+    // Sort latest date first and prepare date groups
     return Object.entries(groups)
-      .sort(([a], [b]) => b.localeCompare(a))
+      .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
       .map(([date, dateSessions]) => ({
         date,
         formattedDate: formatSessionDate(date),
@@ -198,13 +222,43 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
             const status = getSessionStatus(session.status);
 
             return {
-              id: session.id,
+              id: String(session.id),
               staffName: session.staffName,
               statusLabel: status.label,
               statusColor: status.color,
               session,
             };
           }),
+      }));
+  };
+
+  // Group dates by month
+  const getMonthlyGroupedSessions = (
+    organizationId: string | number,
+  ): POSSessionMonthGroup[] => {
+    const dateGroups = getGroupedSessions(organizationId);
+
+    const monthGroups = dateGroups.reduce<
+      Record<string, POSSessionDateGroup[]>
+    >((result, group) => {
+      const monthKey = group.date.slice(0, 7);
+
+      if (!result[monthKey]) {
+        result[monthKey] = [];
+      }
+
+      result[monthKey].push(group);
+
+      return result;
+    }, {});
+
+    // Sort latest month first
+    return Object.entries(monthGroups)
+      .sort(([monthA], [monthB]) => monthB.localeCompare(monthA))
+      .map(([key, dates]) => ({
+        key,
+        label: formatSessionMonth(`${key}-01`),
+        dates,
       }));
   };
 
@@ -219,6 +273,7 @@ export function POSNavListProvider({ children }: POSNavListProviderProps) {
         getLatestSession,
         getSessionById,
         getGroupedSessions,
+        getMonthlyGroupedSessions,
       }}
     >
       {children}

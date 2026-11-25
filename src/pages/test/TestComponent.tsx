@@ -7,11 +7,20 @@
 // import LostAndFoundRenderer from "../lost-found/LostAndFoundRenderer";
 // import { OverviewPage } from "../overview-page/components/overview/OverviewPage";
 
+import Scrollable from "../../lib/component/scrollable/Scrollable";
+import OffersDetails from "../restaurant/dropdown/offer/components/OffersDetails";
+import { initialOfferData } from "../restaurant/dropdown/offer/data/initialOfferData";
 import CashMovement from "../restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
 import PettyCash from "../restaurant/pages/overview/cash-summary/petty-cash/PettyCash";
 import FormBuilderTest from "./FormBuilderTest";
+// const selectedOffer = {
+//   id: 1,
+//   name: "Weekend Special Offer",
+//   // Add the remaining properties required by your Offer type
+// };
 
 const TestComponent = () => {
+  const selectedOffer = initialOfferData[0];
   return (
     <>
       {/* <ResponsiveLayout
@@ -46,7 +55,11 @@ const TestComponent = () => {
       {/* <GuestCheckoutRenderer /> */}
       {/* <FormBuilderTest /> */}
       {/* <PettyCash /> */}
-      <CashMovement />
+      {/* <CashMovement /> */}
+      <Scrollable direction="y">
+        {" "}
+        <OffersDetails offer={selectedOffer} />
+      </Scrollable>
     </>
   );
 };
