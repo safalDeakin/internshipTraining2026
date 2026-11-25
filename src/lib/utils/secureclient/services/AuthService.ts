@@ -1,5 +1,6 @@
 //author: Shrajja
 //modified by: Safal Shrestha
+
 import type { Organization } from "./models/organization";
 import type { Action, Resources } from "./models/permission";
 import type { User } from "./models/users";
