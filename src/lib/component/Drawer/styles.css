@@ -23,7 +23,6 @@
 .drawer-container {
     position: relative;
     z-index: 1;
-
     height: 100%;
     max-width: 100vw;
     padding:var( --padding-dialogue-comfortable);

@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import SecureCellRoute from "./SecureCellRoute";
 import type { ReactNode } from "react";
 import Unauthorized from "./pages/Unauthorized";
-import type { Action, Resources } from "./services/models/permission";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import Navbar from "./pages/Navbar";
@@ -23,13 +22,6 @@ interface SecureAppClientProps {
   children?: ReactNode;
   config?: SecureConfig;
   allowOverFlow?: boolean;
-  permissions?: Record<
-    string,
-    {
-      resource: Resources;
-      action: Action;
-    }
-  >;
   routes: AppRoute[];
 }
 const OrganizationLayout = ({ overflow, routes }: { overflow: boolean, routes: AppRoute[] }) => {
@@ -47,12 +39,12 @@ const OrganizationLayout = ({ overflow, routes }: { overflow: boolean, routes: A
 };
 
 const SecureAppClient = ({
-  children,
   allowOverFlow = false,
   config,
-  permissions = {},
   routes,
 }: SecureAppClientProps) => {
+
+
   console.log("Loading Secure App Client: Setting config -> " + config);
 
   const renderRoutes = (routes: AppRoute[]): ReactNode => {
@@ -84,7 +76,7 @@ const SecureAppClient = ({
             <Route path="/login" element={<Login />} />
             <Route
               path=":organizationSlug"
-              element={<SecureCellRoute permissions={permissions} />}
+              element={<SecureCellRoute />}
             >
               <Route element={<OrganizationLayout overflow={allowOverFlow} routes={routes} />}>
                 {" "}

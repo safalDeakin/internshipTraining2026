@@ -13,6 +13,8 @@ export type AuthContextType = {
   logout: () => void; //no argument return nothing
   setUser: (user: User | undefined) => void; //chnage current user
   isAuthenticated: () => boolean; //user currently authenticated?
+  isAuthorizedUsingRouteKey: (orgSlug: string, routeKey: string) => boolean | undefined;
+
   //Is this user allowed to perform this action on this resource in this organization?
   isAuthorized: (
     selectedOrgSlug: string,

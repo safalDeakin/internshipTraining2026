@@ -1,6 +1,5 @@
 import { appRoutes } from "./routes/appRoutes";
 import SecureAppClient from "./lib/utils/secureclient/SecureAppClient";
-import { permissions } from "./lib/utils/secureclient/services/models/viewpermission";
 import { POSUserSessionProvider } from "./shell/context/POSUserSessionContext";
 // import { useMemo } from "react";
 // import { Repo } from "./repo/Repo";
@@ -48,7 +47,6 @@ const App = () => {
       <POSUserSessionProvider>
         <SecureAppClient
           config={secureConfig}
-          permissions={permissions}
           routes={appRoutes}
         />
       </POSUserSessionProvider>

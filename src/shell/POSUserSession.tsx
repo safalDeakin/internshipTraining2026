@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 import OrderingLayout from "./features/layout/OrderingLayout";
 
-import type { POSUserSessionProps } from "./types/posSessionTypes";
+import type {
+  POSSessionMode,
+  POSUserSessionProps,
+} from "./types/posSessionTypes";
 import { tabs } from "./constants/posSessionAlldata";
 
-import ActiveSessionModal from "./modal/ActiveSessionModal";
+import ActiveSessionModal from "./modal/ExitSessionModal";
 import ClosingSessionModal from "./modal/ClosingSessionModal";
 import InactiveSessionModal from "./modal/InactiveSessionModal";
 
@@ -22,11 +25,7 @@ import InvoiceHistory from "./features/historypages/InvoiceHistory";
 import PaymentLayout from "./features/layout/PaymentLayout";
 import PaymentHistory from "./features/historypages/PaymentHistory";
 //	Controls POS screen and modals	Receives callbacks from RestaurantLayout
-const POSUserSession = ({
-  onExit,
-  onStartSession,
-  onCancelStart,
-}: POSUserSessionProps) => {
+const POSUserSession = ({ onExit }: POSUserSessionProps) => {
   const [activeTab, setActiveTab] = useState("ordering");
   // Controls when the inactive session modal appears.
   const [showInactiveModal, setShowInactiveModal] = useState(false);
@@ -36,7 +35,15 @@ const POSUserSession = ({
 
   const { showDialog, closeDialog } = useDialogBox();
 
-  const { getActiveSession, pauseSession, endSession } = usePOSUserSession();
+  const {
+    addSession,
+    getActiveSession,
+    pauseSession,
+    getPausedSession,
+    endSession,
+  } = usePOSUserSession();
+
+  const organizationId = organization?.id;
 
   // Get the current active session.
   const activeSession =
@@ -58,6 +65,39 @@ const POSUserSession = ({
     return () => clearTimeout(timer);
   }, [activeSession]);
 
+  const onStartSession = (
+    mode: POSSessionMode,
+    data: { openingCash: number; notes: string },
+  ) => {
+    if (!user || organizationId == null) return;
+    const existingActive = getActiveSession(organizationId);
+    const existingPaused = getPausedSession(organizationId);
+
+    // Prevent another unfinished session.
+    if (existingActive || existingPaused) return;
+
+    const now = new Date();
+
+    addSession({
+      id: crypto.randomUUID(),
+      staffId: String(user.id),
+      staffName: user.name,
+      terminal: "Main Counter",
+      date: now.toISOString().slice(0, 10),
+      mode,
+      organizationId,
+      startTime: now.toISOString(),
+      endTime: null,
+      pausedAt: null,
+      totalPausedDurationMs: 0,
+      status: "active",
+      isApproved: false,
+      isVerified: false,
+      openingCash: data.openingCash,
+      openingNotes: data.notes,
+    });
+  };
+
   // Navigate back to restaurant page.
   const exitToRestaurant = () => {
     onExit?.();
@@ -75,29 +115,23 @@ const POSUserSession = ({
   };
 
   // Show active session dialog.
-  const handleExit = () => {
-    if (!activeSession) return;
+  // const handleExit = () => {
+  //   if (!activeSession) return;
 
-    showDialog({
-      title: "Active Session",
-      showHeader: true,
-      closeOnEscape: true,
-      closeOnBackdrop: true,
-      content: (
-        <ActiveSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          activeSessionStartTime={new Date(
-            activeSession.startTime,
-          ).toLocaleTimeString()}
-          onContinue={handleContinue}
-          onPause={handlePauseSession}
-          onEndSession={handleEndSession}
-        />
-      ),
-    });
-  };
+  //   showDialog({
+  //     title: "Active Session",
+  //     showHeader: true,
+  //     closeOnEscape: true,
+  //     closeOnBackdrop: true,
+  //     content: (
+  //       <ActiveSessionModal
+  //         onContinue={handleContinue}
+  //         onPause={handlePauseSession}
+  //         onEndSession={handleEndSession}
+  //       />
+  //     ),
+  //   });
+  // };
 
   // Pause the current session.
   const handlePauseSession = () => {
@@ -111,33 +145,33 @@ const POSUserSession = ({
   };
 
   // Show closing session dialog.
-  const handleEndSession = () => {
-    if (!activeSession) return;
+  // const handleEndSession = () => {
+  //   if (!activeSession) return;
 
-    closeDialog();
+  //   closeDialog();
 
-    showDialog({
-      title: "Close POS Session",
-      showHeader: true,
-      closeOnEscape: true,
-      closeOnBackdrop: true,
-      content: (
-        <ClosingSessionModal
-          staffName={activeSession.staffName}
-          terminal={activeSession.terminal}
-          date={activeSession.date}
-          onCancel={handleCancelClosing}
-          onConfirm={handleConfirmClosing}
-        />
-      ),
-    });
-  };
+  //   showDialog({
+  //     title: "Close POS Session",
+  //     showHeader: true,
+  //     closeOnEscape: true,
+  //     closeOnBackdrop: true,
+  //     content: (
+  //       <ClosingSessionModal
+  //         staffName={activeSession.staffName}
+  //         terminal={activeSession.terminal}
+  //         date={activeSession.date}
+  //         // onCancel={handleCancelClosing}
+  //         onConfirm={handleConfirmClosing}
+  //       />
+  //     ),
+  //   });
+  // };
 
   // Cancel closing: return to active session dialog.
-  const handleCancelClosing = () => {
-    closeDialog();
-    handleExit();
-  };
+  // const handleCancelClosing = () => {
+  //   closeDialog();
+  //   handleExit();
+  // };
 
   // Confirm closing session.
   const handleConfirmClosing = (data: {
@@ -180,7 +214,7 @@ const POSUserSession = ({
       <nav className="flex shrink-0 items-center gap-2 bg-gray-100 px-4 py-3">
         <button
           type="button"
-          onClick={handleExit}
+          // onClick={handleExit}
           disabled={!activeSession}
           className="rounded-lg p-2 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
           aria-label="View active session options"
@@ -244,32 +278,6 @@ const POSUserSession = ({
 
         {activeTab === "return" && <div className="p-6">Return</div>}
       </main>
-
-      {/* INACTIVE SESSION MODAL - OVERLAY ABOVE POS */}
-      {!activeSession && showInactiveModal && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg">
-            <InactiveSessionModal
-              staffName={user?.name ?? "Unknown"}
-              terminal="Main Counter"
-              date={new Date().toLocaleDateString()}
-              onClose={() => onCancelStart?.()}
-              onSelect={(mode, data) => {
-                console.log("3. POSUserSession received:", mode, data);
-                console.log("Calling onStartSession:", onStartSession);
-
-                if (typeof onStartSession !== "function") {
-                  console.error("onStartSession is missing or not a function");
-                  return;
-                }
-
-                console.log("Sending session data to RestaurantLayout...");
-                onStartSession(mode, data);
-              }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

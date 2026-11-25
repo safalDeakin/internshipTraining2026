@@ -1,5 +1,8 @@
 import { Clock } from "lucide-react";
-import type { InvoiceType, InvoicingCardsProps } from "../types/InvoiceTypes";
+import type {
+  InvoiceType,
+  InvoicingCardsProps,
+} from "../../types/InvoiceTypes";
 
 const avatarColor: Record<InvoiceType, string> = {
   KOT: "bg-cyan-600",

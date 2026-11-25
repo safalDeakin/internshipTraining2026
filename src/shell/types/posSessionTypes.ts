@@ -3,6 +3,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 // 1. Allowed session modes
 export type POSSessionMode =
   | "Standard"
+  | "Only Ordering"
   | "GoBack"
   | "Manager Mode"
   | "Service and Technical Check";
@@ -81,11 +82,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export interface POSUserSessionProps {
   onExit?: () => void;
 
-  onStartSession?: (
-    mode: POSSessionMode,
-    data: { openingCash: number; notes: string },
-  ) => void;
-
   onCancelStart?: () => void;
 
   sessionMode?: POSSessionMode;
@@ -130,16 +126,19 @@ export interface ReceiptFrameProps {
   onPrint?: () => void;
   onDownloadPDF?: () => void;
 }
+// 10. Order Cancel types
 
-// 10. KOT Cancel types
 export interface KOTCard {
-  id: number;
+  id: string;
   reference: string;
+  customerName: string;
+  phone: string;
+  table: string;
+  time: string;
   invoiceItems: {
     id: number;
     name: string;
     quantity: number;
-    amount: number;
   }[];
 }
 
@@ -147,7 +146,6 @@ export interface KOTItem {
   id: string;
   name: string;
   qty: number;
-  amount: number;
   reference: string;
 }
 

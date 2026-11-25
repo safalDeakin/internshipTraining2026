@@ -128,10 +128,10 @@ export const POSUserSessionProvider = ({
       previous.map((session) =>
         session.id === id && session.status === "active"
           ? {
-              ...session,
-              status: "paused",
-              pausedAt: new Date().toISOString(),
-            }
+            ...session,
+            status: "paused",
+            pausedAt: new Date().toISOString(),
+          }
           : session,
       ),
     );
@@ -176,9 +176,9 @@ export const POSUserSessionProvider = ({
           const additionalPausedDuration =
             session.status === "paused" && session.pausedAt
               ? Math.max(
-                  0,
-                  now.getTime() - new Date(session.pausedAt).getTime(),
-                )
+                0,
+                now.getTime() - new Date(session.pausedAt).getTime(),
+              )
               : 0;
 
           return {

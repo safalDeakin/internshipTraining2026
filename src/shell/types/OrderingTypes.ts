@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
-import type { InvoiceType } from "../../../../../../../shell/features/invoicing/InvoiceTypes";
-import type { ORDER_FILTERS } from "../constant/OrderData";
+import type { ORDER_FILTERS } from "../constants/OrderData";
+import type { InvoiceType } from "./InvoiceTypes";
 
-//1:Ordering
+// ================= ORDERING =================
+
 export interface OrderingLayoutProps {
   onTrackClick: () => void;
 }
-// Types for menu items for ordering pages
+
 export type FoodItem = {
   id: number;
   image?: string;
@@ -15,25 +16,26 @@ export type FoodItem = {
   status?: string;
   type: "food" | "beverage" | "extra";
 };
-///filter of top of page
+
 export type Orderfilter = (typeof ORDER_FILTERS)[number];
 
-////properties this accepts
 export interface FoodCardProps {
   image?: string;
   label: string;
   date: string;
   status?: string;
-  isSelected?: boolean; //Whether the card is selected
-  onClick?: () => void; //Function to execute when clicked
+  isSelected?: boolean;
+  onClick?: () => void;
 }
 
-// Order item type
+// ================= ORDER LINE =================
+
 export type OrderLine = FoodItem & {
   qty: number;
 };
 
-// Order form props
+// ================= ORDER FORM =================
+
 export interface OrderFormProps {
   orderedItems: OrderLine[];
   kotItems: OrderLine[];
@@ -41,9 +43,9 @@ export interface OrderFormProps {
   onChangeQty: (id: number, delta: number) => void;
   onRemove: (id: number) => void;
   onClose: () => void;
+  onOrderSuccess: () => void;
 }
 
-// Order section props
 export interface OrderSectionProps {
   title: "KOT" | "BOT";
   items: OrderLine[];
@@ -51,7 +53,8 @@ export interface OrderSectionProps {
   onRemove: (id: number) => void;
 }
 
-//receipt
+// ================= RECEIPT =================
+
 export interface ReceiptItem {
   id: number;
   label: string;
@@ -73,8 +76,8 @@ export interface OrderReceiptProps {
   onDownloadPDF?: () => void;
 }
 
-//history
-//reusable
+// ================= HISTORY =================
+
 export interface ReusableDropdownProps {
   label?: string;
   placeholder: string;
@@ -82,7 +85,8 @@ export interface ReusableDropdownProps {
   value: string;
   onChange: (value: string) => void;
 }
-//hsiotry
+
+// Keep this only if other existing components still use it.
 export interface HistoryItem {
   type: InvoiceType;
   reference: string;
@@ -101,22 +105,21 @@ export interface HistoryItem {
 }
 
 export interface OrderHistoryProps {
-  // Called when the back arrow is clicked (parent switches back to ordering)
   onBack: () => void;
 }
 
-//cards
-export type OrderType = "KOT" | "BOT" | "Reservation";
+// ================= ORDER HISTORY CARDS =================
+
+export type OrderType = "Order";
 
 export interface OrderInvoiceItem {
   id: number;
   name: string;
   quantity: number;
-  amount: number;
 }
 
 export interface OrderCardData {
-  id: number;
+  id: string;
   type: OrderType;
   reference: string;
   phone: string;
@@ -127,17 +130,34 @@ export interface OrderCardData {
   invoiceItems: OrderInvoiceItem[];
 }
 
-//reusablecard
-
 export interface OrderCardProps {
   order: OrderCardData;
   onCancel: (order: OrderCardData) => void;
   cancelLabel?: string;
 }
 
-//
 export interface OrderCardGridProps {
   orders: OrderCardData[];
   renderCancelProcess?: (order: OrderCardData, close: () => void) => ReactNode;
   className?: string;
+}
+
+// ================= ORDER QUERY MODEL =================
+
+export interface Order {
+  id: string;
+  orderNo: string;
+
+  customerName: string;
+  phone: string;
+  referenceNumber: string;
+  location: string;
+
+  waiter: string;
+  table: string;
+
+  items: OrderLine[];
+
+  status: "Pending" | "Completed" | "Cancelled";
+  createdAt: string;
 }

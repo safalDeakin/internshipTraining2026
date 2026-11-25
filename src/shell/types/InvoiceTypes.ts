@@ -4,6 +4,9 @@ export interface InvoiceLayoutProps {
 
 export type InvoiceType = "KOT" | "BOT" | "Reservation";
 
+export type Invoicefilter = "All" | InvoiceType;
+
+// Shared invoice record for Invoicing and Invoice History
 export interface InvoiceItem {
   id: number;
   name: string;
@@ -23,8 +26,7 @@ export interface InvoiceCards {
   invoiceItems: InvoiceItem[];
 }
 
-export type Invoicefilter = "All" | "KOT" | "BOT" | "Reservation";
-
+// Invoicing card component
 export interface InvoicingCardsProps {
   type: InvoiceType;
   reference: string;
@@ -39,7 +41,7 @@ export interface InvoicingCardsProps {
   onClick?: () => void;
 }
 
-//
+// Invoicing form
 export interface InvoicingFormProps {
   customers: InvoiceCards[];
   onRemove: (id: number) => void;
@@ -55,6 +57,7 @@ export interface InvoicingFormProps {
   onSplit?: () => void;
 }
 
+// Sales receipt
 export interface SalesReceiptItem {
   name: string;
   quantity: number;
@@ -80,6 +83,7 @@ export interface SalesReceiptProps {
   invoice: SalesReceiptData;
 }
 
+// Split bill
 export interface ReceiptBill {
   billNo: number;
   invoiceDate: string;
@@ -101,12 +105,7 @@ export interface ReceiptBill {
 export interface SplitBillCard {
   id: number;
   reference: string;
-  invoiceItems: {
-    id: number;
-    name: string;
-    quantity: number;
-    amount: number;
-  }[];
+  invoiceItems: InvoiceItem[];
 }
 
 export interface SplitBillFormProps {
@@ -122,6 +121,7 @@ export interface BillItem {
   amt: number;
   billIndex: number;
 }
+
 export interface SplitBillReceiptItem {
   id: string;
   name: string;
@@ -151,29 +151,7 @@ export interface SplitBillReceiptProps {
   onClose: () => void;
 }
 
-//history
-export interface Invoice {
-  id: number;
-  invoiceNumber: string;
-  date: string;
-  customerName: string;
-  phone: string;
-  address: string;
-  references: string[];
-  serviceDate: string;
-  receiptNo: string;
-  paymentMethod: string;
-  chequeNumber: string;
-  bankName: string;
-  totalAmount: number;
-  paidAmount: number;
-  items: {
-    name: string;
-    quantity: number;
-    amount: number;
-  }[];
-}
-
+// Invoice History
 export interface InvoiceHistoryProps {
   onBack: () => void;
 }

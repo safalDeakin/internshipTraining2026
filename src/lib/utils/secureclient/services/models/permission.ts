@@ -11,6 +11,7 @@ export const RESOURCES = {
   ACTIVITY: "activity-logs",
   REPORT: "reports",
   CALENDER: "businesscalender",
+  ReservationReport: "reservation-report"
 } as const;
 
 //action sperform in thoese part
