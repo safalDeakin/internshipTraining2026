@@ -4,6 +4,7 @@ import DayActivityRenderer from "../hotel/pages/day-activity/DayActivityRenderer
 import HoldReservationRenderer from "../hotel/pages/hold-reservation/components/HoldReservationWorkSpace";
 import Report from "../reports/Report";
 import ReportBuilderRenderer from "../reports/ReportBuilderRenderer";
+import RefundSidebar from "./refund/Refund";
 
 // import { NightAuditOverview } from "../hotel/pages/nightAudit/components/overview/NightAuditOverview";
 // import NightAuditRenderer from "../hotel/pages/nightAudit/components/overview/NightAuditRenderer";
@@ -43,7 +44,7 @@ const TestComponent = () => {
       {/* <RoomServiceTask />
       <RoomServiceTaskCompletionSheet />
 
-      <RefundSidebar />
+     
       //
       {/* <GuestRequestPageRenderer /> */}
       {/* < PackageRenderer /> */}
@@ -52,6 +53,7 @@ const TestComponent = () => {
       {/* <ReportBuilderRenderer /> */}
       {/* <HoldReservationRenderer /> */}
       {/* <DayActivityRenderer /> */}
+      <RefundSidebar />
     </>
   );
 };

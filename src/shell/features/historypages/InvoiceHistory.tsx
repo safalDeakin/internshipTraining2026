@@ -7,6 +7,10 @@ import TableView from "../../shared/history/TableView";
 import ReferenceDetailsModal from "../../modal/ReferenceDetailsModals";
 
 import useInvoiceHistory from "../../hooks/useInvoiceHistory";
+import useDialogBox from "../../../lib/component/DialogueBox/useDialogueBox";
+import ApplyReturnModal from "../../modal/ApplyReturnModal";
+import ReusableButton from "../../shared/components/ReusableButton";
+import { ArrowDown } from "lucide-react";
 
 const Field = ({ label, children }: { label: string; children: ReactNode }) => (
   <p className="text-sm text-gray-500">
@@ -51,9 +55,39 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     handleSelectInvoice,
   } = useInvoiceHistory();
 
-  /* ----------------------------- UI ----------------------------- */
+  const { showDialog } = useDialogBox();
 
-  /* ----------------------------- UI ----------------------------- */
+  const handleApplyReturn = () => {
+    if (!selected) {
+      alert("Please select a customer first.");
+      return;
+    }
+
+    showDialog({
+      title: "Apply Return",
+      content: (
+        <ApplyReturnModal
+          invoice={{
+            invoiceNumber: selected.references[0] ?? "N/A",
+            customerName: selected.customerName,
+            phone: selected.phone,
+            date: new Date().toLocaleDateString("en-GB"),
+            totalAmount: 5000,
+            items: selected.cards.flatMap((card) =>
+              card.invoiceItems.map((item) => ({
+                name: item.name,
+                quantity: item.quantity,
+                amount: item.amount,
+              })),
+            ),
+          }}
+          onSubmit={(request) => {
+            console.log("Return request:", request);
+          }}
+        />
+      ),
+    });
+  };
 
   return (
     <div className="px-4 py-4">
@@ -96,10 +130,11 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                   <button
                     type="button"
                     onClick={() => handleSelectInvoice(customer.id)}
-                    className={`w-full rounded border px-3 py-2 text-left transition ${customer.id === selected?.id
-                      ? "border-blue-400 bg-blue-50"
-                      : "border-transparent hover:bg-gray-50"
-                      }`}
+                    className={`w-full rounded border px-3 py-2 text-left transition ${
+                      customer.id === selected?.id
+                        ? "border-blue-400 bg-blue-50"
+                        : "border-transparent hover:bg-gray-50"
+                    }`}
                   >
                     <p className="text-xs font-medium text-gray-800">
                       {customer.customerName}
@@ -141,7 +176,14 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
                   <Field label="Phone number">{selected.phone}</Field>
                 </Section>
-
+                <ReusableButton
+                  variant="primary"
+                  size="sm"
+                  icon={<ArrowDown size={14} />}
+                  onClick={handleApplyReturn}
+                >
+                  Apply return
+                </ReusableButton>
                 <Section title="Billing References">
                   <div className="flex flex-wrap gap-3">
                     {selected.cards.map((card) => (
@@ -149,10 +191,11 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                         key={card.id}
                         type="button"
                         onClick={() => handleReferenceClick(card.reference)}
-                        className={` px-3 py-2 text-xs transition ${activeReference?.id === card.id
-                          ? "border-blue-400 bg-blue-50 text-blue-700"
-                          : "border-gray-200 text-blue-600 hover:bg-gray-50"
-                          }`}
+                        className={` px-3 py-2 text-xs transition ${
+                          activeReference?.id === card.id
+                            ? "border-blue-400 bg-blue-50 text-blue-700"
+                            : "border-gray-200 text-blue-600 hover:bg-gray-50"
+                        }`}
                       >
                         {card.reference}
                         <span className="ml-2 text-gray-500">

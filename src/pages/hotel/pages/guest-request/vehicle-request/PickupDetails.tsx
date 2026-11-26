@@ -35,7 +35,7 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
               Msg to WhatsApp
             </ReusableButton>
             <ReusableButton variant="secondary" size="sm" onClick={handleEdit}>
-              Post to Folio
+              Charge to Folio
             </ReusableButton>
             <ReusableButton variant="outline" size="sm" onClick={handleEdit}>
               Pending

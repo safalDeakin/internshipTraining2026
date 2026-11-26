@@ -59,6 +59,16 @@ export function RequestDetails({ request }: { request: GuestRequest }) {
             </p>
           </div>
 
+          {request.status === "Completed" && (
+            <div className="mb-3">
+              <h3 className="text-[11px] font-bold">Completion Note</h3>
+
+              <p className="mt-0.5 text-[clamp(10px,0.7vw,12px)] text-slate-700">
+                {request.completionNote || "No completion note provided"}
+              </p>
+            </div>
+          )}
+
           <div>
             <h3 className="mb-1 text-[11px] font-bold">Billing</h3>
             <BillingTable items={request.billItems} />

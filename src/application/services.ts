@@ -14,7 +14,6 @@ import { rooms } from "../pages/houseKeeping/data/data";
 //LostAndFound
 import { initialLostAndFoundItems } from "../pages/lost-found/data/data";
 import type { Item } from "../domain/lostfound";
-import { initialOfferData } from "../pages/restaurant/dropdown/offer/data/initialOfferData";
 
 //Night Audit
 import type { NightAuditData } from "../domain/nightAudit";
@@ -27,11 +26,6 @@ import type { POSOverview } from "../domain/pos.overview";
 
 import { initialPricelistData } from "../pages/restaurant/dropdown/Pricelist/data/initialPricelistData";
 import { initialProductData } from "../pages/restaurant/dropdown/products/data/initialProductData";
-import type {
-  OfferType,
-  PricelistType,
-  ProductType,
-} from "../pages/restaurant/dropdown/types/DropdownTypes";
 
 //PMS/Guest-Request
 import type { GuestRequest } from "../domain/GuestRequest";
@@ -51,7 +45,12 @@ import type { HallReservation } from "../domain/hallReservation";
 import { hallReservations } from "../pages/hotel/pages/hall-reservation/data/hallReservation.data";
 import type { DayActivity } from "../domain/dayActivity";
 import { dayActivity } from "../pages/hotel/pages/day-activity/data/dayActivity.data";
-
+import { initialOfferData } from "../pages/restaurant/dropdown/offer/data/initialOfferData";
+import type {
+  OfferType,
+  PricelistType,
+  ProductType,
+} from "../pages/restaurant/dropdown/types/DropdownTypes";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -264,7 +263,7 @@ const POSSessionRepo = new Repository<POSSession, string>({
   tenantId: "MySpace1234",
   getId: (entity: POSSession) => entity.id,
   initialData: posInitialData,
-})
+});
 
 //This is for Report Builder
 const RepoprtBuilderRepo = new Repository<ReportBuilder, string>({
@@ -298,15 +297,16 @@ const FoodItemRepo = new Repository<FoodItem, string>({
   tenantId: "MySpace1234",
   getId: (entity: FoodItem) => String(entity.id),
   initialData: foodItems,
-})
+});
 
-export const ReportBuilderQueryService = new QueryService<ReportBuilder, string>(
-  RepoprtBuilderRepo,
-);
-export const ReportBuilderCmdService = new CommandService<ReportBuilder, string>(
-  RepoprtBuilderRepo,
-);
-
+export const ReportBuilderQueryService = new QueryService<
+  ReportBuilder,
+  string
+>(RepoprtBuilderRepo);
+export const ReportBuilderCmdService = new CommandService<
+  ReportBuilder,
+  string
+>(RepoprtBuilderRepo);
 
 //This is for HoldReservation(Pending)
 const HoldReservationRepo = new Repository<ReservationRecord, string>({
@@ -333,14 +333,15 @@ const OrderRepo = new Repository<Order, string>({
 
   getId: (entity: Order) => entity.id,
   initialData: initialOrderData,
-})
-export const HoldReservationQueryService = new QueryService<ReservationRecord, string>(
-  HoldReservationRepo,
-);
-export const HoldReservationCmdService = new CommandService<ReservationRecord, string>(
-  HoldReservationRepo,
-);
-
+});
+export const HoldReservationQueryService = new QueryService<
+  ReservationRecord,
+  string
+>(HoldReservationRepo);
+export const HoldReservationCmdService = new CommandService<
+  ReservationRecord,
+  string
+>(HoldReservationRepo);
 
 //This is for HallReservation
 const HallReservationRepo = new Repository<HallReservation, string>({
@@ -371,13 +372,14 @@ const InvoicingCardRepo = new Repository<InvoiceCards, string>({
   getId: (entity: InvoiceCards) => String(entity.id),
   initialData: invoicingCards,
 });
-export const HallReservationQueryService = new QueryService<HallReservation, string>(
-  HallReservationRepo,
-);
-export const HallReservationCmdService = new CommandService<HallReservation, string>(
-  HallReservationRepo,
-);
-
+export const HallReservationQueryService = new QueryService<
+  HallReservation,
+  string
+>(HallReservationRepo);
+export const HallReservationCmdService = new CommandService<
+  HallReservation,
+  string
+>(HallReservationRepo);
 
 //This is for Day Activity
 const DayActivityRepo = new Repository<DayActivity, string>({

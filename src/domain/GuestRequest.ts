@@ -38,7 +38,7 @@ export type GuestRequest = {
   assignedTo: string;
   completedBy: string;
   completedAt: string;
-
+  completionNote: string;
   // Other information
   note: string;
   status: "Assigned Task" | "Completed";

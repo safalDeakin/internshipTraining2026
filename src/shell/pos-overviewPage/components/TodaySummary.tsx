@@ -45,6 +45,7 @@ const shortcuts = [
 
 interface TodaySummaryProps {
   data: POSOverview;
+  selectedMonth?: string;
   selectedDate?: string | null;
   staffName?: string;
   sessionId?: string | null;
@@ -53,15 +54,14 @@ interface TodaySummaryProps {
 
 export function TodaySummary({
   data,
+  selectedMonth,
   selectedDate,
   staffName,
   sessionId,
   onOpenSessionMode,
 }: TodaySummaryProps) {
-  const dateToDisplay = selectedDate || data.date;
-
-  const formattedDate = dateToDisplay
-    ? new Date(`${dateToDisplay.slice(0, 10)}T12:00:00`).toLocaleDateString(
+  const formattedDate = selectedDate
+    ? new Date(`${selectedDate.slice(0, 10)}T12:00:00`).toLocaleDateString(
         "en-GB",
         {
           day: "2-digit",
@@ -69,7 +69,14 @@ export function TodaySummary({
           year: "numeric",
         },
       )
-    : "Today";
+    : "";
+
+  const formattedMonth = selectedMonth
+    ? new Date(`${selectedMonth}-01T12:00:00`).toLocaleDateString("en-GB", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
 
   return (
     <Panel className="border-none">
@@ -77,11 +84,13 @@ export function TodaySummary({
         left={
           <div>
             <h1 className="text-[13px] font-semibold">
-              {staffName
-                ? `${staffName} Summary`
-                : selectedDate
-                  ? `${formattedDate} Summary`
-                  : "Today's Summary"}
+              {selectedDate
+                ? `${formattedDate} Summary`
+                : selectedMonth
+                  ? `${formattedMonth} Summary`
+                  : staffName
+                    ? `${staffName} Summary`
+                    : "Today's Summary"}
             </h1>
 
             {sessionId ? (
@@ -115,7 +124,8 @@ export function TodaySummary({
       />
 
       <Container type="box" background="surface-default">
-        <div className="">
+        {/* Overview */}
+        <div>
           <SectionTitle>Overview</SectionTitle>
 
           <div className="grid gap-5 border border-[#e1e6ea] md:grid-cols-2">
@@ -124,6 +134,7 @@ export function TodaySummary({
           </div>
         </div>
 
+        {/* Shortcut Actions */}
         <div className="mt-5">
           <SectionTitle>Shortcuts Actions</SectionTitle>
 
@@ -153,6 +164,7 @@ export function TodaySummary({
           </div>
         </div>
 
+        {/* Exceptions */}
         <div className="mt-8">
           <SectionTitle>Exceptions</SectionTitle>
 

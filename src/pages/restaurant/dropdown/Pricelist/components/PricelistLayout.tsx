@@ -24,8 +24,9 @@ const PricelistLayout = () => {
   };
 
   // Open Add Pricelist Dialog
+  // Open Add Pricelist Dialog
   const handleAddPricelist = async () => {
-    const result = await showDialog<PricelistFormData>({
+    await showDialog({
       title: "Add PriceList-Form",
       width: 420,
       showHeader: false,
@@ -35,17 +36,15 @@ const PricelistLayout = () => {
       content: (
         <PricelistAddModal
           onClose={() => closeDialog()}
-          onConfirm={(data) => closeDialog(data)}
+          onConfirm={(formData) => {
+            handlePricelistSubmit(formData);
+            closeDialog();
+          }}
           templates={[{ label: "Empty Pricelist", val: "empty" }]}
         />
       ),
     });
-
-    if (result) {
-      handlePricelistSubmit(result);
-    }
   };
-
   if (loading) {
     return (
       <div className="p-5 text-sm text-gray-500">Loading pricelists...</div>
