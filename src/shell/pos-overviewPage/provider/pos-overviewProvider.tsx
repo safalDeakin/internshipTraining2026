@@ -19,13 +19,14 @@ export const RepoPosOverviewProvider = ({
   selectedDate,
   selectedSessionId,
 }: {
-  selectedDate?: string,
-  selectedSessionId?: string,
+  selectedDate?: string;
+  selectedSessionId?: string;
   children: ReactNode;
 }) => {
   const { data, loading, error } = useSubscription<POSOverview, string>(
     posOverviewQueryService,
   );
+
   const { organization } = useAuth();
 
   const overviews = data ?? [];

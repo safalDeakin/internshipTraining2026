@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import { OfferContext } from "./OfferContext";
 
 export const useOffer = () => {
@@ -10,3 +11,5 @@ export const useOffer = () => {
 
   return context;
 };
+
+export default useOffer;

@@ -1,8 +1,13 @@
-import { Check, ChevronDown, ListChecks, Send } from "lucide-react";
+import { Check, ListChecks, Send } from "lucide-react";
+
 import type { GuestRequest } from "../../../../../domain/GuestRequest";
+
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
+
 import { PostToFolioModal } from "./PostToFolioModal";
+import { useGuestRequestHook } from "../provider/useGuestRequest";
+import CompleteTaskModal from "../../../dropdown/modal/CompletionTaskModal";
 
 type Props = {
   request: GuestRequest;
@@ -11,6 +16,9 @@ type Props = {
 
 export default function GuestRequestToolbar({ request, posted }: Props) {
   const { showDialog } = useDialogBox();
+  const { update } = useGuestRequestHook();
+
+  const completed = request.status === "Completed";
 
   const handlePostToFolio = async () => {
     const result = await showDialog<boolean>({
@@ -25,6 +33,17 @@ export default function GuestRequestToolbar({ request, posted }: Props) {
     }
   };
 
+  const handleCompleteTask = async (values: string) => {
+    const data = JSON.parse(values);
+
+    await update(request.id, {
+      status: "Completed",
+      completedBy: data.fullName,
+      completedAt: new Date().toISOString(),
+      completionNote: data.completionNote,
+    });
+  };
+
   return (
     <Toolbar
       left={
@@ -35,15 +54,37 @@ export default function GuestRequestToolbar({ request, posted }: Props) {
             Prabin-{request.room} - {request.title}
             <span className="ml-2 inline-block h-2 w-2 rounded-full bg-lime-400" />
           </h2>
+          {/* Separate status text */}
+          <p
+            className={`shrink-0 text-[10px] font-semibold ${
+              completed ? "text-emerald-600" : "text-blue-600"
+            }`}
+          >
+            {completed ? "Completed" : "New"}
+          </p>
         </>
       }
       right={
         <>
-          <button className="hidden  text-slate-600 sm:inline">
+          {" "}
+          {/* Always-visible action button */}
+          <button
+            type="button"
+            onClick={() =>
+              showDialog({
+                title: "Complete Assigned Task",
+                showHeader: true,
+                width: 600,
+                content: <CompleteTaskModal onSubmit={handleCompleteTask} />,
+              })
+            }
+            disabled={completed}
+            className="shrink-0 text-[10px] text-slate-600 hover:text-emerald-600 disabled:cursor-not-allowed"
+          >
             Assigned Task
           </button>
-
           <button
+            type="button"
             onClick={handlePostToFolio}
             disabled={posted}
             className={`flex h-7 items-center gap-1 px-3 text-[10px] text-white ${
@@ -51,16 +92,7 @@ export default function GuestRequestToolbar({ request, posted }: Props) {
             }`}
           >
             {posted ? <Check size={12} /> : <Send size={12} />}
-
             {posted ? "Posted" : "Post to Folio"}
-          </button>
-
-          <button
-            type="button"
-            className="hidden items-center gap-1 text-[10px] text-slate-600 lg:flex"
-          >
-            Completed
-            <ChevronDown size={12} />
           </button>
         </>
       }

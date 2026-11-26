@@ -29,45 +29,42 @@ export const initialOfferData: OfferType[] = [
       { label: "Created By", value: "Admin" },
     ],
 
-    posShifts: [
-      [
-        { label: "Active", value: 12 },
-        { label: "Pending", value: 3 },
-        { label: "Closed and Approved", value: 9 },
-      ],
-      [
-        { label: "Terminal Online", value: 5 },
-        { label: "Total Staffs", value: 15 },
-        { label: "Total Hours", value: 10 },
-      ],
-    ],
-
-    sales: [
-      [
-        { label: "Total Item Sold", value: 125 },
-        { label: "Net Sales", value: "Rs. 30,000" },
-        { label: "Total Collected", value: "Rs. 24,000" },
-      ],
-      [
-        { label: "Gross Sale", value: "Rs. 35,000" },
-        { label: "Total Tax", value: "Rs. 5,000" },
-        { label: "Total Discounts", value: "Rs. 1,000" },
-      ],
-    ],
-
-    shortcuts: [
-      { label: "Record Unavailability", color: "bg-red-500" },
-      { label: "Run POS", color: "bg-blue-500" },
-      { label: "Record Expenses", color: "bg-green-500" },
-      { label: "View Pending Approval", color: "bg-orange-400" },
-    ],
-
     usageLimits: [
       { label: "Usage Type", value: "Once Per Customer Per Day" },
       { label: "Daily Limit", value: "100" },
       { label: "Campaign Limit", value: "500" },
       { label: "Customer Limit", value: "Unlimited" },
       { label: "Total Usage", value: "125 / 500" },
+    ],
+
+    applicableItems: [
+      {
+        id: "AI-001",
+        productId: "P-001",
+        itemName: "Chicken Mo:Mo",
+        category: "Food",
+        minQtyOrder: 2,
+        cashBackPercent: 20,
+        cashBackAmount: 100,
+      },
+      {
+        id: "AI-002",
+        productId: "P-002",
+        itemName: "Veg Mo:Mo",
+        category: "Food",
+        minQtyOrder: 2,
+        cashBackPercent: 15,
+        cashBackAmount: 75,
+      },
+      {
+        id: "AI-003",
+        productId: "P-003",
+        itemName: "Coke",
+        category: "Beverages",
+        minQtyOrder: 1,
+        cashBackPercent: 10,
+        cashBackAmount: 30,
+      },
     ],
   },
 
@@ -98,45 +95,42 @@ export const initialOfferData: OfferType[] = [
       { label: "Created By", value: "Restaurant Manager" },
     ],
 
-    posShifts: [
-      [
-        { label: "Active", value: 18 },
-        { label: "Pending", value: 5 },
-        { label: "Closed and Approved", value: 14 },
-      ],
-      [
-        { label: "Terminal Online", value: 8 },
-        { label: "Total Staffs", value: 22 },
-        { label: "Total Hours", value: 16 },
-      ],
-    ],
-
-    sales: [
-      [
-        { label: "Total Item Sold", value: 340 },
-        { label: "Net Sales", value: "Rs. 85,000" },
-        { label: "Total Collected", value: "Rs. 78,000" },
-      ],
-      [
-        { label: "Gross Sale", value: "Rs. 95,000" },
-        { label: "Total Tax", value: "Rs. 10,000" },
-        { label: "Total Discounts", value: "Rs. 7,000" },
-      ],
-    ],
-
-    shortcuts: [
-      { label: "Record Unavailability", color: "bg-red-500" },
-      { label: "Run POS", color: "bg-blue-500" },
-      { label: "Record Expenses", color: "bg-green-500" },
-      { label: "View Pending Approval", color: "bg-orange-400" },
-    ],
-
     usageLimits: [
       { label: "Usage Type", value: "Once Per Transaction" },
       { label: "Daily Limit", value: "200" },
       { label: "Campaign Limit", value: "1,000" },
       { label: "Customer Limit", value: "3 Times" },
       { label: "Total Usage", value: "340 / 1,000" },
+    ],
+
+    applicableItems: [
+      {
+        id: "AI-004",
+        productId: "P-004",
+        itemName: "Chicken Biryani",
+        category: "Food",
+        minQtyOrder: 3,
+        cashBackPercent: 20,
+        cashBackAmount: 200,
+      },
+      {
+        id: "AI-005",
+        productId: "P-005",
+        itemName: "Paneer Butter Masala",
+        category: "Food",
+        minQtyOrder: 2,
+        cashBackPercent: 15,
+        cashBackAmount: 150,
+      },
+      {
+        id: "AI-006",
+        productId: "P-006",
+        itemName: "Mango Lassi",
+        category: "Beverages",
+        minQtyOrder: 2,
+        cashBackPercent: 10,
+        cashBackAmount: 50,
+      },
     ],
   },
 
@@ -167,45 +161,42 @@ export const initialOfferData: OfferType[] = [
       { label: "Created By", value: "Admin" },
     ],
 
-    posShifts: [
-      [
-        { label: "Active", value: 8 },
-        { label: "Pending", value: 2 },
-        { label: "Closed and Approved", value: 6 },
-      ],
-      [
-        { label: "Terminal Online", value: 4 },
-        { label: "Total Staffs", value: 10 },
-        { label: "Total Hours", value: 8 },
-      ],
-    ],
-
-    sales: [
-      [
-        { label: "Total Item Sold", value: 210 },
-        { label: "Net Sales", value: "Rs. 42,000" },
-        { label: "Total Collected", value: "Rs. 38,000" },
-      ],
-      [
-        { label: "Gross Sale", value: "Rs. 48,000" },
-        { label: "Total Tax", value: "Rs. 6,000" },
-        { label: "Total Discounts", value: "Rs. 6,000" },
-      ],
-    ],
-
-    shortcuts: [
-      { label: "Record Unavailability", color: "bg-red-500" },
-      { label: "Run POS", color: "bg-blue-500" },
-      { label: "Record Expenses", color: "bg-green-500" },
-      { label: "View Pending Approval", color: "bg-orange-400" },
-    ],
-
     usageLimits: [
       { label: "Usage Type", value: "Once Per Customer Per Day" },
       { label: "Daily Limit", value: "150" },
       { label: "Campaign Limit", value: "2,000" },
       { label: "Customer Limit", value: "Unlimited" },
       { label: "Total Usage", value: "210 / 2,000" },
+    ],
+
+    applicableItems: [
+      {
+        id: "AI-007",
+        productId: "P-007",
+        itemName: "Chicken Pizza",
+        category: "Food",
+        minQtyOrder: 1,
+        cashBackPercent: 15,
+        cashBackAmount: 120,
+      },
+      {
+        id: "AI-008",
+        productId: "P-008",
+        itemName: "French Fries",
+        category: "Snacks",
+        minQtyOrder: 2,
+        cashBackPercent: 10,
+        cashBackAmount: 50,
+      },
+      {
+        id: "AI-009",
+        productId: "P-009",
+        itemName: "Mojito",
+        category: "Beverages",
+        minQtyOrder: 1,
+        cashBackPercent: 15,
+        cashBackAmount: 60,
+      },
     ],
   },
 
@@ -236,45 +227,42 @@ export const initialOfferData: OfferType[] = [
       { label: "Created By", value: "System Admin" },
     ],
 
-    posShifts: [
-      [
-        { label: "Active", value: 0 },
-        { label: "Pending", value: 0 },
-        { label: "Closed and Approved", value: 12 },
-      ],
-      [
-        { label: "Terminal Online", value: 0 },
-        { label: "Total Staffs", value: 8 },
-        { label: "Total Hours", value: 0 },
-      ],
-    ],
-
-    sales: [
-      [
-        { label: "Total Item Sold", value: 95 },
-        { label: "Net Sales", value: "Rs. 19,000" },
-        { label: "Total Collected", value: "Rs. 18,000" },
-      ],
-      [
-        { label: "Gross Sale", value: "Rs. 22,000" },
-        { label: "Total Tax", value: "Rs. 3,000" },
-        { label: "Total Discounts", value: "Rs. 3,000" },
-      ],
-    ],
-
-    shortcuts: [
-      { label: "Record Unavailability", color: "bg-red-500" },
-      { label: "Run POS", color: "bg-blue-500" },
-      { label: "Record Expenses", color: "bg-green-500" },
-      { label: "View Pending Approval", color: "bg-orange-400" },
-    ],
-
     usageLimits: [
       { label: "Usage Type", value: "Once Per Customer" },
       { label: "Daily Limit", value: "50" },
       { label: "Campaign Limit", value: "300" },
       { label: "Customer Limit", value: "1 Time" },
       { label: "Total Usage", value: "95 / 300" },
+    ],
+
+    applicableItems: [
+      {
+        id: "AI-010",
+        productId: "P-010",
+        itemName: "Coke",
+        category: "Beverages",
+        minQtyOrder: 1,
+        cashBackPercent: 0,
+        cashBackAmount: 100,
+      },
+      {
+        id: "AI-011",
+        productId: "P-011",
+        itemName: "Fresh Lime Soda",
+        category: "Beverages",
+        minQtyOrder: 2,
+        cashBackPercent: 0,
+        cashBackAmount: 80,
+      },
+      {
+        id: "AI-012",
+        productId: "P-012",
+        itemName: "Chocolate Brownie",
+        category: "Desserts",
+        minQtyOrder: 1,
+        cashBackPercent: 0,
+        cashBackAmount: 150,
+      },
     ],
   },
 ];

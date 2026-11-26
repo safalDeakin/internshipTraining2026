@@ -3,23 +3,18 @@ import PosOverviewPage from "./components/PosOverviewPage";
 import { RepoPosOverviewProvider } from "./provider/pos-overviewProvider";
 
 const PosOverviewRenderer = () => {
-  const [searchParam] = useSearchParams();
-  const sessionId = searchParam.get('session');
-  const selectedDate = searchParam.get('date');
-  if (sessionId) {
-    alert('Session : ' + sessionId)
+  const [searchParams] = useSearchParams();
 
-  }
-  if (selectedDate) {
-    alert('Date : ' + selectedDate)
-  }
+  const sessionId = searchParams.get("session") || undefined;
+  const selectedDate = searchParams.get("date") || undefined;
+
   return (
-
-    <>
-      <RepoPosOverviewProvider selectedDate={selectedDate ? selectedDate : undefined} selectedSessionId={sessionId ? sessionId : undefined}>
-        <PosOverviewPage />
-      </RepoPosOverviewProvider>
-    </>
+    <RepoPosOverviewProvider
+      selectedDate={selectedDate}
+      selectedSessionId={sessionId}
+    >
+      <PosOverviewPage />
+    </RepoPosOverviewProvider>
   );
 };
 

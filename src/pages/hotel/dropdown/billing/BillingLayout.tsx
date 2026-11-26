@@ -1,17 +1,20 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 
 import MasterDetailView from "../../../../lib/component/MasterDetailView/MasterDetailView";
 import ReusableButton from "../../../../shell/shared/components/ReusableButton";
 import Scrollable from "../../../../lib/component/scrollable/Scrollable";
-
 import useDialogBox from "../../../../lib/component/DialogueBox/useDialogueBox";
 
 import BillingDetails from "./BillingDetails";
 import AddGuestFolioModal from "../modal/AddGuestFolioModal";
+import ReceiptModal from "../modal/ReceiptModal";
+import PrintReceiptModal from "../modal/PrintReceiptModal";
+
 import GuestFolioReceiptModal, {
   type GuestFolioReceiptData,
 } from "../modal/GuestFolioReceiptModal";
+import ReceivePaymentModal from "../modal/ReceiptPaymentModal";
 
 export interface GuestFolio {
   id: number;
@@ -93,6 +96,9 @@ const initialFolios: GuestFolio[] = [
 const BillingLayout = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [folios] = useState<GuestFolio[]>(initialFolios);
+  const [submittedValues, setSubmittedValues] = useState<string | null>(null);
+
+  const paymentValuesRef = useRef<string | null>(null);
 
   const { showDialog, closeDialog } = useDialogBox();
 
@@ -107,23 +113,29 @@ const BillingLayout = () => {
   // Open Add Guest Folio Modal
   const handleNewFolio = async () => {
     try {
-      const result = await showDialog<string>({
+      setSubmittedValues(null);
+
+      await showDialog({
         title: "Advance Deposit",
         showHeader: true,
         closeOnBackdrop: false,
         closeOnEscape: false,
         content: (
-          <AddGuestFolioModal onSubmit={(values) => closeDialog(values)} />
+          <AddGuestFolioModal
+            onSubmit={(values) => {
+              setSubmittedValues(values);
+              closeDialog();
+            }}
+          />
         ),
       });
 
-      if (!result) return;
+      if (!submittedValues) return;
 
-      const values = JSON.parse(result);
+      const values = JSON.parse(submittedValues);
 
       console.log("Submitted Advance Deposit:", values);
 
-      // Temporary mock receipt data
       const receipt: GuestFolioReceiptData = {
         hotelName: "VIP Restaurant & Hotel",
         address: "Banepa-07, Kavre, Nepal",
@@ -148,7 +160,6 @@ const BillingLayout = () => {
         receivedBy: "Admin",
       };
 
-      // Open Receipt Modal
       await showDialog({
         title: "Advance Receipt",
         showHeader: false,
@@ -166,8 +177,63 @@ const BillingLayout = () => {
     }
   };
 
-  const handleReceivePayment = (folio: GuestFolio) => {
-    console.log("Receive payment for:", folio);
+  // Receive Payment → Receipt → Print Receipt
+  const handleReceivePayment = async (folio: GuestFolio) => {
+    try {
+      paymentValuesRef.current = null;
+
+      // Step 1: Open Receive Payment Modal
+      await showDialog({
+        title: "Receive Payment",
+        showHeader: true,
+        closeOnBackdrop: false,
+        closeOnEscape: false,
+        content: (
+          <ReceivePaymentModal
+            folio={folio}
+            onClose={(values) => {
+              paymentValuesRef.current = values ?? null;
+              closeDialog();
+            }}
+          />
+        ),
+      });
+
+      // Stop if the user closes without submitting
+      if (!paymentValuesRef.current) return;
+
+      const payment = JSON.parse(paymentValuesRef.current);
+
+      console.log("Received Payment:", {
+        folio,
+        payment,
+      });
+
+      // Step 2: Open Receipt Modal
+      await showDialog({
+        title: "Receipt",
+        showHeader: false,
+        closeOnBackdrop: false,
+        closeOnEscape: false,
+        content: (
+          <ReceiptModal
+            onClose={() => closeDialog()}
+            onPrintReceipt={() => {
+              // Step 3: Open Print Receipt Modal
+              void showDialog({
+                title: "Print Receipt",
+                showHeader: false,
+                closeOnBackdrop: false,
+                closeOnEscape: false,
+                content: <PrintReceiptModal onClose={() => closeDialog()} />,
+              });
+            }}
+          />
+        ),
+      });
+    } catch (error) {
+      console.error("Unable to receive payment:", error);
+    }
   };
 
   const handleExportCSV = (folio: GuestFolio) => {

@@ -44,7 +44,7 @@ const Products = () => {
 
   // Open product registration dialog
   const handleAddProduct = async () => {
-    const result = await showDialog<ProductFormData>({
+    await showDialog({
       title: "Register Product",
       width: 550,
       showHeader: true,
@@ -54,14 +54,13 @@ const Products = () => {
         <ProductFormModal
           title="Register Product"
           onClose={() => closeDialog()}
-          onConfirm={(data) => closeDialog(data)}
+          onConfirm={(formData) => {
+            handleProductSubmit(formData);
+            closeDialog();
+          }}
         />
       ),
     });
-
-    if (result) {
-      handleProductSubmit(result);
-    }
   };
 
   if (loading) {

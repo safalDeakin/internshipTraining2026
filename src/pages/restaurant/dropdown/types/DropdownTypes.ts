@@ -14,19 +14,31 @@ export interface Shortcut {
   onClick?: () => void;
 }
 
+// Applicable item added to an offer
+export interface ApplicableOfferItem {
+  id: string;
+  productId: string;
+  itemName: string;
+  category: string;
+  minQtyOrder: number;
+  cashBackPercent: number;
+  cashBackAmount: number;
+}
+// author: shrajja
+
+export interface ApplicationItemOption {
+  id: string;
+  name: string;
+}
+// Only OfferType is changed
 export type OfferType = {
   id: number;
   name: string;
   code?: string;
   leftInfo?: InfoRow[];
   rightInfo?: InfoRow[];
-  posShifts?: Stat[][];
-  sales?: Stat[][];
-  shortcuts?: {
-    label: string;
-    color: string;
-  }[];
   usageLimits?: InfoRow[];
+  applicableItems?: ApplicableOfferItem[];
 };
 
 export interface OfferDetailsProps {
@@ -66,6 +78,7 @@ export type PricelistType = {
 };
 
 //_________________________
+
 export type ProductItem = {
   id: string;
   name: string;
@@ -74,6 +87,7 @@ export type ProductItem = {
   calories: string;
   image: string;
 };
+
 export type ProductType = {
   id: string;
   name: string;

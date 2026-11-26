@@ -3,7 +3,11 @@
 import { Plus } from "lucide-react";
 
 import MasterDetailView from "../../../../../lib/component/MasterDetailView/MasterDetailView";
-import type { OfferType } from "../../types/DropdownTypes";
+import type {
+  ApplicationItemOption,
+  OfferType,
+} from "../../types/DropdownTypes";
+
 import { useOffer } from "../context/useOffer";
 import OffersDetails from "./OffersDetails";
 
@@ -12,7 +16,11 @@ import OfferAddModal, {
 } from "../../../modal/dropdown/OfferAddModal";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 
-const OfferLayout = () => {
+interface OfferLayoutProps {
+  products?: ApplicationItemOption[];
+}
+
+const OfferLayout = ({ products }: OfferLayoutProps) => {
   const { filteredOffers, loading, search, setSearch } = useOffer();
 
   const { showDialog, closeDialog } = useDialogBox();
@@ -26,7 +34,7 @@ const OfferLayout = () => {
 
   // Open Create Offer Dialog
   const handleAddOffer = async () => {
-    const result = await showDialog<OfferFormData>({
+    await showDialog({
       title: "Create Offer",
       width: 530,
       showHeader: false,
@@ -35,8 +43,11 @@ const OfferLayout = () => {
 
       content: (
         <OfferAddModal
-          onClose={() => closeDialog()}
-          onConfirm={(data) => closeDialog(data)}
+          onClose={closeDialog}
+          onConfirm={(formData) => {
+            handleOfferSubmit(formData);
+            closeDialog();
+          }}
           labels={[
             { label: "General", val: "general" },
             { label: "Seasonal", val: "seasonal" },
@@ -45,10 +56,6 @@ const OfferLayout = () => {
         />
       ),
     });
-
-    if (result) {
-      handleOfferSubmit(result);
-    }
   };
 
   if (loading) {
@@ -72,13 +79,15 @@ const OfferLayout = () => {
           return <p className="p-5 text-sm text-gray-500">Offer not found.</p>;
         }
 
-        return <OffersDetails offer={selectedOffer} />;
+        return (
+          <OffersDetails offer={selectedOffer} products={products ?? []} />
+        );
       }}
       headerChildren={
         <button
           type="button"
           onClick={handleAddOffer}
-          className="p-2 rounded-md text-blue-600 border border-gray-300 hover:bg-gray-100"
+          className="rounded-md border border-gray-300 p-2 text-blue-600 hover:bg-gray-100"
           title="Add Offer"
         >
           <Plus size={18} />
