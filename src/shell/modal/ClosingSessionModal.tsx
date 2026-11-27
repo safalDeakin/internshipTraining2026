@@ -3,22 +3,17 @@
 import { useState } from "react";
 
 import ReusableButton from "../shared/components/ReusableButton";
-
-interface ClosingSessionModalProps {
-  staffName: string;
-  terminal: string;
-  date: string;
-  onCancel: () => void;
-  onConfirm: (data: { closingCash: number; notes: string }) => void;
-}
+import type { POSSession } from "../types/posSessionTypes";
 
 const ClosingSessionModal = ({
-  staffName,
-  terminal,
-  date,
+  session,
   onCancel,
   onConfirm,
-}: ClosingSessionModalProps) => {
+}: {
+  session: POSSession;
+  onCancel: () => void;
+  onConfirm: (data: { closingCash: number; notes: string }) => void;
+}) => {
   const [closingCash, setClosingCash] = useState("");
   const [notes, setNotes] = useState("");
 
@@ -58,17 +53,17 @@ const ClosingSessionModal = ({
         <div className="mt-6 space-y-4 rounded-xl bg-gray-50 p-4">
           <div>
             <h2 className="text-sm font-medium text-gray-700">Staff</h2>
-            <p className="mt-1 text-sm text-gray-500">{staffName}</p>
+            <p className="mt-1 text-sm text-gray-500">{session.staffName}</p>
           </div>
 
           <div>
             <h2 className="text-sm font-medium text-gray-700">Terminal</h2>
-            <p className="mt-1 text-sm text-gray-500">{terminal}</p>
+            <p className="mt-1 text-sm text-gray-500">{session.terminal}</p>
           </div>
 
           <div>
             <h2 className="text-sm font-medium text-gray-700">Date</h2>
-            <p className="mt-1 text-sm text-gray-500">{date}</p>
+            <p className="mt-1 text-sm text-gray-500">{session.startTime}</p>
           </div>
         </div>
 

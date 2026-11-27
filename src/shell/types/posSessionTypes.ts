@@ -3,10 +3,9 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 // 1. Allowed session modes
 export type POSSessionMode =
   | "Standard"
-  | "Only Ordering"
-  | "GoBack"
-  | "Manager Mode"
-  | "Service and Technical Check";
+  | "Session"
+  | "Manager"
+  | "Service";
 
 // 2. Session lifecycle status
 export type POSSessionStatus = "active" | "paused" | "ended";
@@ -19,6 +18,7 @@ export interface POSSession {
   terminal: string;
   date: string;
   mode: POSSessionMode;
+  role: string;
   organizationId: string | number;
 
   // Session timing

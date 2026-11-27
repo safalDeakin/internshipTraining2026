@@ -14,6 +14,7 @@ export interface PaymentCard {
   payment?: string;
   invoice?: string[];
 }
+
 export interface PaymentCardsProps {
   id?: number;
   image?: string;
@@ -29,6 +30,7 @@ export interface PaymentFormProps {
   customer: PaymentCard;
   onCancel: () => void;
 }
+
 interface PaymentData {
   customer: PaymentCard;
   total: number;

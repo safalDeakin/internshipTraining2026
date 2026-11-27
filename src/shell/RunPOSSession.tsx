@@ -3,7 +3,7 @@ import useDialogBox from "../lib/component/DialogueBox/useDialogueBox";
 import ContinueSession from "./modal/ContinueSession";
 import ClosingSessionModal from "./modal/ClosingSessionModal";
 import { useUserSession } from "./context/UserSessionProvider";
-import NewSessionModal from "./modal/NewSessionModal";
+import StartNewSession from "./modal/NewSessionModal";
 import ExitSessionModal from "./modal/ExitSessionModal";
 import { useEffect, type ReactNode } from "react";
 import POSScreen from "./POSScreen";
@@ -17,9 +17,7 @@ export default function RunPOSSession() {
         if (session != null) {
             return (
                 <ClosingSessionModal
-                    staffName={session!.staffName}
-                    terminal={session!.terminal}
-                    date={new Date(session!.date).toLocaleDateString()}
+                    session={session}
                     onCancel={onBack}
                     onConfirm={(data) => {
                         endSession(data.closingCash, data.notes);
@@ -31,7 +29,6 @@ export default function RunPOSSession() {
         } else {
             return (<></>);
         }
-
     }
 
     useEffect(() => {
@@ -43,7 +40,7 @@ export default function RunPOSSession() {
                 showHeader: false,
                 width: 400,
                 content: (
-                    <NewSessionModal
+                    <StartNewSession
                         staffName={userName ?? "Unknown"}
                         terminal="Main Counter"
                         date={new Date().toLocaleDateString()}
@@ -55,8 +52,7 @@ export default function RunPOSSession() {
                         onSelect={(mode, data) => {
                             startNewSession(
                                 mode,
-                                data.openingCash,
-                                data.notes
+                                data
                             );
                             closeDialog()
                         }}
@@ -101,12 +97,19 @@ export default function RunPOSSession() {
                                     session={session!}
                                     onCancel={closeDialog}
                                     onPauseSession={() => {
-                                        pauseSession()
+                                        if (session.mode == 'Session') {
+                                            pauseSession()
+                                        }
                                         closeDialog()
                                         closeDrawer()
                                     }}
                                     loadEndSession={(onBack) => {
-                                        return loadEndSession(onBack)
+                                        if (session.mode == 'Session') {
+                                            return loadEndSession(onBack)
+                                        } else {
+                                            closeDialog()
+                                            closeDrawer()
+                                        }
                                     }}
                                 />
                         }

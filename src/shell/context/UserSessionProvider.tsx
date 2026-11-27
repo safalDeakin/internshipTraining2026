@@ -27,8 +27,10 @@ interface POSUserSessionContextType {
   // Session lifecycle
   startNewSession: (
     mode: POSSessionMode,
-    openingCash: number,
-    notes: string,
+    data?: {
+      openingCash: number,
+      notes: string,
+    }
   ) => void;
   pauseSession: () => void;
   continueSession: () => void;
@@ -129,18 +131,21 @@ export const UserSessionProvider = ({
   // 2. Start a new session using CommandService
   const startNewSession = async (
     mode: POSSessionMode,
-    openingCash: number,
-    notes: string,
+    data?: {
+      openingCash: number,
+      notes: string,
+    }
+
   ) => {
     if (!user || !orgId) {
       throw new Error("User or organization not found");
     }
 
     const now = new Date();
-
     const newSession: POSSession = {
       id: crypto.randomUUID(),
       staffId,
+      role: 'admin',
       staffName,
       terminal: "Main Counter",
       date: now.toISOString().slice(0, 10),
@@ -153,16 +158,16 @@ export const UserSessionProvider = ({
       status: "active",
       isApproved: false,
       isVerified: false,
-      openingCash,
-      openingNotes: notes,
+      openingCash: data ? data.openingCash : 999,
+      openingNotes: data ? data.notes : '',
     };
 
-    const success = await POSSessionCmdService.create(newSession);
-
-    if (!success) {
-      throw new Error("Failed to create POS session");
+    if (mode == 'Session' && data && data.openingCash) {
+      const success = await POSSessionCmdService.create(newSession);
+      if (!success) {
+        throw new Error("Failed to create POS session");
+      }
     }
-
     setSession(newSession);
     setContent("POSScreen");
   };
