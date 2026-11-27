@@ -15,7 +15,7 @@ export default function SidebarContainer({ header, children, footer }: SidebarCo
                 {/* DIVIDER */}
                 {/* {header && <div style={{ height: "1px", backgroundColor: "grey" }} />} */}
 
-                <div className='sidebar-container-body'>{children}</div>
+                <div className='sidebar-container-body' style={{ height: '100%' }}>{children}</div>
                 {
                     footer && <div className='sidebar-footer'>{footer}</div>
                 }

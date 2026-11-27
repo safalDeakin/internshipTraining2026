@@ -53,16 +53,15 @@ export default function SessionNavGroup({
   };
 
   return (
-    <div>
+    <div style={{ height: '100%' }} >
       <button
         type="button"
         onClick={() => setPosSessionsOpen((prev) => !prev)}
         className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left"
       >
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${
-            posSessionsOpen ? "rotate-180" : ""
-          }`}
+          className={`h-4 w-4 transition-transform ${posSessionsOpen ? "rotate-180" : ""
+            }`}
         />
 
         <span className="font-medium">Sales Sessions</span>
