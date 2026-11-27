@@ -11,6 +11,7 @@ import type { ProductType } from "../../types/DropdownTypes";
 import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBox";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Container from "../../../../../lib/component/Container/Container";
+import DeleteConfirmationModal from "../../../modal/DeleteConfirmationModal";
 
 interface FnBDetailsProps {
   product: ProductType | null;
@@ -85,7 +86,32 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
       ),
     });
   };
+  const handleDeleteProduct = () => {
+    if (!product) return;
 
+    showDialog({
+      title: "Delete Product",
+      width: 420,
+      showHeader: false,
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      content: (
+        <DeleteConfirmationModal
+          title="Delete Product"
+          message="Are you sure you want to delete this product?"
+          itemName={product.name}
+          onConfirm={() => {
+            console.log("Deleting product:", product.id);
+
+            // Call delete service here
+
+            closeDialog();
+          }}
+          onCancel={() => closeDialog()}
+        />
+      ),
+    });
+  };
   return (
     <main className="min-w-0 overflow-y-auto px-2">
       {!product ? (
@@ -131,6 +157,7 @@ const FnBDetails = ({ product, variants }: FnBDetailsProps) => {
                   type="button"
                   variant="danger"
                   size="sm"
+                  onClick={handleDeleteProduct}
                   icon={<Trash2 className="h-3.5 w-3.5" />}
                 >
                   Delete
