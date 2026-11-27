@@ -6,6 +6,7 @@ import PaymentForm from "../forms/PaymentForm";
 import { paymentCards } from "../data/PaymentData";
 import PaymentCards from "../cards/PaymentCards";
 
+
 const PaymentLayout = ({ onTrackClick }: PaymentLayoutProps) => {
   const [selectedItem, setSelectedItem] = useState<PaymentCard | null>(null);
 

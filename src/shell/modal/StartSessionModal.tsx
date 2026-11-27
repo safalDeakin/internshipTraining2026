@@ -3,7 +3,8 @@
 import { useState } from "react";
 import ReusableButton from "../shared/components/ReusableButton";
 //Collects opening cash and notes	Sends form data through onConfirm
-interface StartSessionModalProps {
+interface SessionModeModalProps {
+
   staffName: string;
   terminal: string;
   date: string;
@@ -11,13 +12,13 @@ interface StartSessionModalProps {
   onConfirm: (data: { openingCash: number; notes: string }) => void;
 }
 
-const StartSessionModal = ({
+const SessionModeModal = ({
   staffName,
   terminal,
   date,
   onCancel,
   onConfirm,
-}: StartSessionModalProps) => {
+}: SessionModeModalProps) => {
   const [openingCash, setOpeningCash] = useState("7000");
   const [notes, setNotes] = useState("hhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
@@ -129,4 +130,4 @@ const StartSessionModal = ({
   );
 };
 
-export default StartSessionModal;
+export default SessionModeModal;

@@ -1,12 +1,10 @@
 // author: shrajja
 
 import { useState } from "react";
-
-import { sessionModes } from "../constants/posSessionAlldata";
 import ReusableButton from "../shared/components/ReusableButton";
 
 import type { POSSessionMode } from "../types/posSessionTypes";
-import StartSessionModal from "./StartSessionModal";
+import SessionModeModal from "./StartSessionModal";
 
 interface NewSessionModalProps {
   staffName: string;
@@ -16,14 +14,14 @@ interface NewSessionModalProps {
 
   onSelect: (
     mode: POSSessionMode,
-    data: {
+    data?: {
       openingCash: number;
       notes: string;
     },
   ) => void;
 }
 //Lets staff select session mode	Passes selected mode and form data
-export const NewSessionModal = ({
+export const StartNewSession = ({
   staffName,
   terminal,
   date,
@@ -31,67 +29,86 @@ export const NewSessionModal = ({
   onSelect,
 }: NewSessionModalProps) => {
   const [pickedMode, setPickedMode] = useState<POSSessionMode | null>(null);
+
+  const sessionModes: {
+    label: string;
+    value: POSSessionMode;
+  }[] = [
+      { label: "Standard Mode ", value: "Standard" },
+      // { label: "Over The Air", value: "Over The Air" },
+      { label: "Session Mode ", value: "Session" },
+      { label: "Manager Mode", value: "Manager" },
+      {
+        label: "Service and Technical Check",
+        value: "Service",
+      },
+    ];
+
+  const loadSessionModeModal = () => {
+    return (<SessionModeModal
+      staffName={staffName}
+      terminal={terminal}
+      date={date}
+      onCancel={() => {
+        //Check if it is rebuilding twice.
+        setPickedMode(null)
+      }}
+      onConfirm={(data) => {
+        onSelect(pickedMode!, data);
+      }} />)
+  }
   // Step 1: Show session mode selection.
   return (
     <>
       {
-        pickedMode ?
-          <StartSessionModal
-            staffName={staffName}
-            terminal={terminal}
-            date={date}
-            onCancel={() => {
-              //Check if it is rebuilding twice.
-              setPickedMode(null)
-            }}
-            onConfirm={(data) => {
-              onSelect(pickedMode, data);
-            }} />
-          :
-          <div className="relative w-full rounded-2xl bg-white p-6 ">
-            {/* Session details */}
-            <div className="space-y-4">
-              <div>
-                <h2 className="font-semibold text-gray-800">Staff</h2>
-                <p className="text-sm text-gray-500">{staffName}</p>
+        pickedMode == 'Session' ?
+          loadSessionModeModal()
+          : pickedMode ?
+            onSelect(pickedMode!)
+            : <div className="relative w-full rounded-2xl bg-white p-6 ">
+              {/* Session details */}
+              <div className="space-y-4">
+                <div>
+                  <h2 className="font-semibold text-gray-800">Staff</h2>
+                  <p className="text-sm text-gray-500">{staffName}</p>
+                </div>
+
+                <div>
+                  <h2 className="font-semibold text-gray-800">Terminal</h2>
+                  <p className="text-sm text-gray-500">{terminal}</p>
+                </div>
+
+                <div>
+                  <h2 className="font-semibold text-gray-800">Date</h2>
+                  <p className="text-sm text-gray-500">{date}</p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="font-semibold text-gray-800">Terminal</h2>
-                <p className="text-sm text-gray-500">{terminal}</p>
-              </div>
+              {/* Session mode selection */}
+              <div className="mt-5">
+                <h2 className="font-semibold text-gray-800">Choose Session Mode</h2>
 
-              <div>
-                <h2 className="font-semibold text-gray-800">Date</h2>
-                <p className="text-sm text-gray-500">{date}</p>
-              </div>
-            </div>
-
-            {/* Session mode selection */}
-            <div className="mt-5">
-              <h2 className="font-semibold text-gray-800">Choose Session Mode</h2>
-
-              <div className="mt-4 flex flex-col gap-3 px-2">
-                {sessionModes.map((mode) => (
+                <div className="mt-4 flex flex-col gap-3 px-2">
+                  {sessionModes.map((mode) => (
+                    <ReusableButton
+                      key={mode.value}
+                      title={mode.label}
+                      onClick={() => setPickedMode(mode.value)}
+                    />
+                  ))}
                   <ReusableButton
-                    key={mode.value}
-                    title={mode.label}
-                    onClick={() => setPickedMode(mode.value)}
+                    className='CloseNewSessionPrompt'
+                    key='close'
+                    title='Close'
+                    onClick={onClose}
                   />
-                ))}
-                <ReusableButton
-                  className='CloseNewSessionPrompt'
-                  key='close'
-                  title='Close'
-                  onClick={onClose}
-                />
+                </div>
               </div>
             </div>
-          </div>
       }
     </>
 
   );
 };
 
-export default NewSessionModal;
+export default StartNewSession;
