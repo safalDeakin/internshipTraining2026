@@ -43,7 +43,8 @@ const initialVehicleData: Vehicle[] = [
     id: 1,
     name: "XUV 300",
     category: "DLXR",
-    description: "lorem epsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     baseOccupancy: 2,
     maxOccupancy: 4,
     availability: "Available",
@@ -55,7 +56,8 @@ const initialVehicleData: Vehicle[] = [
     id: 2,
     name: "Scorpio",
     category: "7 Seater",
-    description: "Comfortable vehicle suitable for group transportation.",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     baseOccupancy: 4,
     maxOccupancy: 7,
     availability: "Available",
@@ -90,7 +92,12 @@ const TransportationLayout = () => {
       content: (
         <VehicleAddModal
           onClose={() => closeDialog()}
-          onConfirm={(data) => closeDialog(data)}
+          onConfirm={(data) => {
+            // Handle vehicle form data here
+            console.log("Vehicle data:", data);
+
+            closeDialog();
+          }}
         />
       ),
     });

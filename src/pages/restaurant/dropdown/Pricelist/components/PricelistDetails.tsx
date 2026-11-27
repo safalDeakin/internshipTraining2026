@@ -18,6 +18,7 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 import React from "react";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Container from "../../../../../lib/component/Container/Container";
+import DeleteConfirmationModal from "../../../modal/DeleteConfirmationModal";
 
 interface PricelistDetailsProps {
   pricelist: PricelistType;
@@ -100,7 +101,30 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
       closeOnBackdrop: true,
     });
   };
+  const handleDeletePricelist = () => {
+    showDialog({
+      title: "Delete Pricelist",
+      content: (
+        <DeleteConfirmationModal
+          title="Delete Pricelist"
+          message="Are you sure you want to delete this pricelist?"
+          itemName={pricelist.name}
+          onConfirm={() => {
+            console.log("Deleting pricelist:", pricelist.id);
 
+            // Call delete service here
+
+            closeDialog();
+          }}
+          onCancel={() => closeDialog()}
+        />
+      ),
+      width: 420,
+      showHeader: false,
+      closeOnEscape: true,
+      closeOnBackdrop: true,
+    });
+  };
   return (
     <div className="flex flex-col">
       {/* Header / Actions */}
@@ -157,6 +181,7 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
             <ReusableButton
               variant="danger"
               size="sm"
+              onClick={handleDeletePricelist}
               icon={<Trash size={16} />}
             >
               Delete
