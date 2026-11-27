@@ -5,6 +5,7 @@ import Container from "../../../../../lib/component/Container/Container";
 import ReusableButton from "../../../../../shell/shared/components/ReusableButton";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import { DetailItem } from "../components/DetailItem";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 interface PickupDetailsProps {
   request: GuestRequest;
@@ -16,8 +17,10 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
   };
 
   return (
-    <div className="w-full ">
+    <Scrollable direction="y">
+      {/* // <div className="w-full "> */}
       {/* PICKUP TOOLBAR */}
+
       <Toolbar
         left={
           <div className="flex font-bold">
@@ -46,6 +49,7 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
       />
 
       {/* PICKUP DETAILS */}
+
       <Container type="box" background="surface-default">
         <section className="w-full min-w-0 ">
           {/* PARTICULARS AND SERVICE INFORMATION */}
@@ -142,6 +146,7 @@ export default function PickupDetails({ request }: PickupDetailsProps) {
           </div>
         </section>
       </Container>
-    </div>
+    </Scrollable>
+    // </div>
   );
 }

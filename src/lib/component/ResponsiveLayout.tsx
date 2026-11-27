@@ -37,7 +37,6 @@ const ResponsiveLayout = ({ sidebar, children }: ResponsiveLayoutProps) => {
     <div
       className="md:grid md:grid-cols-[1fr_4fr]"
       style={{
-        padding: "4px ",
         backgroundColor: 'white'
       }}
       onTouchStart={handleTouchStart}
@@ -53,7 +52,7 @@ const ResponsiveLayout = ({ sidebar, children }: ResponsiveLayoutProps) => {
         {sidebar(closeBar)}
       </aside>
 
-      <main className="pl-5 md:min-h-0">{children ?? <Outlet />}</main>
+      <main className="pl-5 md:min-h-0 h-full">{children ?? <Outlet />}</main>
     </div>
   );
 };

@@ -11,7 +11,6 @@ const PaymentReceipt = ({
   serviceCharge = 0,
   grandTotal,
   receivedBy = "XYZ",
-  onClose,
   onDownloadPDF,
 }: PaymentReceiptProps) => {
   const invoices = customer.invoice || [];
@@ -20,7 +19,10 @@ const PaymentReceipt = ({
     () => `R_${Math.floor(Math.random() * 900 + 100)}`,
   );
 
-  const today = new Date().toLocaleDateString("en-CA").replace(/-/g, "/");
+  const today = new Date().toLocaleDateString("en-GB");
+
+  // Replace with actual item data from your payment details
+  const items = customer.items || [];
 
   return (
     <ReceiptFrame
@@ -30,103 +32,116 @@ const PaymentReceipt = ({
       onPrint={() => window.print()}
       onDownloadPDF={onDownloadPDF}
     >
-      <div className="text-xs">
-        {/* Receipt Information */}
-        <div className="text-right text-gray-400">
-          Receipt ID: <span className="text-gray-800">567</span>
+      <div className="mx-auto w-full max-w-md space-y-4 text-xs text-gray-700">
+        {/* Receipt Details */}
+        <div className="flex flex-col items-end">
+          <ReceiptRow label="Receipt No." value={receiptId} />
+          <ReceiptRow label="Date" value={today} />
         </div>
 
-        <div className="mt-3 flex justify-between text-gray-500">
-          <p>
-            No: <span className="text-black">{receiptId}</span>
-          </p>
+        {/* Customer Information */}
+        <div className="space-y-2">
+          <ReceiptRow label="Customer" value={customer.name || "-"} />
+          <ReceiptRow label="Phone" value={customer.number || "-"} />
+          <ReceiptRow label="Location" value="No location" />
+        </div>
 
-          <p>
-            Date: <span className="text-black">{today}</span>
-          </p>
+        {/* Items Table */}
+        <div>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="text-left text-gray-500">
+                <th className="py-2 pr-2 font-medium">S.N.</th>
+                <th className="py-2 font-medium">Item</th>
+                <th className="py-2 text-center font-medium">Qty</th>
+                <th className="py-2 text-right font-medium">Amount</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {items.map((item, index) => (
+                <tr key={`${item.name}-${index}`}>
+                  <td className="py-2 pr-2">{index + 1}</td>
+                  <td className="py-2 pr-2">{item.name}</td>
+                  <td className="py-2 text-center">{item.quantity}</td>
+                  <td className="py-2 text-right">
+                    Rs {item.amount.toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+
+              {items.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="py-4 text-center text-gray-400">
+                    No items found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* Payment Details */}
-        <h3 className="mt-4 text-lg font-semibold">Payment Details</h3>
-
-        <p>
-          Payment Method: <b>{paymentMethod}</b>
-        </p>
-
-        <p>
-          Payment Note:{" "}
-          <b>{receivedAmount < grandTotal ? "Partially paid" : "Fully paid"}</b>
-        </p>
-
-        {/* Customer Information */}
-        <h3 className="mt-4 text-sm font-semibold">Customer Information</h3>
-
-        <p>
-          Customer: <b>{customer.name}</b>
-        </p>
-
-        <div className="flex justify-between">
-          <p>
-            Number: <b>{customer.number}</b>
-          </p>
-
-          <p>
-            Location: <b>No location</b>
-          </p>
+        <div className="space-y-2">
+          <ReceiptRow label="Payment Method" value={paymentMethod} />
+          <ReceiptRow
+            label="Payment Status"
+            value={
+              receivedAmount < grandTotal ? "Partially paid" : "Fully paid"
+            }
+          />
         </div>
 
-        {/* Invoice List */}
-        <table className="mt-4 w-full border-b border-gray-300 text-left">
-          <thead>
-            <tr className="font-semibold">
-              <th className="py-1">S.No.</th>
-              <th>Invoice Number</th>
-              <th>Paid Amount</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {invoices.map((invoice, index) => (
-              <tr key={invoice}>
-                <td className="py-1">{index + 1}</td>
-                <td>{invoice}</td>
-                <td>Rs {Math.round(total / (invoices.length || 1))}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
         {/* Amount Summary */}
-        <div className="mt-2 space-y-1 pt-2">
-          <div className="border-b border-gray-300">
-            <Row label="Subtotal" value={`Rs ${total}`} />
-          </div>
+        <div className="space-y-2 border-t border-gray-300 pt-3">
+          <ReceiptRow label="Subtotal" value={`Rs ${total.toFixed(2)}`} />
 
-          <Row label="Tax (13% VAT)" value={`Rs ${vatAmount}`} />
+          <ReceiptRow label="VAT (13%)" value={`Rs ${vatAmount.toFixed(2)}`} />
 
-          <Row label="10% Service Charge" value={`Rs ${serviceCharge}`} />
+          <ReceiptRow
+            label="Service Charge (10%)"
+            value={`Rs ${serviceCharge.toFixed(2)}`}
+          />
 
-          <div className="mt-4 flex justify-between border-t border-gray-300 pt-2 text-sm font-bold">
+          <div className="flex justify-between border-t border-gray-300 pt-3 text-sm font-bold text-gray-900">
             <span>Total Amount</span>
             <span className="text-orange-600">Rs {grandTotal.toFixed(2)}</span>
           </div>
         </div>
 
         {/* Payment Summary */}
-        <p className="mt-3">Received Amount: Rs {receivedAmount.toFixed(2)}</p>
+        <div className="space-y-2">
+          <ReceiptRow
+            label="Amount Received"
+            value={`Rs ${receivedAmount.toFixed(2)}`}
+          />
 
-        <p>Received By: {receivedBy}</p>
+          <ReceiptRow
+            label="Remaining Amount"
+            value={`Rs ${Math.max(grandTotal - receivedAmount, 0).toFixed(2)}`}
+          />
 
-        <p className="mt-3 text-center font-medium">Thank You!</p>
+          <ReceiptRow label="Received By" value={receivedBy} />
+        </div>
+
+        {/* Footer */}
+        <div className="pt-4 text-center">
+          <p className="font-semibold text-gray-900">Thank You!</p>
+        </div>
       </div>
     </ReceiptFrame>
   );
 };
 
-const Row = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-center justify-between">
-    <span>{label}</span>
-    <span>{value}</span>
+interface ReceiptRowProps {
+  label: string;
+  value: string;
+}
+
+const ReceiptRow = ({ label, value }: ReceiptRowProps) => (
+  <div className="flex items-start justify-between gap-3">
+    <span className="text-gray-500">{label}</span>
+    <span className="text-right font-medium text-gray-800">{value}</span>
   </div>
 );
 

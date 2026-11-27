@@ -19,8 +19,7 @@ import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 
-
-import ShellSetting from "./modal/settings/ShellSetting";
+import ShellSetting from "./modal/settings/Settings";
 
 import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
 import useDrawer from "../../lib/component/Drawer/useDrawer";
@@ -85,15 +84,12 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
   const { openDrawer } = useDrawer();
 
   // Navigation session context
-  const {
-    getLatestSession } = usePOSNavList();
+  const { getLatestSession } = usePOSNavList();
 
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
   } | null>(null);
-
-
 
   // Get latest session
   const latestSession =
@@ -124,7 +120,6 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
     go(item.path);
   };
 
-
   const header = (
     <ERPSidebarHeader
       title="Restaurant"
@@ -133,11 +128,13 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
       onClick={go}
     >
       <SidebarHugeButton
-        title={latestSession?.status === "active"
-          ? "Continue POS session"
-          : latestSession?.status === "paused"
-            ? "Resume POS session"
-            : "Start POS session"}
+        title={
+          latestSession?.status === "active"
+            ? "Continue POS session"
+            : latestSession?.status === "paused"
+              ? "Resume POS session"
+              : "Start POS session"
+        }
         ariaLabel="Open POS session"
         onClick={() => {
           if (!organization?.id) return;
@@ -175,11 +172,7 @@ export default function RestaurantNav({ closeBar }: RestaurantNavbarProps) {
       />
 
       {organization?.id != null && (
-        <SessionNavGroup
-          reRouteTo={go}
-          organizationId={organization.id}
-
-        />
+        <SessionNavGroup reRouteTo={go} organizationId={organization.id} />
       )}
     </SidebarContainer>
   );

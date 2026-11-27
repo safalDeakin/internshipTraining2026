@@ -24,18 +24,31 @@ export function SessionNavList({
   const monthlyGroups = getMonthlyGroupedSessions(organizationId);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" style={{
+      height: '100%', backgroundColor: 'white',
+      borderRadius: 4,
+      padding: '8px 8px'
+    }}>
       {monthlyGroups.map((month) => (
-        <div key={month.key} className="space-y-2">
+        <div key={month.key}
+          style={{
+            height: '100%',
+            gap: '4px'
+          }}
+        >
           {/* MONTH HEADER */}
           <button
             type="button"
             onClick={() => onMonthSelect(month.key)}
-            className={`flex w-full items-center gap-2 rounded-lg border px-3 py-3 text-left text-sm transition ${
-              selectedMonth === month.key
-                ? "border-blue-500 bg-blue-50 text-blue-700"
-                : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
-            }`}
+            style={{
+              padding: '8px 12px',
+            }}
+
+
+            className={`flex w-full items-center gap-2 px-3 py-3 text-left text-sm transition ${selectedMonth === month.key
+              ? "border border-blue-500 bg-blue-50 rounded-lg"
+              : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              }`}
           >
             <Book className="h-4 w-4 shrink-0" />
 
@@ -43,17 +56,20 @@ export function SessionNavList({
           </button>
 
           {/* ALWAYS VISIBLE DATES */}
-          <div className="ml-4 space-y-2 border-l border-gray-200 pl-3">
+          <div>
             {month.dates.map((group) => (
               <button
                 key={group.date}
+                style={{
+                  padding: '8px 16px',
+                  gap: '8px'
+                }}
                 type="button"
                 onClick={() => onDateSelect(group.date)}
-                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${
-                  selectedDate === group.date
-                    ? "bg-blue-100 font-semibold text-blue-700"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
+                className={`flex w-full items-center rounded-lg text-left text-sm transition ${selectedDate === group.date
+                  ? "bg-blue-50 font-semibold border border-blue-500"
+                  : "text-gray-600 hover:bg-gray-100"
+                  }`}
               >
                 <CornerDownRight className="h-4 w-4 shrink-0" />
 

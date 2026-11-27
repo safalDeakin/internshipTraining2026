@@ -62,7 +62,6 @@ const PaymentToolbar = ({ onHistoryClick, onApply }: PaymentToolbarProps) => {
         className="flex shrink-0 items-center gap-2 border-l border-gray-200 pl-4 text-xs font-medium text-gray-700 hover:text-blue-600"
       >
         <History size={15} />
-        Payments History
       </button>
     </div>
   );

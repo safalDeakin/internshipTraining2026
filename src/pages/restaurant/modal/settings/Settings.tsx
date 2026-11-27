@@ -9,6 +9,7 @@ import SettingsModal, {
 import {
   BadgeDollarSign,
   BatteryCharging,
+  Globe,
   HandCoins,
   HardDrive,
   Percent,
@@ -16,12 +17,14 @@ import {
   Trash,
   Undo,
 } from "lucide-react";
+import ShellSettings from "../../dropdown/shell/ShellSettings";
 
 interface BillingSettingsProps {
   onClose?: () => void;
 }
 
 const NAV: SettingsNavItem[] = [
+  { id: "overview", label: "Overview", icon: <Globe /> },
   { id: "billing", label: "Billing and Charges", icon: <BatteryCharging /> },
   { id: "discounts", label: "Discounts", icon: <BadgeDollarSign /> },
   { id: "returns", label: "Returns and Refund", icon: <Undo /> },
@@ -80,8 +83,8 @@ const initialCharges: ChargeItem[] = [
   },
 ];
 
-const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
-  const [active, setActive] = useState<string>("billing");
+const Setting: React.FC<BillingSettingsProps> = ({ onClose }) => {
+  const [active, setActive] = useState<string>("overview");
 
   const [charges, setCharges] = useState<ChargeItem[]>(initialCharges);
 
@@ -110,6 +113,11 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
       }}
     >
       {/* BILLING */}
+      {active === "overview" && (
+        <>
+          <ShellSettings />
+        </>
+      )}
       {active === "billing" && (
         <SettingsSection title="Pricing">
           <SettingsField
@@ -395,7 +403,7 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
                     <select
                       value={
                         selectedDevices[
-                        device.name as keyof typeof selectedDevices
+                          device.name as keyof typeof selectedDevices
                         ]
                       }
                       onChange={(e) =>
@@ -571,4 +579,4 @@ const ShellSetting: React.FC<BillingSettingsProps> = ({ onClose }) => {
   );
 };
 
-export default ShellSetting;
+export default Setting;

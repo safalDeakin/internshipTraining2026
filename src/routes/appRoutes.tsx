@@ -23,7 +23,7 @@ import ReservationPageRenderer from "../pages/hotel/pages/reservationMasterPage/
 import PricelistRenderer from "../pages/restaurant/dropdown/Pricelist/PricelistRenderer";
 import ProductRenderer from "../pages/restaurant/dropdown/products/ProductRenderer";
 import CashSummary from "../pages/restaurant/pages/overview/cash-summary/CashSummary";
-import ShellSetting from "../pages/restaurant/modal/settings/ShellSetting";
+import ShellSetting from "../pages/restaurant/modal/settings/Settings";
 import PosOverviewRenderer from "../shell/pos-overviewPage/PosOverviewRenderer";
 import ShellSettings from "../pages/restaurant/dropdown/shell/ShellSettings";
 import CashMovement from "../pages/restaurant/pages/overview/cash-summary/cash-movement/CashMovement";
@@ -163,34 +163,34 @@ export const appRoutes: AppRoute[] = [
       },
       {
         path: "quick-rooms",
-        element: <RoomsDetailRenderer />
+        element: <RoomsDetailRenderer />,
       },
       {
         path: "quick-housekeeping",
-        element: <HousekeepingRenderer />
+        element: <HousekeepingRenderer />,
       },
       {
         path: "rate-plan",
-        element: <RatePlanPageRenderer />
+        element: <RatePlanPageRenderer />,
       },
       {
         path: "offers",
-        element: <DemoComponent title="Offers and Discounts" />
+        element: <DemoComponent title="Offers and Discounts" />,
       },
       {
         path: "sales-settings",
         // Replace with your real SalesSettings component.
-        element: <SettingRenderer />
+        element: <SettingRenderer />,
       },
       {
         path: "staff-access",
         // Replace with your real StaffAccess component.
-        element: <SettingRenderer />
+        element: <SettingRenderer />,
       },
       {
         path: "device-setup",
         // Replace with your real DeviceSetup component.
-        element: <SettingRenderer />
+        element: <SettingRenderer />,
       },
       {
         path: "transport",
@@ -203,61 +203,67 @@ export const appRoutes: AppRoute[] = [
       {
         path: "housekeeping",
         // Replace with your real DeviceSetup component.
-        element: <Workspace>
-          {/* Replace with <Housekeeping /> */}
-          <DemoComponent title="Housekeeping" />
+        element: (
+          <Workspace>
+            {/* Replace with <Housekeeping /> */}
+            <DemoComponent title="Housekeeping" />
 
-          {/* Replace with <Maintenance /> */}
-          <DemoComponent title="Maintenance" />
-        </Workspace>
+            {/* Replace with <Maintenance /> */}
+            <DemoComponent title="Maintenance" />
+          </Workspace>
+        ),
       },
       {
         path: "night-audit",
         // Replace with your real DeviceSetup component.
-        element: <NightAuditRenderer />
+        element: <NightAuditRenderer />,
       },
 
       {
         path: "lost-found",
         // Replace with your real DeviceSetup component.
-        element: <LostAndFoundRenderer />
-      }, {
+        element: <LostAndFoundRenderer />,
+      },
+      {
         path: "guest-request",
         // Replace with your real DeviceSetup component.
-        element: <GuestRequestPageRenderer />
+        element: <GuestRequestPageRenderer />,
       },
       {
         path: "hall-reservation",
         // Replace with your real DeviceSetup component.
-        element: <HallReservationRenderer />
+        element: <HallReservationRenderer />,
       },
 
       {
         path: "hotel-package",
         // Replace with your real DeviceSetup component.
-        element: <PackageRenderer />
-      }, {
+        element: <PackageRenderer />,
+      },
+      {
         path: "arrivals",
         // Replace with your real DeviceSetup component.
-        element: <ReservationPageRenderer />
-      }, {
+        element: <ReservationPageRenderer />,
+      },
+      {
         path: "in-house",
         // Replace with your real DeviceSetup component.
-        element: <ReservationPageRenderer />
-      }, {
+        element: <ReservationPageRenderer />,
+      },
+      {
         path: "overdue",
         // Replace with your real DeviceSetup component.
-        element: <ReservationPageRenderer />
+        element: <ReservationPageRenderer />,
       },
       {
         path: "dayactivity/july-2026",
         // Replace with your real DeviceSetup component.
-        element: <DayActivityRenderer />
+        element: <DayActivityRenderer />,
       },
       {
         path: "room",
         // Replace with your real DeviceSetup component.
-        element: <DemoComponent title="Room List" />
+        element: <DemoComponent title="Room List" />,
       },
       {
         path: "all-reservation",
@@ -279,7 +285,7 @@ export const appRoutes: AppRoute[] = [
           {
             path: ":id",
             element: <Hoteldetails />,
-          }
+          },
         ],
       },
     ],
@@ -311,14 +317,10 @@ export const appRoutes: AppRoute[] = [
   },
 ];
 
-
-
 function DemoComponent({ title }: { title: string }) {
   return (
     <section className="min-w-0 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-      <h2 className="text-lg font-semibold text-gray-800">
-        {title}
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
 
       <p className="mt-2 text-sm text-gray-500">
         Placeholder component. Replace this with your actual component.

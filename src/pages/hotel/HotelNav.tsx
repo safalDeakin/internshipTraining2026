@@ -14,14 +14,13 @@ import {
 } from "../../lib/component/Sidebar/NavigationGroup";
 import SidebarContainer from "../../lib/component/Sidebar/SidebarContainer";
 import useDialogBox from "../../lib/component/DialogueBox/useDialogueBox";
-import ShellSetting from "../restaurant/modal/settings/ShellSetting";
+import ShellSetting from "../restaurant/modal/settings/Settings";
 import { useNavigate } from "react-router-dom";
 
 import { getOrganizationPath } from "../../lib/utils/secureclient/services/models/orgPath";
 import { useAuth } from "../../lib/utils/secureclient/useAuth";
 interface AccommodationNavbarProps {
   closeBar?: () => void;
-
 }
 
 // Accommodation dropdown options.
@@ -180,9 +179,7 @@ const menuSection: MenuSection[] = [
 
 const SETTING_PATHS = ["staffs", "devices", "shell-settings"];
 
-export default function HotelNav({
-  closeBar
-}: AccommodationNavbarProps) {
+export default function HotelNav({ closeBar }: AccommodationNavbarProps) {
   const [activeSubItem, setActiveSubItem] = useState<{
     groupKey: string;
     navItemKey: string;
@@ -220,33 +217,40 @@ export default function HotelNav({
     closeBar?.();
   };
 
-
-  const header = <ERPSidebarHeader
-    title="Hotel" icon={<Hotel />}
-    menu={accommodationMenu}
-    onClick={(path: string) => {
-      go(path);
-      closeBar?.();
-    }}
-  >
-    {/* Housekeeping + Maintenance */}
-    <SidebarHugeButton title="Housekeeping and Maintenance"
-      ariaLabel="Open Housekeeping and Maintenance"
-      onClick={() => {
-        go("quick-housekeeping");
+  const header = (
+    <ERPSidebarHeader
+      title="Hotel"
+      icon={<Hotel />}
+      menu={accommodationMenu}
+      onClick={(path: string) => {
+        go(path);
         closeBar?.();
-      }}>
-      <BrushCleaning className="h-4 w-4 text-blue-700" />
-    </SidebarHugeButton>
-    {/* Room Details Renderer */}
-    <SidebarHugeButton title="Room Details" ariaLabel="Open Room Details"
-      onClick={() => {
-        go("quick-rooms");
-        closeBar?.();
-      }}>
-      <Building className="h-4 w-4 text-blue-700" />
-    </SidebarHugeButton>
-  </ERPSidebarHeader>;
+      }}
+    >
+      {/* Housekeeping + Maintenance */}
+      <SidebarHugeButton
+        title="Housekeeping and Maintenance"
+        ariaLabel="Open Housekeeping and Maintenance"
+        onClick={() => {
+          go("quick-housekeeping");
+          closeBar?.();
+        }}
+      >
+        <BrushCleaning className="h-4 w-4 text-blue-700" />
+      </SidebarHugeButton>
+      {/* Room Details Renderer */}
+      <SidebarHugeButton
+        title="Room Details"
+        ariaLabel="Open Room Details"
+        onClick={() => {
+          go("quick-rooms");
+          closeBar?.();
+        }}
+      >
+        <Building className="h-4 w-4 text-blue-700" />
+      </SidebarHugeButton>
+    </ERPSidebarHeader>
+  );
 
   return (
     <SidebarContainer header={header}>
@@ -259,8 +263,8 @@ export default function HotelNav({
             items={menu.items}
             activeGroup={activeSubItem?.groupKey}
             activeItem={activeSubItem?.navItemKey}
-            onNavItemClick={handleSubItemClick}>
-          </NavGroup>
+            onNavItemClick={handleSubItemClick}
+          ></NavGroup>
         );
       })}
     </SidebarContainer>

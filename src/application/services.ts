@@ -51,6 +51,8 @@ import type {
   PricelistType,
   ProductType,
 } from "../pages/restaurant/dropdown/types/DropdownTypes";
+import type { ApprovalCard } from "../shell/features/types/ApprovalTypes";
+import { approvalCards } from "../shell/features/data/ApprovalData";
 
 const repo = new Repository<Guest, string>({
   sourceType: "InMemoryLocal",
@@ -406,4 +408,24 @@ export const DayActivityQueryService = new QueryService<DayActivity, string>(
 );
 export const DayActivityCmdService = new CommandService<DayActivity, string>(
   DayActivityRepo,
+);
+
+//approval page
+
+const ApprovalRepo = new Repository<ApprovalCard, string>({
+  sourceType: "InMemoryLocal",
+  domain: "Approval",
+  tenantId: "MySpace1234",
+  getId: (entity: ApprovalCard) => String(entity.id),
+  initialData: approvalCards,
+  baseUrl: "asas",
+  eventsUrl: "events",
+});
+
+export const ApprovalQueryService = new QueryService<ApprovalCard, string>(
+  ApprovalRepo,
+);
+
+export const ApprovalCmdService = new CommandService<ApprovalCard, string>(
+  ApprovalRepo,
 );

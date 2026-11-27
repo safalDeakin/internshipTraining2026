@@ -92,15 +92,6 @@ const StoreInfoCard = ({ onEdit }: { onEdit: () => void }) => (
     <div className="flex flex-1 flex-col gap-1">
       <div className="flex items-center justify-between">
         <span className="font-semibold">{store.code}</span>
-
-        <ReusableButton
-          variant="outline"
-          size="sm"
-          icon={<Pencil size={14} />}
-          onClick={onEdit}
-        >
-          Edit Organization Profile
-        </ReusableButton>
       </div>
 
       <div className="grid grid-cols-[1.4fr_1fr_1fr] rounded-md bg-white px-4 py-2.5 text-[11px]">

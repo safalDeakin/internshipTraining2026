@@ -6,7 +6,6 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 
 import { PostToFolioModal } from "./PostToFolioModal";
-import { useGuestRequestHook } from "../provider/useGuestRequest";
 import CompleteTaskModal from "../../../dropdown/modal/CompletionTaskModal";
 
 type Props = {
@@ -16,31 +15,24 @@ type Props = {
 
 export default function GuestRequestToolbar({ request, posted }: Props) {
   const { showDialog } = useDialogBox();
-  const { update } = useGuestRequestHook();
 
   const completed = request.status === "Completed";
 
   const handlePostToFolio = async () => {
-    const result = await showDialog<boolean>({
+    await showDialog({
       title: "Post to Folio",
       showHeader: true,
       width: 600,
       content: <PostToFolioModal request={request} />,
     });
-
-    if (result === true) {
-      console.log("Posted to folio");
-    }
   };
 
-  const handleCompleteTask = async (values: string) => {
-    const data = JSON.parse(values);
-
-    await update(request.id, {
-      status: "Completed",
-      completedBy: data.fullName,
-      completedAt: new Date().toISOString(),
-      completionNote: data.completionNote,
+  const openCompleteTaskModal = () => {
+    showDialog({
+      title: "Complete Assigned Task",
+      showHeader: true,
+      width: 600,
+      content: <CompleteTaskModal onSubmit={(data) => console.log(data)} />,
     });
   };
 
@@ -54,7 +46,7 @@ export default function GuestRequestToolbar({ request, posted }: Props) {
             Prabin-{request.room} - {request.title}
             <span className="ml-2 inline-block h-2 w-2 rounded-full bg-lime-400" />
           </h2>
-          {/* Separate status text */}
+
           <p
             className={`shrink-0 text-[10px] font-semibold ${
               completed ? "text-emerald-600" : "text-blue-600"
@@ -66,23 +58,14 @@ export default function GuestRequestToolbar({ request, posted }: Props) {
       }
       right={
         <>
-          {" "}
-          {/* Always-visible action button */}
           <button
             type="button"
-            onClick={() =>
-              showDialog({
-                title: "Complete Assigned Task",
-                showHeader: true,
-                width: 600,
-                content: <CompleteTaskModal onSubmit={handleCompleteTask} />,
-              })
-            }
-            disabled={completed}
-            className="shrink-0 text-[10px] text-slate-600 hover:text-emerald-600 disabled:cursor-not-allowed"
+            onClick={openCompleteTaskModal}
+            className="shrink-0 text-[10px] text-slate-600 hover:text-emerald-600"
           >
             Assigned Task
           </button>
+
           <button
             type="button"
             onClick={handlePostToFolio}

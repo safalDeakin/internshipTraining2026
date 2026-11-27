@@ -8,9 +8,13 @@ import ReferenceDetailsModal from "../../modal/ReferenceDetailsModals";
 
 import useInvoiceHistory from "../../hooks/useInvoiceHistory";
 import useDialogBox from "../../../lib/component/DialogueBox/useDialogueBox";
+
 import ApplyReturnModal from "../../modal/ApplyReturnModal";
+import PaymentForm from "../forms/PaymentForm";
+import PaymentReceipt from "../receipts/PaymentReceipt";
+
 import ReusableButton from "../../shared/components/ReusableButton";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ReceiptText } from "lucide-react";
 
 const Field = ({ label, children }: { label: string; children: ReactNode }) => (
   <p className="text-sm text-gray-500">
@@ -37,26 +41,22 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
     loading,
     selected,
     selectedCards,
-
     viewMode,
     setViewMode,
-
     query,
     handleSearch,
-
     activeReference,
     handleReferenceClick,
     closeReferenceDetails,
-
     summary,
     columns,
     rows,
-
     handleSelectInvoice,
   } = useInvoiceHistory();
 
-  const { showDialog } = useDialogBox();
+  const { showDialog, closeDialog } = useDialogBox();
 
+  // Apply Return
   const handleApplyReturn = () => {
     if (!selected) {
       alert("Please select a customer first.");
@@ -84,6 +84,75 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
           onSubmit={(request) => {
             console.log("Return request:", request);
           }}
+        />
+      ),
+    });
+  };
+
+  // Collect Outstanding
+  const handleCollectOutstanding = () => {
+    if (!selected) {
+      alert("Please select a customer first.");
+      return;
+    }
+
+    const outstanding = selected.cards.reduce(
+      (total, card) =>
+        total +
+        card.invoiceItems.reduce((sum, item) => sum + Number(item.amount), 0),
+      0,
+    );
+
+    showDialog({
+      title: "Collect Outstanding",
+      content: (
+        <PaymentForm
+          customer={{
+            name: selected.customerName,
+            number: selected.phone,
+            email: "",
+            payment: String(outstanding),
+            invoice: selected.references,
+          }}
+          onCancel={() => closeDialog()}
+        />
+      ),
+    });
+  };
+
+  // Billing Receipt - includes all references for selected customer
+  const handleBillingReceipt = () => {
+    if (!selected) return;
+
+    const items = selected.cards.flatMap((card) =>
+      card.invoiceItems.map((item) => ({
+        name: item.name,
+        quantity: Number(item.quantity),
+        amount: Number(item.amount),
+      })),
+    );
+
+    const total = items.reduce((sum, item) => sum + item.amount, 0);
+
+    showDialog({
+      title: "Billing Receipt",
+      showHeader: true,
+      content: (
+        <PaymentReceipt
+          customer={{
+            name: selected.customerName,
+            number: selected.phone,
+            invoice: selected.references,
+            items,
+          }}
+          total={total}
+          paymentMethod="Cash"
+          receivedAmount={total}
+          vatAmount={0}
+          serviceCharge={0}
+          grandTotal={total}
+          receivedBy="XYZ"
+          onClose={() => closeDialog()}
         />
       ),
     });
@@ -173,17 +242,31 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
 
                 <Section title="Customer Information">
                   <Field label="Customer name">{selected.customerName}</Field>
-
                   <Field label="Phone number">{selected.phone}</Field>
                 </Section>
-                <ReusableButton
-                  variant="primary"
-                  size="sm"
-                  icon={<ArrowDown size={14} />}
-                  onClick={handleApplyReturn}
-                >
-                  Apply return
-                </ReusableButton>
+
+                {/* Actions */}
+                <div className="flex flex-wrap gap-3">
+                  <ReusableButton
+                    variant="primary"
+                    size="sm"
+                    icon={<ArrowDown size={14} />}
+                    onClick={handleApplyReturn}
+                  >
+                    Apply return
+                  </ReusableButton>
+
+                  <ReusableButton
+                    variant="primary"
+                    size="sm"
+                    icon={<ArrowDown size={14} />}
+                    onClick={handleCollectOutstanding}
+                  >
+                    Collect Outstanding
+                  </ReusableButton>
+                </div>
+
+                {/* Billing References */}
                 <Section title="Billing References">
                   <div className="flex flex-wrap gap-3">
                     {selected.cards.map((card) => (
@@ -191,11 +274,7 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                         key={card.id}
                         type="button"
                         onClick={() => handleReferenceClick(card.reference)}
-                        className={` px-3 py-2 text-xs transition ${
-                          activeReference?.id === card.id
-                            ? "border-blue-400 bg-blue-50 text-blue-700"
-                            : "border-gray-200 text-blue-600 hover:bg-gray-50"
-                        }`}
+                        className="border border-gray-200 px-3 py-2 text-xs text-blue-600 transition hover:bg-gray-50"
                       >
                         {card.reference}
                         <span className="ml-2 text-gray-500">
@@ -204,71 +283,21 @@ const InvoiceHistory = ({ onBack }: InvoiceHistoryProps) => {
                       </button>
                     ))}
                   </div>
+
+                  {/* One Billing Receipt Button */}
+                  <div className="mt-4">
+                    <ReusableButton
+                      variant="primary"
+                      size="sm"
+                      icon={<ReceiptText size={14} />}
+                      onClick={handleBillingReceipt}
+                    >
+                      Billing Receipt
+                    </ReusableButton>
+                  </div>
                 </Section>
 
-                {/* Selected Reference Details
-                {activeReference ? (
-                  <Section title="Reference Details">
-                    <Field label="Reference number">
-                      {activeReference.reference}
-                    </Field>
-
-                    <Field label="Type">{activeReference.type}</Field>
-
-                    <Field label="Waiter">{activeReference.waiter}</Field>
-
-                    <Field label="Table">{activeReference.table}</Field>
-
-                    <Field label="Time">{activeReference.time}</Field>
-
-                    <div className="pt-3">
-                      <h4 className="mb-2 text-sm font-semibold text-gray-800">
-                        Items
-                      </h4>
-
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs">
-                          <thead>
-                            <tr className="border-b bg-gray-50 text-gray-500">
-                              <th className="px-3 py-2">Item</th>
-                              <th className="px-3 py-2 text-center">
-                                Quantity
-                              </th>
-                              <th className="px-3 py-2 text-right">Amount</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {activeReference.invoiceItems.map((item) => (
-                              <tr
-                                key={item.id}
-                                className="border-b last:border-0"
-                              >
-                                <td className="px-3 py-2 text-gray-800">
-                                  {item.name}
-                                </td>
-
-                                <td className="px-3 py-2 text-center text-gray-600">
-                                  {item.quantity}
-                                </td>
-
-                                <td className="px-3 py-2 text-right text-gray-600">
-                                  Rs {item.amount}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </Section>
-                ) : (
-                  <p className="border-t border-gray-200 py-5 text-sm text-gray-400">
-                    Select a reference to view its details.
-                  </p>
-                )} */}
-
-                {/* All associated references */}
+                {/* Reference Summary */}
                 <Section title="Reference Summary">
                   <Field label="Total references">{selectedCards.length}</Field>
 

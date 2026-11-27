@@ -4,7 +4,14 @@ export interface PaymentLayoutProps {
   onTrackClick: () => void;
 }
 
-//
+// Invoice Item
+export interface PaymentItem {
+  name: string;
+  quantity: number;
+  amount: number;
+}
+
+// Customer Payment Card
 export interface PaymentCard {
   id?: number;
   image?: string;
@@ -13,6 +20,7 @@ export interface PaymentCard {
   number?: string;
   payment?: string;
   invoice?: string[];
+  items?: PaymentItem[];
 }
 
 export interface PaymentCardsProps {
@@ -31,7 +39,7 @@ export interface PaymentFormProps {
   onCancel: () => void;
 }
 
-interface PaymentData {
+export interface PaymentData {
   customer: PaymentCard;
   total: number;
   paymentMethod: PaymentMethod;
@@ -54,10 +62,11 @@ export interface PaymentReceiptProps {
   onDownloadPDF?: () => void;
 }
 
-//history
+// History
 export interface PaymentHistoryProps {
   onBack: () => void;
 }
+
 export interface InvoiceRow {
   invoiceNumber: string;
   invoiceDate: string;
