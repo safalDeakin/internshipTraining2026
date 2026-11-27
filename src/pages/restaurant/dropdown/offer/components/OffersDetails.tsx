@@ -25,6 +25,7 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 
 import { useOffer } from "../context/useOffer";
 import AddApplicationItemModal from "../../../modal/dropdown/AddApplicationItemModal";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 // --------------------------------------------------
 // Section Title
@@ -232,7 +233,7 @@ const OffersDetails = ({ offer, products }: OffersDetailsProps) => {
   };
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+    <div className="flex w-full flex-col">
       {/* Fixed Toolbar */}
       <div className="shrink-0">
         <Toolbar
@@ -267,39 +268,41 @@ const OffersDetails = ({ offer, products }: OffersDetailsProps) => {
       </div>
 
       {/* Scrollable Content */}
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <Container type="box" background="surface-default">
-          {/* Offer Information */}
-          <section className="rounded-lg border border-gray-200 bg-white p-4">
-            <SectionTitle>Offer Information</SectionTitle>
+      <Scrollable direction="y">
+        <div className="min-h-0 flex-1">
+          <Container type="box" background="surface-default">
+            {/* Offer Information */}
+            <section className="rounded-lg border border-gray-200 bg-white p-4">
+              <SectionTitle>Offer Information</SectionTitle>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <InfoList rows={offer.leftInfo ?? []} />
-              <InfoList rows={offer.rightInfo ?? []} />
-            </div>
-          </section>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <InfoList rows={offer.leftInfo ?? []} />
+                <InfoList rows={offer.rightInfo ?? []} />
+              </div>
+            </section>
 
-          {/* Usage Limit */}
-          <section className="mt-5 rounded-lg border border-gray-200 bg-white p-4">
-            <SectionTitle>Usage Limit</SectionTitle>
+            {/* Usage Limit */}
+            <section className="mt-5 rounded-lg border border-gray-200 bg-white p-4">
+              <SectionTitle>Usage Limit</SectionTitle>
 
-            <div className="space-y-2">
-              {(offer.usageLimits ?? []).map((row) => (
-                <p key={row.label} className="text-xs text-gray-500">
-                  {row.label}:{" "}
-                  <span className="text-gray-700">{row.value}</span>
-                </p>
-              ))}
-            </div>
-          </section>
+              <div className="space-y-2">
+                {(offer.usageLimits ?? []).map((row) => (
+                  <p key={row.label} className="text-xs text-gray-500">
+                    {row.label}:{" "}
+                    <span className="text-gray-700">{row.value}</span>
+                  </p>
+                ))}
+              </div>
+            </section>
 
-          {/* Applicable Items */}
-          <ApplicableItemsTable
-            items={applicableItems}
-            onAddItem={handleAddItem}
-          />
-        </Container>
-      </div>
+            {/* Applicable Items */}
+            <ApplicableItemsTable
+              items={applicableItems}
+              onAddItem={handleAddItem}
+            />
+          </Container>
+        </div>
+      </Scrollable>
     </div>
   );
 };

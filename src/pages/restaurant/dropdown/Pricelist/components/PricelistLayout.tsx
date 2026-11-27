@@ -24,7 +24,6 @@ const PricelistLayout = () => {
   };
 
   // Open Add Pricelist Dialog
-  // Open Add Pricelist Dialog
   const handleAddPricelist = async () => {
     await showDialog({
       title: "Add PriceList-Form",

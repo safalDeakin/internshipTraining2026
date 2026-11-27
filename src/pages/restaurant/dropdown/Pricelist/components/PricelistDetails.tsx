@@ -18,6 +18,7 @@ import useDialogBox from "../../../../../lib/component/DialogueBox/useDialogueBo
 import React from "react";
 import Toolbar from "../../../../../lib/component/Toolbar/Toolbar";
 import Container from "../../../../../lib/component/Container/Container";
+import Scrollable from "../../../../../lib/component/scrollable/Scrollable";
 
 interface PricelistDetailsProps {
   pricelist: PricelistType;
@@ -166,44 +167,46 @@ const PricelistDetails = ({ pricelist }: PricelistDetailsProps) => {
       />
 
       {/* Pricelist Details */}
-      <Container type="box" background="surface-default">
-        <div className="mt-3 ">
-          <div className="mb-5">
-            <h2 className="mb-1 font-bold text-gray-900">Description</h2>
+      <Scrollable direction="y">
+        <Container type="box" background="surface-default">
+          <div className="mt-3 ">
+            <div className="mb-5">
+              <h2 className="mb-1 font-bold text-gray-900">Description</h2>
 
-            <p className="max-w-5xl leading-6 text-gray-600">
-              {pricelist.description}
-            </p>
-          </div>
+              <p className="max-w-5xl leading-6 text-gray-600">
+                {pricelist.description}
+              </p>
+            </div>
 
-          <div>
-            <h2 className="mb-2 font-bold text-gray-900">Effective Dates</h2>
+            <div>
+              <h2 className="mb-2 font-bold text-gray-900">Effective Dates</h2>
 
-            <div className="flex items-center gap-3 text-gray-700">
-              <span className="px-3 py-1.5">{pricelist.startDate}</span>
+              <div className="flex items-center gap-3 text-gray-700">
+                <span className="px-3 py-1.5">{pricelist.startDate}</span>
 
-              <ArrowRight className="h-4 w-4 text-gray-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400" />
 
-              <span className="px-3 py-1.5">{pricelist.endDate}</span>
+                <span className="px-3 py-1.5">{pricelist.endDate}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
+        </Container>
 
-      {/* Table */}
-      <Container type="box" background="surface-default">
-        <div className="min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <MsTable
-            columns={columns}
-            data={pricelist.items ?? []}
-            selectedItems={selectedItems}
-            onToggleItem={handleToggleItem}
-            showSearchBar={true}
-            searchType="All"
-            onSearchTypeChange={() => {}}
-          />
-        </div>
-      </Container>
+        {/* Table */}
+        <Container type="box" background="surface-default">
+          <div className="min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <MsTable
+              columns={columns}
+              data={pricelist.items ?? []}
+              selectedItems={selectedItems}
+              onToggleItem={handleToggleItem}
+              showSearchBar={true}
+              searchType="All"
+              onSearchTypeChange={() => {}}
+            />
+          </div>
+        </Container>
+      </Scrollable>
     </div>
   );
 };

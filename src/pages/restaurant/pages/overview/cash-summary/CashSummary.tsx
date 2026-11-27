@@ -81,7 +81,7 @@ function DataTable<T>({
   rowKey: (row: T) => string;
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div>
       <table className="w-full text-sm">
         <thead>
           <tr className="bg-gray-50 text-xs text-gray-500">
